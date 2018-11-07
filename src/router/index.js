@@ -63,6 +63,12 @@ const updateTag=resolve=>require(['@/page/updateTag'],resolve);
 const blackList=resolve=>require(['@/page/blackList'],resolve);
 const newList=resolve=>require(['@/page/newList'],resolve);
 const iaHomeData=resolve=>require(['@/page/iaHomeData'],resolve);
+
+const comment=resolve=>require(['@/page/comment'],resolve);
+const activityData=resolve=>require(['@/page/activityData'],resolve);
+const messageManagement=resolve=>require(['@/page/messageManagement'],resolve);
+const editingInterface=resolve=>require(['@/page/editingInterface'],resolve);
+
 const routes = [
 	{
 		path: '/',
@@ -297,11 +303,12 @@ const routes = [
             path: '/blackList',
             component: blackList,
             meta: ['通用中心', '黑白名单'],
-        },{
-            path: '/newList',
-            component: newList,
-            meta: ['通用中心', '快讯列表'],
         },
+        // ,{
+        //     path: '/newList',
+        //     component: newList,
+        //     meta: ['通用中心', '快讯列表'],
+        // },
         //     {
         //     path: '/system',
         //     component: system,
@@ -315,7 +322,25 @@ const routes = [
             path: '/systemServices',
             component: systemServices,
             meta: ['系统服务'],
-        }]
+        },
+        ,{
+            path: '/comment',
+            component: comment,
+            meta: ['通用中心','快讯部署'],
+        },{
+            path: '/activityData',
+            component: activityData,
+            meta: ['数据概览','活动数据'],
+        },{
+            path: '/messageManagement',
+            component: messageManagement,
+            meta: ['通用中心','快讯部署'],
+        },{
+            path: '/editingInterface',
+            component: editingInterface,
+            meta: ['快讯部署','编辑界面'],
+        }
+        ]
 	}
 ]
 
