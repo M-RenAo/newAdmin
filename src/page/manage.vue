@@ -8,7 +8,12 @@
                         <template slot="title"><i class="el-icon-document"></i>数据概览</template>
                         <el-menu-item index="manage">首页</el-menu-item>
                         <el-menu-item index="iaHomeData">IA数据</el-menu-item>
-                        <!--<el-menu-item index="dig">挖矿</el-menu-item>-->
+                        <el-submenu index="1-1">
+                            <span slot="title">应用数据</span>
+                            <el-menu-item index="appHomeData">android数据</el-menu-item>
+                            <el-menu-item index="iosHomeData">ios数据</el-menu-item>
+                        </el-submenu>
+                        <el-menu-item index="activityData">活动数据</el-menu-item>
                         <!--<el-menu-item index="chainWallet">链城钱包</el-menu-item>-->
                         <!--<el-menu-item index="unapplicationList">平台收益</el-menu-item>-->
                     </el-submenu>
@@ -80,8 +85,9 @@
                         </el-submenu>
 						<el-menu-item index="pushMessage">公告管理</el-menu-item>
                         <el-menu-item index="trumpet">小号</el-menu-item>
-                        <el-menu-item index="newList">快讯列表</el-menu-item>
+                        <!--<el-menu-item index="newList">快讯列表</el-menu-item>-->
                         <el-menu-item index="blackList">黑白名单</el-menu-item>
+                        <el-menu-item index="messageManagement">快讯管理</el-menu-item>
                         <!--<el-menu-item index="appSys">APP升级</el-menu-item>-->
 					</el-submenu>
 					<el-submenu index="'6c'">

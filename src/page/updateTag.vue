@@ -310,7 +310,7 @@
                         }
                     });
             },
-            add_img(){
+            add_img(event){
                 let uploadPolicy = null;
                 this.$ajax
                     .get(BaseUrl+"alioss/getpolicy", {
@@ -373,7 +373,7 @@
                             data: form,
                         }).then(response => {
                             this.urlTagIcon = response.data.data;
-                            this.form.icon = response.data.data;
+                            this.TagForm.icon = response.data.data;
                         });
                     });
 
@@ -544,6 +544,7 @@
              this.$router.push({ path: "/updateApp", query:  {id:id,type:this.$route.query.type,page:this.currentPage,size:this.nowPageSize}});
             },
             saveUpdateDown(){
+                console.log(this.urlTagIcon)
                 if(this.urlTagIcon===null){
                     this.TagForm.icon='tag_default.jpg'
                 }else{
