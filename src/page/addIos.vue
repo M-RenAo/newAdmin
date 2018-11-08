@@ -80,7 +80,7 @@
                         </div>
                         <div style="max-width:400px;height:auto;">
                             <div v-if="imageUrl!=''" v-for="(value,index) in appimageUrlArray"
-                                 style="display: inline-block;margin-left: 10px;position: relative">
+                                 style="display: inline-block;margin-left: 10px;position: relative" :key="index">
 
                                 <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+value"
                                      class="border-radius " style="" @click="bigImg(index)"/>

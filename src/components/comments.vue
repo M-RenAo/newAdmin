@@ -48,7 +48,6 @@
         <el-dialog
           :visible.sync="centerDialogVisible"
           width="700px"
-          min-height="500px"
           center>
           <h2>用户:{{scope.row.name}}</h2>
           <div class="comment">{{scope.row.comment}}</div>

@@ -33,7 +33,26 @@
                         <el-form-item>
                             <span style="font-size:20px">文章来源</span>
                             <el-input v-model="editForm.source" style="width:200px"></el-input>
-                            <span style="font-size:12px">如果没有可以为空</span>
+                            <span style="font-size:12px;color:#666">如果没有可以为空</span>
+                        </el-form-item>
+                    </div>
+                    <div class="recommend" style="padding-top:30px">
+                        <el-form-item>
+                            <span style="font-size:20px">热讯推荐</span>
+                            <div class="radio">
+                                <el-radio v-model="radio" label="是">是</el-radio><el-radio v-model="radio" label="否">否</el-radio>
+                            </div>
+                            <div class="radio">
+                                <el-select v-model="selectvalue" @change="selectdate">
+                                    <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <span style="font-size:12px;color:#666">热讯只有发布状态下生效</span>
                         </el-form-item>
                     </div>
                     <div class="line"></div>
@@ -56,16 +75,31 @@
     data() {
       return {
         uploadIconUrl: "",
+        radio:"是",
         editForm:{
             name:"",
             desc:"",
             source:""
-        }
+        },
+        selectvalue:"当天",//实名状态
+        options: [{
+          value: '选项1',
+          label: '当天'
+        }, {
+          value: '选项2',
+          label: '三天'
+        }, {
+          value: '选项3',
+          label: '无限制'
+        }],
       }
     },
     methods:{
         mapping(event){//配图    
             console.log(event)    
+        },
+        selectdate(a,b,c){//select选择器选择时间
+            console.log(a,b,c)
         }
     }
   }
@@ -231,6 +265,10 @@
         .right{
             margin-right:10px
         }
+    }
+    .radio{
+        display: inline-block;
+        padding: 0 10px 0 10px
     }
 
 </style>

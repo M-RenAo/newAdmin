@@ -6,14 +6,14 @@
         </div>
         <div class="content">
             <span class="realname">实名状态</span>
-            <el-dropdown split-button type="primary" @command="handleCommand" size="small">
-                    {{command}}
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="全部">全部</el-dropdown-item>
-                    <el-dropdown-item command="已实名">已实名</el-dropdown-item>
-                    <el-dropdown-item command="未实名">未实名</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+            <el-select v-model="selectvalue" placeholder="请选择">
+                <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
         </div>
         <div>
             <el-table
@@ -59,7 +59,17 @@
   export default {
     data() {
       return {
-        command:"全部",
+        selectvalue:"全部",//实名状态
+        options: [{
+          value: '选项1',
+          label: '全部'
+        }, {
+          value: '选项2',
+          label: '已实名'
+        }, {
+          value: '选项3',
+          label: '未实名'
+        }],
         tableData: [{
           date: '2016-05-03',
           name: '李四',

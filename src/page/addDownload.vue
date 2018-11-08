@@ -10,9 +10,10 @@
                         <el-form-item label="排序标准：" prop="fileTag">
                             <el-select v-model="sortRule" placeholder="请选择" style="width:200px;" @change="getData">
                                 <el-option
-                                    v-for="item in sortList"
+                                    v-for="(item,index) in sortList"
                                     :label="item.label"
-                                    :value="item.code">
+                                    :value="item.code"
+                                    :key="index">
                                 </el-option>
                             </el-select>
                             <el-select v-model="desc" style="width:80px" @change="getData">
@@ -31,9 +32,9 @@
                             <el-select v-model="fileTag" placeholder="请选择" @change="searchAppByTagCode">
                                 <el-option label="全部分类" value="-1"></el-option>
                                 <el-option
-                                    v-for="item in tagList"
+                                    v-for="(item,index) in tagList"
                                     :label="item.title"
-                                    :value="item.code">
+                                    :value="item.code" :key="index">
                                 </el-option>
                                 <el-option label="未定义" value="0"></el-option>
                             </el-select>

@@ -10,57 +10,25 @@
                 <el-col style="display: flex;justify-content: flex-start">
                     <el-input placeholder="关键字" class="input-with-select"
                               style="width:40%">
-                        <el-button slot="append" @click="search"><i class="el-icon-search"></i></el-button>
+                        <el-button slot="append" @click="searchKeyword"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
             </el-row>
         </div>
         <div class="block date">
-            <p>组件值：{{ date }}</p>
-            <el-date-picker
-            v-model="date"
-            type="daterange"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :default-time="['00:00:00', '23:59:59']">
+            <el-date-picker v-model="date" type="daterange" start-placeholder="开始日期" end-placeholder="结束日期" :default-time="['00:00:00', '23:59:59']" value-format="timestamp">
             </el-date-picker>
-            <el-button type="primary">搜索</el-button>
+            <el-button type="primary" @click="searchdate">搜索</el-button>
         </div>
         <div class="table">
-            <el-table
-            :data="tableData"
-            style="width: 100%"
-            
-            >
-                <el-table-column
-                prop="username"
-                label="用户名"
-                min-width="50">
+            <el-table :data="tableData" style="width: 100%">
+                <el-table-column prop="username" label="用户名" min-width="50"></el-table-column>
+                <el-table-column prop="name" label="姓名" min-width="50"> </el-table-column>
+                <el-table-column prop="phonenumber" label="手机号" min-width="50"></el-table-column>
+                <el-table-column prop="regtime" label="注册时间" min-width="50">
                 </el-table-column>
-                <el-table-column
-                prop="name"
-                label="姓名"
-                min-width="50">
-                </el-table-column>
-                <el-table-column
-                prop="phonenumber"
-                label="手机号"
-                min-width="50">
-                </el-table-column>
-                <el-table-column
-                prop="regtime"
-                label="注册时间"
-                min-width="50">
-                </el-table-column>
-                <el-table-column
-                prop="realtime"
-                label="实名时间"
-                min-width="50">
-                </el-table-column>
-                <el-table-column
-                label="邀请成功注册人数"
-                min-width="50"
-                >
+                <el-table-column prop="realtime" label="实名时间" min-width="50"></el-table-column>
+                <el-table-column label="邀请成功注册人数" min-width="50" >
                 <template scope="scope">
                 <el-dialog :visible.sync="dialogTableVisible">
                     <success-ful></success-ful>
@@ -159,8 +127,11 @@
             };
         },
         methods: {
-            search() {
-                console.log(1);
+            searchdate() {
+                console.log(this.date)
+            },
+            searchKeyword(){
+
             },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
