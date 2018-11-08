@@ -1,45 +1,34 @@
 <template>
-    <div class="content">
+    <div>
         <el-row style="margin-top: 20px;">
-            <el-col :span="14" :offset="1">
-                <el-form :model="editForm" ref="editForm">
-                    <el-form-item>
-                        <h2>文章标题</h2>
-                        <el-input v-model="editForm.name"></el-input>
-                        <h2 style="padding:40px 0 0 0">配图</h2>
+            <el-col :span="14" :offset="4">
+                <el-form :model="editdata" ref="editdata" label-width="110px" class="form food_form">
+                    <el-form-item label="文章标题" prop="title">
+                        <el-input v-model="editdata.title"></el-input>
                     </el-form-item>
-                    <div class="mapping">
-                        <el-form-item class="icon-el">
-                                <input class="upload" @change='mapping' type="file"
-                                   style="opacity: 0;width: 148px;height: 148px;z-index:222;"/>
-                                <div class="icon-plus-container" style="">
+                    <el-form-item label="配图" prop="mapping" class="icon-el">
+                        <input class="upload" @change='mapping' type="file" style="opacity: 0;width: 148px;height: 148px;z-index:222;"/>
+                                <div class="icon-plus-container">
                                     <i class="el-icon-plus"></i>
                                 </div>
                                 <div class="img-wrap" v-if="uploadIconUrl!=''">
                                     <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"
                                         class="border-radius" style="width: 146px;height: 146px;"/>
-                                </div>   
-                                <!-- <button>确定</button> -->
-                                <el-button type="primary" class="but">确定</el-button>
-                        </el-form-item>
-                    </div>
-                    <div style="padding-top:10px" >
-                        <el-form-item>
-                            <h2>快讯内容</h2>
-                            <el-input type="textarea" v-model="editForm.desc" rows="5" min="1"></el-input>
-                        </el-form-item>
-                    </div>
-                    <div class="source" style="padding-top:30px">
-                        <el-form-item>
-                            <span style="font-size:20px">文章来源</span>
-                            <el-input v-model="editForm.source" style="width:200px"></el-input>
-                            <span style="font-size:12px;color:#666">如果没有可以为空</span>
-                        </el-form-item>
-                    </div>
-                    <div class="recommend" style="padding-top:30px">
-                        <el-form-item>
-                            <span style="font-size:20px">热讯推荐</span>
-                            <div class="radio">
+                                </div>
+                    </el-form-item>
+                    <el-form-item label="快讯内容" prop="content">
+                        <el-input
+                            type="textarea"
+                            rows="5"
+                            v-model="editdata.content">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="文章来源" prop="source">
+                        <el-input v-model="editdata.source" style="width:200px"></el-input>
+                        <span style="font-size:12px;color:#666">如果没有可以为空</span>
+                    </el-form-item>
+                    <el-form-item label="热讯推荐" prop="recommend">
+                        <div class="radio">
                                 <el-radio v-model="radio" label="是">是</el-radio><el-radio v-model="radio" label="否">否</el-radio>
                             </div>
                             <div class="radio">
@@ -53,59 +42,73 @@
                                 </el-select>
                             </div>
                             <span style="font-size:12px;color:#666">热讯只有发布状态下生效</span>
-                        </el-form-item>
-                    </div>
+                    </el-form-item>
                     <div class="line"></div>
-                    <div class="release" style="overflow:hidden">
-                        <div class="left">
-                            字数123字
+                    <el-form-item>
+                        <div class="release clear:after" >
+                            <div class="left">
+                                字数123字
+                            </div>
+                            <div class="right">
+                                <el-button>发布</el-button>
+                                <el-button>存草稿</el-button>
+                            </div>
                         </div>
-                        <div class="right">
-                            <el-button>发布</el-button>
-                            <el-button>存草稿</el-button>
-                        </div>
-                    </div>
+                    </el-form-item>
                 </el-form>
+
             </el-col>
         </el-row>
     </div>
+
 </template>
+
 <script>
     export default {
-    data() {
-      return {
-        uploadIconUrl: "",
-        radio:"是",
-        editForm:{
-            name:"",
-            desc:"",
-            source:""
+        data() {
+            return {
+                uploadIconUrl:"",
+                editdata:{
+                    title:"",
+                    mapping:"",
+                    content:"",
+                    source:"",
+                },
+                selectvalue:"当天",//实名状态
+                    options: [{
+                    value: '选项1',
+                    label: '当天'
+                    }, {
+                    value: '选项2',
+                    label: '三天'
+                    }, {
+                    value: '选项3',
+                    label: '无限制'
+                }],
+                radio:"是",
+            };
         },
-        selectvalue:"当天",//实名状态
-        options: [{
-          value: '选项1',
-          label: '当天'
-        }, {
-          value: '选项2',
-          label: '三天'
-        }, {
-          value: '选项3',
-          label: '无限制'
-        }],
-      }
-    },
-    methods:{
-        mapping(event){//配图    
-            console.log(event)    
+
+        created() {
         },
-        selectdate(a,b,c){//select选择器选择时间
-            console.log(a,b,c)
-        }
-    }
-  }
+        computed: {},
+        methods: {
+            mapping(){
+
+            },
+            selectdate(a,b,c){//select选择器选择时间
+                console.log(a,b,c)
+            }
+            
+        },
+
+    };
 </script>
-<style lang="less" socped>
-@import "../style/mixin";
+
+<style lang="less">
+    @import "../style/mixin";
+    @import "../style/common.less";
+
     .form {
         min-width: 400px;
         margin-bottom: 30px;
@@ -243,11 +246,91 @@
             position: absolute;
         }
     }
-    .but{
-        display: block;
-        width:200px;
-        height:40px;
-        margin: 108px 0 0 40px
+
+    .icon-els {
+        position: relative;
+        line-height: 0 !important;
+        .el-form-item__content {
+            display: flex;
+            line-height: 0 !important;
+        }
+        .addImage {
+            background-color: #fbfdff;
+            border: 1px dashed #c0ccda;
+            border-radius: 6px;
+            box-sizing: border-box;
+            width: 148px;
+            height: 148px;
+            cursor: pointer;
+            line-height: 146px;
+            vertical-align: top;
+
+            .img-wrap {
+                position: absolute;
+            }
+        }
+    }
+
+    .imgMask {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 10000;
+        background: rgba(0, 0, 0, .6);
+    }
+
+    .showImg {
+        height: auto;
+        width: 500px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        /*border:10px solid #fff;*/
+        text-align: center;
+    }
+
+    .bigImg {
+        width: 500px;
+        height: auto;
+    }
+
+    .prev {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        color: #fff;
+        transform: translate(10px, -50%);
+    }
+
+    .next {
+        width: 40px;
+        transform: translate(10px, -50%);
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        height: 40px;
+        color: #fff;
+    }
+
+    .delete {
+        position: absolute;
+        top: 0;
+        right: 0px;
+        width: 40px;
+        height: 40px;
+        color: #8c939d;
+        text-align: center;
+        font-size: 18px;
+        /*transform:translate(10px,-50%);*/
+    }
+    .radio{
+        display: inline-block;
+        padding: 0 10px 0 10px
     }
     .line{
         margin-top:100px;
@@ -256,19 +339,16 @@
     }
     .release{
         margin-top:10px;
+        padding:10px 0 20px 0;
+        width:100%;
         div{
             line-height: 40px
         }
         .left{
-            margin-left:10px
+            margin-left:-90px
         }
         .right{
             margin-right:10px
         }
     }
-    .radio{
-        display: inline-block;
-        padding: 0 10px 0 10px
-    }
-
 </style>
