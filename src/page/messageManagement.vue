@@ -44,7 +44,12 @@
                     <template slot-scope="scope">
                         <el-button @click="goEdit" type="text" size="medium">编辑</el-button>
                         <el-button type="text" size="medium" @click="goComment">评论</el-button>
-                        <el-button type="text" size="medium">更多</el-button>
+                        <el-popover
+                            placement="right"
+                            trigger="click">
+                            <el-button type="text" size="medium" slot="reference">更多</el-button>
+                        </el-popover>
+                        
                     </template>
                     </el-table-column>
                 </el-table>
