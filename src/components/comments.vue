@@ -42,9 +42,17 @@
       label="操作"
       width="150">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="medium">查看</el-button>
-        <el-button type="text" size="medium">编辑</el-button>
-        <el-button type="text" size="medium">更多</el-button>
+        <el-button @click="See(scope.row)" type="text" size="medium">查看</el-button>
+        <el-button type="text" size="medium">显示</el-button>
+        <el-button type="text" size="medium">隐藏</el-button>
+        <el-dialog
+          :visible.sync="centerDialogVisible"
+          width="700px"
+          min-height="500px"
+          center>
+          <h2>用户:{{scope.row.name}}</h2>
+          <div class="comment">{{scope.row.comment}}</div>
+        </el-dialog>
       </template>
     </el-table-column>
   </el-table>
@@ -53,12 +61,14 @@
 <script>
   export default {
     methods: {
-      handleClick(row) {
+      See(row) {//查看
         console.log(row);
+        this.centerDialogVisible=true;
       }
     },
     data() {
       return {
+        centerDialogVisible:false,
         tableData: [{
           date: '2016-05-03',
           name: '李四',
@@ -103,7 +113,10 @@
     }
   }
 </script>
-<style>
-
+<style lang="less" scoped>
+  .comment{
+    padding:20px 0 20px 0
+  }
+  
 </style>
 

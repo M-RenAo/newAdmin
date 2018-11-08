@@ -9,8 +9,8 @@
                     </el-input>
                 </el-col>
             </el-row>
-            <div class="tabs">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
+            <div class="tabs" style="padding-left:20px">
+                <el-tabs v-model="activeName" @tab-click="tabClick">
                     <el-tab-pane label="全部" name="whole"></el-tab-pane>
                     <el-tab-pane label="发布" name="release"></el-tab-pane>
                     <el-tab-pane label="草稿" name="draft"></el-tab-pane>
@@ -66,8 +66,8 @@
                     label="操作"
                     width="150">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="medium">编辑</el-button>
-                        <el-button type="text" size="medium">评论</el-button>
+                        <el-button @click="goEdit" type="text" size="medium">编辑</el-button>
+                        <el-button type="text" size="medium" @click="goComment">评论</el-button>
                         <el-button type="text" size="medium">更多</el-button>
                     </template>
                     </el-table-column>
@@ -125,11 +125,14 @@
       };
     },
     methods: {
-      handleClick(tab, event) {
+      tabClick(tab, event) {
         console.log(tab, event);
       },
-      goEdit(){
+      goEdit(){//前往编辑界面
           this.$router.push({path:"/editingInterface"})
+      },
+      goComment(){//前往评论界面
+          this.$router.push({path:"/comment"})        
       },
       search(){
           
