@@ -128,7 +128,21 @@
         },
         methods: {
             searchdate() {
-                console.log(this.date)
+                this.$ajax({
+                           method: "POST",
+                           url: BaseUrl+'user/active',
+                           data: {
+                               page:1,
+                               size:10,
+                           },
+                           headers: {
+                               'token': sessionStorage.getItem('token')
+                           }
+                       }).then(res=>{
+                           console.log(res)
+                           console.log(1)
+
+                       })
             },
             searchKeyword(){
 

@@ -1,7 +1,7 @@
 <template>
     <div class="fillcontain">
         <div class="table_container">
-            <el-button type="primary" @click="uploadapp()" style="margin-bottom: 10px">创建快讯</el-button>
+            <el-button type="primary" @click="goEdit" style="margin-bottom: 10px">创建快讯</el-button>
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
@@ -60,8 +60,8 @@
                     label="操作"
                     min-width="50" >
                     <template scope="scope">
-                        <el-button  type="text" @click="update(scope.row.userId,scope.row.userNickName)" style="margin-left:0">编辑</el-button>
-                        <el-button  type="text" @click="update(scope.row.userId,scope.row.userNickName)" style="margin-left:0">评论</el-button>
+                        <el-button  type="text" @click="goEdit" style="margin-left:0">编辑</el-button>
+                        <el-button  type="text" @click="goComment" style="margin-left:0">评论</el-button>
                         <el-popover
                             placement="top"
                             width="160"
@@ -320,8 +320,12 @@
             handleDetailCurrentChange(){
 
             },
-            update(){
-                this.dialogFormVisible=true
+            
+            goEdit(){//前往编辑界面
+                this.$router.push({path:"/editingInterface"})
+            },
+            goComment(){//前往评论界面
+                this.$router.push({path:"/comment"})        
             },
         }
     };

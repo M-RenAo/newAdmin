@@ -1,155 +1,404 @@
 <template>
-    <div>
+    <div class="fillcontain">
         <div class="table_container">
-            <el-row type="flex" style="margin-bottom: 30px;">
-                <el-col style="display: flex;justify-content: flex-start">
-                    <el-input placeholder="关键字" class="input-with-select"
-                              style="width:40%">
-                        <el-button slot="append" @click="search"><i class="el-icon-search"></i></el-button>
+            <el-button type="primary" @click="goEdit" style="margin-bottom: 10px">创建快讯</el-button>
+            <el-row style="display:flex;margin-bottom: 30px;">
+                <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
+                <el-col :span="12" style="display: flex;align-items: center;">
+                    <el-tabs v-model="activeName"  style="height: 40px;">
+                        <el-tab-pane label="全部" name="-1"></el-tab-pane>
+                        <el-tab-pane label="发布" name="1"></el-tab-pane>
+                        <el-tab-pane label="草稿" name="0"></el-tab-pane>
+                    </el-tabs>
+                </el-col>
+                <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
+                    <el-input placeholder="快讯标题"  class="input-with-select" v-model="searchInfo" style="width:60%">
+                        <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
+
             </el-row>
-            <div class="tabs" style="padding-left:20px">
-                <el-tabs v-model="activeName" @tab-click="tabClick">
-                    <el-tab-pane label="全部" name="whole"></el-tab-pane>
-                    <el-tab-pane label="发布" name="release"></el-tab-pane>
-                    <el-tab-pane label="草稿" name="draft"></el-tab-pane>
-                </el-tabs>
-                <el-button type="primary" round class="establish" @click="goEdit">创建</el-button>
-            </div>
-            <div class="table">
-                <el-table :data="tableData" style="width: 100%">
-                    <el-table-column fixed prop="date" label="发布日期" min-width="50"></el-table-column>
-                    <el-table-column prop="mapping" label="配图" width="200"></el-table-column>
-                    <el-table-column prop="headlines" label="快讯标题" min-width="50">
-                        <template scope="scope">
-                            <span class="headlines" @click="headlinesclick(scope.row)">{{scope.row.headlines}}</span>
-                            <span class="right">已置顶</span>
-                            <el-dialog :visible.sync="centerDialogVisible" width="800px" center>
-                                <h2 style="text-align:center;padding-bottom:20px;font-size:25px">{{scope.row.headlines}}</h2>
-                                <div style="width:400px;margin:0 auto"><img src="https://ss3.baidu.com/-fo3dSag_xI4khGko9WTAnF6hhy/image/h%3D300/sign=4fbff84f6e2762d09f3ea2bf90ed0849/5243fbf2b2119313562db8dc68380cd791238d74.jpg" width="400px" height="200px"/></div>
-                                <div style="width:500px;margin:0 auto;text-align:center">Praesent accumsan ligula eget elit porta, sed efficitur est varius. Sed quam tellus, iaculis vel ante nec, tincidunt tempus ipsum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacinia, enim a posuere molestie, ante est cursus nunc, quis fringilla tortor sapien sed nisl. Donec viverra, tortor quis commodo tincidunt, turpis sapien ornare </div>
-                            </el-dialog>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="state" label="状态" min-width="50"></el-table-column>
-                    <el-table-column prop="author" label="作者" min-width="50"></el-table-column>
-                    <el-table-column prop="createdate" label="创建日期" min-width="50"></el-table-column>
-                    <el-table-column label="热讯推荐" min-width="50">
-                        <template scope="scope">
-                            <div class="recommend">{{scope.row.recommend}}</div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column label="操作" width="150">
-                    <template slot-scope="scope">
-                        <el-button @click="goEdit" type="text" size="medium">编辑</el-button>
-                        <el-button type="text" size="medium" @click="goComment">评论</el-button>
-                        <el-popover
-                            placement="right"
-                            trigger="click">
-                            <el-button type="text" size="medium" slot="reference">更多</el-button>
-                        </el-popover>
-                        
+            <el-table
+                :data="info"
+                style="width: 100%" >
+                <el-table-column
+                    label="发布日期"
+                    prop="nickName" min-width="50">
+                </el-table-column>
+                <el-table-column label="配图" prop="fileIcon" min-width="50">
+                    <template scope="scope">
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.pic" style="width:30px;height:30px;" v-if="scope.row.pic!==''&&scope.row.pic!==undefined" >
+                        <span v-else>无</span>
                     </template>
-                    </el-table-column>
-                </el-table>
+
+                </el-table-column>
+                <el-table-column
+                    label="快讯标题"
+                    prop="phone" min-width="50">
+                </el-table-column>
+                <el-table-column
+                    label="状态"
+                    prop="detail" min-width="50" >
+                </el-table-column>
+                <el-table-column
+                    label="作者"
+                    prop="amount" min-width="50" >
+                </el-table-column>
+                <el-table-column
+                    label="创建日期"
+                    prop="realState" min-width="50" >
+                </el-table-column>
+                <el-table-column
+                    label="评论"
+                    prop="resultCheck" min-width="50" >
+                </el-table-column>
+                <el-table-column
+                    label="分享量"
+                    prop="resultCheck" min-width="50" >
+                </el-table-column>
+                <el-table-column
+                    label="操作"
+                    min-width="50" >
+                    <template scope="scope">
+                        <el-button  type="text" @click="goEdit" style="margin-left:0">编辑</el-button>
+                        <el-button  type="text" @click="goComment" style="margin-left:0">评论</el-button>
+                        <el-popover
+                            placement="top"
+                            width="160"
+                            trigger="click"
+                            v-model="scope.row.visible">
+                            <div >
+                                <el-button size="mini" type="primary" @click="scope.row.visible = false">删除</el-button>
+                                <el-button type="primary" size="mini" @click="scope.row.visible = false">置顶</el-button>
+                            </div>
+                            <el-button type="text" slot="reference" >更多</el-button>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="Pagination">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-size="nowPageSize"
+                    :page-sizes="[5, 10, 20, 40]"
+                    :total="txcount"
+                    layout="total, sizes, prev, pager, next, jumper"
+                >
+                </el-pagination>
             </div>
         </div>
+        <!--<el-dialog title="异常记录" :visible.sync="dialogTableVisible" width="1000px">-->
+            <!--&lt;!&ndash;<div style="margin-bottom: 10px">用户：{{userNickName}}</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div style="display:inline-block">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div style="display: inline-block">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span style="font-size: 14px;width:80px;">类型：</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-select v-model="state" placeholder="请选择" @change="changeIAType">&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-option&ndash;&gt;-->
+            <!--&lt;!&ndash;v-for="item in options"&ndash;&gt;-->
+            <!--&lt;!&ndash;:key="item.label"&ndash;&gt;-->
+            <!--&lt;!&ndash;:label="item.label"&ndash;&gt;-->
+            <!--&lt;!&ndash;:value="item.label">&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-option>&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div style="display: inline-block">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span style="font-size: 14px;width:80px;">时间：</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
+            <!--&lt;!&ndash;style="width:200px"&ndash;&gt;-->
+            <!--&lt;!&ndash;v-model="startDate"&ndash;&gt;-->
+            <!--&lt;!&ndash;type="datetimerange"&ndash;&gt;-->
+            <!--&lt;!&ndash;align="right"&ndash;&gt;-->
+            <!--&lt;!&ndash;:default-time="['12:00:00', '08:00:00']">&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-date-picker>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<el-button type="primary" @click="serchByTime">搜索</el-button>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--<el-table :data="tableData">-->
+                <!--<el-table-column property="time" label="日期"></el-table-column>-->
+                <!--<el-table-column property="amount" label="获取或提取IA"></el-table-column>-->
+                <!--<el-table-column property="detail" label="行为"></el-table-column>-->
+                <!--<el-table-column property="aboutUsers" label="有关用户"></el-table-column>-->
+            <!--</el-table>-->
+            <!--<div class="Pagination">-->
+                <!--<el-pagination-->
+                    <!--@size-change="handleDetailSizeChange"-->
+                    <!--@current-change="handleDetailCurrentChange"-->
+                    <!--:current-page="currentPageDetail"-->
+                    <!--:page-size="nowPageSizeDetail"-->
+                    <!--:page-sizes="[5, 10, 20, 40]"-->
+                    <!--:total="txcountDetail"-->
+                    <!--layout="total, sizes, prev, pager, next, jumper"-->
+                <!--&gt;-->
+                <!--</el-pagination>-->
+            <!--</div>-->
+        <!--</el-dialog>-->
+        <!--<el-dialog title="" :visible.sync="dialogFormVisible">-->
+            <!--<el-form :model="form">-->
+                <!--<el-form-item label="审核结果：" :label-width="formLabelWidth">-->
+                    <!--<el-radio-group v-model="result">-->
+                        <!--<el-radio :label="3">黑名单</el-radio>-->
+                        <!--<el-radio :label="6">白名单</el-radio>-->
+                        <!--<el-radio :label="9">待定</el-radio>-->
+                    <!--</el-radio-group>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="备注：" :label-width="formLabelWidth">-->
+                    <!--<el-input type="textarea" v-model="remarks"></el-input>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<div slot="footer" class="dialog-footer">-->
+                <!--<el-button @click="dialogFormVisible = false">取 消</el-button>-->
+                <!--<el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>-->
+            <!--</div>-->
+        <!--</el-dialog>-->
     </div>
 </template>
-<script>
-    export default {
-    data() {
-      return {
-        centerDialogVisible:false,//弹窗是否显示
-        activeName: 'whole',
-        tableData: [{
-          date: '2016-05-03',
-          mapping: '1231321',
-          headlines: '123456757',
-          state: '发布',
-          author: '李四',
-          createdate: "2018-11-6",
-          recommend:"已推荐",
-        },
-        {
-          date: '2016-05-03',
-          mapping: '1231321',
-          headlines: '123456757',
-          state: '发布',
-          author: '李四',
-          createdate: "2018-11-6",
-          recommend:"已推荐",
 
+<script>
+    import headTop from "../components/headTop";
+    import { baseUrl, baseImgPath } from "@/config/env";
+    import {
+        cityGuess,
+        getResturants,
+        getResturantsCount,
+        foodCategory,
+        updateResturant,
+        searchplace,
+        deleteResturant
+    } from "@/api/getData";
+    import FileSaver from 'file-saver'
+    import XLSX from 'xlsx'
+    let moment=require('moment')
+    export default {
+        data() {
+            return {
+                visible2:false,
+                tableData:[
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李',visible:false},
+
+
+                ],
+                info: [
+                    {id:'1',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
+                    {id:'2',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
+                    {id:'3',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
+                    {id:'3',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
+                    {id:'4',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
+                    {id:'5',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'}
+                ],
+                txcount: 0,
+                currentPage: 1,
+                nowPageSize: 10,
+                currentPageDetail:1,
+                nowPageSizeDetail:10,
+                txcountDetail:0,
+                activeName: '-1',
+                searchInfo: "",
+                // innerVisible:false,
+                checkVisible:false,
+                dialogTableVisible:false,
+                dialogFormVisible:false,
+                formLabelWidth:'120px',
+                form:{},
+                result:'',
+                remarks:''
+            };
         },
-        {
-          date: '2016-05-03',
-          mapping: '1231321',
-          headlines: '123456757',
-          state: '发布',
-          author: '李四',
-          createdate: "2018-11-6",
-          recommend:"已推荐",          
+        created() {
+            // this.queryListData({activeName:3});
         },
-        {
-          date: '2016-05-03',
-          mapping: '1231321',
-          headlines: '123456757',
-          state: '发布',
-          author: '李四',
-          createdate: "2018-11-6",
-          recommend:"已推荐",          
+        components: {
+            headTop
+        },
+        methods: {
+            // queryListData({ activeName, pageValue, pageSize }) {
+            //     this.$ajax
+            //         .get(`${BaseUrl}auth/all/${pageValue || 1}/${this.nowPageSize || 10}/${activeName || 2}`, {headers: {'token':sessionStorage.getItem('token')}},
+            //         )
+            //         .then(response => {
+            //             if(response.data.flag==200){
+            //                 this.info = response.data.data.list;
+            //                 this.txcount = response.data.data.num;
+            //                 this.info.forEach(item=>{
+            //                     if(item.auditDate!=undefined){
+            //                         item.auditDate=moment.utc(item.auditDate).local().format('YYYY-MM-DD HH:mm:ss')
+            //                     }
+            //                 })
+            //                 this.info.forEach(item=>{
+            //                     if(item.auditState==1){
+            //                         item.auditState='审核通过'
+            //                     }else if(item.auditState==2){
+            //                         item.auditState='未审核'
+            //                     }else{
+            //                         item.auditState='审核不通过'
+            //                     }
+            //                 })
+            //             }else if(response.data.flag==201) {
+            //                 this.$alert(response.data.msg + '，请重新登录', '提示', {
+            //                     confirmButtonText: '确定',
+            //                     callback: action => {
+            //                         this.$router.push('/')
+            //                     }
+            //                 });
+            //             }else{
+            //                 this.info=[]
+            //             }
+            //             // this.showlist=this.info[0].authPic.split(',')
+            //         });
+            //     this.searchInfo = "";
+            // },
+            searchCheck(searchInfo) {
+                this.activeName='3'
+                this.searchInfo = searchInfo;
+                this.$ajax
+                    .get(BaseUrl + "auth/search/"+this.searchInfo,{headers: {'token':sessionStorage.getItem('token')}})
+                    .then(response => {
+                        console.log(response);
+                        if(response.data.flag==200){
+                            this.info = response.data.data;
+                            this.txcount = response.data.data.length;
+                            this.info.forEach(item=>{
+                                if(item.auditState==1){
+                                    item.auditState='审核通过'
+                                }else if(item.auditState==2){
+                                    item.auditState='未审核'
+                                }else{
+                                    item.auditState='审核不通过'
+                                }
+                            })
+                        }else if(response.data.flag==201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        }else{
+                            this.info=[];
+                            this.txcount=0
+                        }
+
+                    });
+            },
+            handleSizeChange(pageSize) {
+                console.log(">>>>>>pageSize", pageSize);
+                this.nowPageSize = pageSize;
+                const listParams = {
+                    activeName: this.activeName,
+                    pageValue: 1,
+                    pageSize: pageSize
+                };
+                this.queryListData(listParams);
+            },
+            handleCurrentChange(pageValue) {
+                console.log(">>>>>>pageValue", pageValue);
+                this.currentPage = pageValue;
+                const listParams = {
+                    activeName: this.activeName,
+                    pageValue: pageValue,
+                    pageSize: this.nowPageSize || 10
+                };
+                this.queryListData(listParams);
+            },
+            abnormalRecords(){
+                this.dialogTableVisible=true
+
+            },
+            cancelInput (id){
+                this.$refs[id].doClose();
+            },
+            handleDetailSizeChange(){
+
+            },
+            handleDetailCurrentChange(){
+
+            },
+            
+            goEdit(){//前往编辑界面
+                this.$router.push({path:"/editingInterface"})
+            },
+            goComment(){//前往评论界面
+                this.$router.push({path:"/comment"})        
+            },
         }
-        ]
-      };
-    },
-    methods: {
-      tabClick(tab, event) {
-        console.log(tab, event);
-      },
-      goEdit(){//前往编辑界面
-          this.$router.push({path:"/editingInterface"})
-      },
-      goComment(){//前往评论界面
-          this.$router.push({path:"/comment"})        
-      },
-      search(){
-          
-      },
-      headlinesclick(row){//查看快讯标题
-        console.log(row);
-        this.centerDialogVisible=true;
-      }
-    }
-  };
+    };
 </script>
+
 <style lang="less" scoped>
     @import "../style/mixin";
+
+    .demo-table-expand {
+        font-size: 0;
+    }
+
+    .demo-table-expand label {
+        width: 90px;
+        color: #99a9bf;
+    }
+
+    .demo-table-expand .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
+    }
 
     .table_container {
         padding: 20px;
     }
-    .tabs{
-        position: relative;
-    }
-    .establish{
-        position:absolute;
-        top:-2px;
-        right:50px;
-        z-index: 100;
-    }
-    .recommend{
-        color:red
-    }
-    .headlines{
-        color:#6cf;
-        cursor: pointer;
-    }
-    .right{
-        border: 1px solid red;
-        color: red;
-        font-size: 12px
-    }
-    
-</style>
 
+    .Pagination {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 8px;
+    }
+
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #20a0ff;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 120px;
+        height: 120px;
+        line-height: 120px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+        display: block;
+    }
+    /*.cell {*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+    /*word-break: break-all;*/
+    /*white-space: nowrap !important;*/
+    /*}*/
+    .littleButton{
+        padding:5px 10px!important;
+        margin-left: 0!important;
+    }
+    /*.el-button{*/
+    /*border: 0;*/
+    /*}*/
+
+
+
+</style>
