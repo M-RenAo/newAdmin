@@ -47,7 +47,7 @@
                 :data="tableData"
                 style="width: 100%">
                 <el-table-column
-                    label=""
+                    label="日期"
                     prop="title">
                 </el-table-column>
                 <el-table-column

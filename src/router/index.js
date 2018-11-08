@@ -341,11 +341,11 @@ const routes = [
         },{
                 path: '/appHomeData',
                 component: appHomeData,
-                meta: ['数据概览','androi数据'],
+                meta: ['数据概览','android数据'],
         },{
-                path: '/appHomeData',
+                path: '/iosHomeData',
                 component: appHomeData,
-                meta: ['数据概览','应用数据'],
+                meta: ['数据概览','ios数据'],
         },{
                 path: '/iaHomeData',
                 component: iaHomeData,

@@ -32,31 +32,35 @@
                 :data="tableData"
                 style="width: 100%">
                 <el-table-column
-                    label=""
+                    label="日期"
                     prop="title">
                 </el-table-column>
                 <el-table-column
-                    label="登录用户"
+                    label="总兑换量"
                     prop="loginNum">
                 </el-table-column>
                 <el-table-column
-                    label="活跃用户"
+                    label="打开应用奖励"
                     prop="userSum">
                 </el-table-column>
                 <el-table-column
-                    label="新增注册用户"
+                    label="新注册奖励"
                     prop="userSum">
                 </el-table-column>
                 <el-table-column
-                    label="实名用户"
+                    label="邀请好友奖励"
                     prop="authNum">
                 </el-table-column>
                 <el-table-column
-                    label="邀请好友用户"
+                    label="下载奖励"
                     prop="authNum">
                 </el-table-column>
                 <el-table-column
-                    label="经邀请注册用户"
+                    label="猜猜使用"
+                    prop="authNum">
+                </el-table-column>
+                <el-table-column
+                    label="见证使用"
                     prop="authNum">
                 </el-table-column>
                 <!--<el-table-column-->
