@@ -47,7 +47,7 @@
                                 </el-form-item>
                                 <el-form-item label="应用图片：" prop="name">
                                     <div style="max-width:700px;height:auto;">
-                                        <div style="width:200px;height:auto;margin-right: 10px;display: inline-block" v-for="(item,index) in  showList" v-if="item!=''">
+                                        <div style="width:200px;height:auto;margin-right: 10px;display: inline-block" v-for="(item,index) in  showList" v-if="item!=''" :key="index">
                                             <img :src=" 'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+item"
                                                  style="width:200px;height:auto;"  @click="bigImg(index)"/>
                                         </div>

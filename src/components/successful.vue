@@ -57,17 +57,18 @@
 
 <script>
   export default {
+    props:["userId"],
     data() {
       return {
         selectvalue:"全部",//实名状态
         options: [{
-          value: '选项1',
+          value: '1',
           label: '全部'
         }, {
-          value: '选项2',
+          value: '2',
           label: '已实名'
         }, {
-          value: '选项3',
+          value: '3',
           label: '未实名'
         }],
         tableData: [{
@@ -105,8 +106,28 @@
         ]
       }
     },
+    created(){
+      console.log(this.userId)
+       this.$ajax.get(BaseUrl+"inviterecord/all/"+"ee8e7a80acc94543af52685353e25a73"+"/"+'1'+"/"+'5',{
+                        // params: {
+                        //     userId:"e58467da4c9245daa9bb70b3d58be60c",
+                        //     pageCode:"1",
+                        //     pageSize:"10"
+                        // }, 
+                        headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                console.log(res)
+                    // res.data.data.forEach(item=>{
+                    //             if(item.time!=undefined){
+                    //                 item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
+                    //             }
+                    //         })
+                    // this.tableData=res.data.data
+                }
+            )
+    },
     methods: {
       handleCommand(command){
+        
         this.command=command;
       }
     }

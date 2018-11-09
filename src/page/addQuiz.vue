@@ -27,7 +27,7 @@
                         >
                         </el-date-picker>
                     </el-form-item>
-                    <div v-for="(item,index) in this.optionData">
+                    <div v-for="(item,index) in this.optionData" :key="index">
                         <el-form-item :label="item.label" :rules="item.rules">
                             <el-input v-model="guess[index]"></el-input>
                         </el-form-item>

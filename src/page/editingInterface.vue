@@ -29,10 +29,10 @@
                     </el-form-item>
                     <el-form-item label="热讯推荐" prop="recommend">
                         <div class="radio">
-                                <el-radio v-model="radio" label="是">是</el-radio><el-radio v-model="radio" label="否">否</el-radio>
+                                <el-radio v-model="radio" label="1">是</el-radio><el-radio v-model="radio" label="0">否</el-radio>
                             </div>
                             <div class="radio">
-                                <el-select v-model="selectvalue" @change="selectdate">
+                                <el-select v-model="selectvalue" @change="selectdate" :disabled="radio==1?false:true">
                                     <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -50,7 +50,7 @@
                                 字数123字
                             </div>
                             <div class="right">
-                                <el-button>发布</el-button>
+                                <el-button @click="submit">发布</el-button>
                                 <el-button>存草稿</el-button>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                     value: '选项3',
                     label: '无限制'
                 }],
-                radio:"是",
+                radio:"1",//单选按钮
             };
         },
 
@@ -98,6 +98,10 @@
             },
             selectdate(a,b,c){//select选择器选择时间
                 console.log(a,b,c)
+            },
+            submit(a,b,c){//提交表单
+                console.log(a,b,c)
+                console.log(1)
             }
             
         },

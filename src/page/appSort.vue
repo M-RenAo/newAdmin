@@ -103,9 +103,10 @@
                                    style="width:200px">
                             <el-option label="全部" value="-1"></el-option>
                             <el-option
-                                v-for="item in tagList"
+                                v-for="(item,index) in tagList"
                                 :label="item.title"
-                                :value="item.code">
+                                :value="item.code"
+                                :key="index">
                             </el-option>
                             <el-option label="未定义" value="0"></el-option>
                         </el-select>
@@ -171,7 +172,7 @@
                             <!--label="点击量"-->
                             <!--prop="touchNum" min-width="50">-->
                         <!--</el-table-column>-->
-                        <!--->
+                       
                         <!--<el-table-column-->
                         <!--label="最新上传时间"-->
                         <!--prop="fileDate" min-width="50">-->
