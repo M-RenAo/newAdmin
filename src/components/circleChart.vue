@@ -40,6 +40,7 @@
                         formatter: "{b} : {c} ({d}%)"
                     },
                     legend: {
+                        formatter: "{name}",
                         orient: 'vertical',
                         x: 'right',
                         y:'25%',
@@ -74,41 +75,6 @@
 
                 this.charts.setOption(option)
             },
-            // genData(count) {
-            //     var nameList = [
-            //         '赵','史', '唐', '费', '廉', '岑',
-            //     ];
-            //     var legendData = [];
-            //     var seriesData = [];
-            //     var selected = {};
-            //     for (var i = 0; i < 50; i++) {
-            //        let name = Math.random() > 0.65
-            //             ? makeWord(4, 1) + '·' + makeWord(3, 0)
-            //             : makeWord(2, 1);
-            //         legendData.push(name);
-            //         seriesData.push({
-            //             name: name,
-            //             value: Math.round(Math.random() * 100000)
-            //         });
-            //         selected[name] = i < 6;
-            //     }
-            //
-            //     return {
-            //         legendData: legendData,
-            //         seriesData: seriesData,
-            //         selected: selected
-            //     };
-            //
-            //     function makeWord(max, min) {
-            //         var nameLen = Math.ceil(Math.random() * max + min);
-            //         var name = [];
-            //         for (var i = 0; i < nameLen; i++) {
-            //             name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
-            //         }
-            //         return name.join('');
-            //     }
-            // }
-
         },
         name: "charts-pie"
     }

@@ -5,15 +5,17 @@
                 <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
-                    <el-tabs v-model="activeName"  style="height: 40px;">
+                    <el-tabs v-model="activeName"  style="height: 40px;"   @tab-click="changeState()">
                         <el-tab-pane label="全部" name="3"></el-tab-pane>
                         <el-tab-pane label="黑名单" name="2"></el-tab-pane>
-                        <el-tab-pane label="白名单" name="1"></el-tab-pane>
-                        <el-tab-pane label="待定" name="0"></el-tab-pane>
+                        <el-tab-pane label="白名单" name="0"></el-tab-pane>
+                        <el-tab-pane label="待定" name="1"></el-tab-pane>
                     </el-tabs>
                 </el-col>
                 <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
-                    <el-input placeholder="手机号／身份证号"  class="input-with-select" v-model="searchInfo" style="width:60%">
+                    <el-button type="primary" @click="deleteAllUserBlack" style="margin-right:10px">批量删除</el-button>
+                    <!--<el-button type="primary" @click="scanning" style="margin-right: 10px">扫描异常用户</el-button>-->
+                    <el-input placeholder="手机号／用户昵称／异常情况"  class="input-with-select" v-model="searchInfo" style="width:60%">
                         <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
@@ -21,14 +23,20 @@
             </el-row>
             <el-table
                 :data="info"
+                @selection-change="handleSelectionChange"
                 style="width: 100%" >
                 <el-table-column
+                    type="selection"
+                    width="55"
+                >
+                </el-table-column>
+                <el-table-column
                     label="用户"
-                    prop="nickName" min-width="50">
+                    prop="nick" min-width="50">
                 </el-table-column>
                 <el-table-column label="头像" prop="fileIcon" min-width="50">
                     <template scope="scope">
-                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.pic" style="width:30px;height:30px;" v-if="scope.row.pic!==''&&scope.row.pic!==undefined">
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.icon" style="width:30px;height:30px;" v-if="scope.row.icon!==''&&scope.row.icon!==undefined">
                     </template>
 
                 </el-table-column>
@@ -38,26 +46,26 @@
                 </el-table-column>
                 <el-table-column
                     label="异常情况"
-                    prop="detail" min-width="50" >
+                    prop="describe" min-width="50" >
                 </el-table-column>
                 <el-table-column
                     label="IA总数"
-                    prop="amount" min-width="50" >
+                    prop="ia" min-width="50" >
                 </el-table-column>
                 <el-table-column
                     label="实名状态"
-                    prop="realState" min-width="50" >
+                    prop="realNameState" min-width="50" >
                 </el-table-column>
                 <el-table-column
                     label="审核结果"
-                    prop="resultCheck" min-width="50" >
+                    prop="checkResult" min-width="50" >
                 </el-table-column>
                 <el-table-column
                     label="操作"
                     min-width="50" >
                     <template scope="scope">
                         <el-button  type="text" @click="abnormalRecords(scope.row.userId,scope.row.userNickName)">异常记录</el-button>
-                        <el-button  type="text" @click="update(scope.row.userId,scope.row.userNickName)" style="margin-left:0">编辑</el-button>
+                        <el-button  type="text" @click="update(scope.row.id,scope.row.phone,scope.row.state)" style="margin-left:0">编辑</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -122,20 +130,31 @@
         <el-dialog title="" :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="审核结果：" :label-width="formLabelWidth">
-                    <el-radio-group v-model="result">
-                        <el-radio :label="3">黑名单</el-radio>
-                        <el-radio :label="6">白名单</el-radio>
-                        <el-radio :label="9">待定</el-radio>
+                    <el-radio-group v-model="form.dstate">
+                        <el-radio :label="2">黑名单</el-radio>
+                        <el-radio :label="0">白名单</el-radio>
+                        <el-radio :label="1">待定</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="备注：" :label-width="formLabelWidth">
-                    <el-input type="textarea" v-model="remarks"></el-input>
+                    <el-input type="textarea" v-model="form.remark"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                <el-button type="primary" @click="saveBlackState" v-bind:disabled="this.form.result==''">保存</el-button>
             </div>
+        </el-dialog>
+        <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%"
+        >
+            <span>确认删除选中的条目？</span>
+            <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="ensureDelete()">确 定</el-button>
+               </span>
         </el-dialog>
     </div>
 </template>
@@ -169,14 +188,7 @@
 
 
                 ],
-                info: [
-                    {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                    {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                    {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                    {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                    {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                    {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'}
-                ],
+                info: [],
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
@@ -186,110 +198,208 @@
                 activeName: '3',
                 searchInfo: "",
                 // innerVisible:false,
-                checkVisible:false,
+                dialogVisible:false,
                 dialogTableVisible:false,
                 dialogFormVisible:false,
                 formLabelWidth:'120px',
-                form:{},
-                result:'',
-                remarks:''
+                form:{remark:''},
+                multipleSelection:[],
+                deleteIds:[],
+                // result:'',
+                // remarks:''
             };
         },
         created() {
-            // this.queryListData({activeName:3});
-        },
-        components: {
-            headTop
-        },
-        methods: {
-            // queryListData({ activeName, pageValue, pageSize }) {
-            //     this.$ajax
-            //         .get(`${BaseUrl}auth/all/${pageValue || 1}/${this.nowPageSize || 10}/${activeName || 2}`, {headers: {'token':sessionStorage.getItem('token')}},
-            //         )
-            //         .then(response => {
-            //             if(response.data.flag==200){
-            //                 this.info = response.data.data.list;
-            //                 this.txcount = response.data.data.num;
-            //                 this.info.forEach(item=>{
-            //                     if(item.auditDate!=undefined){
-            //                         item.auditDate=moment.utc(item.auditDate).local().format('YYYY-MM-DD HH:mm:ss')
-            //                     }
-            //                 })
-            //                 this.info.forEach(item=>{
-            //                     if(item.auditState==1){
-            //                         item.auditState='审核通过'
-            //                     }else if(item.auditState==2){
-            //                         item.auditState='未审核'
-            //                     }else{
-            //                         item.auditState='审核不通过'
-            //                     }
-            //                 })
-            //             }else if(response.data.flag==201) {
-            //                 this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //                     confirmButtonText: '确定',
-            //                     callback: action => {
-            //                         this.$router.push('/')
-            //                     }
-            //                 });
-            //             }else{
-            //                 this.info=[]
-            //             }
-            //             // this.showlist=this.info[0].authPic.split(',')
-            //         });
-            //     this.searchInfo = "";
-            // },
-            searchCheck(searchInfo) {
-                this.activeName='3'
-                this.searchInfo = searchInfo;
-                this.$ajax
-                    .get(BaseUrl + "auth/search/"+this.searchInfo,{headers: {'token':sessionStorage.getItem('token')}})
-                    .then(response => {
-                        console.log(response);
-                        if(response.data.flag==200){
-                            this.info = response.data.data;
-                            this.txcount = response.data.data.length;
-                            this.info.forEach(item=>{
-                                if(item.auditState==1){
-                                    item.auditState='审核通过'
-                                }else if(item.auditState==2){
-                                    item.auditState='未审核'
-                                }else{
-                                    item.auditState='审核不通过'
-                                }
-                            })
-                        }else if(response.data.flag==201) {
-                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+            this.$ajax({
+                method: "POST",
+                url: BaseUrl+'blacklist/scan',
+                data:{type:1},
+                headers: {'token': sessionStorage.getItem('token')}
+            }).then(response => {
+                if(response.data.flag==200){
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl+'blacklist/scan',
+                        data:{type:2},
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(res => {
+                        if(res.data.flag==200){
+                            this.getData()
+                        }else if(res.data.flag==201) {
+                            this.$alert(res.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else{
-                            this.info=[];
-                            this.txcount=0
                         }
-
                     });
+
+                }else if(response.data.flag==201) {
+                    this.$alert(response.data.msg + '，请重新登录', '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            this.$router.push('/')
+                        }
+                    });
+                }
+            });
+            // this.getData();
+        },
+        components: {
+            headTop
+        },
+        methods: {
+            // scanning(){
+            //     this.$ajax({
+            //         method: "POST",
+            //         url: BaseUrl+'blacklist/scan',
+            //         data:{type:1},
+            //         headers: {'token': sessionStorage.getItem('token')}
+            //     }).then(response => {
+            //         if(response.data.flag==200){
+            //             this.$ajax({
+            //                 method: "POST",
+            //                 url: BaseUrl+'blacklist/scan',
+            //                 data:{type:2},
+            //                 headers: {'token': sessionStorage.getItem('token')}
+            //             }).then(res => {
+            //                 if(res.data.flag==200){
+            //                     this.getData()
+            //                 }else if(res.data.flag==201) {
+            //                     this.$alert(res.data.msg + '，请重新登录', '提示', {
+            //                         confirmButtonText: '确定',
+            //                         callback: action => {
+            //                             this.$router.push('/')
+            //                         }
+            //                     });
+            //                 }
+            //             });
+            //
+            //         }else if(response.data.flag==201) {
+            //             this.$alert(response.data.msg + '，请重新登录', '提示', {
+            //                 confirmButtonText: '确定',
+            //                 callback: action => {
+            //                     this.$router.push('/')
+            //                 }
+            //             });
+            //         }
+            //     });
+            //
+            // },
+            changeState(){
+                this.currentPage=1;
+                this.getData()
+            },
+            getData() {
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'blacklist/query',
+                    data:{page:this.currentPage, size: this.nowPageSize,dstate:this.activeName==3?undefined:Number(this.activeName),keyword:this.searchInfo==''?undefined:this.searchInfo},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    if(response.data.flag==200){
+                        this.info = response.data.data.data;
+                        this.txcount = response.data.data.count;
+                        this.info.forEach(item=>{
+                            if(item.dstate=='1'){
+                            item.checkResult='待定'
+                            }else if(item.dstate=='2') {
+                            item.checkResult='黑名单';
+                            }else if(item.dstate=='0'){
+                                item.checkResult='白名单'
+                            }
+                            if(item.name===undefined){
+                                item.realNameState='未实名'
+                            }else{
+                                item.realNameState='已实名'
+                            }
+                        })
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+            },
+            searchCheck(searchInfo) {
+                this.searchInfo = searchInfo;
+                this.getData()
             },
             handleSizeChange(pageSize) {
                 console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                const listParams = {
-                    activeName: this.activeName,
-                    pageValue: 1,
-                    pageSize: pageSize
-                };
-                this.queryListData(listParams);
+                this.currentPage = 1;
+                // const listParams = {
+                //     activeName: this.activeName,
+                //     pageValue: 1,
+                //     pageSize: pageSize
+                // };
+                this.getData();
             },
             handleCurrentChange(pageValue) {
                 console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                const listParams = {
-                    activeName: this.activeName,
-                    pageValue: pageValue,
-                    pageSize: this.nowPageSize || 10
-                };
-                this.queryListData(listParams);
+                this.getData();
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection=val
+                this. deleteIds = [];
+                for (let i = 0; i < this.multipleSelection.length; i++) {
+                    this.deleteIds.push( this.multipleSelection[i].id)
+                }
+            },
+            deleteAllUserBlack(){
+                if( this.deleteIds.length==0){
+                    this.$alert('请勾选用户', '提示', {
+                        confirmButtonText: '确定',
+                    });
+                }else{
+                    this.dialogVisible=true
+                }
+            },
+            ensureDelete(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'blacklist/delete',
+                    data:this.deleteIds,
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    this.dialogVisible=false
+                    if(response.data.flag==200){
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg}`
+                                });
+                                this.getData()
+                            }
+                        });
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }else{
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg +',请重试'}`
+                                });
+                            }
+                        });
+                        return false
+                    }
+                });
             },
             abnormalRecords(){
                 this.dialogTableVisible=true
@@ -301,9 +411,53 @@
             handleDetailCurrentChange(){
 
             },
-            update(){
+            update(id,phone,state){
+              this.form={remark:''};
+              this.form.id=id;
+              this.form.phone=phone;
+              this.form.state=state;
                this.dialogFormVisible=true
             },
+            saveBlackState(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'blacklist/update',
+                    data:this.form,
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    this.dialogFormVisible=false
+                    if(response.data.flag==200){
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg}`
+                                });
+                                this.getData()
+                            }
+                        });
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }else{
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg +',请重试'}`
+                                });
+                            }
+                        });
+                        return false
+                    }
+                });
+            }
         }
     };
 </script>

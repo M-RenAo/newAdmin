@@ -264,8 +264,8 @@
         methods: {
             getData(){
                 this.$ajax
-                    .get(`${BaseUrl}apply/all`, {
-                        params: {pageCode: this.currentPage, pageSize: this.nowPageSize, state: 1, fileState:2,tagId:this.$route.query.code,keyWords:null},
+                    .get(`${BaseUrl}apptag/mess`, {
+                        params: {pageCode: this.currentPage, pageSize: this.nowPageSize,tagId:this.$route.query.code,keyWords:null},
                         headers: {'token': sessionStorage.getItem('token'), 'device':this.$route.query.type}
                     })
                     .then(response => {

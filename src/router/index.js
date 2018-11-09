@@ -69,6 +69,7 @@ const activityData=resolve=>require(['@/page/activityData'],resolve);
 const messageManagement=resolve=>require(['@/page/messageManagement'],resolve);
 const editingInterface=resolve=>require(['@/page/editingInterface'],resolve);
 const appHomeData=resolve=>require(['@/page/appHomeData'],resolve);
+const userBack=resolve=>require(['@/page/userBack'],resolve);
 const routes = [
 	{
 		path: '/',
@@ -350,6 +351,10 @@ const routes = [
                 path: '/iaHomeData',
                 component: iaHomeData,
                 meta: ['数据概览','IA数据'],
+        },{
+                path: '/userBack',
+                component: userBack,
+                meta: ['用户管理','用户反馈'],
             }
         ]
 	}

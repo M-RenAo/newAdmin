@@ -12,6 +12,7 @@
             </div>
             <el-table
                 :data="info"
+                class="test-class"
                 style="width: 100%" >
                 <el-table-column
                     label="应用名称"
@@ -399,7 +400,7 @@
         height: 120px;
         display: block;
     }
-     .el-table div .cell{
+     .test-class .cell{
         overflow:hidden!important;
         text-overflow:ellipsis!important;
         white-space: nowrap!important;

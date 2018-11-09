@@ -94,6 +94,7 @@
 						<template slot="title"><i class="el-icon-star-on"></i>用户信息</template>
                         <el-menu-item index="userList">用户列表</el-menu-item>
                         <el-menu-item index="realName">实名认证</el-menu-item>
+                        <el-menu-item index="userBack">用户反馈</el-menu-item>
 					</el-submenu>
 					<!--<el-submenu index="5">-->
 						<!--<template slot="title"><i class="el-icon-edit"></i>编辑</template>-->
