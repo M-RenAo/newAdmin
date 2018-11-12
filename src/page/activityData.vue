@@ -74,7 +74,7 @@
             </el-pagination>
         </div>
         <el-dialog :visible.sync="dialogTableVisible">
-            <success-ful :userId="userId"></success-ful>
+            <success-ful :userId="userId" :thisName="thisName"></success-ful>
         </el-dialog>
     </div>
 </template>
@@ -110,6 +110,7 @@
                 currentPage: 1,
                 nowPageSize: 10,
                 userId:"",
+                thisName:""
             };
         },
         created(){
@@ -117,6 +118,8 @@
         },
         methods: {
             searchdate() {//按时间搜索
+                this.currentPage=1;
+                this.nowPageSize=10;
                 if(this.timeType==1){//选择注册时间
                     this.tabtime("rtime1","rtime2")
                                        
@@ -130,6 +133,8 @@
                 
             },
             searchKeyword(){//关键字搜索
+                this.currentPage=1;
+                this.nowPageSize=10;
                 if(this.keyword){
                     
                     this.dataType.name=this.keyword
@@ -192,6 +197,7 @@
             goInviterecord(row){//邀请记录界面
                 this.dialogTableVisible = true;
                 this.userId=row.userId
+                this.thisName=row.name
             }
             
         },

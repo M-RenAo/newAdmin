@@ -3,33 +3,33 @@
         <div class="table_container">
             <el-row type="flex" style="margin-bottom: 30px;">
                 <el-col style="display: flex;justify-content: flex-start">
-                    <el-input placeholder="关键字" class="input-with-select"
+                    <el-input placeholder="关键字" class="input-with-select" v-model="searchInfo"
                               style="width:40%">
-                        <el-button slot="append" @click="search(searchForm)"><i class="el-icon-search"></i></el-button>
+                        <el-button slot="append" @click="search"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
             </el-row>
             <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="全部" name="first"></el-tab-pane>
-                <el-tab-pane label="显示" name="second"></el-tab-pane>
-                <el-tab-pane label="隐藏" name="third"></el-tab-pane>
+                <el-tab-pane label="全部" name="1"></el-tab-pane>
+                <el-tab-pane label="显示" name="2"></el-tab-pane>
+                <el-tab-pane label="隐藏" name="3"></el-tab-pane>
             </el-tabs>
             <el-table
                 :data="tableData"
                 style="width: 100%">
                 <el-table-column
                 fixed
-                prop="date"
+                prop="time"
                 label="日期"
                 min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="username"
                 label="用户"
                 min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="comment"
+                prop="message"
                 label="评论内容"
                 min-width="50">
                 </el-table-column>
@@ -39,117 +39,149 @@
                 min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="replyobject"
+                prop="replyTo"
                 label="回复对象"
                 min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="thumbsup"
+                prop="upvotes"
                 label="点赞"
                 min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="state"
                 label="状态"
                 min-width="50">
+                    <template scope="scope">
+                        <div>
+                            {{scope.row.hidden?"隐藏":"显示"}}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column
                 label="操作"
                 width="150">
                 <template slot-scope="scope">
                     <el-button @click="See(scope.row)" type="text" size="medium">查看</el-button>
-                    <el-button type="text" size="medium">显示</el-button>
-                    <el-button type="text" size="medium">隐藏</el-button>
-                    <el-dialog
-                    :visible.sync="centerDialogVisible"
-                    width="700px"
-                    center>
-                    <h2>用户:{{scope.row.name}}</h2>
-                    <div class="comment">{{scope.row.comment}}</div>
-                    </el-dialog>
+                    <el-button type="text" size="medium" @click="cbPopup(scope.row)">{{!scope.row.hidden?"隐藏":"显示"}}</el-button>
+                    
                 </template>
                 </el-table-column>
             </el-table>
-
+            <div class="Pagination">
+                 <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :page-size="nowPageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="usercount">
+                </el-pagination>
+            </div>
+            <el-dialog
+                    :visible.sync="centerDialogVisible"
+                    width="700px"
+                    center>
+                    <h2>用户:{{row.username}}</h2>
+                    <div class="comment">{{row.message}}</div>
+            </el-dialog>
+            <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                width="30%">
+                <span>确定要{{!row.hidden?"隐藏":"显示"}}吗</span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="changeType">确 定</el-button>
+                </span>
+            </el-dialog>
         </div>
     </div>
 </template>
 <script>
+    import { baseUrl, baseImgPath } from "@/config/env";
+    let moment=require('moment')
     export default {
     data() {
       return {
-        activeName: 'first',
+        activeName: '1',
         centerDialogVisible:false,
+        dialogVisible: false,
         newsflashID:"",//此条快讯ID
-        tableData: [{
-          date: '2016-05-03',
-          name: '李四',
-          phone: '123456757',
-          replyobject: '小王',
-          author: '李四',
-          thumbsup: '1233',
-          comment:"真的好看",          
-          state: '显示'
-        },
-        {
-          date: '2016-05-03',
-          name: '李四',
-          phone: '123456757',
-          replyobject: '小王',
-          comment:"真的好看",
-          thumbsup: '1233',
-          state: '显示'
-        },
-        {
-          date: '2016-05-03',
-          name: '李四',
-          phone: '123456757',
-          replyobject: '小王',
-          author: '李四',
-          thumbsup: '1233',
-          comment:"真的好看",
-          state: '显示'
-        },
-        {
-          date: '2016-05-03',
-          name: '李四',
-          phone: '123456757',
-          replyobject: '小王',
-          author: '李四',
-          thumbsup: '1233',
-          comment:"真的好看",
-          state: '显示'
-        }
-        ]
+        tableData: [],
+        currentPage: 1,
+        nowPageSize: 10,
+        usercount:0,
+        searchInfo:"",//关键字
+        row:"",//当前行数据
       };
     },
     created() {
-        this.newsflashID=this.$route.query.id;
-            console.log(this.$route.query.id)
-            this.$ajax.get(BaseUrl+"newsFlash/commentList",{
-                        params: {
-                            id:this.newsflashID,
-                            pageNum:"1",
-                            pageSize:"10"
-                        }, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                console.log(res)
-                    // res.data.data.forEach(item=>{
-                    //             if(item.time!=undefined){
-                    //                 item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
-                    //             }
-                    //         })
-                    // this.tableData=res.data.data
-                }
-            )
+            this.newsflashID=this.$route.query.id;
+            this.getData()
         },
     methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
-      See(row) {//查看
-        console.log(row);
-        this.centerDialogVisible=true;
-      }
+        search(){//关键字搜索
+            this.getData()
+        },
+        handleClick(tab, event) {
+            var arr=[];
+            if(this.activeName==1){
+                this.getData()
+            }else if(this.activeName==1){
+                
+            }else{
+
+            }
+        },
+        See(row) {//查看
+            this.row=row
+            this.centerDialogVisible=true;
+        },
+        handleSizeChange(pageSize) {
+            this.nowPageSize = pageSize;
+            this.getData()
+                    
+        },
+        handleCurrentChange(pageValue) {
+            his.currentPage = pageValue;
+            this.getData()                   
+        },
+        getData(){
+            this.$ajax.get(BaseUrl+"newsFlash/commentList/"+this.newsflashID,{
+                            params: {
+                                key:this.searchInfo,
+                                pageNum:this.currentPage,
+                                pageSize:this.nowPageSize
+                            }, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                        res.data.data.forEach(item=>{
+                                    if(item.time!=undefined){
+                                        item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
+                                    }
+                                    
+                        })
+                        this.tableData=res.data.data;
+                        this.usercount=res.data.data.length
+                    }
+                )
+        },
+        cbPopup(row){
+            this.row=row;
+            this.dialogVisible=true;
+        },
+        async changeType(){//显示或隐藏
+            this.dialogVisible=false;
+            if(!this.row.hidden){
+                await this.$ajax.get(BaseUrl+"newsFlash/hideComment/"+this.row.id,{
+                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                    })
+            }else{
+                await this.$ajax.get(BaseUrl+"newsFlash/displayComment/"+this.row.id,{
+                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                    })
+            }
+            this.getData();
+        }
     }
   };
 </script>
@@ -196,6 +228,11 @@
     }
     .comment{
         padding:20px 0 20px 0
+    }
+    .Pagination {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 8px;
     }
 </style>
 
