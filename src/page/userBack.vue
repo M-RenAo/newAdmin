@@ -31,7 +31,7 @@
                 <!--</el-table-column>-->
                 <el-table-column
                     label="用户名"
-                    prop="phone" min-width="50">
+                    prop="nick" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="姓名"

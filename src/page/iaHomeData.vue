@@ -3,13 +3,13 @@
         <div class="table_container">
             <div style="display: flex;font-size: 16px;margin-bottom: 20px">
                 <div style="width:50%;padding:0px 20px">
-                    IA总量：{{cumulativeUsers}}
-                    <circle-chart :dataNum="dataNum" :dataName="dataName"></circle-chart>
+                    IA总量：{{iaTotal|MoneyFormat}}
+                    <circle-chart :dataNum="data1"></circle-chart>
                 </div>
 
                 <div style="width: 50%;padding:0px 20px">
-                    用户挖矿总量：{{realNameUsers}}
-                    <circle-chart :dataNum="dataNum" :dataName="dataName"></circle-chart>
+                    用户挖矿总量：{{digTotal|MoneyFormat}}
+                    <circle-chart :dataNum="data2" ></circle-chart>
                 </div>
             </div>
             <div  style="margin-bottom: 30px;">
@@ -33,35 +33,35 @@
                 style="width: 100%">
                 <el-table-column
                     label="日期"
-                    prop="title">
+                    prop="time">
                 </el-table-column>
                 <el-table-column
                     label="总兑换量"
-                    prop="loginNum">
+                    prop="data.exchange">
                 </el-table-column>
                 <el-table-column
                     label="打开应用奖励"
-                    prop="userSum">
+                    prop="data.open">
                 </el-table-column>
                 <el-table-column
                     label="新注册奖励"
-                    prop="userSum">
+                    prop="data.register">
                 </el-table-column>
                 <el-table-column
                     label="邀请好友奖励"
-                    prop="authNum">
+                    prop="data.invite">
                 </el-table-column>
                 <el-table-column
                     label="下载奖励"
-                    prop="authNum">
+                    prop="data.download">
                 </el-table-column>
                 <el-table-column
                     label="猜猜使用"
-                    prop="authNum">
+                    prop="data.guess">
                 </el-table-column>
                 <el-table-column
                     label="见证使用"
-                    prop="authNum">
+                    prop="data.witness">
                 </el-table-column>
                 <!--<el-table-column-->
                 <!--label="总用户"-->
@@ -73,7 +73,18 @@
                 <!--</el-table-column>-->
 
             </el-table>
-
+            <div class="Pagination">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-size="nowPageSize"
+                    :page-sizes="[5,10,20,30,40]"
+                    :total="txcount"
+                    layout="total, sizes, prev, pager, next, jumper"
+                >
+                </el-pagination>
+            </div>
         </div>
         <div style="margin:0px 20px;">
             <!--<span style="font-size: 14px;">时间：</span>-->
@@ -110,8 +121,11 @@
         data() {
             return {
                 activeName:'1',
-                cumulativeUsers:10000,
-                realNameUsers:2000,
+                currentPage:1,
+                nowPageSize:30,
+                txcount:0,
+                iaTotal:10000000000,
+                digTotal:0,
                 newSignNum:200,
                 inviteSign:20,
                 // radio:'1',
@@ -122,16 +136,13 @@
                 max:'',
                 startDate1:moment().subtract('days',6).format('YYYY-MM-DD'),
                 sevenDay: [],
-                sevenDate: [[],[],[],[]],
+                sevenDate: [[],[],[],[],[],[],[]],
                 endDate1:moment().add('days',1).format('YYYY-MM-DD'),
                 startDate2:moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2:moment().add('days',1).format('YYYY-MM-DD'),
-                dataName:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
-                dataNum:[{value:335, name:'直接访问'},
-                    {value:310, name:'邮件营销'},
-                    {value:274, name:'联盟广告'},
-                    {value:235, name:'视频广告'},
-                    {value:400, name:'搜索引擎'}]
+                data1:[],
+                data2:[],
+                dataName:['总兑换量','打开应用奖励','新注册奖励','邀请好友奖励','下载奖励','猜猜使用','见证使用'],
                 // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
@@ -145,52 +156,68 @@
             //     this.sevenDay.push(date)
             // }
             // this.getSevenData();
+            this.getCircleData()
             this.getData()
             this.getDatas()
         },
         computed: {},
         methods: {
-            // async initData(){
-            //     const today = dtime().format('YYYY-MM-DD')
-            //     Promise.all([userCount(today), orderCount(today), adminDayCount(today), getUserCount(), getOrderCount(), adminCount()])
-            //         .then(res => {
-            //             this.userCount = res[0].count;
-            //             this.orderCount = res[1].count;
-            //             this.adminCount = res[2].count;
-            //             this.allUserCount = res[3].count;
-            //             this.allOrderCount = res[4].count;
-            //             this.allAdminCount = res[5].count;
-            //         }).catch(err => {
-            //         console.log(err)
-            //     })
-            // },
-            // test:function(item){
-            //  console.log(item)
-            //     window.location.href=item.url
-            // },
-            test(){
-                this.getData()
-            },
-            getData(){
-                this.$ajax.get(BaseUrl+'data/content',
-                    {params:{cycle:'day',startDate:moment(this.dataTime[0]).format('YYYY-MM-DD'),endDate:moment(this.dataTime[1]).format('YYYY-MM-DD')},headers:{'token':sessionStorage.getItem('token')}}).then(response=>{
-                    // console.log(response);
+            getCircleData(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'imwallet/getIaData',
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    console.log(response)
                     if(response.data.flag==200){
-                        this.tableData=response.data.data;
-                    }else if(response.data.flag==201){
-                        this.$alert(response.data.msg+'，请重新登录', '提示', {
+                       this.data1=response.data.data.data1;
+                       this.data2=response.data.data.data2;
+                       this.data2.forEach(item=>{
+                           this.digTotal+=item.value
+                       })
+                       // this.data1[2].value=this.data1[3].value
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
                     }
-                    // this.tableData.forEach(item=>{
-                    //     if(item.title!='总计'){
-                    //     item.title=moment.utc(item.title).local().format('YYYY-MM-DD')
-                    //     }
-                    // })
-                })
+                });
+            },
+            test(){
+                this.getData()
+            },
+            getData(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'imwallet/getIaDataList',
+                    data:{btime:moment(this.dataTime[0]).format('YYYY-MM-DD'),etime:moment(this.dataTime[1]).format('YYYY-MM-DD'),page:this.currentPage,size:this.nowPageSize},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    console.log(response)
+                    if(response.data.flag==200){
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count;
+                        this.tableData.forEach(item=>{
+                            item.time = moment.utc(item.ctime).format('YYYY-MM-DD')
+                        })
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+            },
+            handleSizeChange(size){
+                console.log(size)
+            },
+            handleCurrentChange(page){
+                console.log(page)
             },
             serchData(dataTime){
                 if(dataTime==null){
@@ -222,23 +249,25 @@
                 }
             },
             getDatas(){
-                this.$ajax.get(BaseUrl+'data/show',
-                    {params:{cycle:'day',startDate:this.startDate2,endDate:this.endDate2},headers:{'token':sessionStorage.getItem('token')}}).then(response=>{
-                    if(response.data.flag==200) {
-                        this.sevenDay = response.data.data[0];
-                        this.sevenDate = response.data.data[1];
-                        this.max = Math.max(...this.sevenDate[0], ...this.sevenDate[1], ...this.sevenDate[2], ...this.sevenDate[3]);
-                        // console.log(this.max)
-                    }else{
-                        this.$alert(response.data.msg+'，请重新登录', '提示', {
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'imwallet/getIaDataMapList ',
+                    data:{btime:moment(this.dataTime[0]).format('YYYY-MM-DD'),etime:moment(this.dataTime[1]).format('YYYY-MM-DD')},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    console.log(response)
+                    if(response.data.flag==200){
+                        this.sevenDay = response.data.data.data[0];
+                        this.sevenDate = response.data.data.data[1];
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
                     }
-                    // this.tableData=response.data.data
-                })
+                });
             },
             handleClick(){
                 if(this.activeName==2){

@@ -137,7 +137,7 @@
                 endDate1:moment().add('days',1).format('YYYY-MM-DD'),
                 startDate2:moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2:moment().add('days',1).format('YYYY-MM-DD'),
-                dataName:['登录用户', '注册用户','实名认证用户']
+                dataName:['注册用户','实名认证用户','总用户','登录用户' ]
                 // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },

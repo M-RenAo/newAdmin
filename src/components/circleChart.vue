@@ -15,21 +15,21 @@
                 charts: null
             }
         },
+
+        props: ['dataNum'],
+        created(){
+        },
         watch: {
-            options: {
-                handler(val) {
-                    this.charts.setOption(val)
-                },
-                deep: true
-            }
+            dataNum: function (){
+                this.init()
+            },
         },
         mounted() {
           this.init()
         },
-        props: ['dataNum','dataName'],
         methods: {
-
             init(){
+                var that=this
                 this.charts = ECharts.init(this.$el, {color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#339ca8', '#cda819', '#32a487']})
                 let option = {
                     title: {
@@ -40,18 +40,28 @@
                         formatter: "{b} : {c} ({d}%)"
                     },
                     legend: {
-                        formatter: "{name}",
                         orient: 'vertical',
                         x: 'right',
                         y:'25%',
-                        data: this.dataName,
+                        data: this.dataNum,
+                        formatter:function (name) {
+                            var total = 0;
+                            var target;
+                            for (var i = 0, l = that.dataNum.length; i < l; i++) {
+                                total += that.dataNum[i].value;
+                                if (that.dataNum[i].name == name) {
+                                    target = that.dataNum[i].value;
+                                }
+                            }
+                            return name +' '+target+ ' (' + ((target/total)*100).toFixed(2) + '%'+')';
+                        },
                     },
 
                     series: [
                         {
                             type: 'pie',
                             radius: '55%',
-                            center: ['40%', '50%'],
+                            center: ['20%', '50%'],
                             label: {
                                 normal: {
                                     show: false,
@@ -59,7 +69,7 @@
                                 },
 
                             },
-                            data:this.dataNum.sort(function (a, b) { return a.value - b.value; }),
+                            data:this.dataNum,
                             itemStyle: {
                                 emphasis: {
                                     shadowBlur: 10,
@@ -70,8 +80,9 @@
                         }
                     ]
                 }
-                // option 是做测试用的，可以去掉直接通过prop传值修改
-                option = Object.assign(option, this.Object)
+                // // option 是做测试用的，可以去掉直接通过prop传值修改
+                // option = Object.assign(option, this.Object)
+                // console.log(option)
 
                 this.charts.setOption(option)
             },

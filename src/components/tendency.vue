@@ -27,7 +27,7 @@
         props: ['sevenDate', 'sevenDay','max','dataName'],
         methods: {
             initData(){
-                const colors = ['#5793f3', '#675bba', '#d14a61','#5fe488'];
+                const colors = ['#5793f3', '#675bba', '#d14a61','#5fe488','#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#339ca8', '#cda819', '#32a487'];
                 const option = {
                     color: colors,
                     title: {
@@ -75,32 +75,8 @@
                           },
                         },
                     series: [
-                        // {
-                        //     name:'总用户',
-                        //     type:'line',
-                        //     data:this.sevenDate[2],
-                        //     // yAxisIndex: 1,
-                        //     markPoint: {
-                        //         data: [
-                        //             {type: 'max', name: '最大值'},
-                        //             {type: 'min', name: '最小值'}
-                        //         ]
-                        //     },
-                        // },
                         {
                             name:this.dataName[0],
-                            type:'line',
-                            data:this.sevenDate[3],
-                            // yAxisIndex: 1,
-                            markPoint: {
-                                data: [
-                                    {type: 'max', name: '最大值'},
-                                    {type: 'min', name: '最小值'}
-                                ]
-                            },
-                        },
-                        {
-                            name:this.dataName[1],
                             type:'line',
                             data:this.sevenDate[0],
                             // yAxisIndex: 1,
@@ -112,7 +88,7 @@
                             },
                         },
                         {
-                            name:this.dataName[2],
+                            name:this.dataName[1],
                             type:'line',
                             data:this.sevenDate[1],
                             // yAxisIndex: 1,
@@ -122,7 +98,66 @@
                                     {type: 'min', name: '最小值'}
                                 ]
                             },
-                        }
+                        },
+                        {
+                            name:this.dataName[2],
+                            type:'line',
+                            data:this.sevenDate[2],
+                            // yAxisIndex: 1,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                        },
+                        {
+                            name:this.dataName[3],
+                            type:'line',
+                            data:this.sevenDate[3],
+                            // yAxisIndex: 1,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                        },{
+                            name:this.dataName[4],
+                            type:'line',
+                            data:this.sevenDate[4],
+                            // yAxisIndex: 1,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                        },
+                        {
+                            name:this.dataName[5],
+                            type:'line',
+                            data:this.sevenDate[5],
+                            // yAxisIndex: 1,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                        },
+                        {
+                            name:this.dataName[6],
+                            type:'line',
+                            data:this.sevenDate[6],
+                            // yAxisIndex: 1,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                        },
                     ]
               };
                 this.myChart.setOption(option);
