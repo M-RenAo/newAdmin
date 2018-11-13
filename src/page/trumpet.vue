@@ -12,7 +12,7 @@
                 </el-col>
                 <el-col style="display: flex;justify-content: flex-end">
                     <el-input placeholder="请输入小号昵称" class="input-with-select" v-model="searchForm.name"
-                              style="width:40%">
+                              style="width:40%" @keyup.enter.native="search(searchForm)">
                         <el-button slot="append" @click="search(searchForm)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>

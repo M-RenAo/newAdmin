@@ -3,7 +3,7 @@
         <div class="table_container">
             <el-row style="margin-bottom: 30px;">
                 <div style="display: flex;align-items: center;justify-content: flex-end;margin-bottom: 5px">
-                    <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})" style="height: 40px;margin-right: 20px;">
+                    <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName,pageValue:1,pageSize:10})" style="height: 40px;margin-right: 20px;">
                         <el-tab-pane label="已审核" name="1"></el-tab-pane>
                         <el-tab-pane label="未审核" name="0"></el-tab-pane>
                     </el-tabs>
@@ -13,13 +13,14 @@
                     <div v-if="activeName==1">
                         <span style="font-size: 14px;color:#606266;">分类:</span>
                         <el-select v-model="fileTagUnchoice" placeholder="请选择" @change="searchUnchoiceAppByTag">
-                            <el-option label="全部分类" value="0"></el-option>
+                            <el-option label="全部" value="-1"></el-option>
                             <el-option
                                 v-for="item in tagList"
                                 :key="item.code"
                                 :label="item.title"
                                 :value="item.code">
                             </el-option>
+                            <el-option label="未定义" value="0"></el-option>
                         </el-select>
                         <span style="font-size: 14px;color:#333333;">状态:</span>
                         <el-select v-model="flag" placeholder="请选择" style="width:100px" @change="searchByFlag(flag)">
@@ -28,7 +29,7 @@
                             <el-option value="0" label="未上架">未上架</el-option>
                         </el-select>
                     </div>
-                    <el-input placeholder="请输入应用名"  class="input-with-select" v-model="searchInfo" style="width:200px;margin-left:10px">
+                    <el-input placeholder="请输入应用名"  class="input-with-select" v-model="searchInfo" style="width:200px;margin-left:10px" @keyup.enter.native="searchApp(searchInfo)">
                         <el-button slot="append"  @click="searchApp(searchInfo)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </div>
@@ -163,6 +164,8 @@
             };
         },
         created() {
+            this.flag= this.$route.query.flag||'2';
+            this.fileTagUnchoice=this.$route.query.tagcode||'-1'
             if(this.$route.query.active==0){
                 this.activeName=0
             }
@@ -191,8 +194,9 @@
         },
         methods: {
             queryListData({ activeName, pageValue, pageSize }) {
+                console.log(pageValue+'>>>>>>>'+ pageSize)
                 this.$ajax
-                    .get(`${BaseUrl}apply/all`,{params:{pageCode:pageValue || 1,pageSize:pageSize || 10,state:activeName || 0,fileState:this.flag,tagId: this.fileTagUnchoice==0?null:this.fileTagUnchoice,keyWords:(this.searchInfo!=null&&this.searchInfo!='')?this.searchInfo:null},headers: {'token': sessionStorage.getItem('token'),'device':'ios'}})
+                    .get(`${BaseUrl}apply/all`,{params:{pageCode:pageValue || 1,pageSize:pageSize || 10,state:activeName || 0,fileState:this.flag,tagId: this.fileTagUnchoice==-1?null:this.fileTagUnchoice,keyWords:(this.searchInfo!=null&&this.searchInfo!='')?this.searchInfo:null},headers: {'token': sessionStorage.getItem('token'),'device':'ios'}})
                     .then(response => {
                         // console.log(pageSize)
                         // console.log(pageValue)
@@ -231,6 +235,7 @@
                     pageValue:1,
                     pageSize:this.nowPageSize
                 }
+                // sessionStorage.setItem('fileTagios',this.fileTagUnchoice)
                 this.queryListData(params)
             },
             searchApp() {
@@ -247,6 +252,7 @@
                 pageValue:1,
                 pageSize:this.nowPageSize
             }
+                // sessionStorage.setItem('flagios',this.flag)
             this.queryListData(params)
             },
             handleSizeChange(pageSize) {
@@ -303,7 +309,7 @@
                 this.$router.push({ path: "/checkApp",query: {id:id,type:'ios',page:this.currentPage,size:this.nowPageSize}});
             },
             update(id) {
-                this.$router.push({ path: "/updateApp",query: {id:id,type:'ios',page:this.currentPage,size:this.nowPageSize}});
+                this.$router.push({ path: "/updateApp",query: {id:id,type:'ios',page:this.currentPage,size:this.nowPageSize,flag:this.flag,tagcode:this.fileTagUnchoice}});
             },
             deletes(id){
                 this.dialogVisible=true;

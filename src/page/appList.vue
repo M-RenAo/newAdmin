@@ -3,7 +3,7 @@
         <div class="table_container">
             <el-row style="margin-bottom: 30px;">
                 <div style="display: flex;align-items: center;justify-content: flex-end;margin-bottom: 5px">
-                    <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})" style="height: 40px;margin-right: 20px;">
+                    <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName,pageValue:1,pageSize:10})" style="height: 40px;margin-right: 20px;">
                         <el-tab-pane label="已审核" name="1"></el-tab-pane>
                         <el-tab-pane label="未审核" name="0"></el-tab-pane>
                     </el-tabs>
@@ -29,7 +29,7 @@
                             <el-option value="0" label="未上架">未上架</el-option>
                         </el-select>
                     </div>
-                    <el-input placeholder="请输入应用名"  class="input-with-select" v-model="searchInfo" style="width:200px;margin-left:10px">
+                    <el-input placeholder="请输入应用名"  class="input-with-select" v-model="searchInfo" style="width:200px;margin-left:10px" @keyup.enter.native="searchApp(searchInfo)">
                         <el-button slot="append"  @click="searchApp(searchInfo)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </div>
@@ -153,18 +153,20 @@ export default {
       currentPage:null,
       nowPageSize: 10,
       url: "",
-        flag:'2',
+        flag:null,
       activeName: "1",
       positionList: "",
       searchInfo: "",
       downloadLoading:false,
         dialogVisible:false,
-        fileTagUnchoice:'-1',
+        fileTagUnchoice:'',
         tagList:[]
     };
   },
   created() {
       console.log(this.$route.path)
+      this.flag= this.$route.query.flag||'2';
+      this.fileTagUnchoice= this.$route.query.tagcode||'-1'
       if(this.$route.query.active==0){
           this.activeName=0
       }
@@ -256,6 +258,7 @@ export default {
               pageValue:1,
               pageSize:this.nowPageSize
           }
+          // sessionStorage.setItem('flag',this.flag)
           this.queryListData(params)
       },
       searchUnchoiceAppByTag(){
@@ -264,6 +267,7 @@ export default {
               pageValue:1,
               pageSize:this.nowPageSize
           }
+          // sessionStorage.setItem('fileTagUnchoice',this.fileTagUnchoice)
           this.queryListData(params)
       },
     searchApp() {
@@ -300,7 +304,7 @@ export default {
       this.$router.push({ path: "/addApp",query:{type:'android'}});
     },
       updateMore(id){
-          this.$router.push({path: "/willUpdateApps", query: {id:id,type:'android',page:this.currentPage,size:this.nowPageSize}});
+          this.$router.push({path: "/willUpdateApps", query: {id:id,type:'android',page:this.currentPage,size:this.nowPageSize,flag:this.flag,tagcode:this.fileTagUnchoice}});
       },
     downloadApp(id) {
       console.log(id);
@@ -329,7 +333,7 @@ export default {
       this.$router.push({ path: "/checkApp", query: {id:id,type:'android',page:this.currentPage,size:this.nowPageSize}});
     },
     update(id) {
-      this.$router.push({ path: "/updateApp", query:  {id:id,type:'android',page:this.currentPage,size:this.nowPageSize}});
+      this.$router.push({ path: "/updateApp", query:  {id:id,type:'android',page:this.currentPage,size:this.nowPageSize,flag:this.flag,tagcode:this.fileTagUnchoice}});
     },
       deletes(id){
           this.dialogVisible=true;

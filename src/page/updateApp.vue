@@ -299,9 +299,9 @@
                                         callback: action=>{
                                             // this.$router.back(-1)
                                             if(this.$route.query.type=='android'){
-                                            this.$router.push({path:'/applicationList',query:{page:this.$route.query.page,size:this.$route.query.size}})
+                                            this.$router.push({path:'/applicationList',query:{page:this.$route.query.page,size:this.$route.query.size,flag:this.$route.query.flag,tagcode:this.$route.query.tagcode}})
                                             }else if(this.$route.query.type=='ios'){
-                                                this.$router.push({path:'/iosList',query:{page:this.$route.query.page,size:this.$route.query.size}})
+                                                this.$router.push({path:'/iosList',query:{page:this.$route.query.page,size:this.$route.query.size,flag:this.$route.query.flag,tagcode:this.$route.query.tagcode}})
                                             }
                                         }
                                     });
