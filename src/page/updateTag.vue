@@ -129,7 +129,7 @@
                     <!--</el-option>-->
                 <!--</el-select>-->
                 <el-input placeholder="请输入应用名" class="input-with-select" v-model="unchoiceAppName"
-                          style="width:200px;margin-left:10px">
+                          style="width:200px;margin-left:10px" @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
                     <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i class="el-icon-search"></i></el-button>
                 </el-input>
             </div>

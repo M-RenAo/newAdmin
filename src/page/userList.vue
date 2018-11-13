@@ -10,7 +10,7 @@
                         <!--</div>-->
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">手机号：</span>
-                            <el-input v-model="num" placeholder="请输入内容" style="width:120px;"></el-input>
+                            <el-input v-model="num" placeholder="请输入内容" style="width:120px;" @keyup.enter.native="search(num)"></el-input>
                         </div>
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">实名状态：</span>

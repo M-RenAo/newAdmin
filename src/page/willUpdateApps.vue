@@ -204,9 +204,9 @@
                                 confirmButtonText: "确定",
                                 callback:action=>{
                                     if(that.$route.query.type=='android'){
-                                    that.$router.push({path:'/applicationList',query:{page:that.$route.query.page,size:that.$route.query.size}})
+                                    that.$router.push({path:'/applicationList',query:{page:that.$route.query.page,size:that.$route.query.size,flag:that.$route.query.flag,tagcode:that.$route.query.tagcode}})
                                     }else if(that.$route.query.type=='ios'){
-                                        that.$router.push({path:'/iosList',query:{page:that.$route.query.page,size:that.$route.query.size}})
+                                        that.$router.push({path:'/iosList',query:{page:that.$route.query.page,size:that.$route.query.size,flag:that.$route.query.flag,tagcode:that.$route.query.tagcode}})
                                     }
                                 }
                             });

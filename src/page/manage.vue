@@ -135,6 +135,14 @@
         },
 		computed: {
 			defaultActive: function(){
+                // console.log()
+                // if(this.$route.path!='/applicationList'&&this.$route.path!='/updateApp'){
+			     //     sessionStorage.removeItem('flag');
+                //      sessionStorage.removeItem('fileTagUnchoice');
+                // }else if(this.$route.path!='/iosList'){
+                //     sessionStorage.removeItem('flagios');
+                //     sessionStorage.removeItem('fileTagios');
+                // }
 				return this.$route.path.replace('/', '');
 			}
 		},

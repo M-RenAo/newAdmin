@@ -400,16 +400,13 @@
                         let arr = []
                         this.da.map(v => {
                             let obj = {}
-                            obj.phone = v.电话
+                            obj.phone =v.电话.toString()
                             if(v.币种==''||v.币种==undefined){
                                 obj.currency='IA'
                             }else{
                             obj.currency=v.币种
                             }
-                            console.log(v.币种)
-
                             obj.amount = Number(v.数量)
-                            console.log(obj.amount)
                             if(v.时间!=''){
                             obj.gtime=moment(v.时间).utc().format('YYYY-MM-DD HH:mm:ss')
                             }else{
@@ -422,7 +419,6 @@
                             }
 
                         })
-                        console.log(arr)
                         let para = {
                             //withList: JSON.stringify(this.da)
                             withList: arr
@@ -468,7 +464,6 @@
                                 });
                             }
                         }, function (err) {
-                            console.log(err)
                             _this.$alert('上传有误,请重试', '提示', {
                                 confirmButtonText: '确定',
                                 // callback: action => {

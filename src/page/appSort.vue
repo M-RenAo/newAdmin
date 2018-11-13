@@ -111,7 +111,7 @@
                             <el-option label="未定义" value="0"></el-option>
                         </el-select>
                         <el-input placeholder="请输入应用名" class="input-with-select" v-model="searchInfo"
-                                  style="width:200px;margin-left:10px">
+                                  style="width:200px;margin-left:10px" @keyup.enter.native="searchApp(searchInfo)">
                             <el-button slot="append" @click="searchApp(searchInfo)"><i class="el-icon-search"></i>
                             </el-button>
                         </el-input>
@@ -172,7 +172,7 @@
                             <!--label="点击量"-->
                             <!--prop="touchNum" min-width="50">-->
                         <!--</el-table-column>-->
-                       
+
                         <!--<el-table-column-->
                         <!--label="最新上传时间"-->
                         <!--prop="fileDate" min-width="50">-->
@@ -217,7 +217,7 @@
                         </el-option>
                     </el-select>
                     <el-input placeholder="请输入应用名" class="input-with-select" v-model="unchoiceAppName"
-                              style="width:200px;margin-left:10px">
+                              style="width:200px;margin-left:10px"  @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
                         <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i
                             class="el-icon-search"></i></el-button>
                     </el-input>
