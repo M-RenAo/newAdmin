@@ -4,7 +4,7 @@
             <el-row type="flex" style="margin-bottom: 30px;">
                 <el-col style="display: flex;justify-content: flex-start">
                     <el-input placeholder="关键字" class="input-with-select" v-model="searchInfo"
-                              style="width:40%">
+                              style="width:40%" @keyup.enter.native="search">
                         <el-button slot="append" @click="search"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
@@ -16,6 +16,7 @@
             </el-tabs>
             <el-table
                 :data="tableData"
+                class="test-class"
                 style="width: 100%">
                 <el-table-column
                 fixed
@@ -26,12 +27,16 @@
                 <el-table-column
                 prop="username"
                 label="用户"
-                min-width="50">
+                width="160">
                 </el-table-column>
                 <el-table-column
-                prop="message"
                 label="评论内容"
                 min-width="50">
+                <template scope="scope">
+                        <div class="ellipsis"> 
+                            {{scope.row.message}}
+                        </div>
+                    </template>
                 </el-table-column>
                 <el-table-column
                 prop="phone"
@@ -114,24 +119,32 @@
         usercount:0,
         searchInfo:"",//关键字
         row:"",//当前行数据
+        data:{}
       };
     },
     created() {
+            this.setData()
             this.newsflashID=this.$route.query.id;
             this.getData()
         },
     methods: {
         search(){//关键字搜索
+            this.setData()
             this.getData()
         },
-        handleClick(tab, event) {
-            var arr=[];
+        handleClick() {
             if(this.activeName==1){
+                this.setData()
+                delete this.data.hidden
                 this.getData()
-            }else if(this.activeName==1){
-                
+            }else if(this.activeName==2){
+                this.setData()
+                this.data.hidden="false"
+                this.getData()
             }else{
-
+                this.setData()
+                this.data.hidden="true"
+                this.getData()
             }
         },
         See(row) {//查看
@@ -139,21 +152,19 @@
             this.centerDialogVisible=true;
         },
         handleSizeChange(pageSize) {
+            this.setData()
             this.nowPageSize = pageSize;
             this.getData()
                     
         },
         handleCurrentChange(pageValue) {
+            this.setData()
             his.currentPage = pageValue;
             this.getData()                   
         },
         getData(){
             this.$ajax.get(BaseUrl+"newsFlash/commentList/"+this.newsflashID,{
-                            params: {
-                                key:this.searchInfo,
-                                pageNum:this.currentPage,
-                                pageSize:this.nowPageSize
-                            }, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                            params: this.data, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                         res.data.data.forEach(item=>{
                                     if(item.time!=undefined){
                                         item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
@@ -161,7 +172,12 @@
                                     
                         })
                         this.tableData=res.data.data;
-                        this.usercount=res.data.data.length
+                        console.log(this.tableData)
+                    }
+                )
+            this.$ajax.get(BaseUrl+"newsFlash/commentAmount/"+this.newsflashID,{
+                            params: this.data, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                        this.usercount=res.data.data
                     }
                 )
         },
@@ -181,12 +197,20 @@
                     })
             }
             this.getData();
+        },
+        setData(){
+            this.data={
+                key:this.searchInfo,
+                pageNum:this.currentPage,
+                pageSize:this.nowPageSize
+            }
         }
     }
   };
 </script>
-<style lang="less" scoped>
+<style lang="less" >
     @import "../style/mixin";
+    @import "../style/common";
 
     .table_container {
         padding: 20px;
@@ -233,6 +257,14 @@
         display: flex;
         justify-content: flex-start;
         margin-top: 8px;
+    }
+    .test-class{
+        .cell {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        word-break: break-all !important;
+        white-space: nowrap !important;
+        }
     }
 </style>
 

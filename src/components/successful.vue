@@ -1,11 +1,11 @@
 <template>
     <div class="content">
         <div style="padding-bottom: 10px">
-            <span class="username">用户：{{thisName}}</span>
-            <span>经李四邀请注册</span>
+            <span class="username" v-if="thisName">用户：{{thisName}}</span>
+            <span v-if="inviterName">经{{inviterName}}邀请注册</span>
         </div>
         <div class="content">
-            <span class="realname">实名状态</span>
+            <!-- <span class="realname">实名状态</span>
             <el-select v-model="selectvalue" placeholder="请选择">
                 <el-option
                 v-for="item in options"
@@ -13,7 +13,7 @@
                 :label="item.label"
                 :value="item.value">
                 </el-option>
-            </el-select>
+            </el-select> -->
         </div>
         <div>
             <el-table
@@ -41,7 +41,7 @@
                 min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="inviteCode"
+                prop="state"
                 label="实名状态"
                 min-width="50">
                 </el-table-column>
@@ -71,21 +71,22 @@
     props:["userId","thisName"],
     data() {
       return {
-        selectvalue:"全部",//实名状态
-        options: [{
-          value: '1',
-          label: '全部'
-        }, {
-          value: '2',
-          label: '已实名'
-        }, {
-          value: '3',
-          label: '未实名'
-        }],
+        // selectvalue:"全部",
+        // options: [{
+        //   value: '1',
+        //   label: '全部'
+        // }, {
+        //   value: '2',
+        //   label: '已实名'
+        // }, {
+        //   value: '3',
+        //   label: '未实名'
+        // }],
         tableData: [],
         usercount:0,//用户总数
         currentPage: 1,
         nowPageSize: 5,
+        inviterName:""//经谁邀请
       }
     },
     created(){
@@ -111,10 +112,15 @@
                                 if(item.inviteDate!=undefined){
                                     item.inviteDate=moment.utc(item.inviteDate).local().format('YYYY-MM-DD HH:mm:ss')
                                 }
+                                item.state="未实名"
+                                if(item.name!=undefined){
+                                    item.state="已实名"
+                                }
                             })
                     this.tableData=res.data.data.list;
                     this.usercount=res.data.data.num;
-                    console.log(this.tableData)
+                    this.inviterName=res.data.data.inviterName
+                    console.log(res)
                 }
             )
       }

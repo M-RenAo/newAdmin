@@ -178,7 +178,7 @@
                     'token': sessionStorage.getItem('token')
                      }
                 }).then(res=>{
-                    console.log(res.data.data.data)
+                    console.log(res)
                     this.usercount=res.data.data.num
                     this.tableData=res.data.data.data
                     

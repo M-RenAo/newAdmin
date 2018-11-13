@@ -70,6 +70,9 @@ const messageManagement=resolve=>require(['@/page/messageManagement'],resolve);
 const editingInterface=resolve=>require(['@/page/editingInterface'],resolve);
 const appHomeData=resolve=>require(['@/page/appHomeData'],resolve);
 const userBack=resolve=>require(['@/page/userBack'],resolve);
+const guessing=resolve=>require(['@/page/guessing'],resolve);
+const guessingEdit=resolve=>require(['@/page/guessingEdit'],resolve);
+
 const routes = [
 	{
 		path: '/',
@@ -337,6 +340,7 @@ const routes = [
             meta: ['通用中心','快讯部署'],
         },{
             path: '/editingInterface',
+            name: 'EditingInterface',
             component: editingInterface,
             meta: ['快讯部署','编辑界面'],
         },{
@@ -355,7 +359,15 @@ const routes = [
                 path: '/userBack',
                 component: userBack,
                 meta: ['用户管理','用户反馈'],
-            }
+        },{
+            path: '/guessing',
+            component: guessing,
+            meta: ['自选管理','竞猜管理'],
+        },{
+            path: '/guessingEdit',
+            component: guessingEdit,
+            meta: ['自选管理','竞猜编辑'],
+        }
         ]
 	}
 ]

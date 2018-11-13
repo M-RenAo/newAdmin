@@ -7,14 +7,23 @@
                         <el-input v-model="editdata.title"></el-input>
                     </el-form-item>
                     <el-form-item label="配图" class="icon-el">
-                        <input class="upload" @change='mapping' type="file" style="opacity: 0;width: 148px;height: 148px;z-index:222;"/>
+                                <!-- <input class="upload" @change='mapping' type="file" style="opacity: 0;width: 148px;height: 148px;z-index:222;"/> -->
+                        <div class="updatas">
+                            
                                 <div class="icon-plus-container">
-                                    <i class="el-icon-plus"></i>
+                                    
                                 </div>
-                                <div class="img-wrap" v-if="uploadImageUrl!=''">
+                                <!-- <div class="img-wrap" v-if="uploadImageUrl!==''">
                                     <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadImageUrl"
                                         class="border-radius" style="width: 146px;height: 146px;"/>
+                                </div> -->
+                                <div class="img-wrap" v-if="editdata.image!==''&&editdata.image!==undefined">
+                                    <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+editdata.image" style="width:146px;height:146px;" v-if="editdata.image!==''&&editdata.image!==undefined" >
                                 </div>
+                                <el-button type="primary" v-if="editdata.image===''" class="btnone"><span>上传</span>  <input @change='mapping' type="file" style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;" class="upload"></el-button>
+                                <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''" class="btnone">删除</el-button>
+                        </div>
+                        
                     </el-form-item>
                     <el-form-item label="快讯内容" prop="content">
                         <el-input
@@ -45,10 +54,11 @@
                     </el-form-item>
                     <div class="line"></div>
                     <el-form-item>
-                        <div class="release clear:after" >
-                            <div class="left">
+                        <div class="left">
                                 字数{{editdata.content.length}}字
-                            </div>
+                        </div>
+                        <div class="release" >
+                            
                             <div class="right">
                                 <el-button @click="submit(editdata)">发布</el-button>
                                 <el-button @click="draft(editdata)">存草稿</el-button>
@@ -67,7 +77,7 @@
     export default {
         data() {
             return {
-                uploadImageUrl:"",
+                uploadImageUrl:'',
                 editdata:{
                     title:"",
                     image:"",
@@ -76,7 +86,6 @@
                     hot:true,
                     expire:86400,
                     draft:false,
-                    timestamp:0,//当前时间
                 },
                 selectvalue:"当天",//实名状态
                     options: [{
@@ -102,11 +111,21 @@
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
+                switch:false,
+
             };
         },
 
         created() {
-            this.editdata.expire = Date.parse(new Date())+86400;
+            
+            this.switch=false;
+            if(this.$route.params.row.id){
+                this.editdata=this.$route.params.row;
+                this.switch=true;
+            }
+            this.editdata.expire = Math.round(new Date() / 1000)+86400
+            this.editdata.hot=true;
+            console.log(this.editdata)
         },
         computed: {},
         methods: {
@@ -170,7 +189,7 @@
                             url: this.UploadUrl,
                             data: form,
                         }).then(response => {
-                                this.uploadImageUrl = response.data.data;
+                                // this.uploadImageUrl = response.data.data;
                                 this.editdata.image = response.data.data;
                         });
                     });
@@ -178,23 +197,33 @@
             selectdate(time){//select选择器选择时间
                 
                 if(time==1){//一天
-                    this.editdata.expire=this.timestamp+86400
+                    this.editdata.expire=Math.round(new Date() / 1000)+86400
                 }else if(time==2){//三天
-                    this.editdata.expire=this.timestamp+86400*3
+                    this.editdata.expire=Math.round(new Date() / 1000)+86400*3
                 }else{//一年
-                    this.editdata.expire=this.timestamp+86400*365
+                    this.editdata.expire=Math.round(new Date() / 1000)+86400*365
                 }
 
             },
             submit(editdata){//提交表单
                 this.editdata.draft=false
-                this.createEdit();
+                if(this.switch){
+                    this.editEdit()
+                }else{
+                    this.createEdit()
+                }
                 this.goMessage()
+                
             },
             draft(editdata){//存草稿
                 this.editdata.draft=true
-                this.createEdit()
+                if(this.switch){
+                    this.editEdit()
+                }else{
+                    this.createEdit()
+                }
                 this.goMessage()
+                console.log(this.editdata) 
             },
             createEdit(){//创建快讯
                 this.$refs.editdata.validate((valid) => {
@@ -207,29 +236,40 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                         }).then(res=>{
-                                console.log(res)
+                                
                                 
                         })
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
+            
+            },
+            editEdit(){//编辑快讯
+                    this.$ajax({
+                            method: "POST",
+                            url: BaseUrl+'newsFlash/update',
+                            data:this.editdata,
+                            headers: {
+                                'token': sessionStorage.getItem('token')
+                                }
+                    }).then(res=>{
+                                
+                                
+                    })
             },
             goMessage(){//跳转到快讯列表
                 this.$router.push({path:"/messageManagement"})
-                console.log(this.editdata)
-            }
+            },
             
         },
         watch:{
             radio(newVal,oldVal){
-                console.log(newVal)
-                // if(newVal==1){
-                //     this.editdata.hot=true
-                // }else{
-                //     this.editdata.hot=false                   
-                // }
+                if(newVal==1){
+                    this.editdata.hot=true
+                }else{
+                    this.editdata.hot=false                   
+                }
             }
         }
 
@@ -469,17 +509,29 @@
         border-top:1px solid #000;
     }
     .release{
+        overflow: hidden;
         margin-top:10px;
         padding:10px 0 20px 0;
         width:100%;
         div{
             line-height: 40px
         }
-        .left{
-            margin-left:-90px
-        }
+        
         .right{
             margin-right:10px
         }
+    }
+    .left{
+            margin-left:-90px
+        }
+    .updatas{
+        position: relative
+    }
+    .btnone{
+        position: absolute;
+        left:170px;
+        top:105px;
+        width:70px;
+        height:40px
     }
 </style>

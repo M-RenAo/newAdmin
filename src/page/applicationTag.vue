@@ -44,7 +44,8 @@
                     </el-form-item>
                     <el-form-item label="分类图标" :label-width="formLabelWidth" prop="title" >
                         <div style="display: flex;align-items:flex-end;">
-                        <div style="width:70px;height:70px;border: 1px #999 solid;margin-right: 10px"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+urlTagIcon" v-if="urlTagIcon!==null" style="width:100%;height:100%;"/></div>
+                        <div style="width:70px;height:70px;border: 1px #999 solid;margin-right: 10px">
+                            <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+urlTagIcon" v-if="urlTagIcon!==null" style="width:100%;height:100%;"/></div>
                             <el-button type="primary" v-if="urlTagIcon===null" style="position: relative"><span>上传</span>  <input @change='add_img' type="file" style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0"></el-button>
                         <el-button type="primary" v-if="urlTagIcon!==null" @click="urlTagIcon=null">删除</el-button>
                         </div>

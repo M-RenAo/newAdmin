@@ -1,6 +1,16 @@
 <template>
     <div class="fillcontain">
         <div class="table_container">
+            <div style="padding-bottom:10px">
+                获取文章自动发布
+                <el-switch
+                v-model="switchType"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="switchChang"
+                >
+                </el-switch>
+            </div>
             <el-button type="primary" @click="goEdit" style="margin-bottom: 10px">创建快讯</el-button>
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
@@ -12,7 +22,7 @@
                     </el-tabs>
                 </el-col>
                 <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
-                    <el-input placeholder="快讯标题"  class="input-with-select" v-model="searchInfo" style="width:60%">
+                    <el-input placeholder="快讯标题"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchCheck">
                         <el-button slot="append"  @click="searchCheck"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
@@ -74,7 +84,7 @@
                     label="操作"
                     min-width="50" >
                     <template scope="scope">
-                        <el-button  type="text" @click="goEdit" style="margin-left:0">编辑</el-button>
+                        <el-button  type="text" @click="goEdit(scope.row)" style="margin-left:0">编辑</el-button>
                         <el-button  type="text" @click="goComment(scope.row)" style="margin-left:0">评论</el-button>
                         <el-popover
                             placement="top"
@@ -133,6 +143,7 @@
     export default {
         data() {
             return {
+                switchType:true,//文章自动发布
                 dialogTableVisible: false,
                 dialogVisible: false,
                 visible2:false,
@@ -147,29 +158,59 @@
                 searchInfo:"",//快讯关键字搜索
                 row:"",//当前行数据
                 usercount:0,
+                draft:"",
+                dataparams:{},
+                numparams:{},
+                enabled:"true",
+                            
             };
         },
         created() {
+            this.paramss();
+            this.paramsss();
             this.getData();
+            this.setAuto()
+            // this.$ajax.get(BaseUrl+"newsFlash/getAutoRelease",{
+            //              headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+            //                  console.log(res)
+            //         }
+            //     );
         },
         components: {
             headTop
         },
         methods: {
             searchCheck() {//快讯搜索
+                this.dataparams={
+                        // draft:this.draft,
+                        key:this.searchInfo,
+                        pageNum:this.currentPage,
+                        pageSize:this.nowPageSize
+                        }
                 this.getData()
+                console.log(1)
             },
             handleSizeChange(pageSize) {
+                this.paramss();
                 this.nowPageSize = pageSize;
                 this.getData();
             },
             handleCurrentChange(pageValue) {
+                this.paramss()
                 this.currentPage = pageValue;
                 this.getData();
             },
             
-            goEdit(){//前往编辑界面
-                this.$router.push({path:"/editingInterface"})
+            goEdit(row){//前往编辑界面
+                // this.$router.push({path:"/editingInterface",query:{
+                //     id:row.id
+                // }})
+                this.$router.push({
+                    name: 'EditingInterface',
+                    params: {
+                        row:row
+                    }
+                })
             },
             goComment(row){//前往评论界面
                 this.$router.push({path:'/comment',query:{
@@ -182,11 +223,7 @@
             },
             getData(){
                 this.$ajax.get(BaseUrl+"newsFlash/articleList",{
-                        params: {
-                            key:this.searchInfo,
-                            pageNum:this.currentPage,
-                            pageSize:this.nowPageSize
-                        }, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                        params: this.dataparams, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                     res.data.data.forEach(item=>{
                                 if(item.createTime!=undefined){
                                     item.createTime=moment.utc(item.createTime).local().format('YYYY-MM-DD HH:mm:ss')
@@ -194,16 +231,17 @@
                                 if(item.issueTime!=undefined){
                                     item.issueTime=moment.utc(item.issueTime).local().format('YYYY-MM-DD HH:mm:ss')
                                 }
+                                if(item.draft==true){
+                                    item.hot=false
+                                }
                                 item.visible=false;
                             })
                     this.tableData=res.data.data
-                    console.log(this.tableData)
+                    
                     }
                 );
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
-                            params: {
-                                key:this.searchInfo
-                            },
+                            params: this.numparams,
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                         this.usercount=res.data.data;
                         // console.log(this.usercount)
@@ -212,18 +250,38 @@
             },
             tabsClick(){//tabs选项
                 if(this.tabsName==-1){
+                    this.paramss()
+                    this.paramsss()
+                    delete this.dataparams.draft
+                    delete this.numparams.draft
                     this.getData()
-                    console.log(this.tabsName)
                 }else if(this.tabsName==1){
+                    this.paramss()
+                    this.paramsss()
+                    this.dataparams.draft="false",
+                    this.numparams.draft="false",
                     this.getData();
-                    let tablesData=this.tableData.forEach(item=>{
-
-                    })
-                    console.log(this.tabsName)
                 }else{
-                    console.log(this.tabsName)
+                    this.paramss()
+                    this.paramsss()
+                    this.dataparams.draft="true",
+                    this.numparams.draft="true",
+                    this.getData();
                 }
                 
+            },
+            paramss(){
+                this.dataparams={
+                        // draft:this.draft,
+                        key:this.searchInfo,
+                        pageNum:this.currentPage,
+                        pageSize:this.nowPageSize
+                        }
+            },
+            paramsss(){
+                this.numparams={
+                            key:this.searchInfo
+                            }
             },
             async setTop(row){//置顶
                 this.tableData.forEach(item=>{
@@ -253,6 +311,30 @@
                          headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                     })
                 this.getData()                 
+            },
+            switchChang(type){
+                if(type){
+                    this.enabled="true"
+                    this.setAuto()
+                }else{
+                    this.enabled="false"
+                    this.setAuto()
+                }
+            },
+            setAuto(){
+                this.$ajax({
+                            method: "POST",
+                            url: BaseUrl+'newsFlash/setAutoRelease',
+                            params:{
+                                enabled:this.enabled
+                            },
+                            headers: {
+                                'token': sessionStorage.getItem('token')
+                                }
+                        }).then(res=>{
+                                console.log(res)
+                                
+                        })
             }
         }
     };
