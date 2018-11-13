@@ -8,24 +8,24 @@
             <div style="display: flex;font-size: 14px;margin-bottom: 20px">
                 <div class="card-data">
                     <p style="font-size: 16px;">今日新增注册用户</p>
-                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{newSignNum}}</div>
-                    <p>经邀请注册用户：{{inviteSign}}名</p>
+                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{regiNum}}</div>
+                    <p>经邀请注册用户：{{beInviteAndRegiNum}}名</p>
                 </div>
                 <div class="card-data">
                     <p style="font-size: 16px;">今日登陆用户</p>
-                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{newSignNum}}</div>
+                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{loginNum}}</div>
                     <!--<p>经邀请注册用户{{inviteSign}}</p>-->
                 </div>
                 <div class="card-data">
                     <p style="font-size: 16px;">今日实名用户</p>
-                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{newSignNum}}</div>
-                    <p>经邀请实名用户：{{inviteSign}}名</p>
+                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{authNum}}</div>
+                    <p>经邀请实名用户：{{beInviteAndAuthNum}}名</p>
                 </div>
-                <div class="card-data">
-                    <p style="font-size: 16px;">今日活跃用户</p>
-                    <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{newSignNum}}</div>
-                    <!--<p>经邀请注册用户{{inviteSign}}</p>-->
-                </div>
+                <!--<div class="card-data">-->
+                    <!--<p style="font-size: 16px;">今日活跃用户</p>-->
+                    <!--<div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{newSignNum}}</div>-->
+                    <!--&lt;!&ndash;<p>经邀请注册用户{{inviteSign}}</p>&ndash;&gt;-->
+                <!--</div>-->
             </div>
             <div  style="margin-bottom: 30px;">
                 <span style="font-size: 14px;">时间：</span>
@@ -54,10 +54,10 @@
                     label="登录用户"
                     prop="loginNum">
                 </el-table-column>
-                <el-table-column
-                    label="活跃用户"
-                    prop="userSum">
-                </el-table-column>
+                <!--<el-table-column-->
+                    <!--label="活跃用户"-->
+                    <!--prop="userSum">-->
+                <!--</el-table-column>-->
                 <el-table-column
                     label="新增注册用户"
                     prop="userSum">
@@ -123,8 +123,12 @@
                 activeName:'1',
                 cumulativeUsers:10000,
                 realNameUsers:2000,
-                newSignNum:200,
-                inviteSign:20,
+                // inviteSign:20,
+                authNum:'',
+                loginNum:'',
+                regiNum:'',
+                beInviteAndRegiNum:'',
+                beInviteAndAuthNum:'',
                 // radio:'1',
                 dataTime:[moment().subtract('days', 31).format('YYYY-MM-DD'),moment().subtract('days', 1).format('YYYY-MM-DD')],
                 chartTime:null,
@@ -137,7 +141,7 @@
                 endDate1:moment().add('days',1).format('YYYY-MM-DD'),
                 startDate2:moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2:moment().add('days',1).format('YYYY-MM-DD'),
-                dataName:['注册用户','实名认证用户','总用户','登录用户' ]
+                dataName:['注册用户','实名认证用户','邀请好友用户','登录用户','经邀请注册用户']
                 // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
@@ -145,14 +149,24 @@
             tendency
         },
         created() {
-            // this.initData();
-            // for (let i = 6; i > -1; i--) {
-            //     const date = dtime(new Date().getTime() - 86400000*i).format('YYYY-MM-DD')
-            //     this.sevenDay.push(date)
-            // }
-            // this.getSevenData();
+            this.$ajax.get(BaseUrl+'data/sum',
+                {headers:{'token':sessionStorage.getItem('token')}}).then(response=>{
+                // console.log(response);
+                if(response.data.flag==200){
+                    this.cumulativeUsers=response.data.data.userSum;
+                    this.realNameUsers=response.data.data.authSum;
+                }else if(response.data.flag==201){
+                    this.$alert(response.data.msg+'，请重新登录', '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            this.$router.push('/')
+                        }
+                    });
+                }
+            })
             this.getData()
             this.getDatas()
+            this.getNewData()
         },
         computed: {},
         methods: {
@@ -177,6 +191,42 @@
             test(){
                 this.getData()
             },
+            getNewData(){
+                if(this && !this._isDestroyed) {
+                    this.$ajax.get(BaseUrl + 'data/active',
+                        {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
+                        // console.log(response);
+                        if (response.data.flag == 200) {
+                            console.log(response)
+                            this.authNum = response.data.data.authNum;
+                            this.loginNum = response.data.data.loginNum;
+                            this.regiNum = response.data.data.regiNum;
+                            this.beInviteAndAuthNum = response.data.data.toRegiAndAuthNum;
+                            this.beInviteAndRegiNum = response.data.data.beInviteAndRegiNum
+                            let _this = this
+                            if (_this && !_this._isDestroyed) {
+                                setTimeout(() => {
+                                    _this.getNewData()
+                                }, 60000)
+                            }
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        }
+                        // this.tableData.forEach(item=>{
+                        //     if(item.title=='总计'){
+                        //     // item.title=moment.utc(item.title).local().format('YYYY-MM-DD')
+                        //         this.tableData
+                        //     }
+                        // })
+
+                    })
+                }
+            },
             getData(){
                 this.$ajax.get(BaseUrl+'data/content',
                     {params:{cycle:'day',startDate:moment(this.dataTime[0]).format('YYYY-MM-DD'),endDate:moment(this.dataTime[1]).format('YYYY-MM-DD')},headers:{'token':sessionStorage.getItem('token')}}).then(response=>{
@@ -191,11 +241,11 @@
                             }
                         });
                     }
-                    // this.tableData.forEach(item=>{
-                    //     if(item.title!='总计'){
-                    //     item.title=moment.utc(item.title).local().format('YYYY-MM-DD')
-                    //     }
-                    // })
+                    this.tableData.forEach(item=>{
+                        if(item.title=='总计'){
+                       this.tableData.splice(item,1)
+                        }
+                    })
                 })
             },
             serchData(dataTime){

@@ -38,6 +38,7 @@
                         trigger: 'axis'
                     },
                     legend: {
+                        x:'10%',
                         data:this.dataName
                     },
                     toolbox: {

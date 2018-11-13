@@ -102,10 +102,10 @@
                                     {{scope.row.shamFileDownNum===undefined?scope.row.fileDownNum:scope.row.shamFileDownNum+scope.row.fileDownNum}}
                                 </template>
                             </el-table-column>
-                            <!--<el-table-column-->
-                                <!--label="点击量"-->
-                                <!--prop="state" min-width="50">-->
-                            <!--</el-table-column>-->
+                            <el-table-column
+                                label="点击量"
+                                prop="touchNum" min-width="50">
+                            </el-table-column>
                             <el-table-column label="操作" min-width="98">
                                 <template scope="scope">
                                     <el-button class="littleButton" @click="updateAppSort(scope.row.appName,scope.row.fileId,scope.row.index,scope.row)" key="edit">设置顺序
@@ -201,10 +201,10 @@
                     label="下载量"
                     prop="fileDownNum" min-width="50">
                 </el-table-column>
-                <!--<el-table-column-->
-                    <!--label="点击量"-->
-                    <!--prop="fileDate" min-width="50">-->
-                <!--</el-table-column>-->
+                <el-table-column
+                    label="点击量"
+                    prop="touchNum" min-width="50">
+                </el-table-column>
             </el-table>
             <el-button type="primary" @click="saveApp()" style="margin-top: 10px" v-bind:disabled="appId.length==0">保存
             </el-button>
@@ -255,11 +255,11 @@
                 fileDate: '',
                 value: [],
                 sortRule:'add',
-                sortList: [{code:'new', label: '最新版本发布'}, {code: "add", label: '添加时间'}, {code: 'down', label: '下载量'}],
-                //     {
-                //     code:'touch',
-                //     label: '点击量'
-                // }],
+                sortList: [{code:'new', label: '最新版本发布'}, {code: "add", label: '添加时间'}, {code: 'down', label: '下载量'},
+                    {
+                    code:'touch',
+                    label: '点击量'
+                }],
                 tagList: [],
                 desc: 'asc',
                 dialogFormVisible: false,

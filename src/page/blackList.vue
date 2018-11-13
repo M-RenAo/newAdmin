@@ -15,7 +15,7 @@
                 <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
                     <el-button type="primary" @click="deleteAllUserBlack" style="margin-right:10px">批量删除</el-button>
                     <!--<el-button type="primary" @click="scanning" style="margin-right: 10px">扫描异常用户</el-button>-->
-                    <el-input placeholder="手机号／用户昵称／异常情况"  class="input-with-select" v-model="searchInfo" style="width:60%">
+                    <el-input placeholder="手机号／用户昵称／异常情况"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchCheck(searchInfo)">
                         <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>

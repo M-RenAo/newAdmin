@@ -168,10 +168,10 @@
                             label="下载量"
                             prop="fileDownNums" min-width="50">
                         </el-table-column>
-                        <!--<el-table-column-->
-                            <!--label="点击量"-->
-                            <!--prop="touchNum" min-width="50">-->
-                        <!--</el-table-column>-->
+                        <el-table-column
+                            label="点击量"
+                            prop="touchNum" min-width="50">
+                        </el-table-column>
 
                         <!--<el-table-column-->
                         <!--label="最新上传时间"-->
@@ -262,10 +262,10 @@
                         label="下载量"
                         prop="fileDownNums" min-width="50">
                     </el-table-column>
-                    <!--<el-table-column-->
-                        <!--label="点击量"-->
-                        <!--prop="fileDate" min-width="50">-->
-                    <!--</el-table-column>-->
+                    <el-table-column
+                        label="点击量"
+                        prop="touchNum" min-width="50">
+                    </el-table-column>
                 </el-table>
                 <el-button type="primary" @click="saveApp()" style="margin-top: 10px"
                            v-bind:disabled="addAppToMoudle.length==0">保存

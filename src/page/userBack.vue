@@ -4,7 +4,7 @@
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
-                    <el-input placeholder="反馈关键字"  class="input-with-select" v-model="searchInfo" style="width:300px">
+                    <el-input placeholder="反馈关键字"  class="input-with-select" v-model="searchInfo" style="width:300px" @keyup.enter.native="searchCheck(searchInfo)">
                         <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 <el-button type="primary" @click="deleteAllUserBack" style="margin-left:30px">批量删除</el-button>

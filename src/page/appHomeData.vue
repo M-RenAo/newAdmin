@@ -25,13 +25,13 @@
                     </el-option>
                     <el-option label="未定义" value="0"></el-option>
                 </el-select>
-                <span style="font-size: 14px;color:#606266;">状态:</span>
-                <el-select v-model="flag" placeholder="请选择" style="width:100px" @change="searchByFlag(flag)" >
-                    <el-option value="2" label="全部">全部</el-option>
-                    <el-option value="1" label="已上架">已上架</el-option>
-                    <el-option value="0" label="未上架">未上架</el-option>
-                </el-select>
-                <el-input placeholder="请输入应用名"  class="input-with-select" v-model="searchInfo" style="width:200px;margin-left:10px">
+                <!--<span style="font-size: 14px;color:#606266;">状态:</span>-->
+                <!--<el-select v-model="flag" placeholder="请选择" style="width:100px" @change="searchByFlag(flag)" >-->
+                    <!--<el-option value="2" label="全部">全部</el-option>-->
+                    <!--<el-option value="1" label="已上架">已上架</el-option>-->
+                    <!--<el-option value="0" label="未上架">未上架</el-option>-->
+                <!--</el-select>-->
+                <el-input placeholder="请输入应用名"  class="input-with-select" v-model="searchInfo" style="width:200px;margin-left:10px" @keyup.enter.native="searchApp(searchInfo)">
                     <el-button slot="append"  @click="searchApp(searchInfo)"><i class="el-icon-search"></i></el-button>
                 </el-input>
             </div>
