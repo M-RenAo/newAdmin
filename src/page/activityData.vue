@@ -113,7 +113,7 @@
                 thisName:""
             };
         },
-        created(){
+        mounted(){
             this.getData();
         },
         methods: {

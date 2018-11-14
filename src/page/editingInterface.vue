@@ -116,7 +116,7 @@
             };
         },
 
-        created() {
+        mounted() {
             
             this.switch=false;
             if(this.$route.params.row.id){

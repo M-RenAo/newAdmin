@@ -72,6 +72,8 @@ const appHomeData=resolve=>require(['@/page/appHomeData'],resolve);
 const userBack=resolve=>require(['@/page/userBack'],resolve);
 const guessing=resolve=>require(['@/page/guessing'],resolve);
 const guessingEdit=resolve=>require(['@/page/guessingEdit'],resolve);
+const guessingRecord=resolve=>require(['@/page/guessingRecord'],resolve);
+
 
 const routes = [
 	{
@@ -365,8 +367,13 @@ const routes = [
             meta: ['自选管理','竞猜管理'],
         },{
             path: '/guessingEdit',
+            name: 'guessingEdit',
             component: guessingEdit,
             meta: ['自选管理','竞猜编辑'],
+        },{
+            path: '/guessingRecord',
+            component: guessingRecord,
+            meta: ['自选管理','竞猜记录'],
         }
         ]
 	}

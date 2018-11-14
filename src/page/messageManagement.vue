@@ -165,7 +165,7 @@
                             
             };
         },
-        created() {
+        mounted() {
             this.paramss();
             this.paramsss();
             this.getData();
@@ -226,10 +226,10 @@
                         params: this.dataparams, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                     res.data.data.forEach(item=>{
                                 if(item.createTime!=undefined){
-                                    item.createTime=moment.utc(item.createTime).local().format('YYYY-MM-DD HH:mm:ss')
+                                    item.createTime=moment.utc(item.createTime*1000).local().format('YYYY-MM-DD HH:mm:ss')
                                 }
                                 if(item.issueTime!=undefined){
-                                    item.issueTime=moment.utc(item.issueTime).local().format('YYYY-MM-DD HH:mm:ss')
+                                    item.issueTime=moment.utc(item.issueTime*1000).local().format('YYYY-MM-DD HH:mm:ss')
                                 }
                                 if(item.draft==true){
                                     item.hot=false
