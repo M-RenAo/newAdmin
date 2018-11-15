@@ -114,7 +114,7 @@
             <el-dialog :visible.sync="dialogTableVisible">
                 <div class="titleconten">
                     <h2 style="text-align:center;margin-bottom:20px">{{row.title}}</h2>
-                    <div style="width:400px;height:200px;margin:0 auto" v-if="row.image!==''&&row.image!==undefined"> 
+                    <div style="width:400px;height:200px;margin:0 auto" v-if="row.image!==''&&row.image!==undefined">
                         <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+row.image" style="width:400px;height:200px;"  >
                     </div>
                     <div style="width:600px;margin:0 auto;padding-top:20px">
@@ -162,7 +162,7 @@
                 dataparams:{},
                 numparams:{},
                 enabled:"true",
-                            
+
             };
         },
         mounted() {
@@ -199,7 +199,7 @@
                 this.currentPage = pageValue;
                 this.getData();
             },
-            
+
             goEdit(row){//前往编辑界面
                 // this.$router.push({path:"/editingInterface",query:{
                 //     id:row.id
@@ -214,7 +214,7 @@
             goComment(row){//前往评论界面
                 this.$router.push({path:'/comment',query:{
                     id:row.id
-                }})     
+                }})
             },
             dialogTable(row){//弹窗
                 this.dialogTableVisible = true;
@@ -238,6 +238,10 @@
                                 item.visible=false;
                             })
                     this.tableData=res.data.data
+<<<<<<< HEAD
+=======
+
+>>>>>>> e1eee98e75c9ecf76b611b775fc85a96ba401388
                     }
                 );
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
@@ -268,7 +272,7 @@
                     this.numparams.draft="true",
                     this.getData();
                 }
-                
+
             },
             paramss(){
                 this.dataparams={
@@ -296,7 +300,7 @@
                          headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                     })
                 }
-                this.getData() 
+                this.getData()
             },
             deleteData(row){//调出弹出窗
                 this.tableData.forEach(item=>{
@@ -310,7 +314,7 @@
                 await this.$ajax.get(BaseUrl+"newsFlash/delete/"+this.row.id,{
                          headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                     })
-                this.getData()                 
+                this.getData()
             },
             switchChang(type){
                 if(type){
@@ -332,8 +336,13 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                         }).then(res=>{
+<<<<<<< HEAD
                                 
                                 
+=======
+                                console.log(res)
+
+>>>>>>> e1eee98e75c9ecf76b611b775fc85a96ba401388
                         })
             }
         }
@@ -416,7 +425,7 @@
     }
     .titles{
         color: #6cf;
-        
+
     }
     .settop{
         color: red;
