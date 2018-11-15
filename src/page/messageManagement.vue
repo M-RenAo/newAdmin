@@ -238,10 +238,7 @@
                                 item.visible=false;
                             })
                     this.tableData=res.data.data
-<<<<<<< HEAD
-=======
 
->>>>>>> e1eee98e75c9ecf76b611b775fc85a96ba401388
                     }
                 );
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
@@ -335,15 +332,10 @@
                             headers: {
                                 'token': sessionStorage.getItem('token')
                                 }
-                        }).then(res=>{
-<<<<<<< HEAD
-                                
-                                
-=======
-                                console.log(res)
+                        }).then(res=> {
+                    console.log(res)
 
->>>>>>> e1eee98e75c9ecf76b611b775fc85a96ba401388
-                        })
+                    })
             }
         }
     };
