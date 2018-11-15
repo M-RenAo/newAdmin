@@ -116,16 +116,23 @@
             };
         },
 
-        mounted() {
-            
+        created() {
             this.switch=false;
-            if(this.$route.params.row.id){
-                this.editdata=this.$route.params.row;
-                this.switch=true;
+            if(this.$route.query.dataId){
+                this.$ajax.get(BaseUrl+"newsFlash/getArticle/"+this.$route.query.dataId,{
+                            headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+
+                        this.editdata=res.data.data;
+                        this.switch=true;
+                        this.editdata.expire = Math.round(new Date() / 1000)+86400;
+                        this.expire=Math.round(new Date() / 1000)+86400;
+                        this.editdata.hot=true;
+                    }
+                )
+                
             }
-            this.editdata.expire = Math.round(new Date() / 1000)+86400
-            this.editdata.hot=true;
-            console.log(this.editdata)
+            
+            this.expire = Math.round(new Date() / 1000)+86400;
         },
         computed: {},
         methods: {
@@ -207,27 +214,29 @@
             },
             submit(editdata){//提交表单
                 this.editdata.draft=false
-                if(this.switch){
-                    this.editEdit()
-                }else{
-                    this.createEdit()
-                }
-                this.goMessage()
-                
+                this.editdata.expire=this.expire;
+                // this.editdata.hot=true;
+                this.prooFreading()
+                // if(this.switch){
+                //     this.editEdit()
+                // }else{
+                //     this.createEdit()
+                // }
             },
             draft(editdata){//存草稿
                 this.editdata.draft=true
-                if(this.switch){
-                    this.editEdit()
-                }else{
-                    this.createEdit()
-                }
-                this.goMessage()
-                console.log(this.editdata) 
+                this.prooFreading()
+
+                // if(this.switch){
+                //     this.editEdit()
+                //     console.log(1)
+                // }else{
+                //     this.createEdit()
+                //     console.log(2)
+                // }
+                
             },
             createEdit(){//创建快讯
-                this.$refs.editdata.validate((valid) => {
-                    if (valid&&this.uploadImageUrl!='') {
                         this.$ajax({
                             method: "POST",
                             url: BaseUrl+'newsFlash/create',
@@ -237,12 +246,10 @@
                                 }
                         }).then(res=>{
                                 
-                                
+                                this.$router.push({path:"/messageManagement"})
+                                console.log(res)
+                                console.log(this.editdata) 
                         })
-                    } else {
-                        return false;
-                    }
-                });
             
             },
             editEdit(){//编辑快讯
@@ -254,13 +261,49 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                     }).then(res=>{
-                                
+                                this.$router.push({path:"/messageManagement"})                                
                                 
                     })
             },
-            goMessage(){//跳转到快讯列表
-                this.$router.push({path:"/messageManagement"})
-            },
+            prooFreading(){
+                this.$refs.editdata.validate(async (valid) => {
+                    
+                    if (valid&&this.editdata.image!='') {
+                        console.log(this.editdata)
+                        if(this.switch){
+                            this.editEdit()
+                            console.log(1)
+                        }else{
+                            this.createEdit()
+                            console.log(2)
+                        }                     
+                    } else {
+                        if(this.editdata.image==''&&valid){
+                            this.$alert('请上传配图', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `请重试！`
+                                    });
+                                }
+                            });
+                        }else {
+                            this.$alert('请填写完整', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `请重试！`
+                                    });
+                                }
+                            });
+
+                        }
+                        return false;
+                    }
+                });
+            }
             
         },
         watch:{
