@@ -578,7 +578,7 @@
             ensureDelete() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl + 'position/del/' + this.$route.query.id + '/apply',
+                    url: BaseUrl + 'position/del/apply/' + this.$route.query.id ,
                     data: this.deleAppId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {

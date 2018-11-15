@@ -27,7 +27,7 @@
                 </el-table-column>
                 <el-table-column
                     label="应用数量"
-                    prop="fileSize" >
+                    prop="itemNumOfAll" >
                 </el-table-column>
                 <el-table-column label="操作" width="200">
                     <template scope="scope">
