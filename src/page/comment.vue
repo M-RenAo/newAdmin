@@ -122,7 +122,7 @@
         data:{}
       };
     },
-    created() {
+    mounted() {
             this.setData()
             this.newsflashID=this.$route.query.id;
             this.getData()
@@ -167,7 +167,7 @@
                             params: this.data, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                         res.data.data.forEach(item=>{
                                     if(item.time!=undefined){
-                                        item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
+                                        item.time=moment.utc(item.time*1000).local().format('YYYY-MM-DD HH:mm:ss')
                                     }
                                     
                         })

@@ -23,7 +23,7 @@
                         玩法规则
                     </div>
                     <div class="radios">
-                        <el-radio-group v-model="radio">
+                        <el-radio-group v-model="type" @change="setType">
                             <el-radio label="1">猜涨跌</el-radio>
                             <el-radio label="2">哈希猜大小</el-radio>
                             <el-radio label="3" >哈希彩票</el-radio>
@@ -36,19 +36,24 @@
                         </el-form-item>
                     </div>
                     <div>
-                        <el-form-item label="竞猜介绍" prop="introduce">
-                            <el-input v-model="editdata.introduce" style="width:400px"></el-input>
+                        <el-form-item label="竞猜介绍" prop="intro">
+                            <el-input v-model="editdata.intro" style="width:400px"></el-input>
                         </el-form-item>
                     </div>
                     <div style="overflow:hidden">
-                        <el-form-item label="竞猜周期" prop="cycle">
-                            <el-radio-group v-model="radios" size="small">
-                                <div style="margin:10px 0 10px 0"><el-radio label="1">单次</el-radio></div>
-                                <div style="margin:10px 0 10px 0"><el-radio label="2" >每日</el-radio></div>
-                                <div style="margin:10px 0 10px 0"><el-radio label="3" >每周</el-radio></div>
-                            </el-radio-group>
-                            <div style="float:right;margin:50px 0 0 0">
-                                    <el-checkbox-group v-model="checkList" size="mini">
+                        <el-form-item label="竞猜周期">
+                            <div style="float:left;">
+                                <el-radio-group v-model="round" size="small" @change="setRound">
+                                    <div style="margin:20px 0"><el-radio label="1">单次</el-radio></div>
+                                    <div style="margin:20px 0"><el-radio label="2" >每日</el-radio></div>
+                                    <div style="margin:20px 0"><el-radio label="3" >每周</el-radio></div>
+                                </el-radio-group>
+                            </div>
+                            <div v-if="round==='1'" style="float:left;margin:10px 0 0 20px">
+                                <el-date-picker v-model="choice" type="date" placeholder="选择日期" @change="setOncetime" value-format="yyyy-MM-dd"></el-date-picker>
+                            </div>
+                            <div style="float:left;margin:80px 0 0 20px" v-if="round==='3'">
+                                    <el-checkbox-group v-model="checkList" size="mini" @change="setCheck">
                                         <el-checkbox label="星期一"></el-checkbox>
                                         <el-checkbox label="星期二"></el-checkbox>
                                         <el-checkbox label="星期三"></el-checkbox>
@@ -57,14 +62,14 @@
                                         <el-checkbox label="星期六"></el-checkbox>
                                         <el-checkbox label="星期日"></el-checkbox>
                                     </el-checkbox-group>
-                                </div>
+                            </div>
                         </el-form-item>
                     </div>
                     <div>
                         <el-form-item label="开奖时间">
-                            <el-select v-model="openTime" placeholder="请选择">
+                            <el-select v-model="etime" @change="setEtime">
                                 <el-option
-                                v-for="item in openTimes"
+                                v-for="item in etimes"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
@@ -73,10 +78,10 @@
                         </el-form-item>
                     </div>
                     <div>
-                        <el-form-item label="每注金额">
-                            <el-select v-model="money" placeholder="请选择">
+                        <el-form-item label="每注金额" >
+                            <el-select v-model="amount" @change="setAmount">
                                 <el-option
-                                v-for="item in moneys"
+                                v-for="item in amounts"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
@@ -84,18 +89,27 @@
                             </el-select>
                         </el-form-item>
                     </div>
-                    <div class="playRules">
-                        玩法规则
+                    <div>
+                        <el-form-item label="快讯内容" prop="rules">
+                            <el-input
+                                type="textarea"
+                                rows="5"
+                                v-model="editdata.rules">
+                            </el-input>
+                        </el-form-item>
                     </div>
-                    <div class="ruleMethod">
-                        <p>1、用户选择感兴趣的猜猜事件，选择猜猜选项，如果猜猜成功，即可获得对应倍数的IA。</p>
-                        <p>2、最终倍数：猜猜结束时间时各选项的预计回报倍数。</p>
-                        <p>3、预计回报倍数：可能获得的收益倍数。随着购买总额变化，收益倍数也会变化。系统将实时更新预计倍数，以便用户更好的参考。</p>
-                        <p>4、收益计算：猜中的一方可获得收益，用户A赢取IA数=奖池总IA数*（用户A投注IA数/所有猜中用户投注IA总数）</p>
-                    </div>
-                    <div >
-                        <el-button>删除</el-button>
-                        <el-button type="primary">保存</el-button>
+                    <!-- <div class="ruleMethod">
+                        <el-input
+                        type="textarea"
+                        @blur="setTextarea"
+                        :autosize="{ minRows: 2, maxRows: 4}"
+                        placeholder="请输入规则内容"
+                        v-model="textarea">
+                        </el-input>
+                    </div> -->
+                    <div style="text-align:center;margin-top:20px;padding-bottom:20px">
+                        <el-button @click="deleteGuess">删除</el-button>
+                        <el-button type="primary" @click="submit">保存</el-button>
                     </div>
                 </el-form>
 
@@ -109,31 +123,34 @@
     export default {
         data() {
             return {
+                choice:"",
                 uploadImageUrl:'',
-                radio: '1',
-                radios:"1",
+                type: '1',
+                round:"1",
                 checkList: [],
-                openTime:"18:00",
-                openTimes: [{
-                    value: '1',
+                arr:[],
+                textarea:"",
+                etime:"18:00",
+                etimes: [{
+                    value: '18:00',
                     label: '18:00'
                     }, {
-                    value: '2',
+                    value: '19:00',
                     label: '19:00'
                     }
                 ],
-                money:"50",
-                moneys: [{
-                    value: '1',
+                amount:"50",
+                amounts: [{
+                    value: '50',
                     label: '50'
                     }, {
-                    value: '2',
+                    value: '100',
                     label: '100'
                     }, {
-                    value: '3',
+                    value: '200',
                     label: '200'
                     }, {
-                    value: '4',
+                    value: '300',
                     label: '300'
                     }
                 ],
@@ -141,13 +158,12 @@
                     title: [
                         {required: true, message: '请输入竞猜标题', trigger: 'blur'},
                     ],
-                    introduce:[
+                    intro:[
                         {required: true, message: '请输入竞猜介绍', trigger: 'blur'},
                     ],
-                    content: [
+                    rules: [
                         {required: true, message: '请输入快讯内容', trigger: 'blur'}
-                    ],
-                    
+                    ]
                 },
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
@@ -155,21 +171,139 @@
                 editdata:{
                     title:"",
                     image:"",
-                    content:"",
-                    source:"imApp",
-                    hot:true,
-                    expire:86400,
-                    draft:false,
-                    introduce:"",
+                    type:"1",
+                    intro:"",
+                    round:"1",
+                    etime:"18:00",
+                    amount:"50",
+                    rules:""
                 },
 
             };
         },
 
-        created() {
-
+        mounted() {
+            
+            console.log(this.$route.params.row)
+            if(this.$route.params.row.id){
+                console.log(1)
+                this.editdata=this.$route.params.row;
+                this.type=this.editdata.type+"";
+                this.amount=this.editdata.amount+"";
+                var pat=new RegExp(',');
+                if(pat.test(this.editdata.round)){
+                    this.round="3";
+                    this.checkList=this.editdata.round.split(",")
+                }else{
+                    if(this.editdata.round.length==2){
+                        this.round="2"
+                    }else{
+                        this.round="1";
+                        this.choice=this.editdata.round
+                    }
+                }
+            }
         },
         methods: {
+            setType(){//设置竞猜模式
+                this.editdata.type=this.type;
+                console.log(this.type)
+            },
+            setRound(){//设置周期   每日
+                this.choice="";
+                this.checkList=[];
+                this.arr=[];
+                if(this.round=='2'){
+                    this.editdata.round="0123456";
+                }
+                console.log(this.round)
+            },
+            setOncetime(){//设置周期里的单次日期
+            this.editdata.round=this.choice
+                console.log(this.choice)
+            },
+            setCheck(){//设置周期里的每周
+                let len=this.checkList.length;
+                this.arr=[];
+                for(var i=0;i<len;i++){
+                    if(this.checkList[i]=="星期一"){
+                         this.arr.push("1");
+                    }else if(this.checkList[i]=="星期二"){
+                         this.arr.push("2");
+                    }else if(this.checkList[i]=="星期三"){
+                         this.arr.push("3");
+                    }else if(this.checkList[i]=="星期四"){
+                         this.arr.push("4");
+                    }else if(this.checkList[i]=="星期五"){
+                         this.arr.push("5");
+                    }else if(this.checkList[i]=="星期六"){
+                         this.arr.push("6");
+                    }else if(this.checkList[i]=="星期日"){
+                         this.arr.push("0");
+                    }
+                }
+                this.editdata.round=this.arr.join('')
+                console.log(this.checkList)
+                console.log(this.arr.join(''))
+            },
+            setEtime(){//设置开奖时间
+                this.editdata.etime=this.etime;
+                console.log(this.etime)
+            },
+            setAmount(){//设置每注金额
+                this.editdata.amount=this.amount;
+                console.log(this.amount)
+            },
+            // setTextarea(){//设置规则
+            //     this.editdata.rules=this.textarea;
+            //     console.log(this.textarea)
+            // },
+            deleteGuess(){//删除竞猜
+                console.log(this.$route.params.row)
+                if(this.$route.params.row.id){
+                    this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'guess/deleteStyle',
+                    params:{id:this.$route.params.row.id},
+                    headers: {'token': sessionStorage.getItem('token')}
+                    }).then(res=>{
+                        this.$router.push({path:'/guessing'}) 
+                        console.log(res)              
+                    })
+                }
+                // this.editdata={
+                //     title:"",
+                //     image:"",
+                //     type:"1",
+                //     intro:"",
+                //     round:"1",
+                //     etime:"18:00",
+                //     amount:"50",
+                //     rules:""
+                // };
+                // this.textarea='';
+                // this.choice="";
+                // this.checkList=[];
+                // this.arr=[];
+            },
+            submit(){//提交
+                this.setData()
+            },
+            setData(){//设置数据
+                var url='guess/newStyle'
+                if(this.$route.params.row.id){
+                    url='guess/updateStyle'
+                }
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+url,
+                    data:this.editdata,
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res=>{
+                    console.log(res)        
+                    this.$router.push({path:'/guessing'})      
+                })
+            },
             mapping(event){//图片上传
                 let uploadPolicy = null;
                 this.$ajax
@@ -195,8 +329,8 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
+                        // const deletethis.arr = ["fileName", "type", "host"];
+                        // deletethis.arr.forEach(item => {
                         //     // 删除掉不需要传的参数
                         //     delete uploadPolicy[item];
                         // });
@@ -312,13 +446,8 @@
     }
     .ruleMethod{
         padding: 10px;
-        border:1px solid #000;
-        margin-left:20px;
-        p{
-            line-height:25px;
-            margin:10px 0 10px 0
-
-        }
+        width:60%;
+        
     }
 
 </style>

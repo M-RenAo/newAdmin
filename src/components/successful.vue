@@ -89,7 +89,7 @@
         inviterName:""//经谁邀请
       }
     },
-    created(){
+    mounted(){
         this.getData();       
     },
     methods: {
