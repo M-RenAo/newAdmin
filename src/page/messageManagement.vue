@@ -188,7 +188,6 @@
                         pageSize:this.nowPageSize
                         }
                 this.getData()
-                console.log(1)
             },
             handleSizeChange(pageSize) {
                 this.paramss();
@@ -207,8 +206,8 @@
                 // }})
                 this.$router.push({
                     name: 'EditingInterface',
-                    params: {
-                        row:row
+                    query: {
+                        dataId:row.id
                     }
                 })
             },
@@ -228,8 +227,10 @@
                                 if(item.createTime!=undefined){
                                     item.createTime=moment.utc(item.createTime*1000).local().format('YYYY-MM-DD HH:mm:ss')
                                 }
-                                if(item.issueTime!=undefined){
+                                if(item.issueTime!=undefined&&item.issueTime!=0){
                                     item.issueTime=moment.utc(item.issueTime*1000).local().format('YYYY-MM-DD HH:mm:ss')
+                                }else{
+                                    item.issueTime=""
                                 }
                                 if(item.draft==true){
                                     item.hot=false
@@ -237,7 +238,6 @@
                                 item.visible=false;
                             })
                     this.tableData=res.data.data
-                    
                     }
                 );
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
@@ -332,7 +332,7 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                         }).then(res=>{
-                                console.log(res)
+                                
                                 
                         })
             }
