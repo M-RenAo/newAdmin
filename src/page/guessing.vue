@@ -22,7 +22,7 @@
             </div>
             <div class="btns">
                 <el-button @click="goEdit(data)">编辑</el-button>
-                <el-button @click="goRecord">查看</el-button>
+                <el-button @click="goRecord(data)">查看</el-button>
             </div>
         </div>
         <!-- <div class="Pagination">
@@ -65,6 +65,8 @@
           currentPage: 1,
           nowPageSize: 3,
           switch:false,//开关
+          arrIng:[],//进行中
+          colseArr:[],//已关闭
       };
     },
     created(){
@@ -72,7 +74,13 @@
         },
     methods: {
         tabsClick(){//tabs选项
-            console.log(this.tabsName)
+            if(this.tabsName==1){
+                this.getData()
+            }else if(this.tabsName==2){
+                this.datas=this.arrIng
+            }else if(this.tabsName==3){
+                this.datas=this.colseArr
+            }
         },
         goEdit(data){//前往编辑界面
             // this.$router.push({path:'/guessingEdit'}) 
@@ -107,8 +115,14 @@
                 }
             
         },
-        goRecord(){//前往查看界面
-            this.$router.push({path:'/guessingRecord'}) 
+        goRecord(data){//前往查看界面
+            // this.$router.push({path:'/guessingRecord'}) 
+            this.$router.push({
+                            name: 'guessingRecord',
+                            query: {
+                                guessType:data.type
+                            }
+                            })
         },
         dateCheng(round){
             this.arrDate=[];
@@ -142,6 +156,9 @@
                 },
                 headers: {'token': sessionStorage.getItem('token')}
              }).then(res=>{
+                 console.log(res.data.data.data)
+                 this.colseArr=[];
+                 this.arrIng=[];
                 res.data.data.data.forEach(item=>{
                                     if(item.round!=undefined&&item.round.length>7){
                                         item.round=item.round
@@ -154,17 +171,15 @@
                                     if(item.type!=undefined){
                                         this.str.push(item.type+"")
                                     }
-                                    if(item.state==2||item.state==1||item.state==3){
+                                    if(item.state==1){
                                         item.state="进行中"
+                                        this.arrIng.push(item)
                                     }else if(item.state==0){
                                         item.state="已关闭"
-                                    }else if(item.state==4){
-                                        item.state="结算异常"
-                                    }else{
-                                        item.state="回来查看"
+                                        this.colseArr.push(item)
                                     }
                         })
-                        console.log(res.data.data.data)
+                        
                 this.datas=res.data.data.data    
                 this.guesscount=res.data.data.count    
                 this.switch=true

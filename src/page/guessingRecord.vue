@@ -69,23 +69,23 @@
             :visible.sync="opendialogVisible"
             width="30%">
                 <div style="text-align:center">
-                    <!-- <div class="size">
+                    <div class="size">
                         <h3>开奖结果</h3>
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">涨</el-radio>
                             <el-radio v-model="radio" label="2">跌</el-radio>
                         </div>
-                    </div> -->
-                    <div class="lottery">
+                    </div>
+                    <!-- <div class="lottery">
                         <h3>哈希彩票开奖结果</h3>
                         <div class="lotterys">
                             <div>3</div>
                             <div>2</div>
                             <div>1</div>
                         </div>
-                    </div>
+                    </div> -->
                 
-                    <el-button @click="closeDialog">保存</el-button>
+                    <el-button @click="closeDialog">确定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -152,7 +152,7 @@
                     </div>
                 </div>
                 <div style="text-align:center">
-                    <el-button @click="closeSeeDialog">保存</el-button>
+                    <el-button @click="closeSeeDialog">确定</el-button>
                 </div>
             </el-dialog>
         </div>
@@ -164,7 +164,9 @@
     export default {
         data() {
             return {
+                guessType:"",
                 radio: '1',
+                showSize:false,//是否显示大小
                 opendialogVisible: false,
                 seedialogVisible:false,
                 usercount:0,
@@ -229,8 +231,9 @@
             };
         },
 
-        mounted() {
-
+        created() {
+            this.guessType=this.$route.query.guessType
+            console.log(this.guessType)
         },
         methods: {
            see(){//查看

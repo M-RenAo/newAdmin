@@ -66,22 +66,10 @@
 
 <script>
   let moment=require('moment')
-
   export default {
     props:["userId","thisName"],
     data() {
       return {
-        // selectvalue:"全部",
-        // options: [{
-        //   value: '1',
-        //   label: '全部'
-        // }, {
-        //   value: '2',
-        //   label: '已实名'
-        // }, {
-        //   value: '3',
-        //   label: '未实名'
-        // }],
         tableData: [],
         usercount:0,//用户总数
         currentPage: 1,
@@ -120,14 +108,16 @@
                     this.tableData=res.data.data.list;
                     this.usercount=res.data.data.num;
                     this.inviterName=res.data.data.inviterName
-                    console.log(res)
                 }
             )
+            
       }
     },
     watch:{
       userId(curVal,oldval){
         this.userId=curVal;
+        this.currentPage=1;
+        this.nowPageSize=5;
         this.getData();
         
       }
