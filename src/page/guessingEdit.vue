@@ -14,47 +14,46 @@
                                     <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+editdata.image" style="width:146px;height:146px;" v-if="editdata.image!==''&&editdata.image!==undefined" >
                                 </div>
                                 <el-button type="primary" v-if="editdata.image===''" class="btnone"><span>上传</span>  <input @change='mapping' type="file" style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;" class="upload"></el-button>
-                                <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''" class="btnone">删除</el-button>
+                                <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''" class="btnone" :disabled="switchs">删除</el-button>
                         </div>
                         
                     </el-form-item>
                     <div class="line"></div>
-                    <div class="playRules">
-                        玩法规则
-                    </div>
                     <div class="radios">
-                        <el-radio-group v-model="type" @change="setType">
-                            <el-radio label="1" :disabled="typeType1">猜涨跌</el-radio>
-                            <el-radio label="2" :disabled="typeType2">哈希猜大小</el-radio>
-                            <el-radio label="3" :disabled="typeType3">哈希彩票</el-radio>
-                        </el-radio-group>
+                        <el-form-item label="竞猜玩法" prop="play">
+                            <el-radio-group v-model="type" @change="setType">
+                                <el-radio label="1" :disabled="typeType1">猜涨跌</el-radio>
+                                <el-radio label="2" :disabled="typeType2">哈希猜大小</el-radio>
+                                <el-radio label="3" :disabled="typeType3">哈希彩票</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
                     </div>
                     <div class="titles">
                         <el-form-item label="竞猜标题" prop="title">
-                            <el-input v-model="editdata.title" style="width:200px"></el-input>
+                            <el-input v-model="editdata.title" style="width:200px" :disabled="switchs"></el-input>
                             <span style="font-size:13px;color:#ccc">暂时不做使用</span>
                         </el-form-item>
                     </div>
                     <div>
                         <el-form-item label="竞猜介绍" prop="intro">
-                            <el-input v-model="editdata.intro" style="width:400px"></el-input>
+                            <el-input v-model="editdata.intro" style="width:400px" :disabled="switchs"></el-input>
                             <span style="font-size:13px;color:#ccc">暂时不做使用</span>
                         </el-form-item>
                     </div>
                     <div style="overflow:hidden">
                         <el-form-item label="竞猜周期">
                             <div style="float:left;">
-                                <el-radio-group v-model="round" size="small" @change="setRound">
+                                <el-radio-group v-model="round" size="small" @change="setRound" :disabled="switchs">
                                     <div style="margin:20px 0"><el-radio label="1">单次</el-radio></div>
                                     <div style="margin:20px 0"><el-radio label="2" >每日</el-radio></div>
                                     <div style="margin:20px 0"><el-radio label="3" >每周</el-radio></div>
                                 </el-radio-group>
                             </div>
                             <div v-if="round==='1'" style="float:left;margin:10px 0 0 20px">
-                                <el-date-picker v-model="choice" type="date" placeholder="选择日期" @change="setOncetime" value-format="yyyy-MM-dd"></el-date-picker>
+                                <el-date-picker v-model="choice" type="date" placeholder="选择日期" @change="setOncetime" value-format="yyyy-MM-dd" :disabled="switchs"></el-date-picker>
                             </div>
                             <div style="float:left;margin:80px 0 0 20px" v-if="round==='3'">
-                                    <el-checkbox-group v-model="checkList" size="mini" @change="setCheck">
+                                    <el-checkbox-group v-model="checkList" size="mini" @change="setCheck" :disabled="switchs">
                                         <el-checkbox label="星期一"></el-checkbox>
                                         <el-checkbox label="星期二"></el-checkbox>
                                         <el-checkbox label="星期三"></el-checkbox>
@@ -84,13 +83,14 @@
                                 step: '01:00',
                                 end: '23:00'
                             }"
+                            :disabled="switchs"
                             placeholder="选择时间">
                             </el-time-select>
                         </el-form-item>
                     </div>
                     <div>
                         <el-form-item label="每注金额" >
-                            <el-select v-model="amount" @change="setAmount">
+                            <el-select v-model="amount" @change="setAmount" :disabled="switchs">
                                 <el-option
                                 v-for="item in amounts"
                                 :key="item.value"
@@ -105,23 +105,17 @@
                             <el-input
                                 type="textarea"
                                 rows="5"
+                                :disabled="switchs"
                                 v-model="editdata.rules">
                             </el-input>
                         </el-form-item>
                     </div>
-                    <!-- <div class="ruleMethod">
-                        <el-input
-                        type="textarea"
-                        @blur="setTextarea"
-                        :autosize="{ minRows: 2, maxRows: 4}"
-                        placeholder="请输入规则内容"
-                        v-model="textarea">
-                        </el-input>
-                    </div> -->
                     <div style="text-align:center;margin-top:20px;padding-bottom:20px">
-                        <el-button @click="deleteGuess" v-if="$route.query.dataId">删除</el-button>
-                        <el-button @click="goGuess" v-else>返回</el-button>
-                        <el-button type="primary" @click="submit(editdata)">保存</el-button>
+                        <el-button @click="deleteGuess" v-if="$route.query.dataId&&!switchs">删除</el-button>
+                        <el-button @click="goGuess" v-if="!$route.query.dataId">返回</el-button>
+                        <el-button @click="closeGame" v-if="switchs">关闭</el-button>
+                        <el-button @click="openGame" v-if="$route.query.dataId&&!switchs">开启</el-button>
+                        <el-button type="primary" @click="submit(editdata)" :disabled="switchs">保存</el-button>
                     </div>
                 </el-form>
 
@@ -143,20 +137,6 @@
                 arr:[],
                 textarea:"",
                 etime:"18:00",
-                // etimes: [{
-                //     value: '18:00',
-                //     label: '18:00'
-                //     },{
-                //     value: '19:00',
-                //     label: '19:00'
-                //     },{
-                //     value: '20:00',
-                //     label: '20:00'
-                //     },{
-                //     value: '21:00',
-                //     label: '21:00'
-                //     }
-                // ],
                 amount:"50",
                 amounts: [{
                     value: '50',
@@ -194,11 +174,13 @@
                     round:"",
                     etime:"18:00",
                     amount:"50",
-                    rules:""
+                    rules:"",
+                    state:3,
                 },
                 typeType1:false,
                 typeType2:false,
                 typeType3:false,
+                switchs:false,//判断是否是进行中
                 currentPage:"",
                 nowPageSize:"",
                 str:[],
@@ -286,11 +268,16 @@
                     })
                 }
             },
+            closeGame(){//关闭玩法
+
+            },
+            openGame(){//开启玩法
+
+            },
             submit(){//提交
             this.$refs.editdata.validate(async (valid) => {
                     
                     if (valid&&this.editdata.image!=''&&this.editdata.type!=""&&this.editdata.round!="") {
-                        console.log(this.editdata)
                         this.setData()                        
                     } else {
                         if(this.editdata.image==''&&valid){
@@ -343,6 +330,7 @@
                 // this.setData()
             },
             setData(){//设置数据
+                this.editdata.state=3;
                 var url='guess/newStyle'
                 if(this.$route.query.dataId){
                     url='guess/updateStyle'
@@ -353,7 +341,6 @@
                     data:this.editdata,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(res=>{ 
-                    console.log(res)
                     this.$router.push({path:'/guessing'})      
                 })
             },
@@ -379,16 +366,22 @@
                                             this.dateCheng(item.round)
                                             item.round=this.arrDate.join(",")
                                         }
+
                                         if(item.type!=undefined){
                                             this.str.push(item.type+"")
                                         }
-                            })
-                    res.data.data.data.forEach(item=>{
+
                                         if(item.id===this.$route.query.dataId){
                                             this.editdata=item
-                                            console.log(item)
                                         }
+                                        // this.switchs=true;
+                                        
                             })
+                            if(this.editdata.state==1){
+                                this.switchs=true;
+                            }else if(this.editdata.state==0){           
+                                this.switchs=false
+                             }
                             this.setGuessdata()
                             if(this.type==1){
                                 this.typeType2=true;
@@ -400,6 +393,8 @@
                                 this.typeType1=true;
                                 this.typeType2=true;
                             }
+                            console.log(this.editdata)
+                            console.log(this.switchs)
                 })
             },
             setGuessdata(){
@@ -581,7 +576,7 @@
         margin:10px 0 20px 0
     }
     .radios{
-        margin:0 0 10px 40px
+        margin:10px 0 10px 0
     }
     .ruleMethod{
         padding: 10px;
