@@ -164,7 +164,9 @@
     export default {
         data() {
             return {
+                guessType:"",
                 radio: '1',
+                showSize:false,//是否显示大小
                 opendialogVisible: false,
                 seedialogVisible:false,
                 usercount:0,
@@ -229,8 +231,9 @@
             };
         },
 
-        mounted() {
-
+        created() {
+            this.guessType=this.$route.query.guessType
+            console.log(this.guessType)
         },
         methods: {
            see(){//查看

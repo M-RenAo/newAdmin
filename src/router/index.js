@@ -372,6 +372,7 @@ const routes = [
             meta: ['自选管理','竞猜编辑'],
         },{
             path: '/guessingRecord',
+            name: 'guessingRecord',
             component: guessingRecord,
             meta: ['自选管理','竞猜记录'],
         }

@@ -118,7 +118,17 @@
                         <el-button type="primary" @click="submit(editdata)" :disabled="switchs">保存</el-button>
                     </div>
                 </el-form>
-
+                <el-dialog
+                title="提示"
+                :visible.sync="dialogVisible"
+                center
+                width="30%">
+                    <span>你确定要{{tips}}吗?</span>
+                    <div style="text-align:center;margin-top:20px;">
+                        <el-button @click="dialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="implement">确 定</el-button>
+                    </div>
+                </el-dialog>
             </el-col>
         </el-row>
     </div>
@@ -129,6 +139,9 @@
     export default {
         data() {
             return {
+                dialogVisible:false,
+                stateType:"1",//判断是删除  开启   关闭
+                tips:"",
                 choice:"",
                 uploadImageUrl:'',
                 type: '',
@@ -257,22 +270,39 @@
                 this.editdata.amount=this.amount;
             },
             deleteGuess(){//删除竞猜
-                if(this.$route.query.dataId){
-                    this.$ajax({
-                    method: "POST",
-                    url: BaseUrl+'guess/deleteStyle',
-                    params:{id:this.$route.query.dataId},
-                    headers: {'token': sessionStorage.getItem('token')}
-                    }).then(res=>{
-                        this.$router.push({path:'/guessing'})          
-                    })
-                }
+                this.dialogVisible = true
+                this.tips="删除当前玩法"
+                this.stateType=-1;
+                
             },
             closeGame(){//关闭玩法
-
+                this.dialogVisible = true
+                this.tips="关闭当前玩法"
+                this.stateType==0
             },
             openGame(){//开启玩法
+                this.dialogVisible = true
+                this.tips="开启当前玩法"
+                this.stateType==1
+            },
+            implement(){//执行关闭   开启  删除
+                this.dialogVisible = false
+                if(this.stateType==-1){
+                    if(this.$route.query.dataId){
+                        this.$ajax({
+                        method: "POST",
+                        url: BaseUrl+'guess/deleteStyle',
+                        params:{id:this.$route.query.dataId},
+                        headers: {'token': sessionStorage.getItem('token')}
+                        }).then(res=>{
+                            this.$router.push({path:'/guessing'})          
+                        })
+                    }
+                }else if(this.stateType==0){
 
+                }else if(this.stateType==1){
+
+                }
             },
             submit(){//提交
             this.$refs.editdata.validate(async (valid) => {
@@ -377,11 +407,12 @@
                                         // this.switchs=true;
                                         
                             })
+                                // this.switchs=false
                             if(this.editdata.state==1){
                                 this.switchs=true;
                             }else if(this.editdata.state==0){           
                                 this.switchs=false
-                             }
+                            }
                             this.setGuessdata()
                             if(this.type==1){
                                 this.typeType2=true;

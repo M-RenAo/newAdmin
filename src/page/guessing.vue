@@ -22,7 +22,7 @@
             </div>
             <div class="btns">
                 <el-button @click="goEdit(data)">编辑</el-button>
-                <el-button @click="goRecord">查看</el-button>
+                <el-button @click="goRecord(data)">查看</el-button>
             </div>
         </div>
         <!-- <div class="Pagination">
@@ -115,8 +115,14 @@
                 }
             
         },
-        goRecord(){//前往查看界面
-            this.$router.push({path:'/guessingRecord'}) 
+        goRecord(data){//前往查看界面
+            // this.$router.push({path:'/guessingRecord'}) 
+            this.$router.push({
+                            name: 'guessingRecord',
+                            query: {
+                                guessType:data.type
+                            }
+                            })
         },
         dateCheng(round){
             this.arrDate=[];
