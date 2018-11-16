@@ -89,7 +89,7 @@
                         <!--<el-menu-item index="newList">快讯列表</el-menu-item>-->
                         <el-menu-item index="blackList">黑白名单</el-menu-item>
                         <el-menu-item index="messageManagement">快讯管理</el-menu-item>
-                        <!--<el-menu-item index="appSys">APP升级</el-menu-item>-->
+                        <el-menu-item index="dappList">Dapp部署</el-menu-item>
 					</el-submenu>
 					<el-submenu index="'6c'">
 						<template slot="title"><i class="el-icon-star-on"></i>用户信息</template>

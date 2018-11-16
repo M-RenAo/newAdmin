@@ -74,6 +74,7 @@ const guessing=resolve=>require(['@/page/guessing'],resolve);
 const guessingEdit=resolve=>require(['@/page/guessingEdit'],resolve);
 const guessingRecord=resolve=>require(['@/page/guessingRecord'],resolve);
 
+const dappList=resolve=>require(['@/page/dappList'],resolve);
 
 const routes = [
 	{
@@ -374,6 +375,11 @@ const routes = [
             path: '/guessingRecord',
             component: guessingRecord,
             meta: ['自选管理','竞猜记录'],
+        },{
+		    path: '/dappList',
+            component: dappList,
+            meta: ['自选管理','dapp部署'],
+
         }
         ]
 	}

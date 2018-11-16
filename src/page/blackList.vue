@@ -327,6 +327,7 @@
             },
             searchCheck(searchInfo) {
                 this.searchInfo = searchInfo;
+                this.currentPage=1;
                 this.getData()
             },
             handleSizeChange(pageSize) {
