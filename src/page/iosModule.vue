@@ -33,7 +33,7 @@
                 </el-table-column>
                 <el-table-column
                     label="应用数量"
-                    prop="type">
+                    prop="itemNumOfAll">
                 </el-table-column>
                 <!--<el-table-column-->
                 <!--label="创建时间"-->
@@ -49,7 +49,7 @@
                 </el-table-column>
                 <el-table-column label="操作" width="200">
                     <template scope="scope">
-                        <el-button class="littleButton" @click="update(scope.row.id,scope.row.code)">编辑</el-button>
+                        <el-button class="littleButton" @click="update(scope.row.id,scope.row.code,scope.row.itemType,scope.row)">编辑</el-button>
                         <el-button class="littleButton" @click="sortMoudle(scope.row.id)">设置排序</el-button>
                         <el-button class="littleButton" @click="deletePosition(scope.row.id)">删除</el-button>
                     </template>
@@ -94,6 +94,7 @@
                             <el-option label="竖向" value="item-app:verticalList">竖向</el-option>
                             <el-option label="滑动" value="item-app:horizontalList">滑动</el-option>
                             <el-option label="广告" value="item-promote:advertise">广告</el-option>
+                            <el-option label="热讯" value="item-news:hot">热讯</el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="模块标题" :label-width="formLabelWidth" prop="title" v-if="form.itemType!='item-promote:advertise'">
@@ -121,7 +122,7 @@
                     <!--<el-form-item label="排序" :label-width="formLabelWidth" prop="sort">-->
                     <!--<el-input v-model="form.sort" auto-complete="off" style="width:80%"></el-input>-->
                     <!--</el-form-item>-->
-                    <el-form-item label="首页显示APP个数" :label-width="formLabelWidth" prop="itemNum" v-if="form.itemType!='item-promote:advertise'">
+                    <el-form-item label="首页显示APP个数" :label-width="formLabelWidth" prop="itemNum" v-if="form.itemType!='item-promote:advertise'&&form.itemType!='item-news:hot'">
                         <el-input v-model="form.itemNum" auto-complete="off" style="width:80%" type="number" min="1"
                                   max="50"></el-input>
                     </el-form-item>
@@ -133,13 +134,30 @@
             </el-dialog>
             <el-dialog title="" :visible.sync="dialogFormVisibleMoudleSort">
                 <el-form :model="sortMoudleForm">
-                    <el-form-item label="排序" :label-width="formLabelWidth" prop="sort">
-                        <el-input v-model="sortMoudleForm.sort" auto-complete="off" style="width:80%"></el-input>
+                    <el-form-item label="排序" prop="sort">
+                        <el-input v-model="sortMoudleForm.sort" auto-complete="off" style="width:200px"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisibleMoudleSort = false;">取 消</el-button>
                     <el-button type="primary" @click="ensureSortMoudle">确 定</el-button>
+                </div>
+            </el-dialog>
+            <el-dialog title="" :visible.sync="dialogFormVisibleupdate">
+                <el-form :model="updataNewsForm">
+                    <el-form-item label="模块名称" label-width="110px" prop="sort">
+                        <el-input v-model="updataNewsForm.title" auto-complete="off" style="width:200px" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态" label-width="110px" prop="state">
+                        <el-select v-model="updataNewsForm.state" placeholder="请选择展示状态">
+                            <el-option label="关闭" value="0">关闭</el-option>
+                            <el-option label="开放" value="1">开放</el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisibleupdate = false;">取 消</el-button>
+                    <el-button type="primary" @click="ensureUpdateMoudle">确 定</el-button>
                 </div>
             </el-dialog>
             <el-dialog
@@ -172,6 +190,7 @@
                 dialogFormVisible: false,
                 dialogVisible: false,
                 dialogFormVisibleMoudleSort: false,
+                dialogFormVisibleupdate:false,
                 uploadIconUrl: '',
                 deleteId: '',
                 address:'',
@@ -189,6 +208,7 @@
                 },
                 formLabelWidth: '200px',
                 sortMoudleForm: {},
+                updataNewsForm:{},
                 rule: {
                     // titleStyle: [
                     //     {required: true, message: '请选择标题类型', trigger: 'blur'},
@@ -245,6 +265,8 @@
                                 item.show='广告'
                             }else if(item.itemType ==='item-app:verticalList'){
                                 item.show='竖向'
+                            }else if(item.itemType==='item-news:hot'){
+                                item.show='热讯'
                             }
                         });
                         this.positionList.forEach(item => {
@@ -343,11 +365,55 @@
                         });
                     });
             },
-            update(id, code) {
-                this.$router.push({path: "/appSort", query: {type: 'ios', id: id, code: code}});
+            update(id, code,itemType,item) {
+                if(itemType!=='item-news:hot'){
+                     this.$router.push({path: "/appSort", query: {type: 'ios', id: id, code: code}});
+                }else{
+                    this.updataNewsForm=item
+                    this.dialogFormVisibleupdate=true
+                }
+            },
+            ensureUpdateMoudle(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'position/update',
+                    data: this.updataNewsForm,
+                    headers: {'token': sessionStorage.getItem('token'), 'device':'ios'}
+                }).then(response => {
+                    console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.dialogFormVisibleupdate = false;
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                              this.getTagData()
+                            }
+                        });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             },
             ensureAdd() {
                 this.$refs.form.validate(async (valid) => {
+                    if(this.form.itemType=='item-news:hot'){
+                        this.form.itemNum=1
+                    }
                     if (valid &&((this.form.itemNum != '' && this.form.itemNum <= 50)||(this.address!=''&&this.advertisePic!==null&&this.remarks!=''))) {
                         if(this.form.itemType!='item-promote:advertise') {
                             this.form.titleStyle='text'
