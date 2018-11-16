@@ -16,7 +16,7 @@
             </div>
             <div class="play">
                 <h3>玩法:{{data.title}}</h3>
-                <p style="margin-top:30px">进行中{{data.type}}</p>
+                <p style="margin-top:30px">{{data.state}}</p>
                 <p style="margin-top:10px">往期记录：123期</p>
                 <p style="margin-top:10px">开奖时间：{{data.round}}&nbsp;&nbsp;{{data.etime}}</p>
             </div>
@@ -71,14 +71,6 @@
         this.getData()
         },
     methods: {
-        // handleSizeChange(pageSize) {
-        //         this.nowPageSize = pageSize;
-        //         this.getData()
-        //     },
-        //     handleCurrentChange(pageValue) {
-        //         this.currentPage = pageValue;
-        //         this.getData()
-        //     },
         tabsClick(){//tabs选项
             console.log(this.tabsName)
         },
@@ -161,6 +153,15 @@
                                     }
                                     if(item.type!=undefined){
                                         this.str.push(item.type+"")
+                                    }
+                                    if(item.state==2||item.state==1||item.state==3){
+                                        item.state="进行中"
+                                    }else if(item.state==0){
+                                        item.state="已关闭"
+                                    }else if(item.state==4){
+                                        item.state="结算异常"
+                                    }else{
+                                        item.state="回来查看"
                                     }
                         })
                         console.log(res.data.data.data)

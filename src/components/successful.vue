@@ -55,7 +55,7 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
-                :page-sizes="[5]"
+                :page-sizes="[5,10,20,30]"
                 :page-size="nowPageSize"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="usercount">
@@ -89,7 +89,7 @@
         inviterName:""//经谁邀请
       }
     },
-    mounted(){
+    created(){
         this.getData();       
     },
     methods: {

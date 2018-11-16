@@ -162,6 +162,7 @@
             //     console.log(row, column, cell, event);
             // },
             selecttime(time){//选择时间
+                console.log(time)
                 this.timeType=parseInt(time);
                 this.date="",
                 this.dataType={};
@@ -185,7 +186,7 @@
                 })
             },
             tabtime(time1,time2){
-                
+                console.log(this.date)
                 if(this.date){
                     this.dataType[time1]=this.date[0];
                     this.dataType[time2]=this.date[1];

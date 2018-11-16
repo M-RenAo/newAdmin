@@ -111,7 +111,7 @@
                     :total="usercount">
                 </el-pagination>
             </div>
-            <el-dialog :visible.sync="dialogTableVisible">
+            <el-dialog :visible.sync="dialogTableVisible" width="800px">
                 <div class="titleconten">
                     <h2 style="text-align:center;margin-bottom:20px">{{row.title}}</h2>
                     <div style="width:400px;height:200px;margin:0 auto" v-if="row.image!==''&&row.image!==undefined">
@@ -161,42 +161,40 @@
                 draft:"",
                 dataparams:{},
                 numparams:{},
-                enabled:"true",
+                enabled:"",
 
             };
         },
-        mounted() {
+        created() {
             this.paramss();
             this.paramsss();
             this.getData();
-            this.setAuto()
-            // this.$ajax.get(BaseUrl+"newsFlash/getAutoRelease",{
-            //              headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-            //                  console.log(res)
-            //         }
-            //     );
+            this.$ajax.get(BaseUrl+"newsFlash/getAutoRelease",{
+                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                             this.switchType=res.data.data
+                             console.log(res)
+                    }
+                );
         },
         components: {
             headTop
         },
         methods: {
             searchCheck() {//快讯搜索
-                this.dataparams={
-                        // draft:this.draft,
-                        key:this.searchInfo,
-                        pageNum:this.currentPage,
-                        pageSize:this.nowPageSize
-                        }
+                this.paramss();
+                this.paramsss();
                 this.getData()
             },
             handleSizeChange(pageSize) {
-                this.paramss();
                 this.nowPageSize = pageSize;
+                this.paramss();
+                this.paramsss();
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                this.paramss()
                 this.currentPage = pageValue;
+                this.paramss();
+                this.paramsss();
                 this.getData();
             },
 
@@ -240,11 +238,11 @@
                     this.tableData=res.data.data
                     }
                 );
+                
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
                             params: this.numparams,
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                         this.usercount=res.data.data;
-                        // console.log(this.usercount)
                     }
                 )
             },
@@ -332,6 +330,8 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                         }).then(res=>{
+                            console.log(this.enabled)
+                            console.log(res)
                         })
             }
         }
