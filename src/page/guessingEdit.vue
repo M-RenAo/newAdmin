@@ -111,7 +111,7 @@
                         </el-form-item>
                     </div>
                     <div style="text-align:center;margin-top:20px;padding-bottom:20px">
-                        <el-button @click="deleteGuess" v-if="$route.query.dataId&&!switchs">删除</el-button>
+                        <el-button @click="deleteGuess" v-if="true">删除</el-button>
                         <el-button @click="goGuess" v-if="!$route.query.dataId">返回</el-button>
                         <el-button @click="closeGame" v-if="switchs">关闭</el-button>
                         <el-button @click="openGame" v-if="$route.query.dataId&&!switchs">开启</el-button>
@@ -140,7 +140,7 @@
         data() {
             return {
                 dialogVisible:false,
-                stateType:"1",//判断是删除  开启   关闭
+                stateType:"",//判断是删除  开启   关闭
                 tips:"",
                 choice:"",
                 uploadImageUrl:'',
@@ -188,7 +188,7 @@
                     etime:"18:00",
                     amount:"50",
                     rules:"",
-                    state:3,
+                    state:"",
                 },
                 typeType1:false,
                 typeType2:false,
@@ -279,17 +279,17 @@
             closeGame(){//关闭玩法
                 this.dialogVisible = true
                 this.tips="关闭当前玩法"
-                this.stateType==0
+                this.stateType=0
             },
             openGame(){//开启玩法
                 this.dialogVisible = true
                 this.tips="开启当前玩法"
-                this.stateType==1
+                this.stateType=1
             },
             implement(){//执行关闭   开启  删除
                 this.dialogVisible = false
                 if(this.stateType==-1){
-                    if(this.$route.query.dataId){
+                    if(this.$route.query.dataId){//删除
                         this.$ajax({
                         method: "POST",
                         url: BaseUrl+'guess/deleteStyle',
@@ -299,10 +299,12 @@
                             this.$router.push({path:'/guessing'})          
                         })
                     }
-                }else if(this.stateType==0){
-
-                }else if(this.stateType==1){
-
+                }else if(this.stateType==0){//关闭
+                    this.editdata.state=0;
+                    this.submit()
+                }else if(this.stateType==1){//开启
+                    this.editdata.state=1;
+                    this.submit()
                 }
             },
             submit(){//提交
@@ -361,10 +363,12 @@
                 // this.setData()
             },
             setData(){//设置数据
-                this.editdata.state=3;
-                var url='guess/newStyle'
+                
+                var url=''
                 if(this.$route.query.dataId){
                     url='guess/updateStyle'
+                }else{
+                    url='guess/newStyle'
                 }
                 this.$ajax({
                     method: "POST",
@@ -374,6 +378,7 @@
                 }).then(res=>{ 
                     this.$router.push({path:'/guessing'})      
                 })
+                console.log(this.editdata)
             },
             goGuess(){//返回竞猜管理界面
                 this.$router.push({path:'/guessing'})
@@ -409,10 +414,12 @@
                                         
                             })
                                 // this.switchs=false
-                            if(this.editdata.state==1){
+                                console.log(this.editdata.guessState)
+                            if(this.editdata.guessState!=undefined&&this.editdata.guessState==1){
                                 this.switchs=true;
-                            }else if(this.editdata.state==0){           
+                            }else if(this.editdata.guessState==undefined||this.editdata.guessState!=1){           
                                 this.switchs=false
+                                 console.log(this.switchs,1)
                             }
                             this.setGuessdata()
                             if(this.type==1){
@@ -426,7 +433,8 @@
                                 this.typeType2=true;
                             }
                             console.log(this.editdata)
-                            console.log(this.switchs)
+
+                           
                 })
             },
             setGuessdata(){

@@ -9,7 +9,7 @@
             <el-row type="flex" style="margin-bottom: 30px;">
                 <el-col style="display: flex;justify-content: flex-start">
                     <el-input placeholder="可输入昵称或姓名的关键字" class="input-with-select" v-model="keyword"
-                              style="width:40%">
+                              style="width:40%" @keyup.enter.native="searchKeyword">
                         <el-button slot="append" @click="searchKeyword"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>

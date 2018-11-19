@@ -15,7 +15,7 @@
                 <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+data.image" style="width:300px;height:150px;">
             </div>
             <div class="play">
-                <h3>玩法:{{data.title}}</h3>
+                <h3>玩法:{{data.category}}</h3>
                 <p style="margin-top:30px">{{data.state}}</p>
                 <p style="margin-top:10px">往期记录：123期</p>
                 <p style="margin-top:10px">开奖时间：{{data.round}}&nbsp;&nbsp;{{data.etime}}</p>
@@ -171,18 +171,26 @@
                                     if(item.type!=undefined){
                                         this.str.push(item.type+"")
                                     }
-                                    if(item.state==1){
-                                        item.state="进行中"
-                                        this.arrIng.push(item)
-                                    }else if(item.state==0){
-                                        item.state="已关闭"
-                                        this.colseArr.push(item)
+                                    if(item.type!=undefined&&item.type==1){
+                                        item.category="猜涨跌"
+                                    }else if(item.type!=undefined&&item.type==2){
+                                        item.category="哈希猜大小"
+                                    }else if(item.type!=undefined&&item.type==3){
+                                        item.category="哈希彩票"
                                     }
+                                    // if(item.guessState!=undefined&&item.guessState==1){
+                                    //     item.state="进行中"
+                                    //     this.arrIng.push(item)
+                                    // }else if(item.guessState==undefined||item.guessState!=1){
+                                    //     item.state="已关闭"
+                                    //     this.colseArr.push(item)
+                                    // }
                         })
                         
                 this.datas=res.data.data.data    
                 this.guesscount=res.data.data.count    
                 this.switch=true
+                
             })
         }
     }

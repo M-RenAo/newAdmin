@@ -84,7 +84,7 @@
                     content:"",
                     source:"imApp",
                     hot:true,
-                    expire:86400,
+                    expire:0,
                     draft:false,
                 },
                 selectvalue:"当天",//实名状态
@@ -121,18 +121,18 @@
             if(this.$route.query.dataId){
                 this.$ajax.get(BaseUrl+"newsFlash/getArticle/"+this.$route.query.dataId,{
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-
                         this.editdata=res.data.data;
+                        console.log(this.editdata)
                         this.switch=true;
-                        this.editdata.expire = Math.round(new Date() / 1000)+86400;
-                        this.expire=Math.round(new Date() / 1000)+86400;
-                        this.editdata.hot=true;
+                        this.editdata.expire = Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
+                        this.expire=Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
+                        // this.editdata.hot=true;
+                        this.editdata.hot?this.radio="1":this.radio="0"
                     }
                 )
                 
             }
             
-            this.expire = Math.round(new Date() / 1000)+86400;
         },
         computed: {},
         methods: {
@@ -204,11 +204,11 @@
             selectdate(time){//select选择器选择时间
                 
                 if(time==1){//一天
-                    this.editdata.expire=Math.round(new Date() / 1000)+86400
+                    this.editdata.expire=Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
                 }else if(time==2){//三天
-                    this.editdata.expire=Math.round(new Date() / 1000)+86400*3
+                    this.editdata.expire=Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400*3
                 }else{//一年
-                    this.editdata.expire=Math.round(new Date() / 1000)+86400*365
+                    this.editdata.expire=Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400*365
                 }
 
             },

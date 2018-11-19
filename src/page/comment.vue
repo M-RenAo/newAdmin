@@ -3,7 +3,7 @@
         <div class="table_container">
             <el-row type="flex" style="margin-bottom: 30px;">
                 <el-col style="display: flex;justify-content: flex-start">
-                    <el-input placeholder="关键字" class="input-with-select" v-model="searchInfo"
+                    <el-input placeholder="评论内容" class="input-with-select" v-model="searchInfo"
                               style="width:40%" @keyup.enter.native="search">
                         <el-button slot="append" @click="search"><i class="el-icon-search"></i></el-button>
                     </el-input>
@@ -88,7 +88,7 @@
                     width="700px"
                     center>
                     <h2>用户:{{row.username}}</h2>
-                    <div class="comment">{{row.message}}</div>
+                    <div class="comment">评论内容:{{row.message}}</div>
             </el-dialog>
             <el-dialog
                 title="提示"
