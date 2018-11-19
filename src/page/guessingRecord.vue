@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <h2 style="padding:10px 0 20px 0">哈希猜大小：高中奖率体验IA翻倍乐趣</h2>
+        <h2 style="padding:10px 0 20px 0">{{guessTitle}}：高中奖率体验IA翻倍乐趣</h2>
         <el-table
         :data="tableData"
         style="width: 100%">
@@ -69,21 +69,28 @@
             :visible.sync="opendialogVisible"
             width="30%">
                 <div style="text-align:center">
-                    <div class="size">
-                        <h3>开奖结果</h3>
+                    <div class="size" v-if="guessType==1?true:false">
+                        <h3>哈希猜涨跌开奖结果</h3>
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">涨</el-radio>
                             <el-radio v-model="radio" label="2">跌</el-radio>
                         </div>
                     </div>
-                    <!-- <div class="lottery">
+                    <div class="size" v-if="guessType==2?true:false">
+                        <h3>哈希猜涨跌开奖结果</h3>
+                        <div style="margin:40px 0 40px 0">
+                            <el-radio v-model="radio" label="1">大</el-radio>
+                            <el-radio v-model="radio" label="2">小</el-radio>
+                        </div>
+                    </div>
+                    <div class="lottery" v-if="guessType==3?true:false">
                         <h3>哈希彩票开奖结果</h3>
                         <div class="lotterys">
                             <div>3</div>
                             <div>2</div>
                             <div>1</div>
                         </div>
-                    </div> -->
+                    </div>
                 
                     <el-button @click="closeDialog">确定</el-button>
                 </div>
@@ -94,7 +101,7 @@
             :visible.sync="seedialogVisible"
             width="900px">
                 <h2 style="text-align:center">投注详情</h2>
-                <div class="option">
+                <div class="option" v-if="guessType==1?true:false">
                     <div style="float: left;margin-left:10px">
                         <h3>投注选项:涨</h3>
                         <span>投注人数:234人 (34%)</span>
@@ -106,7 +113,30 @@
                         <span style="margin-left:20px">投注金额:234IA (56%)</span>
                     </div>
                 </div>
-                <div>
+                <div class="option" v-if="guessType==2?true:false">
+                    <div style="float: left;margin-left:10px">
+                        <h3>投注选项:大</h3>
+                        <span>投注人数:234人 (34%)</span>
+                        <span style="margin-left:20px">投注金额:234IA (56%)</span>
+                    </div>
+                    <div style="float: right;margin-right:10px">
+                        <h3>投注选项:小</h3>
+                        <span>投注人数:234人 (34%)</span>
+                        <span style="margin-left:20px">投注金额:234IA (56%)</span>
+                    </div>
+                </div>
+                <div v-if="guessType==2?true:false">
+                    <span class="riseFall">投注选项</span>
+                    <el-select v-model="riseFall2" style="width:70px">
+                        <el-option
+                        v-for="item in riseFalls2"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div v-if="guessType==1?true:false">
                     <span class="riseFall">投注选项</span>
                     <el-select v-model="riseFall" style="width:70px">
                         <el-option
@@ -183,6 +213,14 @@
                 value: '2',
                 label: '跌'
                 }],
+                riseFall2:"大",
+                riseFalls2:[{
+                value: '1',
+                label: '大'
+                }, {
+                value: '2',
+                label: '小'
+                }],
                 tableData: [{
                     date: '2016-05-02',
                     result:"无",
@@ -258,6 +296,17 @@
                 this.seedialogVisible=false
             }
         },
+        computed:{
+            guessTitle(){
+                if(this.guessType==1){
+                    return "哈希猜涨跌"
+                }else if(this.guessType==2){
+                    return "哈希猜大小"
+                }else if(this.guessType==3){
+                    return "哈希彩票"
+                }
+            }
+        }
      
 
     };

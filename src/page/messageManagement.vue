@@ -236,6 +236,7 @@
                                 item.visible=false;
                             })
                     this.tableData=res.data.data
+                    console.log(this.tableData)
                     }
                 );
                 
