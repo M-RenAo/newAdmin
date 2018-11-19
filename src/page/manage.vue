@@ -56,7 +56,7 @@
 					</el-submenu>
                     <el-submenu index="'4c'">
                         <template slot="title"><i class="el-icon-document"></i>自选管理</template>
-                        <el-menu-item index="quizList">竞猜管理</el-menu-item>
+                        <!--<el-menu-item index="quizList">竞猜管理</el-menu-item>-->
                         <el-menu-item index="agreementList">小协议</el-menu-item>
                         <el-menu-item index="guessing">竞猜</el-menu-item>
                     </el-submenu>

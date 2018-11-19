@@ -6,23 +6,23 @@
                 <el-col :span="12" style="display: flex;align-items: center;">
                     <el-tabs v-model="tabsName"  style="height: 40px;" @tab-click="tabsClick">
                         <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                        <el-tab-pane label="已上架" name="1"></el-tab-pane>
-                        <el-tab-pane label="未上架" name="0"></el-tab-pane>
+                        <el-tab-pane label="已上架" name="true"></el-tab-pane>
+                        <el-tab-pane label="未上架" name="false"></el-tab-pane>
                     </el-tabs>
                 </el-col>
                 <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
-                    <el-input placeholder="关键字"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchCheck">
-                        <el-button slot="append"  @click="searchCheck"><i class="el-icon-search"></i></el-button>
+                    <el-input placeholder="关键字"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchDapp">
+                        <el-button slot="append"  @click="searchDapp"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
 
             </el-row>
             <el-table
-                :data="tableData"
+                :data="info"
                 style="width: 100%" >
                 <el-table-column
                     label="最新抓取时间"
-                    prop="issueTime" >
+                    prop="newTime" >
                 </el-table-column>
                 <el-table-column label="图标" prop="icon" min-width="50">
                     <template scope="scope">
@@ -83,8 +83,8 @@
                     min-width="100"
                  >
                     <template scope="scope">
-                        <el-button  type="text" @click="checkDapp(scope.row)" style="margin-left:0">审核</el-button>
-                        <el-button  type="text" @click="historyTable(scope.row)" style="margin-left:0">历史数据</el-button>
+                        <el-button  type="text" @click="checkDapp(scope.row.id,scope.row.reviewed,scope.row.icon,scope.row.name)" style="margin-left:0">审核</el-button>
+                        <el-button  type="text" @click="historyTable(scope.row.id,scope.row.name)" style="margin-left:0">历史数据</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -96,37 +96,52 @@
                     :page-sizes="[10, 20, 30, 50]"
                     :page-size="nowPageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="usercount">
+                    :total="txcount">
                 </el-pagination>
             </div>
             <el-dialog :visible.sync="dialogTableVisible" width="600px">
                 <div class="titleconten">
-                    <h2 style="text-align:center;margin-bottom:20px">{{row.name}}</h2>
-                    <div style="width:400px;height:200px;margin:0 auto" v-if="row.icon!==''&&row.icon!==undefined">
-                        <img :src="row.icon" style="width:400px;height:200px;"  >
+                    <div style="display: flex;align-items: center;justify-content: center">
+                        <div style="width:100px;height:auto;" v-if="checkIcon!==''&&checkIcon!==undefined">
+                            <img :src="checkIcon" style="width:100px;height:auto"  >
+                        </div>
+                       <h2 style="text-align:center;margin-left:20px">{{checkName}}</h2>
                     </div>
                     <div style="width:300px;margin:0 auto;padding:20px 0px">
                         通过审核的Dapp会发布在客户端，按日活从高到低排序
                     </div>
                     <div style="width:300px;margin:0 auto;padding:20px 0px">
-                        <el-radio v-model="radio" label="1">上架</el-radio>
-                        <el-radio v-model="radio" label="2">下架</el-radio>
+                            <el-radio-group v-model="radio">
+                                <el-radio :label="true">上架</el-radio>
+                                <el-radio :label="false">下架</el-radio>
+                            </el-radio-group>
                     </div>
                 </div>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogTableVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+                    <el-button type="primary" @click="ensureUpdate">确 定</el-button>
                 </div>
             </el-dialog>
-            <el-dialog title="" :visible.sync="dialogTableVisibleData" width="600px">
+            <el-dialog :title="dappName" :visible.sync="dialogTableVisibleData" width="600px">
                 <el-table :data="historyData">
-                    <el-table-column property="date" label="抓取时间" ></el-table-column>
+                    <el-table-column property="newTime" label="抓取时间" ></el-table-column>
                     <el-table-column property="name" label="名称" ></el-table-column>
-                    <el-table-column property="address" label="日活"></el-table-column>
-                    <el-table-column property="date" label="24小时交易量" ></el-table-column>
-                    <el-table-column property="name" label="24小时交易笔数" ></el-table-column>
-                    <el-table-column property="address" label="评分"></el-table-column>
+                    <el-table-column property="dau" label="日活"></el-table-column>
+                    <el-table-column property="txAmount" label="24小时交易量" ></el-table-column>
+                    <el-table-column property="txCount" label="24小时交易笔数" ></el-table-column>
+                    <el-table-column property="score" label="评分"></el-table-column>
                 </el-table>
+                <div class="Pagination">
+                    <el-pagination
+                        @size-change="handleSizeChangeHistory"
+                        @current-change="handleCurrentChangeHistory"
+                        :current-page="currentPageHistory"
+                        :page-sizes="[10, 20, 30, 50]"
+                        :page-size="nowPageSizeHistory"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="historyCount">
+                    </el-pagination>
+                </div>
             </el-dialog>
             <!--<div @click="test($event)">2</div>-->
         </div>
@@ -142,25 +157,27 @@
             return {
                 dialogTableVisible: false,
                 dialogTableVisibleData:false,
-                dialogVisible: false,
-                visible2:false,
-                radio:'',
-                tableData: [{title:1}],
+                radio:null,
+                info: [],
                 historyData:[],
                 currentPage: 1,
                 nowPageSize: 10,
+                currentPageHistory:1,
+                nowPageSizeHistory:10,
                 tabsName:"-1",//tabs
-                dialogFormVisible:false,
                 txcount:0,
+                historyCount:0,
                 searchInfo:"",//快讯关键字搜索
                 row:"",//当前行数据
-                usercount:0,
-                draft:"",
-                dataparams:{},
-                numparams:{},
-                enabled:"true",
+                dappName:'',
+                checkId:'',
+                checkIcon:'',
+                checkName:''
 
             };
+        },
+        created(){
+            this.getData()
         },
         mounted() {
         },
@@ -181,32 +198,22 @@
                 });
             },
             tabsClick(){
-
+                this.currentPage=1;
+               this.getData()
             },
             getData(){
                 this.$ajax({
-                    method: "POST",
-                    url: BaseUrl+'blacklist/query',
-                    data:{page:this.currentPage, size: this.nowPageSize,dstate:this.activeName==3?undefined:Number(this.activeName),keyword:this.searchInfo==''?undefined:this.searchInfo},
+                    method: "GET",
+                    url: BaseUrl+'dapp/list',
+                    params:{pageNum:this.currentPage, pageSize: this.nowPageSize,reviewed:this.tabsName==-1?null:this.tabsName,key:this.searchInfo==''?null:this.searchInfo},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     if(response.data.flag==200){
-                        this.info = response.data.data.data;
-                        this.txcount = response.data.data.count;
+                        this.info = response.data.data;
                         this.info.forEach(item=>{
-                            if(item.dstate=='1'){
-                                item.checkResult='待定'
-                            }else if(item.dstate=='2') {
-                                item.checkResult='黑名单';
-                            }else if(item.dstate=='0'){
-                                item.checkResult='白名单'
-                            }
-                            if(item.name===undefined){
-                                item.realNameState='未实名'
-                            }else{
-                                item.realNameState='已实名'
-                            }
+                            item.newTime=moment.utc(item.time*1000).local().format('YYYY-MM-DD HH:mm:ss')
                         })
+                        this.getCount()
                     }else if(response.data.flag==201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -217,19 +224,121 @@
                     }
                 });
             },
-            // test(e){
-            //     console.log(e.target.innerHTML)
-            // },
-            searchCheck(){
+            getCount(){
+                this.$ajax({
+                    method: "GET",
+                    url: BaseUrl+'dapp/count',
+                    params:{key:this.searchInfo==''?null:this.searchInfo,reviewed:this.tabsName==-1?null:this.tabsName},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    if(response.data.flag==200){
+                        this.txcount = response.data.data;
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+            },
+            searchDapp(){
                 this.getData();
             },
-            checkDapp(row){
+            checkDapp(id,reviewed,icon,name){
                this.dialogTableVisible=true
-                this.row=row
+                this.checkId=id;
+                this.radio=reviewed;
+               this.checkIcon=icon;
+               this.checkName=name;
             },
-            historyTable(){
-                this.dialogTableVisibleData=true
-
+            ensureUpdate(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'dapp/audit',
+                    params:{id:this.checkId,reviewed:this.radio},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    if(response.data.flag==200){
+                        this.dialogTableVisible=false
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg}`
+                                });
+                                this.getData()
+                            }
+                        });
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }else{
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg +',请重试'}`
+                                });
+                            }
+                        });
+                        return false
+                    }
+                });
+            },
+            historyTable(id,name){
+                this.dialogTableVisibleData=true;
+                this.dappName=name
+                this.getHistory()
+            },
+            getHistory(){
+                this.$ajax({
+                    method: "GET",
+                    url: BaseUrl+'dapp/history',
+                    params:{name:this.dappName,pageNum:this.currentPageHistory,pageSize:this.nowPageSizeHistory},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    if(response.data.flag==200){
+                        this.historyData = response.data.data;
+                        this.historyData.forEach(item=>{
+                            item.newTime=moment.utc(item.time*1000).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
+                        this.getHistoryCount()
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+            },
+            getHistoryCount(){
+                this.$ajax({
+                    method: "GET",
+                    url: BaseUrl+'dapp/historyCount',
+                    params:{name:this.dappName},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    if(response.data.flag==200){
+                        this.historyCount = response.data.data;
+                    }else if(response.data.flag==201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             },
             handleSizeChange(pageSize) {
                 this.nowPageSize = pageSize;
@@ -240,7 +349,15 @@
                 this.currentPage = pageValue;
                 this.getData();
             },
-
+            handleSizeChangeHistory(pageSize){
+                this.nowPageSizeHistory = pageSize;
+                this.currentPageHistory = 1;
+                this.getHistory();
+            },
+            handleCurrentChangeHistory(pageValue){
+                this.currentPageHistory = pageValue;
+                this.getHistory();
+            }
         }
     };
 </script>
