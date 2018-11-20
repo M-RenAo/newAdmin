@@ -43,10 +43,10 @@
                     <div style="overflow:hidden">
                         <el-form-item label="竞猜周期">
                             <div style="float:left;">
-                                <el-radio-group v-model="round" size="small" @change="setRound" :disabled="switchs">
-                                    <div style="margin:20px 0"><el-radio label="1">单次</el-radio></div>
+                                <el-radio-group v-model="round" size="small" @change="setRound">
+                                    <div style="margin:20px 0"><el-radio label="1" disabled>单次</el-radio></div>
                                     <div style="margin:20px 0"><el-radio label="2" >每日</el-radio></div>
-                                    <div style="margin:20px 0"><el-radio label="3" >每周</el-radio></div>
+                                    <div style="margin:20px 0"><el-radio label="3" disabled>每周</el-radio></div>
                                 </el-radio-group>
                             </div>
                             <div v-if="round==='1'" style="float:left;margin:10px 0 0 20px">
@@ -83,7 +83,7 @@
                                 step: '01:00',
                                 end: '23:00'
                             }"
-                            :disabled="switchs"
+                            disabled
                             placeholder="选择时间">
                             </el-time-select>
                         </el-form-item>
@@ -111,7 +111,7 @@
                         </el-form-item>
                     </div>
                     <div style="text-align:center;margin-top:20px;padding-bottom:20px">
-                        <el-button @click="deleteGuess" v-if="false">删除</el-button>
+                        <el-button @click="deleteGuess" v-if="true">删除</el-button>
                         <el-button @click="goGuess" v-if="!$route.query.dataId">返回</el-button>
                         <el-button @click="closeGame" v-if="switchs">关闭</el-button>
                         <el-button @click="openGame" v-if="$route.query.dataId&&!switchs">开启</el-button>
@@ -145,11 +145,11 @@
                 choice:"",
                 uploadImageUrl:'',
                 type: '',
-                round:"1",
+                round:"2",
                 checkList: [],
                 arr:[],
                 textarea:"",
-                etime:"18:00",
+                etime:"12:00",
                 amount:"50",
                 amounts: [{
                     value: '50',
@@ -185,7 +185,7 @@
                     type:"",
                     intro:"",
                     round:"",
-                    etime:"18:00",
+                    etime:"12:00",
                     amount:"50",
                     rules:"",
                     state:"",
@@ -224,12 +224,22 @@
                     })
                     }
                     console.log(this.$route.query.dataId)
+                this.editdata.round="0123456"
             }
             
         },
         methods: {
             setType(){//设置竞猜模式
                 this.editdata.type=this.type;
+                if(this.type==1){
+                        this.etime="12:00"
+                        
+                    }else if(this.type==2){
+                        this.etime="14:00"
+                    }else if(this.type==3){
+                        this.etime="16:00"
+                    }
+                this.editdata.etime=this.etime
             },
             setRound(){//设置周期   每日
                 this.choice="";
@@ -333,16 +343,6 @@
                                     });
                                 }
                             });
-                        }else if(this.editdata.round==""&&valid){
-                            this.$alert('请选择竞猜周期', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$message({
-                                        type: 'info',
-                                        message: `请重试！`
-                                    });
-                                }
-                            });
                         }else {
                             this.$alert('请填写完整', {
                                 confirmButtonText: '确定',
@@ -438,23 +438,33 @@
                 })
             },
             setGuessdata(){
-                    // this.editdata=this.$route.query.dataId;
                     this.type=this.editdata.type+"";
                     this.amount=this.editdata.amount+"";
-                    this.etime=this.editdata.etime;
-                    var pat=new RegExp(',');
-                    if(pat.test(this.editdata.round)||this.editdata.round.length==3){
-                        this.round="3";
-                        this.checkList=this.editdata.round.split(",")
-                    }else{
-                        if(this.editdata.round.length==2){
-                            this.round="2"
-                            this.editdata.round="0123456"
-                        }else{
-                            this.round="1";
-                            this.choice=this.editdata.round
-                        }
+                    this.round="2"
+                    this.editdata.round="0123456"
+                    if(this.type==1){
+                        this.etime="12:00"
+                        
+                    }else if(this.type==2){
+                        this.etime="14:00"
+                    }else if(this.type==3){
+                        this.etime="16:00"
                     }
+                    this.editdata.etime=this.etime
+                    // this.etime=this.editdata.etime;
+                    // var pat=new RegExp(',');
+                    // if(pat.test(this.editdata.round)||this.editdata.round.length==3){
+                    //     this.round="3";
+                    //     this.checkList=this.editdata.round.split(",")
+                    // }else{
+                    //     if(this.editdata.round.length==2){
+                    //         this.round="2"
+                    //         this.editdata.round="0123456"
+                    //     }else{
+                    //         this.round="1";
+                    //         this.choice=this.editdata.round
+                    //     }
+                    // }
             },
             dateCheng(round){
                 this.arrDate=[];

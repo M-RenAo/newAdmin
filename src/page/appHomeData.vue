@@ -87,7 +87,7 @@
                     label="操作"
                     >
                     <template scope="scope">
-                        <el-button type="text" @click="detailDataCheck">明细</el-button>
+                        <el-button type="text" @click="detailDataCheck(scope)">明细</el-button>
                     </template>
                 </el-table-column>
                 <!--<el-table-column-->

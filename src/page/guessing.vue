@@ -16,7 +16,7 @@
             </div>
             <div class="play">
                 <h3>玩法:{{data.category}}</h3>
-                <p style="margin-top:30px">{{data.state}}</p>
+                <p style="margin-top:30px">{{data.stateType}}</p>
                 <p style="margin-top:10px">往期记录：123期</p>
                 <p style="margin-top:10px">开奖时间：{{data.round}}&nbsp;&nbsp;{{data.etime}}</p>
             </div>
@@ -178,13 +178,13 @@
                                     }else if(item.type!=undefined&&item.type==3){
                                         item.category="哈希彩票"
                                     }
-                                    // if(item.guessState!=undefined&&item.guessState==1){
-                                    //     item.state="进行中"
-                                    //     this.arrIng.push(item)
-                                    // }else if(item.guessState==undefined||item.guessState!=1){
-                                    //     item.state="已关闭"
-                                    //     this.colseArr.push(item)
-                                    // }
+                                    if(item.guessState!=undefined&&item.guessState==1){
+                                        item.stateType="进行中"
+                                        this.arrIng.push(item)
+                                    }else if(item.guessState==undefined||item.guessState!=1){
+                                        item.stateType="已关闭"
+                                        this.colseArr.push(item)
+                                    }
                         })
                         
                 this.datas=res.data.data.data    

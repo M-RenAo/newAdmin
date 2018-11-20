@@ -5,7 +5,7 @@
         :data="tableData"
         style="width: 100%">
             <el-table-column
-                prop="date"
+                prop="time"
                 label="日期"
                 min-width="50">
             </el-table-column>
@@ -15,17 +15,17 @@
                 min-width="50">
             </el-table-column>
             <el-table-column
-                prop="jackpot"
+                prop="prizePool"
                 label="奖池"
                 min-width="50">
             </el-table-column>
             <el-table-column
-                prop="parnumber"
+                prop="joins"
                 label="参与人数"
                 min-width="50">
             </el-table-column>
             <el-table-column
-                prop="prizenumber"
+                prop="lucks"
                 label="中奖人数"
                 min-width="50">
             </el-table-column>
@@ -39,8 +39,8 @@
                 label="开奖状态"
                 min-width="50">
                 <template scope="scope">
-                        <div class="setState" @click="opendialogVisible = true">
-                            <!-- {{scope.row.draft?"草稿":"发布"}} -->
+                        <div class="setState" @click="openPrize(scope.row)">
+                            <!-- {{scope.row.draft?"草稿":"发布"}} @click="opendialogVisible = true"-->
                             {{scope.row.state}}
                         </div>
                 </template>
@@ -48,7 +48,7 @@
             <el-table-column
             label="操作"
             min-width="50">
-                <template slot-scope="scope">
+                <template scope="scope">
                     <el-button @click="see(scope.row)" type="text">查看</el-button>
                 </template>
             </el-table-column>
@@ -61,10 +61,10 @@
                     :page-sizes="[10, 20, 30, 50]"
                     :page-size="nowPageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="usercount">
+                    :total="guesscount">
                 </el-pagination>
         </div>
-        <div>
+        <!-- <div>
             <el-dialog
             :visible.sync="opendialogVisible"
             width="30%">
@@ -95,25 +95,25 @@
                     <el-button @click="closeDialog">确定</el-button>
                 </div>
             </el-dialog>
-        </div>
+        </div> -->
         <div>
             <el-dialog
             :visible.sync="seedialogVisible"
             width="900px">
                 <h2 style="text-align:center">投注详情</h2>
-                <div class="option" v-if="guessType==1?true:false">
+                <div class="option" v-if="guessType==2||guessType==1?true:false">
                     <div style="float: left;margin-left:10px">
-                        <h3>投注选项:涨</h3>
-                        <span>投注人数:234人 (34%)</span>
-                        <span style="margin-left:20px">投注金额:234IA (56%)</span>
+                        <h3>投注选项:{{head.A.answer}}</h3>
+                        <span>投注人数:{{head.A.num}}人 ({{head.A.numPerc}}%)</span>
+                        <span style="margin-left:20px">投注金额:{{head.A.amount}}IA ({{head.A.amountPerc}}%)</span>
                     </div>
                     <div style="float: right;margin-right:10px">
-                        <h3>投注选项:跌</h3>
-                        <span>投注人数:234人 (34%)</span>
-                        <span style="margin-left:20px">投注金额:234IA (56%)</span>
+                        <h3>投注选项:{{head.B.answer}}</h3>
+                        <span>投注人数:{{head.B.num}}人 ({{head.B.numPerc}}%)</span>
+                        <span style="margin-left:20px">投注金额:{{head.B.amount}}IA ({{head.B.amountPerc}}%)</span>
                     </div>
                 </div>
-                <div class="option" v-if="guessType==2?true:false">
+                <!-- <div class="option" v-if="guessType==2?true:false">
                     <div style="float: left;margin-left:10px">
                         <h3>投注选项:大</h3>
                         <span>投注人数:234人 (34%)</span>
@@ -124,10 +124,21 @@
                         <span>投注人数:234人 (34%)</span>
                         <span style="margin-left:20px">投注金额:234IA (56%)</span>
                     </div>
+                </div> -->
+                <div v-if="guessType==1?true:false">
+                    <span class="riseFall">投注选项</span>
+                    <el-select v-model="riseFall" style="width:80px" @change="optsChange">
+                        <el-option
+                        v-for="item in riseFalls"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
                 </div>
                 <div v-if="guessType==2?true:false">
                     <span class="riseFall">投注选项</span>
-                    <el-select v-model="riseFall2" style="width:70px">
+                    <el-select v-model="riseFall2" style="width:80px" @change="optsChange">
                         <el-option
                         v-for="item in riseFalls2"
                         :key="item.value"
@@ -136,11 +147,11 @@
                         </el-option>
                     </el-select>
                 </div>
-                <div v-if="guessType==1?true:false">
+                <div v-if="guessType==3?true:false">
                     <span class="riseFall">投注选项</span>
-                    <el-select v-model="riseFall" style="width:70px">
+                    <el-select v-model="riseFall3" style="width:80px" @change="optsChange">
                         <el-option
-                        v-for="item in riseFalls"
+                        v-for="item in riseFalls3"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value">
@@ -161,11 +172,11 @@
                             label="手机号">
                         </el-table-column>
                         <el-table-column
-                            prop="options"
+                            prop="answer"
                             label="投注选项">
                         </el-table-column>
                         <el-table-column
-                            prop="totalAmount"
+                            prop="amount"
                             label="总金额">
                         </el-table-column>
                     </el-table>
@@ -196,104 +207,157 @@
             return {
                 guessType:"",
                 radio: '1',
-                showSize:false,//是否显示大小
-                opendialogVisible: false,
+                //showSize:false,是否显示大小
+                // opendialogVisible: false,
                 seedialogVisible:false,
-                usercount:0,
+                head:{
+                    A:{},
+                    B:{}
+                },//投注详情
+                guessId:"",//记录Id
+                guesscount:0,
                 currentPage: 1,
                 nowPageSize: 10,
                 optscount:0,
                 optsPage:1,
                 optsPageSize:10,
-                riseFall:"涨",
+                riseFall:"全部",
                 riseFalls:[{
                 value: '1',
+                label: '全部'
+                },{
+                value: '2',
                 label: '涨'
                 }, {
-                value: '2',
+                value: '3',
                 label: '跌'
                 }],
-                riseFall2:"大",
+                riseFall2:"全部",
                 riseFalls2:[{
                 value: '1',
+                label: '全部'
+                },{
+                value: '2',
                 label: '大'
                 }, {
-                value: '2',
+                value: '3',
                 label: '小'
                 }],
-                tableData: [{
-                    date: '2016-05-02',
-                    result:"无",
-                    jackpot:"23432IA",
-                    parnumber:"20000",
-                    prizenumber:"23",
-                    income:"234IA",
-                    state:"开奖"
+                riseFall3:"全部",
+                riseFalls3:[{
+                value: '1',
+                label: '全部'
                 },{
-                    date: '2016-05-02',
-                    result:"无",
-                    jackpot:"23432IA",
-                    parnumber:"20000",
-                    prizenumber:"23",
-                    income:"234IA",
-                    state:"开奖"
-                },{
-                    date: '2016-05-02',
-                    result:"无",
-                    jackpot:"23432IA",
-                    parnumber:"20000",
-                    prizenumber:"23",
-                    income:"234IA",
-                    state:"开奖"
-                },{
-                    date: '2016-05-02',
-                    result:"无",
-                    jackpot:"23432IA",
-                    parnumber:"20000",
-                    prizenumber:"23",
-                    income:"234IA",
-                    state:"开奖"
+                value: '2',
+                label: '自选'
+                }, {
+                value: '3',
+                label: '组选'
                 }],
-                recordData:[{
-                    name:"张三",
-                    phone:'13845236987',
-                    options:'涨',
-                    totalAmount:"234IA"
-                },{
-                    name:"李四",
-                    phone:'13845236987',
-                    options:'涨',
-                    totalAmount:"234IA"
-                }],
-
+                tableData: [],
+                recordData:[],
+                answer:undefined,//涨跌大小
+                answerP3:undefined,//组合   自选
             };
         },
 
         created() {
             this.guessType=this.$route.query.guessType
             console.log(this.guessType)
+            this.getData();
         },
         methods: {
-           see(){//查看
-                this.seedialogVisible=true
+           see(row){//查看
+                this.guessId=row.guessId
+                
+           },
+           openPrize(){//开奖
+
            },
            handleSizeChange(pageSize) {
-
+               this.nowPageSize=pageSize;
+                this.getData();
             },
             handleCurrentChange(pageValue) {
-
+                this.currentPage=pageValue;
+                this.getData();
             },
-            optsCurrentChange(){
-
+            optsCurrentChange(pageValue){
+                this.optsPage=pageValue;
+                this.getGuessdata();
             },
-            optsSizeChange(){
-                
+            optsSizeChange(pageSize){
+                this.optsPageSize=pageSize;   
+                this.getGuessdata();   
             },
-            closeDialog(){//保存  关闭弹窗
-                this.opendialogVisible=false
-            },
+            // closeDialog(){//保存  关闭弹窗
+            //     this.opendialogVisible=false
+            // },
             closeSeeDialog(){
                 this.seedialogVisible=false
+            },
+            optsChange(a){//选择 涨  跌  大   小
+                console.log(a)
+                if(this.guessType==1||this.guessType==2){
+                    this.answerP3=undefined;
+                    if(a==1){
+                        this.answer=undefined;
+                    }else if(a==2){
+                        this.answer="A"
+                    }else if(a==3){
+                        this.answer="B"
+                    }
+                }else if(this.guessType==3){
+                        this.answer=undefined;
+                    if(a==1){
+                        this.answerP3=undefined;
+                    }else if(a==2){
+                        this.answerP3="1"
+                    }else if(a==3){
+                        this.answerP3="0"
+                    }
+                }
+                this.getGuessdata();
+            },
+            getData(){
+                this.$ajax({
+                        method: "POST",
+                        url: BaseUrl+'guess/guessIssue',
+                        data:{
+                            type:this.guessType,
+                            page:this.currentPage,
+                            size:this.nowPageSize
+                        },
+                        headers: {'token': sessionStorage.getItem('token')}
+                        }).then(res=>{
+                            this.tableData=res.data.data.data
+                            this.guesscount=res.data.data.count    
+                            console.log(this.tableData) 
+                        })
+            },
+            getGuessdata(){
+                this.$ajax({
+                        method: "POST",
+                        url: BaseUrl+'guess/guessIssueDetail',
+                        data:{
+                            answer:this.answer,
+                            answerP3:this.answerP3,
+                            id:this.guessId,
+                            page:this.optsPage,
+                            size:this.optsPageSize
+                        },
+                        headers: {'token': sessionStorage.getItem('token')}
+                        }).then(res=>{
+                            console.log(res)
+                            this.seedialogVisible=true;
+                            this.recordData=res.data.data.data;
+                            this.optscount=res.data.data.count;
+                            this.head=res.data.data.head;
+
+                            console.log(this.recordData)
+                            console.log(this.head)
+                            
+                        })
             }
         },
         computed:{
@@ -305,6 +369,18 @@
                 }else if(this.guessType==3){
                     return "哈希彩票"
                 }
+            }
+        },
+        watch:{
+            guessId(){
+                this.riseFall3="全部"
+                this.riseFall="全部"
+                this.riseFall2="全部"
+                this.answer=undefined;
+                this.answerP3=undefined;
+                this.optsPage=1
+                this.optsPageSize=10
+                this.getGuessdata();
             }
         }
      
