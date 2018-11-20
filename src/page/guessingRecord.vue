@@ -64,7 +64,7 @@
                     :total="guesscount">
                 </el-pagination>
         </div>
-        <!-- <div>
+        <div>
             <el-dialog
             :visible.sync="opendialogVisible"
             width="30%">
@@ -74,6 +74,7 @@
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">涨</el-radio>
                             <el-radio v-model="radio" label="2">跌</el-radio>
+                            <el-input v-model="address" placeholder="请输入验证地址"></el-input>
                         </div>
                     </div>
                     <div class="size" v-if="guessType==2?true:false">
@@ -81,21 +82,23 @@
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">大</el-radio>
                             <el-radio v-model="radio" label="2">小</el-radio>
+                            <el-input v-model="address" placeholder="请输入验证地址"></el-input>
                         </div>
                     </div>
                     <div class="lottery" v-if="guessType==3?true:false">
                         <h3>哈希彩票开奖结果</h3>
-                        <div class="lotterys">
+                        <!-- <div class="lotterys">
                             <div>3</div>
                             <div>2</div>
                             <div>1</div>
-                        </div>
+                        </div> -->
+                        <el-input v-model="address" placeholder="请输入验证地址"></el-input>
                     </div>
                 
                     <el-button @click="closeDialog">确定</el-button>
                 </div>
             </el-dialog>
-        </div> -->
+        </div>
         <div>
             <el-dialog
             :visible.sync="seedialogVisible"
@@ -207,9 +210,11 @@
             return {
                 guessType:"",
                 radio: '1',
+                address:"",//验证地址
                 //showSize:false,是否显示大小
                 // opendialogVisible: false,
                 seedialogVisible:false,
+                opendialogVisible:false,
                 head:{
                     A:{},
                     B:{}
@@ -271,8 +276,25 @@
                 this.guessId=row.guessId
                 
            },
-           openPrize(){//开奖
-
+           openPrize(row){//开奖
+                this.opendialogVisible = true
+                // this.$ajax({
+                //         method: "POST",
+                //         url: BaseUrl+'guess/issue',
+                //         data:{
+                //             id:row.guessId,
+                //             answer:"A",
+                //             url:this.address
+                //         },
+                //         headers: {'token': sessionStorage.getItem('token')}
+                //         }).then(res=>{
+                            
+                //             console.log(res) 
+                //         })
+           },
+           closeDialog(){
+               this.opendialogVisible = false
+               this.address=""
            },
            handleSizeChange(pageSize) {
                this.nowPageSize=pageSize;
