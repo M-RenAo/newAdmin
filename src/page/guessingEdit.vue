@@ -111,7 +111,7 @@
                         </el-form-item>
                     </div>
                     <div style="text-align:center;margin-top:20px;padding-bottom:20px">
-                        <el-button @click="deleteGuess" v-if="true">删除</el-button>
+                        <el-button @click="deleteGuess" v-if="false">删除</el-button>
                         <el-button @click="goGuess" v-if="!$route.query.dataId">返回</el-button>
                         <el-button @click="closeGame" v-if="switchs">关闭</el-button>
                         <el-button @click="openGame" v-if="$route.query.dataId&&!switchs">开启</el-button>
