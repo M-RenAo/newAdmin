@@ -133,6 +133,11 @@
             this.getData()
         },
         handleClick() {
+            this.currentPage=1;
+            this.nowPageSize=10;
+            this.getcomm()
+        },
+        getcomm(){
             if(this.activeName==1){
                 this.setData()
                 delete this.data.hidden
@@ -152,15 +157,17 @@
             this.centerDialogVisible=true;
         },
         handleSizeChange(pageSize) {
-            this.setData()
+
             this.nowPageSize = pageSize;
-            this.getData()
-                    
+            // this.setData()
+            // this.getData()
+            this.getcomm()
         },
         handleCurrentChange(pageValue) {
-            this.setData()
-            his.currentPage = pageValue;
-            this.getData()                   
+            this.currentPage = pageValue;
+            // this.setData()
+            // this.getData()     
+            this.getcomm()              
         },
         getData(){
             this.$ajax.get(BaseUrl+"newsFlash/commentList/"+this.newsflashID,{

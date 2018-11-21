@@ -39,7 +39,11 @@
                 label="开奖状态"
                 min-width="50">
                 <template scope="scope">
-                        <div class="setState" @click="openPrize(scope.row)">
+                        <div class="setState" @click="openPrize(scope.row)" v-if="scope.row.state=='等待开奖'">
+                            <!-- {{scope.row.draft?"草稿":"发布"}} @click="opendialogVisible = true"-->
+                            开奖
+                        </div>
+                        <div v-else>
                             <!-- {{scope.row.draft?"草稿":"发布"}} @click="opendialogVisible = true"-->
                             {{scope.row.state}}
                         </div>
@@ -74,25 +78,27 @@
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">涨</el-radio>
                             <el-radio v-model="radio" label="2">跌</el-radio>
-                            <el-input v-model="address" placeholder="请输入验证地址"></el-input>
+                            <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                         </div>
                     </div>
                     <div class="size" v-if="guessType==2?true:false">
-                        <h3>哈希猜涨跌开奖结果</h3>
+                        <h3>哈希猜大小开奖结果</h3>
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">大</el-radio>
                             <el-radio v-model="radio" label="2">小</el-radio>
-                            <el-input v-model="address" placeholder="请输入验证地址"></el-input>
+                            <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                         </div>
                     </div>
                     <div class="lottery" v-if="guessType==3?true:false">
                         <h3>哈希彩票开奖结果</h3>
-                        <!-- <div class="lotterys">
-                            <div>3</div>
+                        <div class="lotterys">
+                            <!-- <div>3</div>
                             <div>2</div>
-                            <div>1</div>
-                        </div> -->
-                        <el-input v-model="address" placeholder="请输入验证地址"></el-input>
+                            <div>1</div> -->
+                            <el-input v-model="res" maxlength='3' style="width:150px" placeholder="请输入开奖结果" @blur="isNum" @focus="numIs"></el-input>
+                            <div style="color:red;" v-if="isnum">请输入数字</div>
+                        </div>
+                        <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                     </div>
                 
                     <el-button @click="closeDialog">确定</el-button>
@@ -211,6 +217,8 @@
                 guessType:"",
                 radio: '1',
                 address:"",//验证地址
+                res:"",//开奖结果
+                isnum:false,
                 //showSize:false,是否显示大小
                 // opendialogVisible: false,
                 seedialogVisible:false,
@@ -220,6 +228,7 @@
                     B:{}
                 },//投注详情
                 guessId:"",//记录Id
+                Id:"",//开奖Id
                 guesscount:0,
                 currentPage: 1,
                 nowPageSize: 10,
@@ -254,7 +263,7 @@
                 label: '全部'
                 },{
                 value: '2',
-                label: '自选'
+                label: '直选'
                 }, {
                 value: '3',
                 label: '组选'
@@ -272,29 +281,72 @@
             this.getData();
         },
         methods: {
+            isNum(){
+                let re = /^[0-9]*$/;
+                if (!re.test(this.res)) { 
+                    this.isnum=true
+            　　} 
+            },
+            numIs(){
+                this.isnum=false
+            },
            see(row){//查看
                 this.guessId=row.guessId
-                
+                this.riseFall3="全部"
+                this.riseFall="全部"
+                this.riseFall2="全部"
+                this.answer=undefined;
+                this.answerP3=undefined;
+                this.optsPage=1
+                this.optsPageSize=10
+                // this.seedialogVisible=true;
+                this.getGuessdata()
            },
            openPrize(row){//开奖
                 this.opendialogVisible = true
-                // this.$ajax({
-                //         method: "POST",
-                //         url: BaseUrl+'guess/issue',
-                //         data:{
-                //             id:row.guessId,
-                //             answer:"A",
-                //             url:this.address
-                //         },
-                //         headers: {'token': sessionStorage.getItem('token')}
-                //         }).then(res=>{
-                            
-                //             console.log(res) 
-                //         })
+                this.isnum=false
+                this.Id=row.guessId
+                this.address=row.url
+                this.res=""
            },
            closeDialog(){
                this.opendialogVisible = false
-               this.address=""
+               let answerType=""
+               if(this.radio==1){
+                    answerType="A"
+               }else if(this.radio==2){
+                    answerType="B"
+               }
+               if(this.res!=''){
+                   answerType=this.res
+               }
+               console.log(answerType)
+               this.$ajax({
+                        method: "POST",
+                        url: BaseUrl+'guess/issue',
+                        data:{
+                            id:this.Id,
+                            answer:answerType,
+                            url:this.address
+                        },
+                        headers: {'token': sessionStorage.getItem('token')}
+                        }).then(res=>{
+                            this.getData()
+                            if(res.data.flag==200){
+                                this.$message({
+                                showClose: true,
+                                message: '发布竞猜结果成功!',
+                                type: 'success'
+                                });
+                            }else{
+                                this.$message({
+                                showClose: true,
+                                message: '发布竞猜结果失败!',
+                                type: 'error'
+                                });
+                            }
+                            console.log(res) 
+                        })
            },
            handleSizeChange(pageSize) {
                this.nowPageSize=pageSize;
@@ -312,9 +364,6 @@
                 this.optsPageSize=pageSize;   
                 this.getGuessdata();   
             },
-            // closeDialog(){//保存  关闭弹窗
-            //     this.opendialogVisible=false
-            // },
             closeSeeDialog(){
                 this.seedialogVisible=false
             },
@@ -334,9 +383,9 @@
                     if(a==1){
                         this.answerP3=undefined;
                     }else if(a==2){
-                        this.answerP3="1"
+                        this.answerP3="B"
                     }else if(a==3){
-                        this.answerP3="0"
+                        this.answerP3="A"
                     }
                 }
                 this.getGuessdata();
@@ -394,16 +443,16 @@
             }
         },
         watch:{
-            guessId(){
-                this.riseFall3="全部"
-                this.riseFall="全部"
-                this.riseFall2="全部"
-                this.answer=undefined;
-                this.answerP3=undefined;
-                this.optsPage=1
-                this.optsPageSize=10
-                this.getGuessdata();
-            }
+            // guessId(){
+            //     this.riseFall3="全部"
+            //     this.riseFall="全部"
+            //     this.riseFall2="全部"
+            //     this.answer=undefined;
+            //     this.answerP3=undefined;
+            //     this.optsPage=1
+            //     this.optsPageSize=10
+            //     this.getGuessdata();
+            // }
         }
      
 
@@ -421,18 +470,18 @@
         cursor: pointer;
     }
     .lotterys{
-        margin:40px 0 40px 0;
-        display:flex;
-        flex-direction:row;
-        justify-content:center;
-        div{
-            font-size:20px;
-            border:1px solid #000;
-            margin:5px;
-            width:30px;
-            height:30px;
-            line-height: 30px
-        }
+        margin:20px 0 20px 0;
+        // display:flex;
+        // flex-direction:row;
+        // justify-content:center;
+        // div{
+        //     font-size:20px;
+        //     border:1px solid #000;
+        //     margin:5px;
+        //     width:30px;
+        //     height:30px;
+        //     line-height: 30px
+        // }
     }
     .option{
         margin:20px 0 20px 0;
