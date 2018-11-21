@@ -145,8 +145,9 @@
                 multipleSelection:[],
                 deleteIds:[],
                 rewardNum:'',
-                rowUpdate:{}
+                rowUpdate:{},
                 // result:'',
+                test:''
                 // remarks:''
             };
         },
