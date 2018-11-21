@@ -199,7 +199,6 @@
                 str:[],
                 arrDate:[],
                 arrType:[],
-                aass:"",
 
             };
         },
