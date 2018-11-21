@@ -35,21 +35,28 @@
                 </el-table-column>
                 <el-table-column
                     label="姓名"
-                    prop="detail" min-width="50" >
+                    prop="name" min-width="50" >
                 </el-table-column>
                 <el-table-column
                     label="手机号"
-                    prop="amount" min-width="50" >
+                    prop="contact" min-width="50" >
                 </el-table-column>
                 <el-table-column
                     label="反馈信息"
                     prop="content" min-width="50" >
                 </el-table-column>
                 <el-table-column
+                    label="奖励"
+                    min-width="50" >
+                    <template scope="scope">
+                        {{scope.row.amount!==0?scope.row.amount+'IA':'未奖励'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
                     label="操作"
                     min-width="50" >
                     <template scope="scope">
-                        <el-button  type="text" @click="abnormalRecords(scope.row.userId,scope.row.content)">查看</el-button>
+                        <el-button  type="text" @click="abnormalRecords(scope.row.userId,scope.row.content,scope.row)">查看</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -72,6 +79,14 @@
                    {{content}}
                 </p>
             </div>
+            <div style="margin-top:20px" v-if="this.rowUpdate.amount==0||this.rowUpdate.amount==undefined">
+                <div>IA奖励</div>
+                <el-input type="number" v-model="rewardNum" placeholder="请输入奖励用户的ia数量" style="margin-top: 5px"></el-input>
+                <div style="color:#999;">奖励的IA无法修改和收回</div>
+            </div>
+            <span slot="footer" class="dialog-footer" v-if="this.rowUpdate.amount==0||this.rowUpdate.amount==undefined">
+                    <el-button type="primary" @click="ensureRewards()">确 定</el-button>
+               </span>
         </el-dialog>
         <el-dialog
             title="提示"
@@ -129,6 +144,8 @@
                 content:'',
                 multipleSelection:[],
                 deleteIds:[],
+                rewardNum:'',
+                rowUpdate:{}
                 // result:'',
                 // remarks:''
             };
@@ -240,10 +257,107 @@
                 this.currentPage = pageValue;
                 this.getData();
             },
-            abnormalRecords(id,content){
+            abnormalRecords(id,content,row){
                 this.dialogTableVisible=true
-                this.content=content
+                this.content=content;
+                this.rowUpdate=row
+                if(this.rowUpdate.state===0) {
+                    this.rowUpdate.state=1
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl + 'feedback/modify',
+                        data: [this.rowUpdate],
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(response => {
+                        if (response.data.flag == 200) {
+                            // this.$alert(response.data.msg, '提示', {
+                            //     confirmButtonText: '确定',
+                            //     callback: action => {
+                            //         this.$message({
+                            //             type: 'info',
+                            //             message: `${ response.data.msg}`
+                            //         });
+                            //         // this.getData()
+                            //     }
+                            // });
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        } else {
+                            this.$alert(response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `error: ${ response.data.msg + ',请重试'}`
+                                    });
+                                }
+                            });
+                            return false
+                        }
+                    });
+                }
 
+            },
+            ensureRewards(){
+                if(this.rewardNum!=='') {
+                    if(this.rewardNum>0) {
+                        this.rowUpdate.amount = this.rewardNum
+                        this.rowUpdate.state=2
+                        this.$ajax({
+                            method: "POST",
+                            url: BaseUrl + 'feedback/modify',
+                            data: [this.rowUpdate],
+                            headers: {'token': sessionStorage.getItem('token')}
+                        }).then(response => {
+                            this.dialogTableVisible = false
+                            if (response.data.flag == 200) {
+                                this.$alert(response.data.msg, '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$message({
+                                            type: 'info',
+                                            message: `${ response.data.msg}`
+                                        });
+                                        this.getData()
+                                    }
+                                });
+                            } else if (response.data.flag == 201) {
+                                this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$router.push('/')
+                                    }
+                                });
+                            } else {
+                                this.$alert(response.data.msg, '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$message({
+                                            type: 'info',
+                                            message: `error: ${ response.data.msg + ',请重试'}`
+                                        });
+                                    }
+                                });
+                                return false
+                            }
+                        });
+                    }else{
+                        this.$alert('请输入IA奖励', '提示', {
+                            confirmButtonText: '确定',
+                        });
+                        return false
+                    }
+                }else{
+                    this.$alert('请填写完整', '提示', {
+                        confirmButtonText: '确定',
+                    });
+                    return false
+                }
             },
             update(){
                 this.form={};
