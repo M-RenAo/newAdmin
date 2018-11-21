@@ -17,7 +17,7 @@
             <div class="play">
                 <h3>玩法:{{data.category}}</h3>
                 <p style="margin-top:30px">{{data.stateType}}</p>
-                <p style="margin-top:10px">往期记录：123期</p>
+                <p style="margin-top:10px">往期记录：{{data.num}}期</p>
                 <p style="margin-top:10px">开奖时间：{{data.round}}&nbsp;&nbsp;{{data.etime}}</p>
             </div>
             <div class="btns">
@@ -25,17 +25,6 @@
                 <el-button @click="goRecord(data)">查看</el-button>
             </div>
         </div>
-        <!-- <div class="Pagination">
-                 <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPage"
-                    :page-sizes="[3,6,10,20]"
-                    :page-size="nowPageSize"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="guesscount">
-                </el-pagination>
-        </div> -->
         <div>
             <el-dialog
             title="提示"
@@ -172,16 +161,16 @@
                                         this.str.push(item.type+"")
                                     }
                                     if(item.type!=undefined&&item.type==1){
-                                        item.category="猜涨跌"
+                                        item.category="哈希猜涨跌"
                                     }else if(item.type!=undefined&&item.type==2){
                                         item.category="哈希猜大小"
                                     }else if(item.type!=undefined&&item.type==3){
                                         item.category="哈希彩票"
                                     }
-                                    if(item.guessState!=undefined&&item.guessState==1){
+                                    if(item.state!=undefined&&item.state==1){
                                         item.stateType="进行中"
                                         this.arrIng.push(item)
-                                    }else if(item.guessState==undefined||item.guessState!=1){
+                                    }else if(item.state==undefined||item.state==0){
                                         item.stateType="已关闭"
                                         this.colseArr.push(item)
                                     }

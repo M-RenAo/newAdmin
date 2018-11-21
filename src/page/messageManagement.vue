@@ -187,15 +187,17 @@
             },
             handleSizeChange(pageSize) {
                 this.nowPageSize = pageSize;
-                this.paramss();
-                this.paramsss();
-                this.getData();
+                // this.paramss();
+                // this.paramsss();
+                // this.getData();
+                this.getmess();
             },
             handleCurrentChange(pageValue) {
                 this.currentPage = pageValue;
-                this.paramss();
-                this.paramsss();
-                this.getData();
+                // this.paramss();
+                // this.paramsss();
+                // this.getData();
+                this.getmess();
             },
 
             goEdit(row){//前往编辑界面
@@ -248,6 +250,11 @@
                 )
             },
             tabsClick(){//tabs选项
+                this.currentPage=1
+                this.nowPageSize=10
+                this.getmess();
+            },
+            getmess(){
                 if(this.tabsName==-1){
                     this.paramss()
                     this.paramsss()
@@ -267,7 +274,6 @@
                     this.numparams.draft="true",
                     this.getData();
                 }
-
             },
             paramss(){
                 this.dataparams={

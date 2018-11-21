@@ -321,6 +321,9 @@
             this.$refs.editdata.validate(async (valid) => {
                     
                     if (valid&&this.editdata.image!=''&&this.editdata.type!=""&&this.editdata.round!="") {
+                        if(this.$route.query.dataId&&!this.switchs){//开启
+                            this.editdata.state=1;
+                        }
                         this.setData()                        
                     } else {
                         if(this.editdata.image==''&&valid){
@@ -360,7 +363,7 @@
                     }
                 });
             // console.log(this.editdata)
-                // this.setData()
+            // this.setData()
             },
             setData(){//设置数据
                 
@@ -414,10 +417,10 @@
                                         
                             })
                                 // this.switchs=false
-                                console.log(this.editdata.guessState)
-                            if(this.editdata.guessState!=undefined&&this.editdata.guessState==1){
+                                console.log(this.editdata.state)
+                            if(this.editdata.state!=undefined&&this.editdata.state==1){
                                 this.switchs=true;
-                            }else if(this.editdata.guessState==undefined||this.editdata.guessState!=1){           
+                            }else if(this.editdata.state==undefined||this.editdata.state==0){           
                                 this.switchs=false
                                  console.log(this.switchs,1)
                             }
