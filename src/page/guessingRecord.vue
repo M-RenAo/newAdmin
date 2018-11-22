@@ -211,6 +211,7 @@
 </template>
 
 <script>
+    let moment=require('moment')
     export default {
         data() {
             return {
@@ -401,6 +402,12 @@
                         },
                         headers: {'token': sessionStorage.getItem('token')}
                         }).then(res=>{
+                            console.log(res.data.data.data)
+                            res.data.data.data.forEach(item=>{
+                                if(item.time!=undefined){
+                                    item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
+                                }
+                            })
                             this.tableData=res.data.data.data
                             this.guesscount=res.data.data.count    
                             console.log(this.tableData) 
