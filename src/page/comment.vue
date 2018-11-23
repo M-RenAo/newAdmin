@@ -172,14 +172,16 @@
         getData(){
             this.$ajax.get(BaseUrl+"newsFlash/commentList/"+this.newsflashID,{
                             params: this.data, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                        res.data.data.forEach(item=>{
+                        if(res.data.flag==200){
+                            res.data.data.forEach(item=>{
                                     if(item.time!=undefined){
                                         item.time=moment.utc(item.time*1000).local().format('YYYY-MM-DD HH:mm:ss')
                                     }
                                     
-                        })
+                                    })
+                        }
                         this.tableData=res.data.data;
-                        console.log(this.tableData)
+                        console.log(res)
                     }
                 )
             this.$ajax.get(BaseUrl+"newsFlash/commentAmount/"+this.newsflashID,{

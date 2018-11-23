@@ -181,22 +181,18 @@
         },
         methods: {
             searchCheck() {//快讯搜索
-                this.paramss();
-                this.paramsss();
+                // this.paramss();
+                // this.paramsss();
+                this.getmess()
                 this.getData()
             },
             handleSizeChange(pageSize) {
                 this.nowPageSize = pageSize;
-                // this.paramss();
-                // this.paramsss();
-                // this.getData();
+
                 this.getmess();
             },
             handleCurrentChange(pageValue) {
                 this.currentPage = pageValue;
-                // this.paramss();
-                // this.paramsss();
-                // this.getData();
                 this.getmess();
             },
 

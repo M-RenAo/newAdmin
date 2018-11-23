@@ -125,14 +125,14 @@
                         console.log(this.editdata)
                         this.switch=true;
                         this.editdata.expire = Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
-                        this.expire=Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
+                        
                         // this.editdata.hot=true;
                         this.editdata.hot?this.radio="1":this.radio="0"
                     }
                 )
                 
             }
-            
+            this.expire=Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
         },
         computed: {},
         methods: {

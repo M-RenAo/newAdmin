@@ -189,6 +189,7 @@
                     amount:"50",
                     rules:"",
                     state:"",
+                    timeZone:"8"
                 },
                 typeType1:false,
                 typeType2:false,
@@ -224,6 +225,7 @@
                     }
                     console.log(this.$route.query.dataId)
                 this.editdata.round="0123456"
+                this.editdata.timeZone="8"
             }
             
         },

@@ -39,9 +39,9 @@
                 label="开奖状态"
                 min-width="50">
                 <template scope="scope">
-                        <div class="setState" @click="openPrize(scope.row)" v-if="scope.row.state=='等待开奖'">
+                        <div class="setState" @click="openPrize(scope.row)" v-if="scope.row.state!='已开奖'&&scope.row.state!='没人参与'">
                             <!-- {{scope.row.draft?"草稿":"发布"}} @click="opendialogVisible = true"-->
-                            开奖
+                            {{scope.row.state}}
                         </div>
                         <div v-else>
                             <!-- {{scope.row.draft?"草稿":"发布"}} @click="opendialogVisible = true"-->
@@ -73,22 +73,22 @@
             :visible.sync="opendialogVisible"
             width="30%">
                 <div style="text-align:center">
-                    <div class="size" v-if="guessType==1?true:false">
-                        <h3>哈希猜涨跌开奖结果</h3>
+                    <div class="size" v-if="guessType!=3?true:false">
+                        <h3>哈希猜{{guessType==1?"涨跌":"大小"}}开奖结果</h3>
                         <div style="margin:40px 0 40px 0">
-                            <el-radio v-model="radio" label="1">涨</el-radio>
-                            <el-radio v-model="radio" label="2">跌</el-radio>
+                            <el-radio v-model="radio" label="1">{{guessType==1?"涨":"大"}}</el-radio>
+                            <el-radio v-model="radio" label="2">{{guessType==1?"跌":"小"}}</el-radio>
                             <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                         </div>
                     </div>
-                    <div class="size" v-if="guessType==2?true:false">
+                    <!-- <div class="size" v-if="guessType==2?true:false">
                         <h3>哈希猜大小开奖结果</h3>
                         <div style="margin:40px 0 40px 0">
                             <el-radio v-model="radio" label="1">大</el-radio>
                             <el-radio v-model="radio" label="2">小</el-radio>
                             <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="lottery" v-if="guessType==3?true:false">
                         <h3>哈希彩票开奖结果</h3>
                         <div class="lotterys">
@@ -97,6 +97,8 @@
                             <div>1</div> -->
                             <el-input v-model="res" maxlength='3' style="width:150px" placeholder="请输入开奖结果" @blur="isNum" @focus="numIs"></el-input>
                             <div style="color:red;" v-if="isnum">请输入数字</div>
+                            <div style="color:red;" v-if="isnums">请输入三位数字</div>
+
                         </div>
                         <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                     </div>
@@ -122,18 +124,6 @@
                         <span style="margin-left:20px">投注金额:{{head.B.amount}}IA ({{head.B.amountPerc}}%)</span>
                     </div>
                 </div>
-                <!-- <div class="option" v-if="guessType==2?true:false">
-                    <div style="float: left;margin-left:10px">
-                        <h3>投注选项:大</h3>
-                        <span>投注人数:234人 (34%)</span>
-                        <span style="margin-left:20px">投注金额:234IA (56%)</span>
-                    </div>
-                    <div style="float: right;margin-right:10px">
-                        <h3>投注选项:小</h3>
-                        <span>投注人数:234人 (34%)</span>
-                        <span style="margin-left:20px">投注金额:234IA (56%)</span>
-                    </div>
-                </div> -->
                 <div v-if="guessType==1?true:false">
                     <span class="riseFall">投注选项</span>
                     <el-select v-model="riseFall" style="width:80px" @change="optsChange">
@@ -220,6 +210,7 @@
                 address:"",//验证地址
                 res:"",//开奖结果
                 isnum:false,
+                isnums:false,
                 //showSize:false,是否显示大小
                 // opendialogVisible: false,
                 seedialogVisible:false,
@@ -273,12 +264,12 @@
                 recordData:[],
                 answer:undefined,//涨跌大小
                 answerP3:undefined,//组合   自选
+                advanceIssue:undefined,//提前开奖
             };
         },
 
         created() {
             this.guessType=this.$route.query.guessType
-            console.log(this.guessType)
             this.getData();
         },
         methods: {
@@ -287,9 +278,13 @@
                 if (!re.test(this.res)) { 
                     this.isnum=true
             　　} 
+                if(this.res.length!=3){
+                    this.isnums=true
+                }
             },
             numIs(){
                 this.isnum=false
+                this.isnums=false
             },
            see(row){//查看
                 this.guessId=row.guessId
@@ -305,40 +300,56 @@
            },
            openPrize(row){//开奖
                 this.opendialogVisible = true
+                this.advanceIssue=undefined
                 this.isnum=false
                 this.Id=row.guessId
                 this.address=row.url
                 this.res=""
+                if(row.state=='提前开奖'){
+                    this.advanceIssue="提前开奖"
+                }
            },
            closeDialog(){
-               this.opendialogVisible = false
+               
                let answerType=""
                if(this.radio==1){
                     answerType="A"
                }else if(this.radio==2){
                     answerType="B"
                }
-               if(this.res!=''){
+               if(this.guessType==3&&this.res.length==3&&!this.isnum){
                    answerType=this.res
+               }else if(this.guessType==3&&this.res==''){
+                   return this.$message({showClose: true,message: '请输入开奖结果!',type: 'error'});
+               }else if(this.guessType==3&&this.res.length!=3){
+                   return this.$message({showClose: true,message: '请输入三位数字!',type: 'error'});
+               }else if(this.guessType==3&&this.isnum){
+                   return this.$message({showClose: true,message: '只能输入数字!',type: 'error'});
                }
-               console.log(answerType)
+               this.opendialogVisible = false
                this.$ajax({
                         method: "POST",
                         url: BaseUrl+'guess/issue',
                         data:{
                             id:this.Id,
                             answer:answerType,
-                            url:this.address
+                            url:this.address,
+                            advanceIssue:this.advanceIssue
                         },
                         headers: {'token': sessionStorage.getItem('token')}
                         }).then(res=>{
-                            this.getData()
+                            
                             if(res.data.flag==200){
-                                this.$message({
-                                showClose: true,
-                                message: '发布竞猜结果成功!',
-                                type: 'success'
-                                });
+                                setTimeout(()=>{
+                                    this.getData()
+                                    this.$message({
+                                    showClose: true,
+                                    message: '发布竞猜结果成功!',
+                                    type: 'success'
+                                    });
+                                },500)
+                                
+                                
                             }else{
                                 this.$message({
                                 showClose: true,
@@ -369,7 +380,6 @@
                 this.seedialogVisible=false
             },
             optsChange(a){//选择 涨  跌  大   小
-                console.log(a)
                 if(this.guessType==1||this.guessType==2){
                     this.answerP3=undefined;
                     if(a==1){
@@ -402,7 +412,6 @@
                         },
                         headers: {'token': sessionStorage.getItem('token')}
                         }).then(res=>{
-                            console.log(res.data.data.data)
                             res.data.data.data.forEach(item=>{
                                 if(item.time!=undefined){
                                     item.time=moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
@@ -426,15 +435,10 @@
                         },
                         headers: {'token': sessionStorage.getItem('token')}
                         }).then(res=>{
-                            console.log(res)
                             this.seedialogVisible=true;
                             this.recordData=res.data.data.data;
                             this.optscount=res.data.data.count;
                             this.head=res.data.data.head;
-
-                            console.log(this.recordData)
-                            console.log(this.head)
-                            
                         })
             }
         },
@@ -450,16 +454,7 @@
             }
         },
         watch:{
-            // guessId(){
-            //     this.riseFall3="全部"
-            //     this.riseFall="全部"
-            //     this.riseFall2="全部"
-            //     this.answer=undefined;
-            //     this.answerP3=undefined;
-            //     this.optsPage=1
-            //     this.optsPageSize=10
-            //     this.getGuessdata();
-            // }
+          
         }
      
 
