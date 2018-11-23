@@ -179,7 +179,6 @@
                 this.datas=res.data.data.data    
                 this.guesscount=res.data.data.count    
                 this.switch=true
-                
             })
         }
     }
