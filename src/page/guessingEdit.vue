@@ -30,13 +30,13 @@
                     </div>
                     <div class="titles">
                         <el-form-item label="竞猜标题" prop="title">
-                            <el-input v-model="editdata.title" style="width:200px" :disabled="switchs"></el-input>
+                            <el-input v-model="editdata.title" style="width:200px"></el-input>
                             <span style="font-size:13px;color:#ccc">暂时不做使用</span>
                         </el-form-item>
                     </div>
                     <div>
                         <el-form-item label="竞猜介绍" prop="intro">
-                            <el-input v-model="editdata.intro" style="width:400px" :disabled="switchs"></el-input>
+                            <el-input v-model="editdata.intro" style="width:400px"></el-input>
                             <span style="font-size:13px;color:#ccc">暂时不做使用</span>
                         </el-form-item>
                     </div>
@@ -105,7 +105,6 @@
                             <el-input
                                 type="textarea"
                                 rows="5"
-                                :disabled="switchs"
                                 v-model="editdata.rules">
                             </el-input>
                         </el-form-item>
@@ -115,7 +114,7 @@
                         <el-button @click="goGuess" v-if="!$route.query.dataId">返回</el-button>
                         <el-button @click="closeGame" v-if="switchs">关闭</el-button>
                         <el-button @click="openGame" v-if="$route.query.dataId&&!switchs">开启</el-button>
-                        <el-button type="primary" @click="submit(editdata)" :disabled="switchs">保存</el-button>
+                        <el-button type="primary" @click="submit(editdata)">保存</el-button>
                     </div>
                 </el-form>
                 <el-dialog
