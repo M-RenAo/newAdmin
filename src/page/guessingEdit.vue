@@ -188,7 +188,8 @@
                     amount:"50",
                     rules:"",
                     state:"",
-                    timeZone:"8"
+                    timeZone:8,
+                    effect:undefined
                 },
                 typeType1:false,
                 typeType2:false,
@@ -321,10 +322,13 @@
             this.$refs.editdata.validate(async (valid) => {
                     
                     if (valid&&this.editdata.image!=''&&this.editdata.type!=""&&this.editdata.round!="") {
-                        if(this.$route.query.dataId&&!this.switchs){//开启
+                        
+                        if(this.$route.query.dataId&&!this.switchs){
                             this.editdata.state=1;
+                        }else if(this.$route.query.dataId&&this.switchs){
+                            // this.chuangijan();
                         }
-                        this.setData()                        
+                        this.setData()                     
                     } else {
                         if(this.editdata.image==''&&valid){
                             this.$alert('请上传推广图', {
@@ -424,6 +428,7 @@
                                 this.switchs=false
                                  console.log(this.switchs,1)
                             }
+                            this.editdata.effect=undefined
                             this.setGuessdata()
                             if(this.type==1){
                                 this.typeType2=true;
@@ -490,6 +495,25 @@
                             this.arrDate.push("星期日");
                         }
                     }
+            },
+            chuangijan(){
+                this.$confirm('是否立即创建?', '提示', {
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                type: 'warning'
+                }).then(() => {
+                    this.editdata.effect="立即创建";
+                this.$message({
+                    type: 'success',
+                    message: '立即创建成功!'
+                });
+                }).catch(() => {
+                    this.editdata.effect=undefined;
+                this.$message({
+                    type: 'success',
+                    message: '没有立即创建成功!'
+                });          
+                });
             },
             mapping(event){//图片上传
                 let uploadPolicy = null;
