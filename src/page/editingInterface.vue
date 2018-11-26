@@ -20,8 +20,8 @@
                                 <div class="img-wrap" v-if="editdata.image!==''&&editdata.image!==undefined">
                                     <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+editdata.image" style="width:146px;height:146px;" v-if="editdata.image!==''&&editdata.image!==undefined" >
                                 </div>
-                                <el-button type="primary" v-if="editdata.image===''" class="btnone"><span>上传</span>  <input @change='mapping' type="file" style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;" class="upload"></el-button>
-                                <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''" class="btnone">删除</el-button>
+                                <el-button type="primary" v-if="editdata.image===undefined||editdata.image===''" class="btnone"><span>上传</span>  <input @change='mapping' type="file" style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;" class="upload"></el-button>
+                                <el-button type="primary" v-if="editdata.image!==undefined&&editdata.image!==''" @click="editdata.image=''" class="btnone">删除</el-button>
                         </div>
                         
                     </el-form-item>
@@ -215,6 +215,7 @@
             submit(editdata){//提交表单
                 this.editdata.draft=false
                 this.editdata.expire=this.expire;
+                this.editdata.source?this.editdata.source:this.editdata.source="imApp"
                 this.prooFreading()
             },
             draft(editdata){//存草稿

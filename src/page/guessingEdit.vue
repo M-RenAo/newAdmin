@@ -90,14 +90,7 @@
                     </div>
                     <div>
                         <el-form-item label="每注金额" >
-                            <el-select v-model="amount" @change="setAmount" :disabled="switchs">
-                                <el-option
-                                v-for="item in amounts"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                                </el-option>
-                            </el-select>
+                            <el-input v-model="amount" placeholder="请输入每注金额" @change="setAmount" :disabled="switchs" style="width:100px"></el-input>
                         </el-form-item>
                     </div>
                     <div>
@@ -110,7 +103,7 @@
                         </el-form-item>
                     </div>
                     <div style="text-align:center;margin-top:20px;padding-bottom:20px">
-                        <el-button @click="deleteGuess" v-if="true">删除</el-button>
+                        <el-button @click="deleteGuess" v-if="false">删除</el-button>
                         <el-button @click="goGuess" v-if="!$route.query.dataId">返回</el-button>
                         <el-button @click="closeGame" v-if="switchs">关闭</el-button>
                         <el-button @click="openGame" v-if="$route.query.dataId&&!switchs">开启</el-button>
@@ -150,20 +143,6 @@
                 textarea:"",
                 etime:"12:00",
                 amount:"50",
-                amounts: [{
-                    value: '50',
-                    label: '50'
-                    }, {
-                    value: '100',
-                    label: '100'
-                    }, {
-                    value: '200',
-                    label: '200'
-                    }, {
-                    value: '300',
-                    label: '300'
-                    }
-                ],
                 rules: {
                     title: [
                         {required: true, message: '请输入竞猜标题', trigger: 'blur'},
@@ -223,7 +202,6 @@
                         }
                     })
                     }
-                    console.log(this.$route.query.dataId)
                 this.editdata.round="0123456"
                 this.editdata.timeZone="8"
             }
@@ -312,7 +290,7 @@
                     }
                 }else if(this.stateType==0){//关闭
                     this.editdata.state=0;
-                    this.submit()
+                    this.setData()
                 }else if(this.stateType==1){//开启
                     this.editdata.state=1;
                     this.submit()
@@ -325,10 +303,16 @@
                         
                         if(this.$route.query.dataId&&!this.switchs){
                             this.editdata.state=1;
+                            this.chuangijan();
                         }else if(this.$route.query.dataId&&this.switchs){
+                            this.chuangijan();
+                            
+                        }else if(this.$route.query.dataId==undefined){
                             // this.chuangijan();
+                            this.setData()
                         }
-                        this.setData()                     
+                        // this.setData()       
+                        console.log(this.switchs)  
                     } else {
                         if(this.editdata.image==''&&valid){
                             this.$alert('请上传推广图', {
@@ -385,7 +369,6 @@
                 }).then(res=>{ 
                     this.$router.push({path:'/guessing'})      
                 })
-                console.log(this.editdata)
             },
             goGuess(){//返回竞猜管理界面
                 this.$router.push({path:'/guessing'})
@@ -421,12 +404,10 @@
                                         
                             })
                                 // this.switchs=false
-                                console.log(this.editdata.state)
                             if(this.editdata.state!=undefined&&this.editdata.state==1){
                                 this.switchs=true;
                             }else if(this.editdata.state==undefined||this.editdata.state==0){           
                                 this.switchs=false
-                                 console.log(this.switchs,1)
                             }
                             this.editdata.effect=undefined
                             this.setGuessdata()
@@ -439,10 +420,7 @@
                             }else if(this.type==3){
                                 this.typeType1=true;
                                 this.typeType2=true;
-                            }
-                            console.log(this.editdata)
-
-                           
+                            }          
                 })
             },
             setGuessdata(){
@@ -503,16 +481,18 @@
                 type: 'warning'
                 }).then(() => {
                     this.editdata.effect="立即创建";
-                this.$message({
-                    type: 'success',
-                    message: '立即创建成功!'
-                });
+                    this.$message({
+                        type: 'success',
+                        message: '立即创建成功!'
+                    });
+                    this.setData()
                 }).catch(() => {
                     this.editdata.effect=undefined;
-                this.$message({
-                    type: 'success',
-                    message: '没有立即创建成功!'
-                });          
+                    this.$message({
+                        type: 'success',
+                        message: '创建成功!'
+                    });     
+                    this.setData()     
                 });
             },
             mapping(event){//图片上传

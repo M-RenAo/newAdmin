@@ -3,11 +3,12 @@
         <h2 style="padding:10px 0 20px 0">{{guessTitle}}：高中奖率体验IA翻倍乐趣</h2>
         <el-table
         :data="tableData"
+        class="test-class"
         style="width: 100%">
             <el-table-column
                 prop="time"
                 label="日期"
-                min-width="50">
+                width="160">
             </el-table-column>
             <el-table-column
                 prop="result"
@@ -46,6 +47,16 @@
                         <div v-else>
                             <!-- {{scope.row.draft?"草稿":"发布"}} @click="opendialogVisible = true"-->
                             {{scope.row.state}}
+                        </div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                prop="rules"
+                label="规则"
+                width="100">
+                <template scope="scope">
+                        <div class="setState" @click="openRules(scope.row)">
+                            {{scope.row.rules.slice(0,9)}}
                         </div>
                 </template>
             </el-table-column>
@@ -195,6 +206,18 @@
                     <el-button @click="closeSeeDialog">确定</el-button>
                 </div>
             </el-dialog>
+            <el-dialog title="规则" :visible.sync="dialogRulesVisible">
+                <el-input
+                type="textarea"
+                :rows="5"
+                placeholder="请输入内容"
+                v-model="getRules">
+                </el-input>
+                <div style="text-align:center;margin-top:20px">
+                    <el-button @click="cancelRules">取消</el-button>
+                    <el-button type="primary" @click="modifyRules">更改</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 
@@ -215,6 +238,7 @@
                 // opendialogVisible: false,
                 seedialogVisible:false,
                 opendialogVisible:false,
+                dialogRulesVisible:false,
                 head:{
                     A:{},
                     B:{}
@@ -265,6 +289,7 @@
                 answer:undefined,//涨跌大小
                 answerP3:undefined,//组合   自选
                 advanceIssue:undefined,//提前开奖
+                getRules:"",
             };
         },
 
@@ -401,6 +426,35 @@
                 }
                 this.getGuessdata();
             },
+            openRules(row){//打开规则
+                this.dialogRulesVisible=true;
+                this.getRules=row.rules
+                this.guessId=row.guessId
+            },
+            cancelRules(){//取消更改
+                this.dialogRulesVisible=false;
+            },
+            modifyRules(){//更改
+                this.dialogRulesVisible=false;
+                this.$ajax({
+                        method: "POST",
+                        url: BaseUrl+'guess/updateGuess',
+                        data:{
+                            id:this.guessId,
+                            rules:this.getRules
+                        },
+                        headers: {'token': sessionStorage.getItem('token')}
+                        }).then(res=>{
+                            if(res.data.flag==200){
+                                this.$message({
+                                    type: 'success',
+                                    message: '更改成功!'
+                                }); 
+                                this.getData()
+                            }
+                            
+                        })
+            },
             getData(){
                 this.$ajax({
                         method: "POST",
@@ -503,5 +557,12 @@
         font-weight: 900;
         margin:0 20px 0 10px;
     }
-
+    .test-class{
+        .cell {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        word-break: break-all !important;
+        white-space: nowrap !important;
+        }
+    }
 </style>
