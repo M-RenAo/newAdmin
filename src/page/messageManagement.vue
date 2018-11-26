@@ -166,11 +166,6 @@
             };
         },
         created() {
-            // if(this.$route.params.page){
-            //     this.currentPage=parseInt(this.$route.params.page)
-            //     this.nowPageSize=parseInt(this.$route.params.size)
-            // }
-            // this.paramss();
             this.dataparams={ key:this.searchInfo, pageNum:this.$route.params.page||1, pageSize:this.$route.params.size||10}
             this.paramsss();
             this.getData();
