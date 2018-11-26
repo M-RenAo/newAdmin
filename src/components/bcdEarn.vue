@@ -152,12 +152,12 @@
                 });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.getData({pageCode:1, pageSize: this.nowPageSize});
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 this.getData({pageCode:this.currentPage, pageSize: this.nowPageSize});
             },
@@ -226,7 +226,7 @@
                 }
             },
             ensurePut(password){
-                console.log(typeof(this.money))
+                // console.log(typeof(this.money))
                 if(password==''||password==undefined){
                     this.$alert('请填写密码','提示',{
                         confirmButtonText: '确定',

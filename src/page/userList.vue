@@ -483,7 +483,7 @@
                 }
             },
             serchByTime(){
-                console.log(this.startDate)
+                // console.log(this.startDate)
                 if(this.startDate!==null){
                    this.getIADetail({userId:this.userId,pageCode:this.currentPageIA,pageSize:this.nowPageSizeIA,type:1,startTime:moment(this.startDate[0]).utc().format('YYYY-MM-DD HH:mm:ss'),endTime: moment(this.startDate[1]).utc().format('YYYY-MM-DD HH:mm:ss'),txType:this.state=='全部'?null:this.state})
                 }else{
@@ -519,7 +519,7 @@
                 });
             },
             changeIAType(){
-                console.log(this.startDate)
+                // console.log(this.startDate)
                 if(this.startDate===null){
                    this.getIADetail({userId:this.userId,pageCode:1,pageSize:10,type:1,startTime:'',endTime:'',txType:this.state=='全部'?null:this.state})
                 }else{
@@ -552,7 +552,7 @@
                 }
             },
             serchBCDByTime(){
-                console.log(this.startDate)
+                // console.log(this.startDate)
                 if(this.startDate!==null){
                     this.getIADetail({userId:this.userId,pageCode:this.currentPageIA,pageSize:this.nowPageSizeIA,type:0,startTime:moment(this.startDate[0]).utc().format('YYYY-MM-DD HH:mm:ss'),endTime: moment(this.startDate[1]).utc().format('YYYY-MM-DD HH:mm:ss'),txType:this.state=='全部'?null:this.state})
                 }else{
@@ -560,7 +560,7 @@
                 }
             },
             changeBCDType(){
-                console.log(this.startDate)
+                // console.log(this.startDate)
                 if(this.startDate===null){
                     this.getIADetail({userId:this.userId,pageCode:1,pageSize:10,type:0,startTime:'',endTime:'',txType:this.state=='全部'?null:this.state})
                 }else{

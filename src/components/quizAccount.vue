@@ -3,7 +3,8 @@
         <el-card class="box-card">
             <el-row style="display:flex;align-items: center">
                 <el-col :span="12">
-                    <div style="font-weight: 700;letter-spacing: 1px;">竞猜账户余额：{{quizAmount.balance|MoneyFormat}} IA</div>
+                    <div style="font-weight: 700;letter-spacing: 1px;">竞猜账户余额：{{quizAmount.balance|MoneyFormat}} IA
+                    </div>
                     <div style="letter-spacing: 1px;font-size:14px">竞猜收益余额：{{quizAmount.allIncome|MoneyFormat}} IA</div>
                 </el-col>
                 <el-col :span="12" style="display:flex;justify-content: flex-end">
@@ -71,7 +72,7 @@
             </el-table-column>
             <el-table-column
                 label="竞猜账户余额"
-               >
+            >
                 <template scope="scope">
                     {{scope.row.balance|MoneyFormat}}
                 </template>
@@ -118,7 +119,7 @@
     </div>
 </template>
 <script>
-    let moment=require('moment')
+    let moment = require('moment')
     export default {
         data() {
             return {
@@ -146,14 +147,14 @@
         created() {
             this.$ajax({
                 method: "POST",
-                url: BaseUrl+'imwallet/appwalletinfo',
-                params: {type:'2341a6e2c53d4ed182bd35bee0ddce84'},
+                url: BaseUrl + 'imwallet/appwalletinfo',
+                params: {type: '2341a6e2c53d4ed182bd35bee0ddce84'},
                 headers: {'token': sessionStorage.getItem('token')}
             }).then(response => {
-                if(response.data.flag==200) {
+                if (response.data.flag == 200) {
                     this.quizAmount = response.data.data;
-                }else if(response.data.flag==201){
-                    this.$alert(response.data.msg+'，请重新登录', '提示', {
+                } else if (response.data.flag == 201) {
+                    this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
                             this.$router.push('/')
@@ -162,25 +163,25 @@
                 }
             });
 // const form = {page: this.currentPage, size: this.nowPageSize,order:"startDate desc"}
-           this.getData()
+            this.getData()
         },
         computed: {},
         methods: {
             getData() {
                 this.$ajax({
                     method: "POST",
-                    url:BaseUrl+'guess/guessBill',
-                    params:{page:this.currentPage,size:this.nowPageSize},
+                    url: BaseUrl + 'guess/guessBill',
+                    params: {page: this.currentPage, size: this.nowPageSize},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.tableData = response.data.data.data;
-                    this.tableData.forEach(item=>{
-                        item.ctime=moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
-                    })
-                    this.txcount = response.data.data.count
-                    }else if(response.data.flag==201){
-                        this.$alert(response.data.msg+'，请重新登录', '提示', {
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.tableData.forEach(item => {
+                            item.ctime = moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
+                        this.txcount = response.data.data.count
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
@@ -190,8 +191,8 @@
                 });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
-this.nowPageSize = pageSize;
+                // console.log(">>>>>>pageSize", pageSize);
+                this.nowPageSize = pageSize;
 // if (this.searchForm == '') {
 //     var listParams = {
 //         page: 1,
@@ -204,11 +205,11 @@ this.nowPageSize = pageSize;
 //     this.searchForm.order="startDate desc"
 //     var listParams = this.searchForm
 // }
-this.getData();
+                this.getData();
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
-this.currentPage = pageValue;
+                // console.log(">>>>>>pageValue", pageValue);
+                this.currentPage = pageValue;
 // if (this.searchForm == '') {
 //     var listParams = {
 //         page: pageValue,
@@ -222,7 +223,7 @@ this.currentPage = pageValue;
 //     var listParams = this.searchForm
 // }
 //
-this.getData();
+                this.getData();
             },
 
             search(searchForm) {
@@ -281,11 +282,11 @@ this.getData();
                 } else {
                     this.$ajax({
                         method: "POST",
-                        url: BaseUrl+'imwallet/modifypassword',
+                        url: BaseUrl + 'imwallet/modifypassword',
                         params: {type: 'app_guess', newPassword: newPass, oldPassword: this.oldPass},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        console.log(response)
+                        // console.log(response)
                         if (response.data.msg == '旧密码错误') {
                             this.$alert('旧密码错误', {
                                 confirmButtonText: '确定',
@@ -308,13 +309,15 @@ this.getData();
                                 }
                             });
                             return false;
-                        } else if(response.data.flag==200){
+                        } else if (response.data.flag == 200) {
                             this.$alert('修改密码成功', {
                                 confirmButtonText: '确定',
-                                callback: action =>{this.newFormVisible = false}
+                                callback: action => {
+                                    this.newFormVisible = false
+                                }
                             });
-                        }else if(response.data.flag==201){
-                            this.$alert(response.data.msg+'，请重新登录', '提示', {
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')

@@ -602,7 +602,7 @@
                                     url:BaseUrl+'apply/auto/sort/'+this.$route.query.code,
                                     headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
                                 }).then(response => {
-                                    console.log(response);
+                                    // console.log(response);
                                     if (response.data.flag == 500) {
                                         this.$alert(response.data.msg, '提示', {
                                             confirmButtonText: '确定',

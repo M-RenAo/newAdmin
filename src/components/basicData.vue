@@ -197,7 +197,7 @@
                         {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
                         // console.log(response);
                         if (response.data.flag == 200) {
-                            console.log(response)
+                            // console.log(response)
                             this.authNum = response.data.data.authNum;
                             this.loginNum = response.data.data.loginNum;
                             this.regiNum = response.data.data.regiNum;

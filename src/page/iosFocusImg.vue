@@ -162,7 +162,7 @@
             }
         },
         mounted(){
-            console.log(this.$route.path)
+            // console.log(this.$route.path)
             this.getData()
         },
         computed: {
@@ -173,7 +173,7 @@
         methods: {
             getData(){
                 this.$ajax.get(BaseUrl+'banner/all/'+this.currentPage+'/'+this.nowPageSize,{headers: {'token': sessionStorage.getItem('token'),'device':this.type}}).then(response => {
-                    console.log(response)
+                    // console.log(response)
                     if(response.data.flag==200){
                         this.tableData=response.data.data.list;
                         this.txcount=response.data.data.num;
@@ -206,7 +206,7 @@
                 })
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 // if (this.searchForm == '') {
                 //     var listParams = {
@@ -223,7 +223,7 @@
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 // if (this.searchForm == '') {
                 //     var listParams = {

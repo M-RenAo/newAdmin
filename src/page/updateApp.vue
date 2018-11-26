@@ -229,7 +229,7 @@
                        }
                        // if(this.appForm.fileState=)
                        this.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
-                       console.log(this.appForm.fileDisplayPosition)
+                       // console.log(this.appForm.fileDisplayPosition)
                        if (this.appForm.fileDisplayPosition != undefined) {
                            this.value = eval(this.appForm.fileDisplayPosition)
                        }
@@ -282,7 +282,7 @@
                                 data:appForm,
                                 headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
                             }).then(response => {
-                                console.log(response);
+                                // console.log(response);
                                 if(response.data.flag==500){
                                     this.$alert(response.data.msg, '提示', {
                                         confirmButtonText: '确定',

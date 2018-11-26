@@ -53,7 +53,7 @@
                                     target = that.dataNum[i].value;
                                 }
                             }
-                            return name +' '+target+ ' (' + ((target/total)*100).toFixed(2) + '%'+')';
+                            return name +' '+target+ ' (' + (total==0?0:((target/total)*100).toFixed(2)) + '%'+')';
                         },
                     },
 

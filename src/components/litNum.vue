@@ -143,16 +143,16 @@
             getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/getAgentJoin',
+                    url: BaseUrl + 'guess/getAgentJoin',
                     params: form,
-                    headers:{'token':sessionStorage.getItem('token')}
+                    headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.quizAmount = response.data.data.balance;
-                    this.tableData = response.data.data.data;
-                    this.txcount = response.data.data.count
-                    }else if(response.data.flag==201){
-                        this.$alert(response.data.msg+'，请重新登录', '提示', {
+                    if (response.data.flag == 200) {
+                        this.quizAmount = response.data.data.balance;
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
@@ -174,29 +174,29 @@
                 });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
-this.nowPageSize = pageSize;
+                // console.log(">>>>>>pageSize", pageSize);
+                this.nowPageSize = pageSize;
 // if (this.searchForm == '') {
-    var listParams = {
-        page: 1,
-        size: pageSize,
-    };
+                var listParams = {
+                    page: 1,
+                    size: pageSize,
+                };
 // } else {
 //     this.searchForm.page = 1;
 //     this.searchForm.size = pageSize
 //     this.searchForm.order="startDate desc"
 //     var listParams = this.searchForm
 // }
-            this.getData(listParams);
+                this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
-this.currentPage = pageValue;
+                // console.log(">>>>>>pageValue", pageValue);
+                this.currentPage = pageValue;
 // if (this.searchForm == '') {
-    var listParams = {
-        page: pageValue,
-        size: this.nowPageSize || 10,
-    };
+                var listParams = {
+                    page: pageValue,
+                    size: this.nowPageSize || 10,
+                };
 // } else {
 //     this.searchForm.page = pageValue;
 //     this.searchForm.size = this.nowPageSize || 10;
@@ -204,7 +204,7 @@ this.currentPage = pageValue;
 //     var listParams = this.searchForm
 // }
 //
-              this.getData(listParams);
+                this.getData(listParams);
             },
 
             search(searchForm) {
@@ -263,11 +263,11 @@ this.currentPage = pageValue;
                 } else {
                     this.$ajax({
                         method: "POST",
-                        url: BaseUrl+'imwallet/modifypassword',
+                        url: BaseUrl + 'imwallet/modifypassword',
                         params: {type: 'app_guess', newPassword: newPass, oldPassword: this.oldPass},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        console.log(response)
+                        // console.log(response)
                         if (response.data.msg == '旧密码错误') {
                             this.$alert('旧密码错误', {
                                 confirmButtonText: '确定',
@@ -290,14 +290,16 @@ this.currentPage = pageValue;
                                 }
                             });
                             return false;
-                        } else if(response.data.flag==200){
+                        } else if (response.data.flag == 200) {
                             this.$alert('修改密码成功', {
                                 confirmButtonText: '确定',
-                                callback:action =>{this.newFormVisible = false}
+                                callback: action => {
+                                    this.newFormVisible = false
+                                }
                             });
-                        }else if(response.data.flag==201){
+                        } else if (response.data.flag == 201) {
                             this.newFormVisible = false
-                            this.$alert(response.data.msg+'，请重新登录', '提示', {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
