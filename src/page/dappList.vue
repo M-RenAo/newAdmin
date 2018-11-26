@@ -296,6 +296,8 @@
             historyTable(id,name){
                 this.dialogTableVisibleData=true;
                 this.dappName=name
+                this.currentPageHistory=1;
+                this.nowPageSizeHistory=10;
                 this.getHistory()
             },
             getHistory(){
