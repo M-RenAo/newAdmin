@@ -53,7 +53,7 @@
             <el-table-column
                 prop="rules"
                 label="规则"
-                width="100">
+                min-width="50">
                 <template scope="scope">
                         <div class="setState" @click="openRules(scope.row)">
                             {{scope.row.rules.slice(0,9)}}

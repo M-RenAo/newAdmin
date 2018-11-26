@@ -115,7 +115,7 @@
                 <div class="titleconten">
                     <h2 style="text-align:center;margin-bottom:20px">{{row.title}}</h2>
                     <div style="width:400px;height:200px;margin:0 auto" v-if="row.image!==''&&row.image!==undefined">
-                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+row.image" style="width:400px;height:200px;"  >
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+row.image" style="width:400px;height:200px;" >
                     </div>
                     <div style="width:600px;margin:0 auto;padding-top:20px">
                         {{row.content}}
@@ -149,8 +149,8 @@
                 visible2:false,
                 tableData: [],
                 txcount: 0,
-                currentPage: null,
-                nowPageSize: null,
+                currentPage:null,
+                nowPageSize: 10,
                 tabsName:"-1",//tabs
                 dialogTableVisible:false,
                 dialogFormVisible:false,
@@ -166,18 +166,14 @@
             };
         },
         created() {
-            // if(this.$route.params.page){
-            //     this.currentPage=parseInt(this.$route.params.page)
-            //     this.nowPageSize=parseInt(this.$route.params.size)
-            // }
             // this.paramss();
-            this.dataparams={ key:this.searchInfo, pageNum:this.$route.params.page||1, pageSize:this.$route.params.size||10}
             this.paramsss();
+            this.dataparams={ key:this.searchInfo, pageNum:this.$route.query.page||1, pageSize:this.$route.query.size||10}
             this.getData();
             this.$ajax.get(BaseUrl+"newsFlash/getAutoRelease",{
                          headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                              this.switchType=res.data.data
-                            //  console.log(res)
+                             console.log(res)
                     }
                 );
         },
@@ -241,18 +237,18 @@
                                 item.visible=false;
                             })
                     this.tableData=res.data.data
-                    this.currentPage=this.dataparams.pageNum
-                    this.nowPageSize=this.dataparams.pageSize
+                    this.currentPage=Number(this.dataparams.pageNum)
+                    this.nowPageSize=Number(this.dataparams.pageSize)
+                    console.log(this.tableData)
                     }
                 );
-                
+
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
                             params: this.numparams,
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                         this.usercount=res.data.data;
                     }
-                );
-
+                )
             },
             tabsClick(){//tabs选项
                 this.currentPage=1
@@ -286,7 +282,6 @@
                         key:this.searchInfo,
                         pageNum:this.currentPage,
                         pageSize:this.nowPageSize
-                        
                         }
             },
             paramsss(){
@@ -343,8 +338,8 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                         }).then(res=>{
-                            // console.log(this.enabled)
-                            // console.log(res)
+                            console.log(this.enabled)
+                            console.log(res)
                         })
             }
         }
@@ -436,7 +431,3 @@
     .hot{
         color:red
     }
-
-
-
-</style>

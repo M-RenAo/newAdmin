@@ -339,6 +339,7 @@ const routes = [
             meta: ['数据概览','活动数据'],
         },{
             path: '/messageManagement',
+            name:"messageManagement",
             component: messageManagement,
             meta: ['通用中心','快讯部署'],
         },{

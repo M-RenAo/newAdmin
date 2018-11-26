@@ -155,14 +155,14 @@
                 this.getData();
             },
             handleClick(tab, event) {//邀请好友   猜猜     待定
-                console.log(tab, event);
-                console.log(this.activeName)
+                // console.log(tab, event);
+                // console.log(this.activeName)
             },
             // cellClick(row, column, cell, event){
             //     console.log(row, column, cell, event);
             // },
             selecttime(time){//选择时间
-                console.log(time)
+                // console.log(time)
                 this.timeType=parseInt(time);
                 this.date="",
                 this.dataType={};
@@ -179,14 +179,14 @@
                     'token': sessionStorage.getItem('token')
                      }
                 }).then(res=>{
-                    console.log(res)
+                    // console.log(res)
                     this.usercount=res.data.data.num
                     this.tableData=res.data.data.data
                     
                 })
             },
             tabtime(time1,time2){
-                console.log(this.date)
+                // console.log(this.date)
                 if(this.date){
                     this.dataType[time1]=this.date[0];
                     this.dataType[time2]=this.date[1];

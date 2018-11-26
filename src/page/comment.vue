@@ -181,7 +181,7 @@
                                     })
                         }
                         this.tableData=res.data.data;
-                        console.log(res)
+                        // console.log(res)
                     }
                 )
             this.$ajax.get(BaseUrl+"newsFlash/commentAmount/"+this.newsflashID,{

@@ -312,7 +312,7 @@
                             this.setData()
                         }
                         // this.setData()       
-                        console.log(this.switchs)  
+                        // console.log(this.switchs)  
                     } else {
                         if(this.editdata.image==''&&valid){
                             this.$alert('请上传推广图', {

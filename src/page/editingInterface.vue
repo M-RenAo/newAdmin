@@ -112,6 +112,8 @@
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
                 switch:false,
+                page:'',
+                size:''
 
             };
         },
@@ -119,10 +121,12 @@
         created() {
             this.switch=false;
             if(this.$route.query.dataId){
+                this.page=this.$route.query.page
+                this.size=this.$route.query.size
                 this.$ajax.get(BaseUrl+"newsFlash/getArticle/"+this.$route.query.dataId,{
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
                         this.editdata=res.data.data;
-                        console.log(this.editdata)
+                        // console.log(this.editdata)
                         this.switch=true;
                         this.editdata.expire = Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000)+86400
                         
@@ -233,9 +237,14 @@
                                 }
                         }).then(res=>{
                                 
-                                this.$router.push({path:"/messageManagement"})
-                                console.log(res)
-                                console.log(this.editdata) 
+                                // this.$router.push({path:"/messageManagement"})
+                                this.$router.push({
+                                    name: 'messageManagement',
+                                    params: {
+                                        page:this.page,
+                                        size:this.size
+                                    }
+                                })
                         })
             
             },
@@ -248,7 +257,13 @@
                                 'token': sessionStorage.getItem('token')
                                 }
                     }).then(res=>{
-                                this.$router.push({path:"/messageManagement"})                                
+                                this.$router.push({
+                                    name: 'messageManagement',
+                                    params: {
+                                        page:this.page,
+                                        size:this.size
+                                    }
+                                })                               
                                 
                     })
             },
@@ -256,13 +271,13 @@
                 this.$refs.editdata.validate(async (valid) => {
                     
                     if (valid) {
-                        console.log(this.editdata)
+                        // console.log(this.editdata)
                         if(this.switch){
                             this.editEdit()
-                            console.log(1)
+                            // console.log(1)
                         }else{
                             this.createEdit()
-                            console.log(2)
+                            // console.log(2)
                         }                     
                     } else {
                             this.$alert('请填写完整', {

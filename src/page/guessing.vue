@@ -75,7 +75,7 @@
             // this.$router.push({path:'/guessingEdit'}) 
             
                 if(this.switch){
-                    console.log(1)
+                    // console.log(1)
                     if(data!==1){
                         let dataId=data.id
                         this.$router.push({
@@ -145,7 +145,7 @@
                 },
                 headers: {'token': sessionStorage.getItem('token')}
              }).then(res=>{
-                 console.log(res.data.data.data)
+                //  console.log(res.data.data.data)
                  this.colseArr=[];
                  this.arrIng=[];
                 res.data.data.data.forEach(item=>{
