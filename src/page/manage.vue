@@ -8,11 +8,11 @@
                         <template slot="title"><i class="el-icon-document"></i>数据概览</template>
                         <el-menu-item index="manage">首页</el-menu-item>
                         <el-menu-item index="iaHomeData">IA数据</el-menu-item>
-                        <el-submenu index="1-1">
-                            <span slot="title">应用数据</span>
-                            <el-menu-item index="appHomeData">android数据</el-menu-item>
-                            <el-menu-item index="iosHomeData">ios数据</el-menu-item>
-                        </el-submenu>
+                        <!--<el-submenu index="1-1">-->
+                            <!--<span slot="title">应用数据</span>-->
+                            <!--<el-menu-item index="appHomeData">android数据</el-menu-item>-->
+                            <!--<el-menu-item index="iosHomeData">ios数据</el-menu-item>-->
+                        <!--</el-submenu>-->
                         <el-menu-item index="activityData">活动数据</el-menu-item>
                         <!--<el-menu-item index="chainWallet">链城钱包</el-menu-item>-->
                         <!--<el-menu-item index="unapplicationList">平台收益</el-menu-item>-->
@@ -54,12 +54,12 @@
                         <!--<el-menu-item index="appSort">应用排序</el-menu-item>-->
                         <el-menu-item index="checkList">应用审核</el-menu-item>
 					</el-submenu>
-                    <el-submenu index="'4c'">
-                        <template slot="title"><i class="el-icon-document"></i>自选管理</template>
-                        <!--<el-menu-item index="quizList">竞猜管理</el-menu-item>-->
-                        <el-menu-item index="agreementList">小协议</el-menu-item>
-                        <el-menu-item index="guessing">竞猜管理</el-menu-item>
-                    </el-submenu>
+                    <!--<el-submenu index="'4c'">-->
+                        <!--<template slot="title"><i class="el-icon-document"></i>自选管理</template>-->
+                        <!--&lt;!&ndash;<el-menu-item index="quizList">竞猜管理</el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="agreementList">小协议</el-menu-item>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<el-menu-item index="guessing">竞猜管理</el-menu-item>&ndash;&gt;-->
+                    <!--</el-submenu>-->
                     <!--<div v-for="item in items">-->
                         <!--<template v-if="item.subs">-->
                             <!--<el-submenu :index="item.index" :key="item.index">-->
@@ -90,6 +90,7 @@
                         <el-menu-item index="blackList">黑白名单</el-menu-item>
                         <el-menu-item index="messageManagement">快讯管理</el-menu-item>
                         <el-menu-item index="dappList">dapp部署</el-menu-item>
+                        <el-menu-item index="guessing">竞猜管理</el-menu-item>
 					</el-submenu>
 					<el-submenu index="'6c'">
 						<template slot="title"><i class="el-icon-star-on"></i>用户信息</template>

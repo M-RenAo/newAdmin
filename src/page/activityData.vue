@@ -16,7 +16,7 @@
             </el-row>
         </div>
         <div class="block date">
-            <span class="realname">实名状态</span>
+            <!--<span class="realname">实名状态</span>-->
             <el-select v-model="selectvalue" style="width:110px" @change="selecttime">
                 <el-option
                 v-for="item in options"
@@ -39,7 +39,7 @@
                 <el-table-column prop="atime" label="实名时间" min-width="50"></el-table-column>
                 <el-table-column label="邀请成功注册人数" min-width="50" >
                 <template scope="scope">
-                
+
                 <div class="columnstyle" @click="goInviterecord(scope.row)">
                         {{scope.row.regNum}}
                 </div>
@@ -49,7 +49,7 @@
                 label="邀请成功实名人数"
                 min-width="50">
                 <template scope="scope">
-                    
+
                     <div class="columnstyle" @click="goInviterecord(scope.row)">
                         {{scope.row.authNum}}
                     </div>
@@ -122,7 +122,7 @@
                 this.nowPageSize=10;
                 if(this.timeType==1){//选择注册时间
                     this.tabtime("rtime1","rtime2")
-                                       
+
                 }else if(this.timeType==2){//选择实名时间
                     this.tabtime("atime1","atime2")
                 }else if(this.timeType==3){//选择登陆时间
@@ -130,21 +130,21 @@
                 }else{
                     this.getData()
                 }
-                
+
             },
             searchKeyword(){//关键字搜索
                 this.currentPage=1;
                 this.nowPageSize=10;
                 if(this.keyword){
-                    
+
                     this.dataType.name=this.keyword
                     this.getData();
-                    
+
                 }else{
                     delete this.dataType.name    //删除name键值对
                     this.getData();
                 }
-                
+
             },
             handleSizeChange(val) {
                 this.nowPageSize=val
@@ -182,7 +182,7 @@
                     console.log(res)
                     this.usercount=res.data.data.num
                     this.tableData=res.data.data.data
-                    
+
                 })
             },
             tabtime(time1,time2){
@@ -192,7 +192,7 @@
                     this.dataType[time2]=this.date[1];
                     this.getData()
                 }else{
-                                         
+
                 }
             },
             goInviterecord(row){//邀请记录界面
@@ -200,7 +200,7 @@
                 this.userId=row.userId
                 this.thisName=row.name
             }
-            
+
         },
         components:{
             successFul
