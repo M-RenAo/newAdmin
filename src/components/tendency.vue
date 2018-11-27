@@ -23,6 +23,7 @@
             resizeWorldMapContainer();
             this.myChart = echarts.init(document.getElementById('line1'));
             this.initData();
+            console.log(this.max)
         },
         props: ['sevenDate', 'sevenDay','max','dataName'],
         methods: {

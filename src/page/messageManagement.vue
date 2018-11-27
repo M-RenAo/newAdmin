@@ -242,7 +242,7 @@
                     this.tableData=res.data.data
                     this.currentPage=this.dataparams.pageNum
                     this.nowPageSize=this.dataparams.pageSize
-                    console.log(this.tableData)
+                    // console.log(this.tableData)
                     }
                 );
                 
