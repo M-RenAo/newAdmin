@@ -3,19 +3,24 @@
         <el-row style="margin-top:300px;display:flex;justify-content: center">
             <div>
                 <div style="display:flex;">
-                    <div  class="el-button el-button--primary el-button--small" style="height:28px;">
+                    <div class="el-button el-button--primary el-button--small" style="height:28px;">
                         <div style="position: absolute"> 选取文件</div>
-                        <input type="file" style="display: block;opacity: 0;width:50px;" accept=".apk" @change="add_app" v-if="$route.query.type=='android'">
-                        <input type="file" style="display: block;opacity: 0;width:50px;" accept=".ipa" @change="add_app" v-if="$route.query.type=='ios'">
+                        <input type="file" style="display: block;opacity: 0;width:50px;" accept=".apk" @change="add_app"
+                               v-if="$route.query.type=='android'">
+                        <input type="file" style="display: block;opacity: 0;width:50px;" accept=".ipa" @change="add_app"
+                               v-if="$route.query.type=='ios'">
                     </div>
-                    <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" readonly ref="upload">上传到服务器</el-button>
+                    <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload" readonly
+                               ref="upload">上传到服务器
+                    </el-button>
                 </div>
                 <div slot="tip" class="el-upload__tip">只能上传{{filetype}}文件</div>
                 <div>{{fileName}}</div>
             </div>
         </el-row>
         <div class="progress-wrap">
-            <el-steps :space="200" :active="progressStepsActive" v-if="showProgressSteps" finish-status="success" class="steps-style">
+            <el-steps :space="200" :active="progressStepsActive" v-if="showProgressSteps" finish-status="success"
+                      class="steps-style">
                 <el-step title="正在上传"></el-step>
                 <el-step title="上传完毕"></el-step>
                 <el-step title="正在配置"></el-step>
@@ -27,7 +32,8 @@
 
 <script>
     import headTop from "@/components/headTop";
-    import { baseUrl, baseImgPath } from "@/config/env";
+    import {baseUrl, baseImgPath} from "@/config/env";
+
     export default {
         data() {
             return {
@@ -38,17 +44,17 @@
                 showProgress: false,
                 progressStepsActive: 0,
                 showProgressSteps: true,
-                filetype:''
+                filetype: ''
             };
         },
         components: {
             headTop
         },
         created() {
-            if(this.$route.query.type=='android'){
-                this.filetype='apk'
-            }else if(this.$route.query.type=='ios'){
-                this.filetype='ipa'
+            if (this.$route.query.type == 'android') {
+                this.filetype = 'apk'
+            } else if (this.$route.query.type == 'ios') {
+                this.filetype = 'ipa'
             }
         },
         computed: {},
@@ -65,15 +71,15 @@
                         params: {
                             fileName: event.target.files[0].name,
                             type: "apply",
-                            callBackType:"app_update",
+                            callBackType: "app_update",
 
-                        }, headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
+                        }, headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             this.uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -94,8 +100,8 @@
                     });
             },
             submitUpload() {
-                var that=this;
-                var promise = new Promise(function(resolve, reject) {
+                var that = this;
+                var promise = new Promise(function (resolve, reject) {
                     const form = new FormData();
                     let img1 = that.file;
                     let type = img1.type; //文件的类型，判断是否是图片
@@ -143,7 +149,7 @@
                             //     callback: this.$router.push({ path: "/applicationList" })
                             //   });
                             resolve(response.data.flag)
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             that.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -154,17 +160,17 @@
                     });
 
                 })
-                var promise2=new Promise(function(resolve,reject){
+                var promise2 = new Promise(function (resolve, reject) {
                     //上传文件到本地
                     let img1 = that.file;
-                    var form2=new FormData();
+                    var form2 = new FormData();
                     form2.append("key", that.uploadPolicy["key"]);
                     form2.append("file", img1);
                     that.$ajax({
                         method: "POST",
-                        url: BaseUrl+'apply/appUpload',
+                        url: BaseUrl + 'apply/appUpload',
                         data: form2,
-                        headers: {'token': sessionStorage.getItem('token'),'device':that.$route.query.type}
+                        headers: {'token': sessionStorage.getItem('token'), 'device': that.$route.query.type}
                     }).then(response => {
                         if (response.data.flag == 500) {
                             that.$alert(response.data.msg, "提示", {
@@ -183,7 +189,7 @@
                             //     callback: this.$router.push({ path: "/applicationList" })
                             //   });
                             resolve(response.data.flag)
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             that.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -193,31 +199,52 @@
                         }
                     });
                 })
-                Promise.all([promise,promise2]).then((result) => {
+                Promise.all([promise, promise2]).then((result) => {
                     // console.log(result)
-                    this.progressStepsActive=3;
-                    var that=this
-                    this.$ajax.get(BaseUrl+'apply/auto/update/'+this.$route.query.id,{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(function (response) {
-                        if(response.data.flag==200){
-                            that.progressStepsActive=4;
+                    this.progressStepsActive = 3;
+                    var that = this
+                    this.$ajax.get(BaseUrl + 'apply/auto/update/' + this.$route.query.id, {
+                        headers: {
+                            'token': sessionStorage.getItem('token'),
+                            'device': this.$route.query.type
+                        }
+                    }).then(function (response) {
+                        if (response.data.flag == 200) {
+                            that.progressStepsActive = 4;
                             that.$alert(response.data.msg, "提示", {
                                 confirmButtonText: "确定",
-                                callback:action=>{
-                                    if(that.$route.query.type=='android'){
-                                    that.$router.push({path:'/applicationList',query:{page:that.$route.query.page,size:that.$route.query.size,flag:that.$route.query.flag,tagcode:that.$route.query.tagcode}})
-                                    }else if(that.$route.query.type=='ios'){
-                                        that.$router.push({path:'/iosList',query:{page:that.$route.query.page,size:that.$route.query.size,flag:that.$route.query.flag,tagcode:that.$route.query.tagcode}})
+                                callback: action => {
+                                    if (that.$route.query.type == 'android') {
+                                        that.$router.push({
+                                            path: '/applicationList',
+                                            query: {
+                                                page: that.$route.query.page,
+                                                size: that.$route.query.size,
+                                                flag: that.$route.query.flag,
+                                                tagcode: that.$route.query.tagcode
+                                            }
+                                        })
+                                    } else if (that.$route.query.type == 'ios') {
+                                        that.$router.push({
+                                            path: '/iosList',
+                                            query: {
+                                                page: that.$route.query.page,
+                                                size: that.$route.query.size,
+                                                flag: that.$route.query.flag,
+                                                tagcode: that.$route.query.tagcode
+                                            }
+                                        })
                                     }
                                 }
                             });
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             that.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     that.$router.push('/')
                                 }
                             });
-                        }else{
+                        } else {
                             that.$alert(response.data.msg, "提示", {
                                 confirmButtonText: "确定"
                             });
@@ -234,6 +261,7 @@
 
 <style lang="less" scoped>
     @import "../style/mixin";
+
     .progress-wrap {
         display: flex;
         align-items: center;
@@ -241,7 +269,8 @@
         margin: 1rem;
         height: 5rem;
     }
-    .steps-style{
-        padding-left:150px;
+
+    .steps-style {
+        padding-left: 150px;
     }
 </style>

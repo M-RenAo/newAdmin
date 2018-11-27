@@ -125,11 +125,10 @@
     export default {
         data() {
             return {
-                lottery:{
-                },
-                anwser:'',
-                ensureVisible:false,
-                option:{}
+                lottery: {},
+                anwser: '',
+                ensureVisible: false,
+                option: {}
             };
         },
         components: {
@@ -138,15 +137,15 @@
         created() {
             this.$ajax({
                 method: "POST",
-                url:  BaseUrl+'guess/getById',
-                data: {id:this.$route.query.id},
+                url: BaseUrl + 'guess/getById',
+                data: {id: this.$route.query.id},
                 headers: {'token': sessionStorage.getItem('token')}
-            }).then(response=>{
-                if(response.data.flag==200) {
+            }).then(response => {
+                if (response.data.flag == 200) {
                     this.lottery = response.data.data.guess;
                     this.option = JSON.parse(response.data.data.guess.option)
                     console.log(response.data.option)
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -158,34 +157,36 @@
         },
         computed: {},
         methods: {
-            submitForm(){
-              this.ensureVisible=true;
+            submitForm() {
+                this.ensureVisible = true;
             },
-            ensure(){
+            ensure() {
                 this.$ajax({
                     method: "POST",
-                    url:  BaseUrl+'guess/issue',
-                    data: {id:this.$route.query.id,answer:this.anwser},
+                    url: BaseUrl + 'guess/issue',
+                    data: {id: this.$route.query.id, answer: this.anwser},
                     headers: {'token': sessionStorage.getItem('token')}
-                }).then(response=>{
-                    if(response.data.flag==200){
+                }).then(response => {
+                    if (response.data.flag == 200) {
                         var t;
                         clearTimeout(t)
-                        var that=this
-                        t = setTimeout(function (){
+                        var that = this
+                        t = setTimeout(function () {
                             that.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
-                                callback: action=>{that.$router.push({path: '/quizList'})}
+                                callback: action => {
+                                    that.$router.push({path: '/quizList'})
+                                }
                             });
                         }, 1000);
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -197,7 +198,7 @@
                         });
                     }
                 });
-                this.ensureVisible=false
+                this.ensureVisible = false
             }
         },
 

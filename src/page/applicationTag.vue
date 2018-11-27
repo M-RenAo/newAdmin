@@ -11,7 +11,9 @@
                     label="分类图标"
                 >
                     <template scope="scope">
-                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.icon" style="width:40px;height: auto" v-if="scope.row.icon!=undefined&&scope.row.icon!=='tag_default.jpg'">
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.icon"
+                             style="width:40px;height: auto"
+                             v-if="scope.row.icon!=undefined&&scope.row.icon!=='tag_default.jpg'">
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -42,16 +44,20 @@
                     <el-form-item label="分类标题" :label-width="formLabelWidth" prop="title">
                         <el-input v-model="form.title" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
-                    <el-form-item label="分类图标" :label-width="formLabelWidth" prop="title" >
+                    <el-form-item label="分类图标" :label-width="formLabelWidth" prop="title">
                         <div style="display: flex;align-items:flex-end;">
-                        <div style="width:70px;height:70px;border: 1px #999 solid;margin-right: 10px">
-                            <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+urlTagIcon" v-if="urlTagIcon!==null" style="width:100%;height:100%;"/></div>
-                            <el-button type="primary" v-if="urlTagIcon===null" style="position: relative"><span>上传</span>  <input @change='add_img' type="file" style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0"></el-button>
-                        <el-button type="primary" v-if="urlTagIcon!==null" @click="urlTagIcon=null">删除</el-button>
+                            <div style="width:70px;height:70px;border: 1px #999 solid;margin-right: 10px">
+                                <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+urlTagIcon"
+                                     v-if="urlTagIcon!==null" style="width:100%;height:100%;"/></div>
+                            <el-button type="primary" v-if="urlTagIcon===null" style="position: relative">
+                                <span>上传</span> <input @change='add_img' type="file"
+                                                       style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0">
+                            </el-button>
+                            <el-button type="primary" v-if="urlTagIcon!==null" @click="urlTagIcon=null">删除</el-button>
                         </div>
                     </el-form-item>
                     <!--<el-form-item label="排序" :label-width="formLabelWidth" prop="num">-->
-                        <!--<el-input v-model="form.num" auto-complete="off" style="width:80%"></el-input>-->
+                    <!--<el-input v-model="form.num" auto-complete="off" style="width:80%"></el-input>-->
                     <!--</el-form-item>-->
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -77,36 +83,39 @@
 
 <script>
     import headTop from "../components/headTop";
-    import { baseUrl, baseImgPath } from "@/config/env";
-    let moment=require('moment')
+    import {baseUrl, baseImgPath} from "@/config/env";
+
+    let moment = require('moment')
     export default {
         data() {
             return {
                 tagList: [],
-                dialogFormVisible:false,
-                dialogVisible:false,
-                urlTagIcon:null,
-                form:{
-                    title:'',
-                    code:'',
-                    id:'',
+                dialogFormVisible: false,
+                dialogVisible: false,
+                urlTagIcon: null,
+                form: {
+                    title: '',
+                    code: '',
+                    id: '',
                 },
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
                 formLabelWidth: '120px',
-                deleteId:'',
+                deleteId: '',
                 rule: {
                     title: [
                         {required: true, message: '请输入分类名称', trigger: 'blur'},
                     ],
                     num: [
-                        {type:'number',required: true, message: '请输入排序', trigger: 'blur', transform(value) {
+                        {
+                            type: 'number', required: true, message: '请输入排序', trigger: 'blur', transform(value) {
                                 return Number(value);
-                            }}
+                            }
+                        }
                     ],
                 },
-                UploadUrl:'',
+                UploadUrl: '',
 
             };
         },
@@ -118,15 +127,20 @@
             headTop
         },
         methods: {
-            getTagData(){
-                this.$ajax.get(BaseUrl+'apptag/all',{headers: {'token': sessionStorage.getItem('token'),'device':'android'}}).then(response => {
-                    if(response.data.flag==200){
-                        this.tagList=response.data.data;
-                        this.tagList.forEach(item=>{
-                            item.date=moment.utc(item.date).local().format('YYYY-MM-DD HH:mm:ss')
+            getTagData() {
+                this.$ajax.get(BaseUrl + 'apptag/all', {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': 'android'
+                    }
+                }).then(response => {
+                    if (response.data.flag == 200) {
+                        this.tagList = response.data.data;
+                        this.tagList.forEach(item => {
+                            item.date = moment.utc(item.date).local().format('YYYY-MM-DD HH:mm:ss')
                         })
-                        sessionStorage.setItem('taglist',JSON.stringify(response.data.data))
-                    }else if(response.data.flag==201) {
+                        sessionStorage.setItem('taglist', JSON.stringify(response.data.data))
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -137,12 +151,12 @@
 
                 })
             },
-            addTag(){
-                this.dialogFormVisible=true;
-                this.form={};
-                this.urlTagIcon=null
+            addTag() {
+                this.dialogFormVisible = true;
+                this.form = {};
+                this.urlTagIcon = null
             },
-            update(code,id){
+            update(code, id) {
                 // this.dialogFormVisible=true;
                 // this.tagList.forEach(item => {
                 //     if (item.id == id) {
@@ -151,30 +165,30 @@
                 //         this.form.code=item.code;
                 //     }
                 // });
-                this.$router.push({path:'/updateTag',query:{code:code,id:id,type:'android'}})
+                this.$router.push({path: '/updateTag', query: {code: code, id: id, type: 'android'}})
             },
             add_img(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -207,9 +221,9 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -222,48 +236,48 @@
             },
             ensureUpdate() {
                 this.$refs.form.validate(async (valid) => {
-                    if(this.urlTagIcon!==null){
-                        this.form.icon=this.urlTagIcon
-                    }else{
-                        this.form.icon='tag_default.jpg'
+                    if (this.urlTagIcon !== null) {
+                        this.form.icon = this.urlTagIcon
+                    } else {
+                        this.form.icon = 'tag_default.jpg'
                     }
 
-                    if(valid){
-                    this.$ajax({
-                        method: "POST",
-                        url: BaseUrl + 'apptag/add',
-                        data: this.form,
-                        headers: {'token': sessionStorage.getItem('token'),'device':'android'}
-                    }).then(response => {
-                        // console.log(response);
-                        if(response.data.flag==500){
-                            this.$alert(response.data.msg, '提示', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$message({
-                                        type: 'info',
-                                        message: `error: ${ response.data.msg +',请重试'}`
-                                    });
-                                }
-                            });
-                        }else if(response.data.flag==200){
-                            this.dialogFormVisible=false;
-                            this.$alert(response.data.msg, '提示', {
-                                confirmButtonText: '确定',
-                                callback:action=>{
-                                    this.getTagData()
-                                }
-                            });
-                        }else if(response.data.flag==201) {
-                            this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$router.push('/')
-                                }
-                            });
-                        }
-                    });
-                    }else{
+                    if (valid) {
+                        this.$ajax({
+                            method: "POST",
+                            url: BaseUrl + 'apptag/add',
+                            data: this.form,
+                            headers: {'token': sessionStorage.getItem('token'), 'device': 'android'}
+                        }).then(response => {
+                            // console.log(response);
+                            if (response.data.flag == 500) {
+                                this.$alert(response.data.msg, '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$message({
+                                            type: 'info',
+                                            message: `error: ${ response.data.msg + ',请重试'}`
+                                        });
+                                    }
+                                });
+                            } else if (response.data.flag == 200) {
+                                this.dialogFormVisible = false;
+                                this.$alert(response.data.msg, '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.getTagData()
+                                    }
+                                });
+                            } else if (response.data.flag == 201) {
+                                this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$router.push('/')
+                                    }
+                                });
+                            }
+                        });
+                    } else {
                         this.$alert('请填写完整', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -275,88 +289,94 @@
                         });
                         return false;
                     }
-                //
-                // } else {
-                //     if(valid){
-                //     this.$ajax({
-                //         method: "POST",
-                //         url: BaseUrl + 'apptag/update',
-                //         data: this.form,
-                //         headers: {'token': sessionStorage.getItem('token'),'device':'android'}
-                //     }).then(response => {
-                //         console.log(response);
-                //         if(response.data.flag==500){
-                //             this.$alert(response.data.msg, '提示', {
-                //                 confirmButtonText: '确定',
-                //                 callback: action => {
-                //                     this.$message({
-                //                         type: 'info',
-                //                         message: `error: ${ response.data.msg +',请重试'}`
-                //                     });
-                //                 }
-                //             });
-                //         }else if(response.data.flag==200){
-                //             this.dialogFormVisible=false;
-                //             this.$alert(response.data.msg, '提示', {
-                //                 confirmButtonText: '确定',
-                //                 callback:action=>{
-                //                     this.getTagData()
-                //                 }
-                //             });
-                //         }else if(response.data.flag==201) {
-                //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-                //                 confirmButtonText: '确定',
-                //                 callback: action => {
-                //                     this.$router.push('/')
-                //                 }
-                //             });
-                //         }
-                //     });
-                //     }else{
-                //         this.$alert('请填写完整', {
-                //             confirmButtonText: '确定',
-                //             callback: action => {
-                //                 this.$message({
-                //                     type: 'info',
-                //                     message: `请重试！`
-                //                 });
-                //             }
-                //         });
-                //         return false;
-                //     }
-                // }
-            })
+                    //
+                    // } else {
+                    //     if(valid){
+                    //     this.$ajax({
+                    //         method: "POST",
+                    //         url: BaseUrl + 'apptag/update',
+                    //         data: this.form,
+                    //         headers: {'token': sessionStorage.getItem('token'),'device':'android'}
+                    //     }).then(response => {
+                    //         console.log(response);
+                    //         if(response.data.flag==500){
+                    //             this.$alert(response.data.msg, '提示', {
+                    //                 confirmButtonText: '确定',
+                    //                 callback: action => {
+                    //                     this.$message({
+                    //                         type: 'info',
+                    //                         message: `error: ${ response.data.msg +',请重试'}`
+                    //                     });
+                    //                 }
+                    //             });
+                    //         }else if(response.data.flag==200){
+                    //             this.dialogFormVisible=false;
+                    //             this.$alert(response.data.msg, '提示', {
+                    //                 confirmButtonText: '确定',
+                    //                 callback:action=>{
+                    //                     this.getTagData()
+                    //                 }
+                    //             });
+                    //         }else if(response.data.flag==201) {
+                    //             this.$alert(response.data.msg + '，请重新登录', '提示', {
+                    //                 confirmButtonText: '确定',
+                    //                 callback: action => {
+                    //                     this.$router.push('/')
+                    //                 }
+                    //             });
+                    //         }
+                    //     });
+                    //     }else{
+                    //         this.$alert('请填写完整', {
+                    //             confirmButtonText: '确定',
+                    //             callback: action => {
+                    //                 this.$message({
+                    //                     type: 'info',
+                    //                     message: `请重试！`
+                    //                 });
+                    //             }
+                    //         });
+                    //         return false;
+                    //     }
+                    // }
+                })
             },
-            deleteTag(id){
-                this.dialogVisible=true;
-                this.deleteId=id;
+            deleteTag(id) {
+                this.dialogVisible = true;
+                this.deleteId = id;
             },
             handleClose(done) {
                 this.$confirm('确认关闭？')
                     .then(_ => {
                         done();
                     })
-                    .catch(_ => {});
+                    .catch(_ => {
+                    });
             },
-            ensureDelete(){
-                this.dialogVisible=false;
-               // console.log(this.deleteId);
-                this.$ajax.get(BaseUrl + 'apptag/delete/' + this.deleteId,{headers: {'token': sessionStorage.getItem('token'),'device':'android'}}).then(response => {
+            ensureDelete() {
+                this.dialogVisible = false;
+                // console.log(this.deleteId);
+                this.$ajax.get(BaseUrl + 'apptag/delete/' + this.deleteId, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': 'android'
+                    }
+                }).then(response => {
                     // console.log(response)
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.$message({
                             type: 'success',
                             message: '删除成功!',
                         });
                         this.getTagData()
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else {
+                    } else {
                         this.$message({
                             type: 'error',
                             message: '删除失败!',
@@ -422,12 +442,14 @@
         height: 120px;
         display: block;
     }
+
     .cell {
         overflow: hidden;
         text-overflow: ellipsis;
         word-break: break-all;
         white-space: nowrap !important;
     }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/

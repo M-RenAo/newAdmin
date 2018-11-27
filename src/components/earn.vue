@@ -4,31 +4,33 @@
             <el-card class="box-card">
                 <div style="font-weight: 700;letter-spacing: 1px;display: flex;align-items: center">
                     <el-col :span="12"><span>平台收益余额：{{platformData|MoneyFormat}} IA</span></el-col>
-                    <el-col :span="12"><el-button style="float: right" @click="modifyPlatfrom()" type="primary">修改平台收益账户密码</el-button></el-col>
+                    <el-col :span="12">
+                        <el-button style="float: right" @click="modifyPlatfrom()" type="primary">修改平台收益账户密码</el-button>
+                    </el-col>
 
                 </div>
                 <!--<div style="letter-spacing: 1px;font-size: 14px">已奖励用户：{{rewordMoney}}IA</div>-->
             </el-card>
             <!--<el-row type="flex" style="margin-bottom: 30px;margin-top: 20px">-->
-                <!--<el-col :span="19" style="display:flex;height: auto;word-break:break-all;flex:1;padding-left:5px;">-->
-                    <!--<div style="display:inline-block">-->
-                        <!--<div style="display: inline-block">-->
-                            <!--<span style="font-size: 14px;width:80px;">时间：</span>-->
-                            <!--<el-date-picker-->
-                                <!--v-model="startDate"-->
-                                <!--type="datetimerange"-->
-                                <!--align="right"-->
-                                <!--:default-time="['12:00:00', '08:00:00']">-->
-                            <!--</el-date-picker>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</el-col>-->
-                <!--<div style="float:right">-->
-                    <!--<el-button type="primary" style="margin-right:10px;margin-bottom:2px;"-->
-                               <!--@click="search(searchForm)">搜索-->
-                    <!--</el-button>-->
-                    <!--&lt;!&ndash;<el-button type="primary" style="margin-left:0">导出</el-button>&ndash;&gt;-->
-                <!--</div>-->
+            <!--<el-col :span="19" style="display:flex;height: auto;word-break:break-all;flex:1;padding-left:5px;">-->
+            <!--<div style="display:inline-block">-->
+            <!--<div style="display: inline-block">-->
+            <!--<span style="font-size: 14px;width:80px;">时间：</span>-->
+            <!--<el-date-picker-->
+            <!--v-model="startDate"-->
+            <!--type="datetimerange"-->
+            <!--align="right"-->
+            <!--:default-time="['12:00:00', '08:00:00']">-->
+            <!--</el-date-picker>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</el-col>-->
+            <!--<div style="float:right">-->
+            <!--<el-button type="primary" style="margin-right:10px;margin-bottom:2px;"-->
+            <!--@click="search(searchForm)">搜索-->
+            <!--</el-button>-->
+            <!--&lt;!&ndash;<el-button type="primary" style="margin-left:0">导出</el-button>&ndash;&gt;-->
+            <!--</div>-->
             <!--</el-row>-->
             <el-table
                 :data="tableData"
@@ -60,9 +62,9 @@
                 </el-pagination>
             </div>
             <el-dialog title="请输入平台收益账户密码" :visible.sync="dialogFormVisible">
-                <el-form  >
+                <el-form>
                     <el-form-item label="账户密码" :label-width="formLabelWidth" prop="title">
-                        <el-input v-model="oldPass" type="password" auto-complete="off"  style="width:80%"></el-input>
+                        <el-input v-model="oldPass" type="password" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -71,9 +73,9 @@
                 </div>
             </el-dialog>
             <el-dialog title="请输入平台收益新账户密码" :visible.sync="newFormVisible">
-                <el-form  >
+                <el-form>
                     <el-form-item label="新账户密码" :label-width="formLabelWidth" prop="title">
-                        <el-input v-model="newPass" type="password" auto-complete="off" style="width:80%" ></el-input>
+                        <el-input v-model="newPass" type="password" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -89,7 +91,8 @@
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
     import headTop from '../components/headTop'
-let moment=require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
@@ -97,17 +100,17 @@ let moment=require('moment')
                 tableData: [],
                 startDate: '',
                 endDate: '',
-                platformData:'',
+                platformData: '',
                 state: '4',
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                dialogFormVisible:false,
-                newFormVisible:false,
+                dialogFormVisible: false,
+                newFormVisible: false,
                 formLabelWidth: '120x',
-                oldPass:'',
-                newPass:'',
-                rewordMoney:''
+                oldPass: '',
+                newPass: '',
+                rewordMoney: ''
             };
         },
         components: {
@@ -116,14 +119,14 @@ let moment=require('moment')
         created() {
             this.$ajax({
                 method: "POST",
-                url:  BaseUrl+'imwallet/incomeBalance',
+                url: BaseUrl + 'imwallet/incomeBalance',
                 headers: {'token': sessionStorage.getItem('token')}
-            }).then(response=>{
-                if(response.data.flag==200){
-                this.platformData=response.data.data.data;
+            }).then(response => {
+                if (response.data.flag == 200) {
+                    this.platformData = response.data.data.data;
                     sessionStorage.setItem('platformData', this.platformData)
-                }else if(response.data.flag==201){
-                    this.$alert(response.data.msg+'，请重新登录', '提示', {
+                } else if (response.data.flag == 201) {
+                    this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
                             this.$router.push('/')
@@ -147,18 +150,18 @@ let moment=require('moment')
             getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'imwallet/incomebill',
+                    url: BaseUrl + 'imwallet/incomebill',
                     params: form,
-                    headers:{'token':sessionStorage.getItem('token')}
+                    headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                       this.tableData = response.data.data.data;
-                       this.tableData.forEach(item=>{
-                          item.ctime=moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
-                       })
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.tableData.forEach(item => {
+                            item.ctime = moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
                         this.txcount = response.data.data.total
-                    }else if(response.data.flag==201){
-                        this.$alert(response.data.msg+'，请重新登录', '提示', {
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
@@ -183,11 +186,11 @@ let moment=require('moment')
                 // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 // if (this.searchForm == '') {
-                    var listParams = {
-                        papageCodege: 1,
-                        pageSize: pageSize,
+                var listParams = {
+                    papageCodege: 1,
+                    pageSize: pageSize,
 
-                    };
+                };
                 // } else {
                 //     this.searchForm.page = 1;
                 //     this.searchForm.size = pageSize
@@ -200,10 +203,10 @@ let moment=require('moment')
                 // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 // if (this.searchForm == '') {
-                    var listParams = {
-                        pageCode: pageValue,
-                        pageSize: this.nowPageSize || 10,
-                    };
+                var listParams = {
+                    pageCode: pageValue,
+                    pageSize: this.nowPageSize || 10,
+                };
                 // } else {
                 //     this.searchForm.page = pageValue;
                 //     this.searchForm.size = this.nowPageSize || 10;
@@ -213,13 +216,13 @@ let moment=require('moment')
                 //
                 this.getData(listParams);
             },
-            modifyPlatfrom(){
-                this.oldPass='';
-                this.newPass='';
-                this.dialogFormVisible=true
+            modifyPlatfrom() {
+                this.oldPass = '';
+                this.newPass = '';
+                this.dialogFormVisible = true
             },
-            ensure(oldPass){
-                if(oldPass==''||oldPass==undefined){
+            ensure(oldPass) {
+                if (oldPass == '' || oldPass == undefined) {
                     this.$alert('请填写密码', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -230,14 +233,14 @@ let moment=require('moment')
                         }
                     });
                     return false;
-                }else{
-                    this.dialogFormVisible=false;
-                    this.newFormVisible=true;
+                } else {
+                    this.dialogFormVisible = false;
+                    this.newFormVisible = true;
 
                 }
             },
-            ensureNew(newPass){
-                if(newPass==''||newPass==undefined){
+            ensureNew(newPass) {
+                if (newPass == '' || newPass == undefined) {
                     this.$alert('请填写新密码', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -248,15 +251,15 @@ let moment=require('moment')
                         }
                     });
                     return false;
-                }else{
+                } else {
                     this.$ajax({
                         method: "POST",
-                        url:  BaseUrl+'imwallet/modifypassword',
-                        params:{type:'income',newPassword:newPass,oldPassword:this.oldPass},
+                        url: BaseUrl + 'imwallet/modifypassword',
+                        params: {type: 'income', newPassword: newPass, oldPassword: this.oldPass},
                         headers: {'token': sessionStorage.getItem('token')}
-                    }).then(response=>{
+                    }).then(response => {
                         // console.log(response)
-                        if(response.data.msg=='旧密码错误'){
+                        if (response.data.msg == '旧密码错误') {
                             this.$alert('旧密码错误', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -267,7 +270,7 @@ let moment=require('moment')
                                 }
                             });
                             return false;
-                        }else if(response.data.flag=='500'&&response.data.msg!='旧密码错误'){
+                        } else if (response.data.flag == '500' && response.data.msg != '旧密码错误') {
                             this.$alert('修改失败', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -278,13 +281,15 @@ let moment=require('moment')
                                 }
                             });
                             return false;
-                        }else if(response.data.flag==200){
+                        } else if (response.data.flag == 200) {
                             this.$alert('修改密码成功', {
                                 confirmButtonText: '确定',
-                                callback: action=>{this.newFormVisible=false}
+                                callback: action => {
+                                    this.newFormVisible = false
+                                }
                             });
-                        }else if(response.data.flag==201){
-                            this.$alert(response.data.msg+'，请重新登录', '提示', {
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
@@ -307,6 +312,7 @@ let moment=require('moment')
     .table_container {
         padding: 20px;
     }
+
     .littleButton {
         padding: 5px 10px !important;
         margin-left: 0 !important;

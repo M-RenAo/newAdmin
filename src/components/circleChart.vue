@@ -9,6 +9,7 @@
     import 'echarts/lib/component/title'
     import 'echarts/lib/component/legend'
     import 'echarts/lib/component/legendScroll'
+
     export default {
         data() {
             return {
@@ -17,19 +18,19 @@
         },
 
         props: ['dataNum'],
-        created(){
+        created() {
         },
         watch: {
-            dataNum: function (){
+            dataNum: function () {
                 this.init()
             },
         },
         mounted() {
-          this.init()
+            this.init()
         },
         methods: {
-            init(){
-                var that=this
+            init() {
+                var that = this
                 this.charts = ECharts.init(this.$el, {color: ['#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#339ca8', '#cda819', '#32a487']})
                 let option = {
                     title: {
@@ -42,9 +43,9 @@
                     legend: {
                         orient: 'vertical',
                         x: 'right',
-                        y:'25%',
+                        y: '25%',
                         data: this.dataNum,
-                        formatter:function (name) {
+                        formatter: function (name) {
                             var total = 0;
                             var target;
                             for (var i = 0, l = that.dataNum.length; i < l; i++) {
@@ -53,7 +54,7 @@
                                     target = that.dataNum[i].value;
                                 }
                             }
-                            return name +' '+target+ ' (' + (total==0?0:((target/total)*100).toFixed(2)) + '%'+')';
+                            return name + ' ' + target + ' (' + (total == 0 ? 0 : ((target / total) * 100).toFixed(2)) + '%' + ')';
                         },
                     },
 
@@ -69,7 +70,7 @@
                                 },
 
                             },
-                            data:this.dataNum,
+                            data: this.dataNum,
                             itemStyle: {
                                 emphasis: {
                                     shadowBlur: 10,

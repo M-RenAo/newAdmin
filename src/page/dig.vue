@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="table_container">
-            <div type="flex"  style="margin-bottom: 30px;">
+            <div type="flex" style="margin-bottom: 30px;">
                 <span style="font-size: 14px;">时间：</span>
                 <el-date-picker style="width:200px;"
-                    v-model="endDate"
-                    type="datetimerange"
-                    align="right"
-                    :default-time="['12:00:00', '08:00:00']">
+                                v-model="endDate"
+                                type="datetimerange"
+                                align="right"
+                                :default-time="['12:00:00', '08:00:00']">
                 </el-date-picker>
                 <el-radio v-model="radio" label="1">按天展示</el-radio>
                 <el-radio v-model="radio" label="2">按月展示</el-radio>
@@ -69,17 +69,18 @@
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
     import headTop from '../components/headTop'
+
     export default {
         data() {
             return {
-                radio:'1',
-                radio3:'1',
-                tableData:[
-                    {title:'总计',allUsers:'10000',registerNum:'122',signUsers:'9334',mine:'1234'},
-                    {title:'2018-08-23',allUsers:'10000',registerNum:'122',signUsers:'9334',mine:'2345'}
+                radio: '1',
+                radio3: '1',
+                tableData: [
+                    {title: '总计', allUsers: '10000', registerNum: '122', signUsers: '9334', mine: '1234'},
+                    {title: '2018-08-23', allUsers: '10000', registerNum: '122', signUsers: '9334', mine: '2345'}
                 ],
-                startDate:'',
-                endDate:'',
+                startDate: '',
+                endDate: '',
             };
         },
         components: {
@@ -88,15 +89,15 @@
         created() {
         },
         computed: {},
-        methods: {
-        },
+        methods: {},
 
     };
 </script>
 
 <style lang="less">
     @import "../style/mixin";
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
 </style>

@@ -3,7 +3,7 @@
         <div class="table_container">
             <el-row style="display:flex;margin-bottom: 20px;">
                 <div>
-                <el-button type="primary" @click="addpush()">新增公告</el-button>
+                    <el-button type="primary" @click="addpush()">新增公告</el-button>
                 </div>
                 <el-col>
                     <div style="display:inline-block;margin-left: 5px">
@@ -40,7 +40,8 @@
                     label="公告标题"
                 >
                     <template scope="scope">
-                        <router-link :to="{path:'/messageInfo',query:{id:scope.row.id}}">{{scope.row.title}}</router-link>
+                        <router-link :to="{path:'/messageInfo',query:{id:scope.row.id}}">{{scope.row.title}}
+                        </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -54,7 +55,7 @@
                 <el-table-column label="操作" width="200">
                     <template scope="scope">
                         <el-button @click="updatePush(scope.row.id)" v-if="scope.row.state==0">编辑</el-button>
-                        <el-button @click="del(scope.row.id)" >删除</el-button>
+                        <el-button @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -66,13 +67,13 @@
                 </div>
             </el-dialog>
             <!--<div class="Pagination">-->
-                <!--<el-pagination-->
-                    <!--@current-change="handleCurrentChange"-->
-                    <!--:current-page="currentPage"-->
-                    <!--:page-size="20"-->
-                    <!--layout="total, prev, pager, next"-->
-                    <!--:total="count">-->
-                <!--</el-pagination>-->
+            <!--<el-pagination-->
+            <!--@current-change="handleCurrentChange"-->
+            <!--:current-page="currentPage"-->
+            <!--:page-size="20"-->
+            <!--layout="total, prev, pager, next"-->
+            <!--:total="count">-->
+            <!--</el-pagination>-->
             <!--</div>-->
         </div>
     </div>
@@ -81,14 +82,15 @@
 <script>
     import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
-    let moment =require('moment')
+
+    let moment = require('moment')
     export default {
-        data(){
+        data() {
             return {
-                input:'',
-                value:'2',
-                startDate:'',
-                endDate:'',
+                input: '',
+                value: '2',
+                startDate: '',
+                endDate: '',
                 tableData: [],
                 currentRow: null,
                 offset: 0,
@@ -96,28 +98,27 @@
                 count: 0,
                 currentPage: 1,
                 options: [
-                    {title:'全部',code:'2'},
-                    {title:'已推送',code:'1'},
-                    {title:'未推送',code:'0'}
+                    {title: '全部', code: '2'},
+                    {title: '已推送', code: '1'},
+                    {title: '未推送', code: '0'}
                 ],
-                delVisible:false,
-                id:''
+                delVisible: false,
+                id: ''
             }
         },
-        created(){
-           this.getData()
+        created() {
+            this.getData()
         },
-        computed: {
-        },
+        computed: {},
         components: {
             headTop
         },
         methods: {
-            getData(){
+            getData() {
                 this.$ajax
-                    .get(`${BaseUrl}push/all/2`,{headers:{'token':sessionStorage.getItem('token')}})
+                    .get(`${BaseUrl}push/all/2`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        if(response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             // console.log(response);
                             this.tableData = response.data.data;
                             this.tableData.forEach(item => {
@@ -130,7 +131,7 @@
                             this.tableData.forEach(item => {
                                 item.pushDate = moment.utc(item.pushDate).local().format('YYYY-MM-DD HH:mm:ss')
                             })
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -140,11 +141,11 @@
                         }
                     })
             },
-            change(value){
+            change(value) {
                 this.$ajax
-                    .get(`${BaseUrl}push/all/${value}`,{headers:{'token':sessionStorage.getItem('token')}})
+                    .get(`${BaseUrl}push/all/${value}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        if(response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             // console.log(response);
                             this.tableData = response.data.data;
                             this.tableData.forEach(item => {
@@ -154,7 +155,7 @@
                                     item.status = '已推送'
                                 }
                             })
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -164,41 +165,43 @@
                         }
                     })
             },
-            updatePush(id){
-                this.$router.push({path:'updatePushMessage',query:{id:id}})
+            updatePush(id) {
+                this.$router.push({path: 'updatePushMessage', query: {id: id}})
             },
-            addpush(){
-                this.$router.push({path:'addPushMessage'})
+            addpush() {
+                this.$router.push({path: 'addPushMessage'})
             },
-            del(id){
-                this.delVisible=true;
-                this.id=id;
+            del(id) {
+                this.delVisible = true;
+                this.id = id;
             },
-            confirmdel(){
+            confirmdel() {
                 this.$ajax
-                    .get(`${BaseUrl}push/del/${this.id}`,{headers:{'token':sessionStorage.getItem('token')}})
+                    .get(`${BaseUrl}push/del/${this.id}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         // console.log(response);
-                        if(response.data.flag==200){
-                            this.delVisible=false;
+                        if (response.data.flag == 200) {
+                            this.delVisible = false;
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
-                                callback: action=>{this.getData()}
+                                callback: action => {
+                                    this.getData()
+                                }
                             });
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else{
+                        } else {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$message({
                                         type: 'info',
-                                        message: `error: ${ response.data.msg +',请重试'}`
+                                        message: `error: ${ response.data.msg + ',请重试'}`
                                     });
                                 }
                             });
@@ -211,7 +214,8 @@
 
 <style lang="less" scoped>
     @import '../style/mixin';
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
 </style>

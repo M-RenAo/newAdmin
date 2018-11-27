@@ -5,7 +5,8 @@
                 <el-form :model="rankTitle" ref="rankTitle" label-width="110px" class="form food_form">
                     <div>
                         <el-form-item label="排行榜名称：" prop="rankTitle">
-                            <el-input v-model="rankTitle.title" style="width:200px" maxlength="6" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" ></el-input>
+                            <el-input v-model="rankTitle.title" style="width:200px" maxlength="6"
+                                      onkeyup="this.value=this.value.replace(/^ +| +$/g,'')"></el-input>
                         </el-form-item>
                         <el-form-item label="排序标准：" prop="fileTag">
                             <el-select v-model="sortRule" placeholder="请选择" style="width:200px;" @change="getData">
@@ -39,7 +40,7 @@
                                 <el-option label="未定义" value="0"></el-option>
                             </el-select>
                             <el-input placeholder="请输入应用名" class="input-with-select" v-model="searchInfo"
-                                      style="width:200px;margin-left:10px"  @keyup.enter.native="searchApp(searchInfo)">
+                                      style="width:200px;margin-left:10px" @keyup.enter.native="searchApp(searchInfo)">
                                 <el-button slot="append" @click="searchApp(searchInfo)"><i class="el-icon-search"></i>
                                 </el-button>
                             </el-input>
@@ -108,7 +109,9 @@
                             </el-table-column>
                             <el-table-column label="操作" min-width="98">
                                 <template scope="scope">
-                                    <el-button class="littleButton" @click="updateAppSort(scope.row.appName,scope.row.fileId,scope.row.index,scope.row)" key="edit">设置顺序
+                                    <el-button class="littleButton"
+                                               @click="updateAppSort(scope.row.appName,scope.row.fileId,scope.row.index,scope.row)"
+                                               key="edit">设置顺序
                                     </el-button>
                                 </template>
                             </el-table-column>
@@ -133,9 +136,11 @@
 
             </el-col>
         </el-row>
-        <el-dialog title="" :visible.sync="dialogFormVisible" >
+        <el-dialog title="" :visible.sync="dialogFormVisible">
             <el-form :model="rankAndApp">
-                <el-form-item label="应用名称：" :label-width="formLabelWidth"><div>{{appName}}</div></el-form-item>
+                <el-form-item label="应用名称：" :label-width="formLabelWidth">
+                    <div>{{appName}}</div>
+                </el-form-item>
                 <el-form-item label="顺序：" :label-width="formLabelWidth">
                     <el-input v-model="rankAndApp.sortLable" autocomplete="off"></el-input>
                 </el-form-item>
@@ -157,8 +162,9 @@
                     <el-option label="未定义" value="0"></el-option>
                 </el-select>
                 <el-input placeholder="请输入应用名" class="input-with-select" v-model="unchoiceAppName"
-                          style="width:200px;margin-left:10px"  @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
-                    <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i class="el-icon-search"></i></el-button>
+                          style="width:200px;margin-left:10px" @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
+                    <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i class="el-icon-search"></i>
+                    </el-button>
                 </el-input>
             </div>
             <el-table
@@ -251,22 +257,22 @@
                 sortItemForm: {},
                 rankTitle: {},
                 formLabelWidth: '110px',
-                unchoiceAppName:null,
+                unchoiceAppName: null,
                 fileDate: '',
                 value: [],
-                sortRule:'add',
-                sortList: [{code:'new', label: '最新版本发布'}, {code: "add", label: '添加时间'}, {code: 'down', label: '下载量'},
+                sortRule: 'add',
+                sortList: [{code: 'new', label: '最新版本发布'}, {code: "add", label: '添加时间'}, {code: 'down', label: '下载量'},
                     {
-                    code:'touch',
-                    label: '点击量'
-                }],
+                        code: 'touch',
+                        label: '点击量'
+                    }],
                 tagList: [],
                 desc: 'asc',
                 dialogFormVisible: false,
                 dialogTableVisible: false,
                 dialogVisible: false,
                 dialogFormVisibleSort: false,
-                dialogVisibleReset:false,
+                dialogVisibleReset: false,
                 info: [],
                 currentPage: 1,
                 nowPageSize: 10,
@@ -275,12 +281,12 @@
                 searchInfo: null,
                 multipleSelection: null,
                 fileTag: '-1',
-                fileTagUnchoice:'-1',
+                fileTagUnchoice: '-1',
                 unChoiceAppList: [],
                 multipleSelectionAppTohere: [],
                 appId: [],
-                deleAppId:[],
-                appName:'',
+                deleAppId: [],
+                appName: '',
 
             };
         },
@@ -306,13 +312,13 @@
                 }
 
             });
-            this.rankTitle.title=this.$route.query.title;
+            this.rankTitle.title = this.$route.query.title;
             // console.log(this.$route.query.rule)
-            if(this.$route.query.rule===undefined){
-                this.sortRule='add'
-            }else{
-                this.sortRule=this.$route.query.rule.split(':')[0];
-                this.desc=this.$route.query.rule.split(':')[1];
+            if (this.$route.query.rule === undefined) {
+                this.sortRule = 'add'
+            } else {
+                this.sortRule = this.$route.query.rule.split(':')[0];
+                this.desc = this.$route.query.rule.split(':')[1];
             }
 
             this.getData();
@@ -320,25 +326,32 @@
         computed: {},
         methods: {
             getData() {
-                this.$ajax.get(BaseUrl+ 'ranking/mess/', {
-                    params: {titleId: this.$route.query.id,pageCode:this.currentPage,pageSize:this.nowPageSize,sortFields:this.sortRule+':'+this.desc, tagId: this.fileTag==-1?null:this.fileTag,keyWords:(this.searchInfo!=null&&this.searchInfo!='')?this.searchInfo:null},
+                this.$ajax.get(BaseUrl + 'ranking/mess/', {
+                    params: {
+                        titleId: this.$route.query.id,
+                        pageCode: this.currentPage,
+                        pageSize: this.nowPageSize,
+                        sortFields: this.sortRule + ':' + this.desc,
+                        tagId: this.fileTag == -1 ? null : this.fileTag,
+                        keyWords: (this.searchInfo != null && this.searchInfo != '') ? this.searchInfo : null
+                    },
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
                     if (response.data.flag == 200) {
                         this.info = response.data.data.list
-                        this.txcount=response.data.data.num
+                        this.txcount = response.data.data.num
                         this.info.forEach(item => {
                             item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                         });
-                        this.info.forEach((item,index) => {
-                           // console.log(index)
-                            item.index=index+1+(this.currentPage-1)*this.nowPageSize
+                        this.info.forEach((item, index) => {
+                            // console.log(index)
+                            item.index = index + 1 + (this.currentPage - 1) * this.nowPageSize
                         });
-                        if(this.$route.query.type=='android'){
-                        this.info.forEach(item => {
-                            item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
-                        })
-                        }else if(this.$route.query.type=='ios'){
+                        if (this.$route.query.type == 'android') {
+                            this.info.forEach(item => {
+                                item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
+                            })
+                        } else if (this.$route.query.type == 'ios') {
                             this.info.forEach(item => {
                                 item.fileSize = item.fileSize + ' M'
                             })
@@ -382,13 +395,13 @@
 
 
             },
-            updateAppSort(appName,fileId,sort,row){
-                this.dialogFormVisible=true;
-                this.appName=appName;
-                this.rankAndApp.applyId=fileId;
-                this.rankAndApp.sortLable=sort
+            updateAppSort(appName, fileId, sort, row) {
+                this.dialogFormVisible = true;
+                this.appName = appName;
+                this.rankAndApp.applyId = fileId;
+                this.rankAndApp.sortLable = sort
             },
-            ensureSortApp(){
+            ensureSortApp() {
                 if (this.rankAndApp.sortLable >= 1 && this.rankAndApp.sortLable <= this.txcount) {
                     this.rankAndApp.titleId = this.$route.query.id;
                     this.rankAndApp.sortLable = Number(this.rankAndApp.sortLable);
@@ -427,7 +440,7 @@
                         }
                     });
                 } else {
-                    this.$alert('请输入顺序1到'+this.txcount+'之间的数字', '提示', {
+                    this.$alert('请输入顺序1到' + this.txcount + '之间的数字', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
                             this.$message({
@@ -438,14 +451,18 @@
                     });
                 }
             },
-            searchAppByTagCode(){
+            searchAppByTagCode() {
                 this.getData()
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                this.deleAppId=[];
+                this.deleAppId = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
-                    this.deleAppId.push({applyId: this.multipleSelection[i].fileId, titleId: this.$route.query.id,sort:this.multipleSelection[i].sort})
+                    this.deleAppId.push({
+                        applyId: this.multipleSelection[i].fileId,
+                        titleId: this.$route.query.id,
+                        sort: this.multipleSelection[i].sort
+                    })
                 }
             },
             handleSelectionChangeApp(val) {
@@ -477,7 +494,7 @@
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
-                                this.dialogTableVisible=false
+                                this.dialogTableVisible = false
                                 this.getData()
 
                             }
@@ -492,7 +509,7 @@
                     }
                 });
             },
-            searchApp(text){
+            searchApp(text) {
                 this.getData()
             },
             handleSizeChange(pageSize) {
@@ -500,22 +517,22 @@
                 this.getData()
             },
             handleCurrentChange(pageValue) {
-               this.currentPage=pageValue;
-               this.getData()
+                this.currentPage = pageValue;
+                this.getData()
             },
-            reset(){
-               this.dialogVisibleReset=true;
+            reset() {
+                this.dialogVisibleReset = true;
             },
-            ensureReset(){
+            ensureReset() {
                 this.$ajax.get(BaseUrl + "ranking/label/reset", {
-                    params:{rankId:this.$route.query.id},
+                    params: {rankId: this.$route.query.id},
                     headers: {
                         'token': sessionStorage.getItem('token'),
                         'device': this.$route.query.type
                     }
                 }).then(response => {
                     if (response.data.flag == 200) {
-                        this.$alert(response.data.msg , '提示', {
+                        this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.getData()
@@ -529,14 +546,14 @@
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                         });
                     }
 
                 });
-                this.dialogVisibleReset=false
+                this.dialogVisibleReset = false
             },
             deleteAll() {
                 this.dialogVisible = true
@@ -580,14 +597,14 @@
                 this.dialogTableVisible = true;
                 this.getApp()
             },
-            searchUnchoiceAppByTag(){
+            searchUnchoiceAppByTag() {
                 this.getApp()
             },
-            searchUnchoiceApp(text){
+            searchUnchoiceApp(text) {
                 this.getApp()
             },
-            saveUpdateDown(){
-                if(this.rankTitle.title.length<2){
+            saveUpdateDown() {
+                if (this.rankTitle.title.length < 2) {
                     this.$alert('请输入正确的排行榜名称', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -597,7 +614,7 @@
                             });
                         }
                     });
-                }else {
+                } else {
                     this.rankTitle.id = this.$route.query.id;
                     this.rankTitle.sort = this.$route.query.sort;
                     this.rankTitle.rule = this.sortRule + ':' + this.desc
@@ -643,15 +660,23 @@
             getApp() {
                 this.$ajax
                     .get(`${BaseUrl}apply/all`, {
-                        params: {pageCode: 0, pageSize: 0, state: 1, fileState: 1,tagId: this.fileTagUnchoice==-1?null:this.fileTagUnchoice,keyWords:(this.unchoiceAppName!=null&&this.unchoiceAppName!='')?this.unchoiceAppName:null,rankId:this.$route.query.id},
-                        headers: {'token': sessionStorage.getItem('token'), 'device':this.$route.query.type}
+                        params: {
+                            pageCode: 0,
+                            pageSize: 0,
+                            state: 1,
+                            fileState: 1,
+                            tagId: this.fileTagUnchoice == -1 ? null : this.fileTagUnchoice,
+                            keyWords: (this.unchoiceAppName != null && this.unchoiceAppName != '') ? this.unchoiceAppName : null,
+                            rankId: this.$route.query.id
+                        },
+                        headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
                         // console.log(pageSize)
                         // console.log(pageValue)
                         if (response.data.flag == 200) {
-                            var that=this
-                         // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
+                            var that = this
+                            // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.unChoiceAppList = response.data.data.appList
                             //     .filter(function(item1) {
                             //     return that.info.every(function(item2) {
@@ -668,11 +693,11 @@
                             this.unChoiceAppList.forEach(item => {
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                             });
-                            if(this.$route.query.type=='android'){
+                            if (this.$route.query.type == 'android') {
                                 this.unChoiceAppList.forEach(item => {
                                     item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
                                 })
-                            }else if(this.$route.query.type=='ios'){
+                            } else if (this.$route.query.type == 'ios') {
                                 this.unChoiceAppList.forEach(item => {
                                     item.fileSize = item.fileSize + ' M'
                                 })

@@ -86,7 +86,8 @@
                     label="焦点图标题"
                 >
                     <template scope="scope">
-                        <router-link :to="{path:'/focusInfo',query:{id:scope.row.id,type:'ios'}}">{{scope.row.title}}</router-link>
+                        <router-link :to="{path:'/focusInfo',query:{id:scope.row.id,type:'ios'}}">{{scope.row.title}}
+                        </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -133,7 +134,7 @@
                 <span>确认删除焦点图？</span>
                 <span slot="footer" class="dialog-footer">
                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary"  @click="deleteEnsure()">确 定</el-button>
+                    <el-button type="primary" @click="deleteEnsure()">确 定</el-button>
                 </span>
             </el-dialog>
         </div>
@@ -143,62 +144,67 @@
 <script>
     import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
-        data(){
+        data() {
             return {
-                id:'',
-                state:'',
-                tableData:[],
+                id: '',
+                state: '',
+                tableData: [],
                 currentRow: null,
                 txcount: 0,
                 currentPage: 1,
-                nowPageSize:10,
-                searchForm:{},
-                dialogVisible:false,
-                startDate:'',
-                endDate:'',
-                type:'ios',
+                nowPageSize: 10,
+                searchForm: {},
+                dialogVisible: false,
+                startDate: '',
+                endDate: '',
+                type: 'ios',
             }
         },
-        mounted(){
+        mounted() {
             // console.log(this.$route.path)
             this.getData()
         },
-        computed: {
-        },
+        computed: {},
         components: {
             headTop
         },
         methods: {
-            getData(){
-                this.$ajax.get(BaseUrl+'banner/all/'+this.currentPage+'/'+this.nowPageSize,{headers: {'token': sessionStorage.getItem('token'),'device':this.type}}).then(response => {
+            getData() {
+                this.$ajax.get(BaseUrl + 'banner/all/' + this.currentPage + '/' + this.nowPageSize, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.type
+                    }
+                }).then(response => {
                     // console.log(response)
-                    if(response.data.flag==200){
-                        this.tableData=response.data.data.list;
-                        this.txcount=response.data.data.num;
-                        this.tableData.forEach(item=>{
-                            item.status=item.state
-                            item.startTime=moment.utc(item.startTime).local().format('YYYY-MM-DD HH:mm:ss')
-                            item.endTime=moment.utc(item.endTime).local().format('YYYY-MM-DD HH:mm:ss')
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.list;
+                        this.txcount = response.data.data.num;
+                        this.tableData.forEach(item => {
+                            item.status = item.state
+                            item.startTime = moment.utc(item.startTime).local().format('YYYY-MM-DD HH:mm:ss')
+                            item.endTime = moment.utc(item.endTime).local().format('YYYY-MM-DD HH:mm:ss')
                         })
-                        this.tableData.forEach(item=>{
-                            if(item.type=='1'){
-                                item.type='图文详情'
-                            }else if(item.type=='2'){
-                                item.type='推广APP'
-                            }else if(item.type=='3'){
-                                item.type='跳转链接'
+                        this.tableData.forEach(item => {
+                            if (item.type == '1') {
+                                item.type = '图文详情'
+                            } else if (item.type == '2') {
+                                item.type = '推广APP'
+                            } else if (item.type == '3') {
+                                item.type = '跳转链接'
                             }
                         })
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                         });
@@ -240,38 +246,39 @@
                 //
                 this.getData();
             },
-            updateFocus(id){
-                this.$router.push({path:'updateFocus',query:{id:id,type:this.type}})
+            updateFocus(id) {
+                this.$router.push({path: 'updateFocus', query: {id: id, type: this.type}})
             },
-            addFocus(){
-                this.$router.push({path:'updateFocus',query:{type:this.type}})
+            addFocus() {
+                this.$router.push({path: 'updateFocus', query: {type: this.type}})
             },
-            delFocus(id){
-                this.id=id
-                this.dialogVisible=true;
+            delFocus(id) {
+                this.id = id
+                this.dialogVisible = true;
             },
-            deleteEnsure(){
-                this.dialogVisible=false;
+            deleteEnsure() {
+                this.dialogVisible = false;
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'banner/delete/'+this.id,
-                    headers: {'token': sessionStorage.getItem('token'),'device':this.type}
+                    url: BaseUrl + 'banner/delete/' + this.id,
+                    headers: {'token': sessionStorage.getItem('token'), 'device': this.type}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.$message({
                             type: 'success',
                             message: '删除成功!',
-                            callback: action=>{}
+                            callback: action => {
+                            }
                         });
                         this.getData({page: 1, size: 10})
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else {
+                    } else {
                         this.$message({
                             type: 'error',
                             message: '删除失败!',
@@ -285,7 +292,8 @@
 
 <style lang="less" scoped>
     @import '../style/mixin';
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
 

@@ -71,19 +71,28 @@
                 </div>
                 <div v-else>
                     <el-form-item label="样式" :label-width="formLabelWidth" prop="itemType">
-                      广告
+                        广告
                     </el-form-item>
-                    <el-form-item label="地址" :label-width="formLabelWidth"  v-if="moduleForm.itemType=='item-promote:advertise'">
+                    <el-form-item label="地址" :label-width="formLabelWidth"
+                                  v-if="moduleForm.itemType=='item-promote:advertise'">
                         <el-input v-model="address" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
-                    <el-form-item label="推广图" :label-width="formLabelWidth"  v-if="moduleForm.itemType=='item-promote:advertise'">
+                    <el-form-item label="推广图" :label-width="formLabelWidth"
+                                  v-if="moduleForm.itemType=='item-promote:advertise'">
                         <div style="display: flex;align-items:flex-end;">
-                            <div style="width:150px;height:70px;border: 1px #999 solid;margin-right: 10px"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+advertisePic" v-if="advertisePic!==null&&advertisePic!=''" style="width:100%;height:100%;"/></div>
-                            <el-button type="primary" v-if="advertisePic===null" style="position: relative"><span>上传</span>  <input @change='add_img' type="file" style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0"></el-button>
-                            <el-button type="primary" v-if="advertisePic!==null" @click="advertisePic=null">删除</el-button>
+                            <div style="width:150px;height:70px;border: 1px #999 solid;margin-right: 10px"><img
+                                :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+advertisePic"
+                                v-if="advertisePic!==null&&advertisePic!=''" style="width:100%;height:100%;"/></div>
+                            <el-button type="primary" v-if="advertisePic===null" style="position: relative">
+                                <span>上传</span> <input @change='add_img' type="file"
+                                                       style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0">
+                            </el-button>
+                            <el-button type="primary" v-if="advertisePic!==null" @click="advertisePic=null">删除
+                            </el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item label="备注" :label-width="formLabelWidth"   v-if="form.itemType=='item-promote:advertise'">
+                    <el-form-item label="备注" :label-width="formLabelWidth"
+                                  v-if="form.itemType=='item-promote:advertise'">
                         <el-input v-model="remarks" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
                     <el-form-item label="状态" :label-width="formLabelWidth" prop="state">
@@ -217,7 +226,8 @@
                         </el-option>
                     </el-select>
                     <el-input placeholder="请输入应用名" class="input-with-select" v-model="unchoiceAppName"
-                              style="width:200px;margin-left:10px"  @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
+                              style="width:200px;margin-left:10px"
+                              @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
                         <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i
                             class="el-icon-search"></i></el-button>
                     </el-input>
@@ -319,7 +329,7 @@
         data() {
             return {
                 info: [],
-                advertisePic:null,
+                advertisePic: null,
                 txcount: 0,
                 totalfees: 0,
                 currentPage: 1,
@@ -333,10 +343,10 @@
                 uploadIconUrl: '',
                 applyId: '',
                 value: '',
-                address:'',
+                address: '',
                 formLabelWidth: '130px',
                 appName: '',
-                moduleForm: {state:'',itemType:''},
+                moduleForm: {state: '', itemType: ''},
                 positionList: [],
                 searchInfo: '',
                 fileMoudle: '-1',
@@ -408,9 +418,9 @@
                             this.moduleForm.state = item.state;
                             this.moduleForm.itemType = item.itemType;
                             this.moduleForm.id = this.$route.query.id;
-                            if( this.moduleForm.itemType=='item-promote:advertise'){
-                               this.address=JSON.parse(item.linkText).url;
-                               this.advertisePic=JSON.parse(item.linkText).img
+                            if (this.moduleForm.itemType == 'item-promote:advertise') {
+                                this.address = JSON.parse(item.linkText).url;
+                                this.advertisePic = JSON.parse(item.linkText).img
                             }
                             this.moduleForm.code = item.code;
                             this.moduleForm.sort = item.sort;
@@ -451,10 +461,10 @@
                         this.txcount = response.data.data.fileNum
                         if (this.info.length != 0) {
                             this.info.forEach(item => {
-                                if(item.shamFileDownNum!==undefined){
-                                    item.fileDownNums=item.fileDownNum+item.shamFileDownNum
-                                }else {
-                                    item.fileDownNums=item.fileDownNum
+                                if (item.shamFileDownNum !== undefined) {
+                                    item.fileDownNums = item.fileDownNum + item.shamFileDownNum
+                                } else {
+                                    item.fileDownNums = item.fileDownNum
                                 }
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                             });
@@ -521,10 +531,10 @@
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -578,7 +588,7 @@
             ensureDelete() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl + 'position/del/apply/' + this.$route.query.id ,
+                    url: BaseUrl + 'position/del/apply/' + this.$route.query.id,
                     data: this.deleAppId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
@@ -599,8 +609,11 @@
                                 this.getData()
                                 this.$ajax({
                                     method: "GET",
-                                    url:BaseUrl+'apply/auto/sort/'+this.$route.query.code,
-                                    headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
+                                    url: BaseUrl + 'apply/auto/sort/' + this.$route.query.code,
+                                    headers: {
+                                        'token': sessionStorage.getItem('token'),
+                                        'device': this.$route.query.type
+                                    }
                                 }).then(response => {
                                     // console.log(response);
                                     if (response.data.flag == 500) {
@@ -617,11 +630,11 @@
                                         this.dialogFormVisible = false;
                                         this.$alert(response.data.msg, '提示', {
                                             confirmButtonText: '确定',
-                                            callback: action=>{
+                                            callback: action => {
                                                 this.getData()
                                             }
                                         });
-                                    }else if(response.data.flag==201) {
+                                    } else if (response.data.flag == 201) {
                                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                                             confirmButtonText: '确定',
                                             callback: action => {
@@ -659,8 +672,8 @@
                 this.form.sort = sort
             },
             saveUpdateDown() {
-                if(this.moduleForm.itemType=='item-promote:advertise'){
-                    this.moduleForm.linkText={img:this.advertisePic,url:this.address}
+                if (this.moduleForm.itemType == 'item-promote:advertise') {
+                    this.moduleForm.linkText = {img: this.advertisePic, url: this.address}
                 }
                 if (this.moduleForm.itemNum <= 50) {
                     this.$ajax({
@@ -837,14 +850,14 @@
                             this.unChoiceAppList.forEach(item => {
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                             });
-                            if(this.$route.query.type=='android') {
+                            if (this.$route.query.type == 'android') {
                                 this.unChoiceAppList.forEach(item => {
                                     item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
 
                                 })
-                            }else if(this.$route.query.type=='ios'){
+                            } else if (this.$route.query.type == 'ios') {
                                 this.unChoiceAppList.forEach(item => {
-                                    item.fileSize = item.fileSize  + ' M'
+                                    item.fileSize = item.fileSize + ' M'
 
                                 })
                             }
@@ -868,9 +881,10 @@
     .table_container {
         padding: 20px;
     }
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
 </style>
 

@@ -4,10 +4,10 @@
             <div style="padding-bottom:10px">
                 获取文章自动发布
                 <el-switch
-                v-model="switchType"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
-                @change="switchChang"
+                    v-model="switchType"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949"
+                    @change="switchChang"
                 >
                 </el-switch>
             </div>
@@ -15,29 +15,31 @@
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
-                    <el-tabs v-model="tabsName"  style="height: 40px;" @tab-click="tabsClick">
+                    <el-tabs v-model="tabsName" style="height: 40px;" @tab-click="tabsClick">
                         <el-tab-pane label="全部" name="-1"></el-tab-pane>
                         <el-tab-pane label="发布" name="1"></el-tab-pane>
                         <el-tab-pane label="草稿" name="0"></el-tab-pane>
                     </el-tabs>
                 </el-col>
-                <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
-                    <el-input placeholder="快讯标题"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchCheck">
-                        <el-button slot="append"  @click="searchCheck"><i class="el-icon-search"></i></el-button>
+                <el-col :span="12" style="display: flex;align-items: center;justify-content: flex-end">
+                    <el-input placeholder="快讯标题" class="input-with-select" v-model="searchInfo" style="width:60%"
+                              @keyup.enter.native="searchCheck">
+                        <el-button slot="append" @click="searchCheck"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
 
             </el-row>
             <el-table
                 :data="tableData"
-                style="width: 100%" >
+                style="width: 100%">
                 <el-table-column
                     label="发布日期"
                     prop="issueTime" min-width="50">
                 </el-table-column>
                 <el-table-column label="配图" prop="fileIcon" min-width="50">
                     <template scope="scope">
-                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.image" style="width:30px;height:30px;" v-if="scope.row.image!==''&&scope.row.image!==undefined" >
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.image"
+                             style="width:30px;height:30px;" v-if="scope.row.image!==''&&scope.row.image!==undefined">
                         <span v-else>无</span>
                     </template>
 
@@ -49,14 +51,14 @@
                         <div class="title">
                             <div class="titles" @click="dialogTable(scope.row)">
                                 {{scope.row.title}}
-                        </div>
-                        <span class="settop" v-if="scope.row.top">已置顶</span>
+                            </div>
+                            <span class="settop" v-if="scope.row.top">已置顶</span>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="状态"
-                    min-width="50" >
+                    min-width="50">
                     <template scope="scope">
                         <div>
                             {{scope.row.draft?"草稿":"发布"}}
@@ -65,19 +67,19 @@
                 </el-table-column>
                 <el-table-column
                     label="点赞"
-                    prop="upvotes" min-width="50" >
+                    prop="upvotes" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="作者"
-                    prop="author" min-width="50" >
+                    prop="author" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="创建日期"
-                    prop="createTime" min-width="50" >
+                    prop="createTime" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="热讯推荐"
-                    min-width="50" >
+                    min-width="50">
                     <template scope="scope">
                         <div :class="{hot:scope.row.hot}">
                             {{!scope.row.hot?"未推荐":"已推荐"}}
@@ -86,26 +88,28 @@
                 </el-table-column>
                 <el-table-column
                     label="操作"
-                    min-width="50" >
+                    min-width="50">
                     <template scope="scope">
-                        <el-button  type="text" @click="goEdit(scope.row)" style="margin-left:0">编辑</el-button>
-                        <el-button  type="text" @click="goComment(scope.row)" style="margin-left:0">评论</el-button>
+                        <el-button type="text" @click="goEdit(scope.row)" style="margin-left:0">编辑</el-button>
+                        <el-button type="text" @click="goComment(scope.row)" style="margin-left:0">评论</el-button>
                         <el-popover
                             placement="top"
                             width="160"
                             trigger="click"
                             v-model="scope.row.visible">
-                            <div >
+                            <div>
                                 <el-button size="mini" type="primary" @click="deleteData(scope.row)">删除</el-button>
-                                <el-button type="primary" size="mini" @click="setTop(scope.row)">{{!scope.row.top?"置顶":"取消置顶"}}</el-button>
+                                <el-button type="primary" size="mini" @click="setTop(scope.row)">
+                                    {{!scope.row.top?"置顶":"取消置顶"}}
+                                </el-button>
                             </div>
-                            <el-button type="text" slot="reference" >更多</el-button>
+                            <el-button type="text" slot="reference">更多</el-button>
                         </el-popover>
                     </template>
                 </el-table-column>
             </el-table>
             <div class="Pagination">
-                 <el-pagination
+                <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
@@ -119,7 +123,8 @@
                 <div class="titleconten">
                     <h2 style="text-align:center;margin-bottom:20px">{{row.title}}</h2>
                     <div style="width:400px;height:200px;margin:0 auto" v-if="row.image!==''&&row.image!==undefined">
-                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+row.image" style="width:400px;height:200px;"  >
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+row.image"
+                             style="width:400px;height:200px;">
                     </div>
                     <div style="width:600px;margin:0 auto;padding-top:20px">
                         {{row.content}}
@@ -142,43 +147,49 @@
 
 <script>
     import headTop from "../components/headTop";
-    import { baseUrl, baseImgPath } from "@/config/env";
-    let moment=require('moment')
+    import {baseUrl, baseImgPath} from "@/config/env";
+
+    let moment = require('moment')
     export default {
         data() {
             return {
-                switchType:true,//文章自动发布
+                switchType: true,//文章自动发布
                 dialogTableVisible: false,
                 dialogVisible: false,
-                visible2:false,
+                visible2: false,
                 tableData: [],
                 txcount: 0,
                 currentPage: null,
                 nowPageSize: null,
-                tabsName:"-1",//tabs
-                dialogTableVisible:false,
-                dialogFormVisible:false,
-                txcount:0,
-                searchInfo:"",//快讯关键字搜索
-                row:"",//当前行数据
-                usercount:0,
-                draft:"",
-                dataparams:{},
-                numparams:{},
-                enabled:"",
+                tabsName: "-1",//tabs
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                txcount: 0,
+                searchInfo: "",//快讯关键字搜索
+                row: "",//当前行数据
+                usercount: 0,
+                draft: "",
+                dataparams: {},
+                numparams: {},
+                enabled: "",
 
             };
         },
         created() {
-            this.dataparams={ key:this.searchInfo, pageNum:this.$route.params.page||1, pageSize:this.$route.params.size||10}
+            this.dataparams = {
+                key: this.searchInfo,
+                pageNum: this.$route.params.page || 1,
+                pageSize: this.$route.params.size || 10
+            }
             this.paramsss();
             this.getData();
-            this.$ajax.get(BaseUrl+"newsFlash/getAutoRelease",{
-                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                             this.switchType=res.data.data
-                            //  console.log(res)
-                    }
-                );
+            this.$ajax.get(BaseUrl + "newsFlash/getAutoRelease", {
+                headers: {'token': sessionStorage.getItem('token')}
+            }).then(res => {
+                    this.switchType = res.data.data
+                    //  console.log(res)
+                }
+            );
         },
         components: {
             headTop
@@ -200,152 +211,159 @@
                 this.getmess();
             },
 
-            goEdit(row){//前往编辑界面
+            goEdit(row) {//前往编辑界面
                 // this.$router.push({path:"/editingInterface",query:{
                 //     id:row.id
                 // }})
                 this.$router.push({
                     name: 'EditingInterface',
                     query: {
-                        dataId:row.id,
-                        page:this.currentPage,
-                        size:this.nowPageSize
+                        dataId: row.id,
+                        page: this.currentPage,
+                        size: this.nowPageSize
                     }
                 })
             },
-            goComment(row){//前往评论界面
-                this.$router.push({path:'/comment',query:{
-                    id:row.id
-                }})
+            goComment(row) {//前往评论界面
+                this.$router.push({
+                    path: '/comment', query: {
+                        id: row.id
+                    }
+                })
             },
-            dialogTable(row){//弹窗
+            dialogTable(row) {//弹窗
                 this.dialogTableVisible = true;
-                this.row=row;
+                this.row = row;
             },
-            getData(){
-                this.$ajax.get(BaseUrl+"newsFlash/articleList",{
-                        params: this.dataparams, headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                    res.data.data.forEach(item=>{
-                                if(item.createTime!=undefined){
-                                    item.createTime=moment.utc(item.createTime*1000).local().format('YYYY-MM-DD HH:mm:ss')
-                                }
-                                if(item.issueTime!=undefined&&item.issueTime!=0){
-                                    item.issueTime=moment.utc(item.issueTime*1000).local().format('YYYY-MM-DD HH:mm:ss')
-                                }else{
-                                    item.issueTime=""
-                                }
-                                if(item.draft==true){
-                                    item.hot=false
-                                }
-                                item.visible=false;
-                            })
-                    this.tableData=res.data.data
-                    this.currentPage=this.dataparams.pageNum
-                    this.nowPageSize=this.dataparams.pageSize
-                    // console.log(this.tableData)
+            getData() {
+                this.$ajax.get(BaseUrl + "newsFlash/articleList", {
+                    params: this.dataparams, headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                        res.data.data.forEach(item => {
+                            if (item.createTime != undefined) {
+                                item.createTime = moment.utc(item.createTime * 1000).local().format('YYYY-MM-DD HH:mm:ss')
+                            }
+                            if (item.issueTime != undefined && item.issueTime != 0) {
+                                item.issueTime = moment.utc(item.issueTime * 1000).local().format('YYYY-MM-DD HH:mm:ss')
+                            } else {
+                                item.issueTime = ""
+                            }
+                            if (item.draft == true) {
+                                item.hot = false
+                            }
+                            item.visible = false;
+                        })
+                        this.tableData = res.data.data
+                        this.currentPage = this.dataparams.pageNum
+                        this.nowPageSize = this.dataparams.pageSize
+                        // console.log(this.tableData)
                     }
                 );
 
-                this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
-                            params: this.numparams,
-                            headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                        this.usercount=res.data.data;
+                this.$ajax.get(BaseUrl + "newsFlash/articleAmount", {
+                    params: this.numparams,
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                        this.usercount = res.data.data;
                     }
                 );
 
             },
-            tabsClick(){//tabs选项
-                this.currentPage=1
-                this.nowPageSize=10
+            tabsClick() {//tabs选项
+                this.currentPage = 1
+                this.nowPageSize = 10
                 this.getmess();
             },
-            getmess(){
-                if(this.tabsName==-1){
+            getmess() {
+                if (this.tabsName == -1) {
                     this.paramss()
                     this.paramsss()
                     delete this.dataparams.draft
                     delete this.numparams.draft
                     this.getData()
-                }else if(this.tabsName==1){
+                } else if (this.tabsName == 1) {
                     this.paramss()
                     this.paramsss()
-                    this.dataparams.draft="false",
-                    this.numparams.draft="false",
-                    this.getData();
-                }else{
+                    this.dataparams.draft = "false",
+                        this.numparams.draft = "false",
+                        this.getData();
+                } else {
                     this.paramss()
                     this.paramsss()
-                    this.dataparams.draft="true",
-                    this.numparams.draft="true",
-                    this.getData();
+                    this.dataparams.draft = "true",
+                        this.numparams.draft = "true",
+                        this.getData();
                 }
             },
-            paramss(){
-                this.dataparams={
-                        // draft:this.draft,
-                        key:this.searchInfo,
-                        pageNum:this.currentPage,
-                        pageSize:this.nowPageSize
+            paramss() {
+                this.dataparams = {
+                    // draft:this.draft,
+                    key: this.searchInfo,
+                    pageNum: this.currentPage,
+                    pageSize: this.nowPageSize
 
-                        }
+                }
             },
-            paramsss(){
-                this.numparams={
-                            key:this.searchInfo
-                            }
+            paramsss() {
+                this.numparams = {
+                    key: this.searchInfo
+                }
             },
-            async setTop(row){//置顶
-                this.tableData.forEach(item=>{
+            async setTop(row) {//置顶
+                this.tableData.forEach(item => {
                     item.visible = false
                 })
-                if(!row.top){
-                    await this.$ajax.get(BaseUrl+"newsFlash/stickArticle/"+row.id,{
-                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                if (!row.top) {
+                    await this.$ajax.get(BaseUrl + "newsFlash/stickArticle/" + row.id, {
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(res => {
                     })
-                }else{
-                    await this.$ajax.get(BaseUrl+"newsFlash/unstickArticle/"+row.id,{
-                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
+                } else {
+                    await this.$ajax.get(BaseUrl + "newsFlash/unstickArticle/" + row.id, {
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(res => {
                     })
                 }
                 this.getData()
             },
-            deleteData(row){//调出弹出窗
-                this.tableData.forEach(item=>{
+            deleteData(row) {//调出弹出窗
+                this.tableData.forEach(item => {
                     item.visible = false
                 })
                 this.dialogVisible = true;
-                this.row=row
+                this.row = row
             },
-            async deleteDataY(){//删除数据
+            async deleteDataY() {//删除数据
                 this.dialogVisible = false;
-                await this.$ajax.get(BaseUrl+"newsFlash/delete/"+this.row.id,{
-                         headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                    })
+                await this.$ajax.get(BaseUrl + "newsFlash/delete/" + this.row.id, {
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                })
                 this.getData()
             },
-            switchChang(type){
-                if(type){
-                    this.enabled="true"
+            switchChang(type) {
+                if (type) {
+                    this.enabled = "true"
                     this.setAuto()
-                }else{
-                    this.enabled="false"
+                } else {
+                    this.enabled = "false"
                     this.setAuto()
                 }
             },
-            setAuto(){
+            setAuto() {
                 this.$ajax({
-                            method: "POST",
-                            url: BaseUrl+'newsFlash/setAutoRelease',
-                            params:{
-                                enabled:this.enabled
-                            },
-                            headers: {
-                                'token': sessionStorage.getItem('token')
-                                }
-                        }).then(res=>{
-                            // console.log(this.enabled)
-                            // console.log(res)
-                        })
+                    method: "POST",
+                    url: BaseUrl + 'newsFlash/setAutoRelease',
+                    params: {
+                        enabled: this.enabled
+                    },
+                    headers: {
+                        'token': sessionStorage.getItem('token')
+                    }
+                }).then(res => {
+                    // console.log(this.enabled)
+                    // console.log(res)
+                })
             }
         }
     };
@@ -353,7 +371,8 @@
 
 <style lang="less" scoped>
     @import "../style/mixin";
-    .fillcontain{
+
+    .fillcontain {
         text-align: left
     }
 
@@ -408,35 +427,39 @@
         height: 120px;
         display: block;
     }
+
     /*.cell {*/
     /*overflow: hidden;*/
     /*text-overflow: ellipsis;*/
     /*word-break: break-all;*/
     /*white-space: nowrap !important;*/
     /*}*/
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/
-    .title{
+    .title {
         overflow: hidden;
         cursor: pointer;
     }
-    .titles{
+
+    .titles {
         color: #6cf;
 
     }
-    .settop{
+
+    .settop {
         color: red;
-        border:1px solid red
-    }
-    .hot{
-        color:red
+        border: 1px solid red
     }
 
+    .hot {
+        color: red
+    }
 
 
 </style>

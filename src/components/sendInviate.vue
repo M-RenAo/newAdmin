@@ -39,35 +39,42 @@
 
 <script>
     import {baseUrl, baseImgPath} from '@/config/env'
-    import {getFoods, getFoodsCount, getMenu, updateFood, deleteFood, getResturantDetail, getMenuById} from '@/api/getData'
+    import {
+        getFoods,
+        getFoodsCount,
+        getMenu,
+        updateFood,
+        deleteFood,
+        getResturantDetail,
+        getMenuById
+    } from '@/api/getData'
+
     let moment = require("moment");
     export default {
-        data(){
+        data() {
             return {
                 tableData: [],
-                nowPageSize:10,
+                nowPageSize: 10,
                 txcount: 0,
                 currentPage: 1,
             }
         },
-        created(){
+        created() {
             this.getData()
         },
-        computed: {
-        },
-        components: {
-        },
+        computed: {},
+        components: {},
         methods: {
-            getData(){
-                this.$ajax.get(BaseUrl+'inviterecord/all/'+this.$route.query.id+'/'+this.currentPage+'/'+this.nowPageSize,{headers: {'token': sessionStorage.getItem('token')}}).then(response => {
+            getData() {
+                this.$ajax.get(BaseUrl + 'inviterecord/all/' + this.$route.query.id + '/' + this.currentPage + '/' + this.nowPageSize, {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
                     // console.log(response)
-                    if(response.data.flag==200){
-                        this.tableData=response.data.data.list;
-                        this.txcount=response.data.data.num;
-                        this.tableData.forEach(item=>{
-                            item.inviteDate=moment(item.inviteDate).format('YYYY-MM-DD HH:mm:ss')
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.list;
+                        this.txcount = response.data.data.num;
+                        this.tableData.forEach(item => {
+                            item.inviteDate = moment(item.inviteDate).format('YYYY-MM-DD HH:mm:ss')
                         })
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -118,7 +125,8 @@
 
 <style lang="less" scoped>
     @import '../style/mixin';
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
 </style>

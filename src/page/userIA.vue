@@ -4,86 +4,87 @@
         <div class="table_container">
             <el-card class="box-card">
                 <el-row style="display:flex;align-items: center">
-                    <el-col :span="12" >
+                    <el-col :span="12">
                         <div style="font-weight: 700;letter-spacing: 1px;">
                             <span style="width:178.14px;display: inline-block;"> 用户ImAPP钱包总额：</span>{{userBalance}} IA
-                            <div style="margin-left: 178.14px">{{allUserBcdBalance}}  BCD</div>
+                            <div style="margin-left: 178.14px">{{allUserBcdBalance}} BCD</div>
                         </div>
-                        <div style="font-weight: 700;letter-spacing: 1px;margin-top:10px;">兑换成BCD消耗：{{bcdExchange}} IA</div>
+                        <div style="font-weight: 700;letter-spacing: 1px;margin-top:10px;">兑换成BCD消耗：{{bcdExchange}} IA
+                        </div>
                     </el-col>
                 </el-row>
             </el-card>
             <!--<el-form :model="appForm" ref="appForm" label-width="110px" style="margin-top: 20px;margin-left: 20px;">-->
-                <!--<div>-->
-                    <!--<div style="display: flex;margin-bottom: 20px;">-->
-                        <!--<h4>小号使用IA：</h4>-->
-                    <!--</div>-->
-                    <!--<el-form-item label="竞猜总投入：" prop="name">-->
-                        <!--{{appForm.fileVersion}}-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="总输赢：" prop="name">-->
-                        <!--{{appForm.fileDate}}-->
-                    <!--</el-form-item>-->
-                    <!--&lt;!&ndash;<el-form-item label="历史版本：" prop="name">&ndash;&gt;-->
-                    <!--&lt;!&ndash;</el-form-item>&ndash;&gt;-->
+            <!--<div>-->
+            <!--<div style="display: flex;margin-bottom: 20px;">-->
+            <!--<h4>小号使用IA：</h4>-->
+            <!--</div>-->
+            <!--<el-form-item label="竞猜总投入：" prop="name">-->
+            <!--{{appForm.fileVersion}}-->
+            <!--</el-form-item>-->
+            <!--<el-form-item label="总输赢：" prop="name">-->
+            <!--{{appForm.fileDate}}-->
+            <!--</el-form-item>-->
+            <!--&lt;!&ndash;<el-form-item label="历史版本：" prop="name">&ndash;&gt;-->
+            <!--&lt;!&ndash;</el-form-item>&ndash;&gt;-->
 
-                <!--</div>-->
+            <!--</div>-->
             <!--</el-form>-->
             <!--<div style="display: flex;margin-bottom: 20px;margin-left: 20px;">-->
-                <!--<h4>详情：</h4>-->
+            <!--<h4>详情：</h4>-->
             <!--</div>-->
             <!--<el-row type="flex" style="margin-bottom: 30px;margin-top: 20px;margin-left: 20px;">-->
-                <!--<el-col :span="19" style="display:flex;height: auto;word-break:break-all;flex:1;padding-left:5px;">-->
-                    <!--<div style="display:inline-block">-->
-                        <!--<div style="display: inline-block">-->
-                            <!--<span style="font-size: 14px;width:80px;">小号昵称：</span>-->
-                            <!--<el-input  placeholder="请输入昵称" style="width:150px;"></el-input>-->
-                        <!--</div>-->
-                        <!--<div style="display: inline-block">-->
-                            <!--<span style="font-size: 14px;width:80px;">竞猜标题：</span>-->
-                            <!--<el-input  placeholder="请输入标题" style="width:150px;"></el-input>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</el-col>-->
-                <!--<div style="float:right">-->
-                    <!--<el-button type="primary" style="margin-right:10px;margin-bottom:2px;"-->
-                               <!--@click="search(searchForm)">搜索-->
-                    <!--</el-button>-->
-                    <!--&lt;!&ndash;<el-button type="primary" style="margin-left:0">导出</el-button>&ndash;&gt;-->
-                <!--</div>-->
+            <!--<el-col :span="19" style="display:flex;height: auto;word-break:break-all;flex:1;padding-left:5px;">-->
+            <!--<div style="display:inline-block">-->
+            <!--<div style="display: inline-block">-->
+            <!--<span style="font-size: 14px;width:80px;">小号昵称：</span>-->
+            <!--<el-input  placeholder="请输入昵称" style="width:150px;"></el-input>-->
+            <!--</div>-->
+            <!--<div style="display: inline-block">-->
+            <!--<span style="font-size: 14px;width:80px;">竞猜标题：</span>-->
+            <!--<el-input  placeholder="请输入标题" style="width:150px;"></el-input>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</el-col>-->
+            <!--<div style="float:right">-->
+            <!--<el-button type="primary" style="margin-right:10px;margin-bottom:2px;"-->
+            <!--@click="search(searchForm)">搜索-->
+            <!--</el-button>-->
+            <!--&lt;!&ndash;<el-button type="primary" style="margin-left:0">导出</el-button>&ndash;&gt;-->
+            <!--</div>-->
             <!--</el-row>-->
             <!--<el-table-->
-                <!--:data="tableData"-->
-                <!--style="width: 100%"-->
+            <!--:data="tableData"-->
+            <!--style="width: 100%"-->
             <!--&gt;-->
-                <!--<el-table-column-->
-                    <!--label="时间"-->
-                    <!--prop="name">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="收益来源"-->
-                    <!--prop="startDate">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="详情"-->
-                    <!--prop="endDate">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="收益"-->
-                    <!--prop="joins">-->
-                <!--</el-table-column>-->
+            <!--<el-table-column-->
+            <!--label="时间"-->
+            <!--prop="name">-->
+            <!--</el-table-column>-->
+            <!--<el-table-column-->
+            <!--label="收益来源"-->
+            <!--prop="startDate">-->
+            <!--</el-table-column>-->
+            <!--<el-table-column-->
+            <!--label="详情"-->
+            <!--prop="endDate">-->
+            <!--</el-table-column>-->
+            <!--<el-table-column-->
+            <!--label="收益"-->
+            <!--prop="joins">-->
+            <!--</el-table-column>-->
             <!--</el-table>-->
             <!--<div class="Pagination" style="margin-left: 20px;">-->
-                <!--<el-pagination-->
-                    <!--@size-change="handleSizeChange"-->
-                    <!--@current-change="handleCurrentChange"-->
-                    <!--:current-page="currentPage"-->
-                    <!--:page-size="nowPageSize"-->
-                    <!--:page-sizes="[5, 10, 20, 40]"-->
-                    <!--:total="txcount"-->
-                    <!--layout="total, sizes, prev, pager, next, jumper"-->
-                <!--&gt;-->
-                <!--</el-pagination>-->
+            <!--<el-pagination-->
+            <!--@size-change="handleSizeChange"-->
+            <!--@current-change="handleCurrentChange"-->
+            <!--:current-page="currentPage"-->
+            <!--:page-size="nowPageSize"-->
+            <!--:page-sizes="[5, 10, 20, 40]"-->
+            <!--:total="txcount"-->
+            <!--layout="total, sizes, prev, pager, next, jumper"-->
+            <!--&gt;-->
+            <!--</el-pagination>-->
             <!--</div>-->
         </div>
     </div>
@@ -98,7 +99,7 @@
         data() {
             return {
                 id: '',
-                appForm:{},
+                appForm: {},
                 tableData: [],
                 startDate: '',
                 endDate: '',
@@ -106,10 +107,10 @@
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                userBalance:'',
+                userBalance: '',
                 formLabelWidth: '120x',
-                bcdExchange:'',
-                allUserBcdBalance:''
+                bcdExchange: '',
+                allUserBcdBalance: ''
             };
         },
         components: {
@@ -118,14 +119,14 @@
         created() {
             this.$ajax({
                 method: "POST",
-                url:  BaseUrl+'imwallet/getAllAssetAccount',
+                url: BaseUrl + 'imwallet/getAllAssetAccount',
                 headers: {'token': sessionStorage.getItem('token')}
-            }).then(response=>{
-                if(response.data.flag==200) {
+            }).then(response => {
+                if (response.data.flag == 200) {
                     this.userBalance = response.data.data.imAppIaTotal;
                     this.bcdExchange = response.data.data.exchangeBcd;
                     this.allUserBcdBalance = response.data.data.imAppBcdTotal
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -231,7 +232,7 @@
                 }
                 searchForm.page = 1;
                 searchForm.size = this.nowPageSize || 10;
-                searchForm.order="startDate desc"
+                searchForm.order = "startDate desc"
                 this.getData(searchForm)
             },
             // toggleSelection(rows) {
@@ -258,6 +259,7 @@
     .table_container {
         padding: 20px;
     }
+
     .littleButton {
         padding: 5px 10px !important;
         margin-left: 0 !important;

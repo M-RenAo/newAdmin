@@ -4,37 +4,37 @@
             <el-col :span="14" :offset="4">
                 <el-form :model="digForm" ref="digForm" :rules="rules" label-width="130px" class="form food_form">
                     <el-form-item label="安装挖矿：" prop="installReward">
-                        <el-input v-model="digForm.installReward" style="width:200px" type="number"></el-input> IA
+                        <el-input v-model="digForm.installReward" style="width:200px" type="number"></el-input>IA
                     </el-form-item>
                     <el-form-item label="安装每日上限：" prop="installTimesLimited">
-                        <el-input v-model="digForm.installTimesLimited" style="width:200px" type="number"></el-input> 个
+                        <el-input v-model="digForm.installTimesLimited" style="width:200px" type="number"></el-input>个
                     </el-form-item>
                     <!--<el-form-item label="安装挖矿：" prop="name" >-->
-                        <!--<el-input style="width:200px"></el-input> IA-->
+                    <!--<el-input style="width:200px"></el-input> IA-->
                     <!--</el-form-item>-->
                     <el-form-item label="打开挖矿：" prop="openReward">
-                        <el-input v-model="digForm.openReward" style="width:200px" type="number"></el-input> IA
+                        <el-input v-model="digForm.openReward" style="width:200px" type="number"></el-input>IA
                     </el-form-item>
                     <el-form-item label="打开每日上限：" prop="openTimesLimited">
-                        <el-input v-model="digForm.openTimesLimited" style="width:200px" type="number"></el-input> 个
+                        <el-input v-model="digForm.openTimesLimited" style="width:200px" type="number"></el-input>个
                     </el-form-item>
                     <el-form-item label="邀请好友挖矿：" prop="inviteReward">
-                        <el-input v-model="digForm.inviteReward" style="width:200px" type="number"></el-input> IA
+                        <el-input v-model="digForm.inviteReward" style="width:200px" type="number"></el-input>IA
                     </el-form-item>
                     <el-form-item label="注册挖矿：" prop="registerReward">
-                        <el-input v-model="digForm.registerReward" style="width:200px" type="number"></el-input> IA
+                        <el-input v-model="digForm.registerReward" style="width:200px" type="number"></el-input>IA
                     </el-form-item>
                     <!--<el-form-item label="使用规则时间" prop="summary">-->
-                        <!--<el-date-picker-->
-                            <!--v-model="timePeriod"-->
-                            <!--type="datetimerange"-->
-                            <!--align="right"-->
-                            <!--:picker-options="pickerOptions0"-->
-                            <!--:default-time="['12:00:00', '12:00:00']">-->
-                        <!--</el-date-picker>-->
+                    <!--<el-date-picker-->
+                    <!--v-model="timePeriod"-->
+                    <!--type="datetimerange"-->
+                    <!--align="right"-->
+                    <!--:picker-options="pickerOptions0"-->
+                    <!--:default-time="['12:00:00', '12:00:00']">-->
+                    <!--</el-date-picker>-->
                     <!--</el-form-item>-->
                     <el-form-item>
-                        <el-button type="primary"  @click="save(digForm)">保存</el-button>
+                        <el-button type="primary" @click="save(digForm)">保存</el-button>
                     </el-form-item>
                 </el-form>
                 <el-dialog
@@ -56,16 +56,17 @@
 <script>
     import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import { quillEditor } from 'vue-quill-editor'
-    export default{
-        data(){
+    import {quillEditor} from 'vue-quill-editor'
+
+    export default {
+        data() {
             return {
-                digForm:{},
+                digForm: {},
                 // timePeriod:null,
-                delVisible:false,
+                delVisible: false,
                 pickerOptions0: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now()- 8.64e7;
+                        return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
                 rules: {
@@ -78,22 +79,22 @@
                     openReward: [
                         {required: true, message: '请输入', trigger: 'blur'}
                     ],
-                    openTimesLimited:[
+                    openTimesLimited: [
                         {required: true, message: '请输入', trigger: 'blur'}
                     ],
-                    inviteReward:[
+                    inviteReward: [
                         {required: true, message: '请输入', trigger: 'blur'}
                     ],
-                    registerReward:[
+                    registerReward: [
                         {required: true, message: '请输入', trigger: 'blur'}
                     ]
                 }
             }
         },
-        mounted(){
+        mounted() {
 
         },
-        methods:{
+        methods: {
             // GMTToStr(time) {
             //     var date = time;
             //     var Y = date.getFullYear();
@@ -110,11 +111,11 @@
             //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
             //
             // },
-            save(digForm){
+            save(digForm) {
                 this.$refs.digForm.validate(async (valid) => {
-                    if(valid){
-                        this.delVisible=true;
-                    }else{
+                    if (valid) {
+                        this.delVisible = true;
+                    } else {
                         this.$alert('请全部填写完整', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -131,10 +132,10 @@
 
 
             },
-            saveEnsure(){
+            saveEnsure() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'mining/addrule',
+                    url: BaseUrl + 'mining/addrule',
                     params: this.digForm,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
@@ -152,9 +153,11 @@
                     } else if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
-                            callback:action=>{this.$router.push({path:'/setDig'})}
+                            callback: action => {
+                                this.$router.push({path: '/setDig'})
+                            }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -162,19 +165,19 @@
                             }
                         });
                     }
-                    this.delVisible=false;
-                },error=>{
-                        this.$alert('请检查接口', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$message({
-                                    type: 'info',
-                                    message: `error: ${'请重试'}`
-                                });
-                            }
-                        });
-                    this.delVisible=false;
-                        return false;
+                    this.delVisible = false;
+                }, error => {
+                    this.$alert('请检查接口', '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                            this.$message({
+                                type: 'info',
+                                message: `error: ${'请重试'}`
+                            });
+                        }
+                    });
+                    this.delVisible = false;
+                    return false;
                 });
             }
 

@@ -2,10 +2,10 @@
     <div>
         <div class="table_container">
             <el-row type="flex" style="margin-bottom: 30px;">
-                    <div>
-                        <el-button type="primary" style="margin-right:10px;margin-bottom:2px;" @click="addQuiz">新增
-                        </el-button>
-                    </div>
+                <div>
+                    <el-button type="primary" style="margin-right:10px;margin-bottom:2px;" @click="addQuiz">新增
+                    </el-button>
+                </div>
                 <el-col :span="18" style="display:flex;height: auto;word-break:break-all;flex:1">
                     <div style="display:inline-block">
                         <span style="font-size: 14px;width:80px;">竞猜标题：</span>
@@ -61,21 +61,23 @@
                         </div>
                     </div>
                 </el-col>
-                    <div style="float:right">
-                        <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
-                                   @click="search(searchForm)">搜索
-                        </el-button>
-                        <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
-                    </div>
+                <div style="float:right">
+                    <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
+                               @click="search(searchForm)">搜索
+                    </el-button>
+                    <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
+                </div>
             </el-row>
             <el-table
                 :data="tableData"
                 style="width: 100%">
                 <el-table-column
                     label="竞猜标题"
-                   >
+                >
                     <template scope="scope">
-                        <router-link :to="{path:'/quizInfo',query:{id:scope.row.id,state:scope.row.state}}">{{scope.row.topic}}</router-link>
+                        <router-link :to="{path:'/quizInfo',query:{id:scope.row.id,state:scope.row.state}}">
+                            {{scope.row.topic}}
+                        </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -104,7 +106,8 @@
                         </el-button>
                         <el-button class="littleButton" @click="update(scope.row.id)" v-if="scope.row.state==3">编辑
                         </el-button>
-                        <el-button class="littleButton" style="margin-left:5px;" @click="placeTop(scope.row.id,scope.row.startDate,scope.row.endDate)"
+                        <el-button class="littleButton" style="margin-left:5px;"
+                                   @click="placeTop(scope.row.id,scope.row.startDate,scope.row.endDate)"
                                    v-if="scope.row.state==1">置顶
                         </el-button>
                         <el-button class="littleButton" style="margin-left:0;" @click="trumpet(scope.row.id)"
@@ -160,23 +163,30 @@
                     <el-form-item label="投注选项：" :label-width="trumpetFormWidth">竞猜选项一
                     </el-form-item>
                     <el-form-item label="使用小号数：" :label-width="trumpetFormWidth">
-                        <el-input v-model="choiceFirst.num" placeholder="请输入数量" style="width:40%" type="number" min="1"></el-input>
+                        <el-input v-model="choiceFirst.num" placeholder="请输入数量" style="width:40%" type="number"
+                                  min="1"></el-input>
                     </el-form-item>
                     <el-form-item label="每个小号投注数：" :label-width="trumpetFormWidth">
-                        <el-input v-model="choiceFirst.bet" placeholder="请输入数量" style="width:40%" type="number" min="1"></el-input>
+                        <el-input v-model="choiceFirst.bet" placeholder="请输入数量" style="width:40%" type="number"
+                                  min="1"></el-input>
                     </el-form-item>
                     <el-form-item label="投注选项：" :label-width="trumpetFormWidth">竞猜选项二
                     </el-form-item>
                     <el-form-item label="使用小号数：" :label-width="trumpetFormWidth">
-                        <el-input v-model="choiceSecond.num" placeholder="请输入数量" style="width:40%" type="number" min="1"></el-input>
+                        <el-input v-model="choiceSecond.num" placeholder="请输入数量" style="width:40%" type="number"
+                                  min="1"></el-input>
                     </el-form-item>
                     <el-form-item label="每个小号投注数：" :label-width="trumpetFormWidth">
-                        <el-input v-model="choiceSecond.bet" placeholder="请输入数量" style="width:40%" type="number" min="1"></el-input>
+                        <el-input v-model="choiceSecond.bet" placeholder="请输入数量" style="width:40%" type="number"
+                                  min="1"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="saveSumbit(choiceFirst.num,choiceFirst.bet,choiceSecond.num,choiceSecond.bet)">确 定</el-button>
+                    <el-button type="primary"
+                               @click="saveSumbit(choiceFirst.num,choiceFirst.bet,choiceSecond.num,choiceSecond.bet)">确
+                        定
+                    </el-button>
                 </div>
             </el-dialog>
             <el-dialog
@@ -197,6 +207,7 @@
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
     import headTop from '../components/headTop'
+
     let moment = require("moment");
 
     export default {
@@ -204,8 +215,8 @@
             return {
                 id: '',
                 tableData: [],
-                choiceSecond:{answer:'B'},
-                choiceFirst:{answer:'A'},
+                choiceSecond: {answer: 'B'},
+                choiceFirst: {answer: 'A'},
                 options: [{
                     value: '5',
                     label: '全部'
@@ -240,17 +251,15 @@
                 topForm: {},
                 trumpetForm: {},
                 searchForm: {},
-                compareStartDate:'',
-                compareEndDate:'',
+                compareStartDate: '',
+                compareEndDate: '',
                 pickerOptions0: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now()- 8.64e7;
+                        return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                placeTopForm:{
-
-                },
-                timePeriod:null
+                placeTopForm: {},
+                timePeriod: null
 
             };
         },
@@ -258,7 +267,7 @@
             headTop
         },
         created() {
-            const form = {page: this.currentPage, size: this.nowPageSize,order:"pos desc, endDate"}
+            const form = {page: this.currentPage, size: this.nowPageSize, order: "pos desc, endDate"}
             this.getData(form)
         },
         computed: {},
@@ -266,32 +275,32 @@
             getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/getByCond',
+                    url: BaseUrl + 'guess/getByCond',
                     data: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.tableData = response.data.data.data;
-                    this.txcount = response.data.data.count
-                    this.tableData.forEach(item => {
-                        // item.results = JSON.parse(item.result).A + JSON.parse(item.result).B;
-                        if (item.state == 1) {
-                            item.status = '进行中'
-                        } else if (item.state == 0) {
-                            item.status = '已结束'
-                        } else if (item.state == 2) {
-                            item.status = '待开奖'
-                        } else if(item.state==3) {
-                            item.status = '未开始'
-                        }else if(item.state==4){
-                            item.status = '结算异常'
-                        }
-                    });
-                    this.tableData.forEach(item=>{
-                        item.startDate=moment.utc(item.startDate).local().format('YYYY-MM-DD HH:mm:ss')
-                        item.endDate=moment.utc(item.endDate).local().format('YYYY-MM-DD HH:mm:ss')
-                    })
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count
+                        this.tableData.forEach(item => {
+                            // item.results = JSON.parse(item.result).A + JSON.parse(item.result).B;
+                            if (item.state == 1) {
+                                item.status = '进行中'
+                            } else if (item.state == 0) {
+                                item.status = '已结束'
+                            } else if (item.state == 2) {
+                                item.status = '待开奖'
+                            } else if (item.state == 3) {
+                                item.status = '未开始'
+                            } else if (item.state == 4) {
+                                item.status = '结算异常'
+                            }
+                        });
+                        this.tableData.forEach(item => {
+                            item.startDate = moment.utc(item.startDate).local().format('YYYY-MM-DD HH:mm:ss')
+                            item.endDate = moment.utc(item.endDate).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -308,12 +317,12 @@
                     var listParams = {
                         page: 1,
                         size: pageSize,
-                        order:"pos desc, endDate"
+                        order: "pos desc, endDate"
                     };
                 } else {
                     this.searchForm.page = 1;
                     this.searchForm.size = pageSize
-                    this.searchForm.order="pos desc, endDate"
+                    this.searchForm.order = "pos desc, endDate"
                     var listParams = this.searchForm
                 }
                 this.getData(listParams);
@@ -325,12 +334,12 @@
                     var listParams = {
                         page: pageValue,
                         size: this.nowPageSize || 10,
-                        order:"pos desc, endDate"
+                        order: "pos desc, endDate"
                     };
                 } else {
                     this.searchForm.page = pageValue;
                     this.searchForm.size = this.nowPageSize || 10;
-                    this.searchForm.order="pos desc, endDate"
+                    this.searchForm.order = "pos desc, endDate"
                     var listParams = this.searchForm
                 }
 
@@ -342,18 +351,18 @@
             update(id) {
                 this.$router.push({path: "/updateQuiz", query: {id: id}})
             },
-            placeTop(id,startDate,endDate) {
-                this.placeTopForm={};
+            placeTop(id, startDate, endDate) {
+                this.placeTopForm = {};
                 this.dialogFormVisible = true;
-                this.placeTopForm.id=id;
-                this.compareStartDate=new Date(startDate);
-                this.compareEndDate=new Date(endDate);
-                this.timePeriod=[this.compareStartDate,this.compareEndDate];
+                this.placeTopForm.id = id;
+                this.compareStartDate = new Date(startDate);
+                this.compareEndDate = new Date(endDate);
+                this.timePeriod = [this.compareStartDate, this.compareEndDate];
                 // console.log(id)
             },
-            topEnsure(){
+            topEnsure() {
                 // console.log(this.timePeriod);
-                if(this.timePeriod[0]<this.compareStartDate){
+                if (this.timePeriod[0] < this.compareStartDate) {
                     this.$alert('开始时间不能小于竞猜开始时间', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -363,7 +372,7 @@
                             });
                         }
                     });
-                }else if(this.timePeriod[1]> this.compareEndDate){
+                } else if (this.timePeriod[1] > this.compareEndDate) {
                     this.$alert('结束时间不能大于竞猜结束时间', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -373,7 +382,7 @@
                             });
                         }
                     });
-                }else if(this.timePeriod == ''||this.timePeriod == undefined){
+                } else if (this.timePeriod == '' || this.timePeriod == undefined) {
                     this.$alert('时间不能为空', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -383,23 +392,23 @@
                             });
                         }
                     });
-                }else {
-                    this.placeTopForm.startTop  = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
+                } else {
+                    this.placeTopForm.startTop = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
                     this.placeTopForm.endTop = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
-                    this.ensureTopVisible=true;
+                    this.ensureTopVisible = true;
                 }
             },
-            ensureTop(){
-                this.placeTopForm.state=1
+            ensureTop() {
+                this.placeTopForm.state = 1
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/topping',
-                    data:this.placeTopForm,
+                    url: BaseUrl + 'guess/topping',
+                    data: this.placeTopForm,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     // console.log(response)
-                    if(response.data.flag==500){
-                        this.ensureTopVisible=false;
+                    if (response.data.flag == 500) {
+                        this.ensureTopVisible = false;
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -409,15 +418,19 @@
                                 });
                             }
                         });
-                    }else if(response.data.flag == 200){
-                        this.ensureTopVisible=false;
+                    } else if (response.data.flag == 200) {
+                        this.ensureTopVisible = false;
                         this.dialogFormVisible = false;
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
-                            callback: this.getData({page: this.currentPage, size: this.nowPageSize,order:"pos desc, endDate"})
+                            callback: this.getData({
+                                page: this.currentPage,
+                                size: this.nowPageSize,
+                                order: "pos desc, endDate"
+                            })
                         });
-                        this.placeTopForm=''
-                    }else if(response.data.flag==201) {
+                        this.placeTopForm = ''
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -430,7 +443,7 @@
             },
             trumpet(id) {
                 this.trumpetFormVisible = true;
-                this.id=id;
+                this.id = id;
             },
             GMTToStr(time) {
                 var date = time;
@@ -465,7 +478,7 @@
                 }
                 searchForm.page = 1;
                 searchForm.size = this.nowPageSize || 10;
-                searchForm.order="pos desc, endDate"
+                searchForm.order = "pos desc, endDate"
                 this.getData(searchForm)
             },
             handleClose(done) {
@@ -487,8 +500,8 @@
                 this.delVisible = false;
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/delById',
-                    data:{id:this.id},
+                    url: BaseUrl + 'guess/delById',
+                    data: {id: this.id},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     if (response.data.flag == 500) {
@@ -504,11 +517,17 @@
                     } else if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
-                            callback: action=>{this.getData({page: this.currentPage, size: this.nowPageSize,order:"pos desc, endDate"})}
+                            callback: action => {
+                                this.getData({
+                                    page: this.currentPage,
+                                    size: this.nowPageSize,
+                                    order: "pos desc, endDate"
+                                })
+                            }
                         });
 
 
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -518,41 +537,43 @@
                     }
                 });
             },
-            saveSumbit(a,b,c,d){
-                this.choiceFirst.num=Number(a);
-                this.choiceFirst.bet=Number(b);
-                this.choiceSecond.num=Number(c);
-                this.choiceSecond.bet=Number(d);
+            saveSumbit(a, b, c, d) {
+                this.choiceFirst.num = Number(a);
+                this.choiceFirst.bet = Number(b);
+                this.choiceSecond.num = Number(c);
+                this.choiceSecond.bet = Number(d);
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/agentJoin',
-                    data: {id:this.id,data:[this.choiceFirst,this.choiceSecond]},
+                    url: BaseUrl + 'guess/agentJoin',
+                    data: {id: this.id, data: [this.choiceFirst, this.choiceSecond]},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                  if(response.data.flag==200){
-                      // this.trumpetFormVisible=false
-                      this.$alert(response.data.msg, '提示', {
-                          confirmButtonText: '确定',
-                          callback: action=>{this.trumpetFormVisible=false}
-                      });
-                  }else if(response.data.flag==201) {
-                      this.$alert(response.data.msg + '请重新登录', '提示', {
-                          confirmButtonText: '确定',
-                          callback: action => {
-                              this.$router.push('/')
-                          }
-                      });
-                  }else{
-                      this.$alert(response.data.msg, '提示', {
-                          confirmButtonText: '确定',
-                          callback: action => {
-                              this.$message({
-                                  type: 'info',
-                                  message: `error: ${ response.data.msg + ',请重试'}`
-                              });
-                          }
-                      });
-                  }
+                    if (response.data.flag == 200) {
+                        // this.trumpetFormVisible=false
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.trumpetFormVisible = false
+                            }
+                        });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    } else {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    }
                 });
             }
 

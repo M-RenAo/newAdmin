@@ -13,7 +13,7 @@
             <el-table
                 :data="info"
                 class="test-class"
-                style="width: 100%" >
+                style="width: 100%">
                 <el-table-column
                     label="应用名称"
                     prop="appName" min-width="100">
@@ -24,19 +24,25 @@
                 </el-table-column>
                 <el-table-column
                     label="安卓安装包地址"
-                     min-width="80">
+                    min-width="80">
                     <template scope="scope">
-                    <el-button  style=" padding:5px 10px!important;margin-left: 0!important;"  v-clipboard:copy="scope.row.androidUrl" v-clipboard:success="onCopy" v-clipboard:error="onError" v-if="scope.row.androidUrl!=undefined&&scope.row.androidUrl!=''">复制
-                    </el-button>
+                        <el-button style=" padding:5px 10px!important;margin-left: 0!important;"
+                                   v-clipboard:copy="scope.row.androidUrl" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError"
+                                   v-if="scope.row.androidUrl!=undefined&&scope.row.androidUrl!=''">复制
+                        </el-button>
                         <span v-else>未上传</span>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="ios安装包地址"
-                     min-width="80">
+                    min-width="80">
                     <template scope="scope">
-                    <el-button class="littleButton" style=" padding:5px 10px!important;margin-left: 0!important;"  v-clipboard:copy="scope.row.iosUrl" v-clipboard:success="onCopy" v-clipboard:error="onError" v-if="scope.row.iosUrl!=undefined&&scope.row.iosUrl!=''">复制
-                    </el-button>
+                        <el-button class="littleButton" style=" padding:5px 10px!important;margin-left: 0!important;"
+                                   v-clipboard:copy="scope.row.iosUrl" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError" v-if="scope.row.iosUrl!=undefined&&scope.row.iosUrl!=''">
+                            复制
+                        </el-button>
                         <span v-else>未上传</span>
                     </template>
                 </el-table-column>
@@ -46,7 +52,7 @@
                 </el-table-column>
                 <el-table-column
                     label="联系人"
-                    prop="contactName" >
+                    prop="contactName">
                 </el-table-column>
                 <el-table-column
                     label="联系电话"
@@ -68,7 +74,8 @@
                 </el-table-column>
                 <el-table-column label="操作" min-width="100">
                     <template scope="scope">
-                        <el-button  style=" padding:5px 10px!important;margin-left: 0!important;" @click="check(scope.row.id)">查看
+                        <el-button style=" padding:5px 10px!important;margin-left: 0!important;"
+                                   @click="check(scope.row.id)">查看
                         </el-button>
                         <!--<el-button>删除-->
                         <!--</el-button>-->
@@ -100,10 +107,18 @@
                         {{appForm.startDate}}
                     </el-form-item>
                     <el-form-item label="安卓安装包：" :label-width="formLabelWidth">
-                        {{appForm.androidUrl}}<el-button v-if="appForm.androidUrl!='未上传'" style="margin-left: 20px" v-clipboard:copy="appForm.androidUrl" v-clipboard:success="onCopy" v-clipboard:error="onError">复制</el-button>
+                        {{appForm.androidUrl}}
+                        <el-button v-if="appForm.androidUrl!='未上传'" style="margin-left: 20px"
+                                   v-clipboard:copy="appForm.androidUrl" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制
+                        </el-button>
                     </el-form-item>
                     <el-form-item label="ios安装包：" :label-width="formLabelWidth">
-                        {{appForm.iosUrl}}<el-button v-if="appForm.iosUrl!='未上传'" style="margin-left: 20px" v-clipboard:copy="appForm.iosUrl" v-clipboard:success="onCopy" v-clipboard:error="onError">复制</el-button>
+                        {{appForm.iosUrl}}
+                        <el-button v-if="appForm.iosUrl!='未上传'" style="margin-left: 20px"
+                                   v-clipboard:copy="appForm.iosUrl" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制
+                        </el-button>
                     </el-form-item>
                     <el-form-item label="公司名称：" :label-width="formLabelWidth">
                         {{appForm.companyName}}
@@ -114,19 +129,19 @@
                     <el-form-item label="联系人微信：" :label-width="formLabelWidth" prop="name">
                         {{appForm.contactWeiXin}}
                     </el-form-item>
-                    <el-form-item label="联系人电话："  :label-width="formLabelWidth" prop="name">
+                    <el-form-item label="联系人电话：" :label-width="formLabelWidth" prop="name">
                         {{appForm.contactPhone}}
                     </el-form-item>
-                    <el-form-item label="APP简介：" :label-width="formLabelWidth"  prop="name">
+                    <el-form-item label="APP简介：" :label-width="formLabelWidth" prop="name">
                         {{appForm.appSummary}}
                     </el-form-item>
-                    <el-form-item label="当前版本更新内容：" :label-width="formLabelWidth"  prop="name">
+                    <el-form-item label="当前版本更新内容：" :label-width="formLabelWidth" prop="name">
                         {{appForm.appMessage}}
                     </el-form-item>
-                    <el-form-item label="公司或团队介绍："  :label-width="formLabelWidth" prop="name">
+                    <el-form-item label="公司或团队介绍：" :label-width="formLabelWidth" prop="name">
                         {{appForm.companyMessage}}
                     </el-form-item>
-                    <el-form-item label="审核结果："  :label-width="formLabelWidth" prop="name">
+                    <el-form-item label="审核结果：" :label-width="formLabelWidth" prop="name">
                         <el-select v-model="state" placeholder="请选择">
                             <el-option
                                 label="通过"
@@ -142,7 +157,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="原因："  :label-width="formLabelWidth" prop="name">
+                    <el-form-item label="原因：" :label-width="formLabelWidth" prop="name">
                         <el-input
                             type="textarea"
                             :rows="2"
@@ -150,8 +165,10 @@
                             v-model="remarks">
                         </el-input>
                     </el-form-item>
-                    <el-form-item  align="center">
-                        <el-button type="primary" @click="submitForm()" v-bind:disabled="appForm.flag==1||appForm.flag==2">{{checkText}}</el-button>
+                    <el-form-item align="center">
+                        <el-button type="primary" @click="submitForm()"
+                                   v-bind:disabled="appForm.flag==1||appForm.flag==2">{{checkText}}
+                        </el-button>
                     </el-form-item>
                 </el-form>
             </el-dialog>
@@ -172,73 +189,74 @@
         searchplace,
         deleteResturant
     } from '@/api/getData'
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
-                info:[],
+                info: [],
                 txcount: 0,
                 totalfees: 0,
-                activeName:'-1',
+                activeName: '-1',
                 currentPage: 1,
                 nowPageSize: 10,
-                url:'',
-                appForm:{},
-                dialogFormVisible:false,
-                formLabelWidth:'150px',
-                checkText:'保存',
-                remarks:'',
-                state:''
+                url: '',
+                appForm: {},
+                dialogFormVisible: false,
+                formLabelWidth: '150px',
+                checkText: '保存',
+                remarks: '',
+                state: ''
             }
         },
         created() {
-            this.queryListData({activeName:this.activeName,pageValue:this.currentPage,pageSize:this.nowPageSize})
+            this.queryListData({activeName: this.activeName, pageValue: this.currentPage, pageSize: this.nowPageSize})
         },
         components: {
             headTop,
         },
         methods: {
-            onCopy(){
+            onCopy() {
                 this.$message({
                     message: '复制成功',
                     type: 'success'
                 });
             },
-            onError(){
+            onError() {
                 this.$message({
                     message: '复制失败',
                     type: 'error'
                 });
             },
-            queryListData({ activeName, pageValue, pageSize }) {
+            queryListData({activeName, pageValue, pageSize}) {
                 this.$ajax
-                    .get(`${BaseUrl}appdemo/all/${activeName}/${pageValue||1}/${pageSize||10}`,{headers:{'token': sessionStorage.getItem('token')}})
+                    .get(`${BaseUrl}appdemo/all/${activeName}/${pageValue || 1}/${pageSize || 10}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         // console.log(pageSize)
                         // console.log(pageValue)
-                        if(response.data.flag==200){
+                        if (response.data.flag == 200) {
                             this.info = response.data.data.list;
                             this.txcount = response.data.data.num;
                             this.info.forEach(item => {
                                 if (item.flag == 1) {
                                     item.appState = "审核通过";
-                                } else if(item.flag == 2){
+                                } else if (item.flag == 2) {
                                     item.appState = "审核不通过";
-                                }else if(item.flag == 3){
+                                } else if (item.flag == 3) {
                                     item.appState = "待定";
-                                }else {
+                                } else {
                                     item.appState = "未审核";
                                 }
                             });
                             this.info.forEach(item => {
-                                item.commitDate=moment.utc(item.commitDate).local().format('YYYY-MM-DD')
+                                item.commitDate = moment.utc(item.commitDate).local().format('YYYY-MM-DD')
                             });
-                            this.currentPage=pageValue;
-                            this.nowPageSize=pageSize
-                            this.info.forEach(item =>{
-                                item.fileSize=(item.fileSize/1048576).toFixed(2)+' M'
+                            this.currentPage = pageValue;
+                            this.nowPageSize = pageSize
+                            this.info.forEach(item => {
+                                item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
                             })
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -269,27 +287,27 @@
                 this.queryListData(listParams);
             },
             check(id) {
-                this.remarks=''
-                this.dialogFormVisible=true;
+                this.remarks = ''
+                this.dialogFormVisible = true;
                 this.$ajax
-                    .get(`${BaseUrl}appdemo/info/${id}`,{headers:{'token': sessionStorage.getItem('token')}})
+                    .get(`${BaseUrl}appdemo/info/${id}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         // console.log(pageSize)
                         // console.log(pageValue)
-                        if(response.data.flag==200){
+                        if (response.data.flag == 200) {
                             this.appForm = response.data.data;
-                            this.appForm.androidUrl= this.appForm.androidUrl||'未上传'
-                            this.appForm.iosUrl= this.appForm.iosUrl||'未上传'
+                            this.appForm.androidUrl = this.appForm.androidUrl || '未上传'
+                            this.appForm.iosUrl = this.appForm.iosUrl || '未上传'
                             // if(this.appForm.flag==1){
                             //     this.checkText='已通过审核'
                             // }else{
                             //     this.checkText='通过审核'
                             // }
-                            this.state=this.appForm.flag.toString()
-                            if(this.appForm.remarks!=undefined){
-                                this.remarks=this.appForm.remarks
+                            this.state = this.appForm.flag.toString()
+                            if (this.appForm.remarks != undefined) {
+                                this.remarks = this.appForm.remarks
                             }
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -299,21 +317,21 @@
                         }
                     });
             },
-            submitForm(){
+            submitForm() {
                 this.$ajax({
                     method: "POST",
-                    url:BaseUrl+'appdemo/label',
+                    url: BaseUrl + 'appdemo/label',
                     params: {
-                        id:this.appForm.id,
-                        flag:this.state,
-                        remarks:this.remarks
+                        id: this.appForm.id,
+                        flag: this.state,
+                        remarks: this.remarks
                     },
                     headers: {
                         'token': sessionStorage.getItem('token'),
                     }
                 }).then(response => {
                     // console.log(response);
-                    if(response.data.flag==500){
+                    if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -323,14 +341,18 @@
                                 });
                             }
                         });
-                    }else if(response.data.flag==200){
+                    } else if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
-                            callback:action=>{
-                                this.queryListData({activeName:this.activeName,pageValue:this.currentPage,pageSize:this.nowPageSize})
+                            callback: action => {
+                                this.queryListData({
+                                    activeName: this.activeName,
+                                    pageValue: this.currentPage,
+                                    pageSize: this.nowPageSize
+                                })
                             }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -346,7 +368,7 @@
     }
 </script>
 
-<style lang="less" >
+<style lang="less">
     @import '../style/mixin';
 
     .demo-table-expand {
@@ -400,17 +422,19 @@
         height: 120px;
         display: block;
     }
-     .test-class .cell{
-        overflow:hidden!important;
-        text-overflow:ellipsis!important;
-        white-space: nowrap!important;
-        word-break: normal!important;
+
+    .test-class .cell {
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        word-break: normal !important;
     }
+
     /*.el-form-item__content{*/
-        /*word-break: break-all!important;*/
+    /*word-break: break-all!important;*/
     /*}*/
     /*.littleButton{*/
-       /**/
+    /**/
     /*}*/
     /*.el-button{*/
     /*border: 0;*/

@@ -7,11 +7,17 @@
                         <el-form-item label="分类名称：" prop="rankTitle">
                             <el-input v-model="TagForm.title" style="width:200px" maxlength="10"></el-input>
                         </el-form-item>
-                        <el-form-item label="分类图标：" :label-width="formLabelWidth" prop="title" >
+                        <el-form-item label="分类图标：" :label-width="formLabelWidth" prop="title">
                             <div style="display: flex;align-items:flex-end;">
-                                <div style="width:70px;height:70px;border: 1px #999 solid;margin-right: 10px"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+urlTagIcon" v-if="urlTagIcon!==null" style="width:100%;height:100%;"/></div>
-                                <el-button type="primary" v-if="urlTagIcon===null" style="position: relative"><span>上传</span>  <input @change='add_img' type="file" style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0"></el-button>
-                                <el-button type="primary" v-if="urlTagIcon!==null" @click="urlTagIcon=null">删除</el-button>
+                                <div style="width:70px;height:70px;border: 1px #999 solid;margin-right: 10px"><img
+                                    :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+urlTagIcon"
+                                    v-if="urlTagIcon!==null" style="width:100%;height:100%;"/></div>
+                                <el-button type="primary" v-if="urlTagIcon===null" style="position: relative">
+                                    <span>上传</span> <input @change='add_img' type="file"
+                                                           style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0">
+                                </el-button>
+                                <el-button type="primary" v-if="urlTagIcon!==null" @click="urlTagIcon=null">删除
+                                </el-button>
                             </div>
                         </el-form-item>
                     </div>
@@ -39,11 +45,11 @@
                                 </template>
                             </el-table-column>
                             <!--<el-table-column-->
-                                <!--label="sortLabel"-->
-                                <!--min-width="50">-->
-                                <!--<template scope="scope">-->
-                                    <!--{{scope.row.sortLable}}-->
-                                <!--</template>-->
+                            <!--label="sortLabel"-->
+                            <!--min-width="50">-->
+                            <!--<template scope="scope">-->
+                            <!--{{scope.row.sortLable}}-->
+                            <!--</template>-->
                             <!--</el-table-column>-->
                             <el-table-column label="logo" prop="fileIcon" min-width="50">
                                 <template scope="scope">
@@ -78,12 +84,12 @@
                                 prop="appState" min-width="50">
                             </el-table-column>
                             <!--<el-table-column label="操作" min-width="98">-->
-                                <!--<template scope="scope">-->
-                                    <!--<el-button class="littleButton" @click="updateAppInfo(scope.row.fileId)" key="edit">编辑-->
-                                    <!--</el-button>-->
-                                    <!--&lt;!&ndash;<el-button class="littleButton" @click="updateAppSort(scope.row.appName,scope.row.fileId,scope.row.index,scope.row)" key="edit">设置顺序&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
-                                <!--</template>-->
+                            <!--<template scope="scope">-->
+                            <!--<el-button class="littleButton" @click="updateAppInfo(scope.row.fileId)" key="edit">编辑-->
+                            <!--</el-button>-->
+                            <!--&lt;!&ndash;<el-button class="littleButton" @click="updateAppSort(scope.row.appName,scope.row.fileId,scope.row.index,scope.row)" key="edit">设置顺序&ndash;&gt;-->
+                            <!--&lt;!&ndash;</el-button>&ndash;&gt;-->
+                            <!--</template>-->
                             <!--</el-table-column>-->
                         </el-table>
                         <div class="Pagination">
@@ -106,9 +112,11 @@
 
             </el-col>
         </el-row>
-        <el-dialog title="" :visible.sync="dialogFormVisible" >
+        <el-dialog title="" :visible.sync="dialogFormVisible">
             <el-form :model="rankAndApp">
-                <el-form-item label="应用名称：" :label-width="formLabelWidth"><div>{{appName}}</div></el-form-item>
+                <el-form-item label="应用名称：" :label-width="formLabelWidth">
+                    <div>{{appName}}</div>
+                </el-form-item>
                 <el-form-item label="顺序：" :label-width="formLabelWidth">
                     <el-input v-model="rankAndApp.sortLable" autocomplete="off"></el-input>
                 </el-form-item>
@@ -120,17 +128,18 @@
         <el-dialog :visible.sync="dialogTableVisible" min-width="600px" :close-on-click-modal=false>
             <div>
                 <!--<el-select v-model="fileTagUnchoice" placeholder="请选择" @change="searchUnchoiceAppByTag">-->
-                    <!--<el-option label="全部分类" value="0"></el-option>-->
-                    <!--<el-option-->
-                        <!--v-for="item in tagList"-->
-                        <!--:key="item.code"-->
-                        <!--:label="item.title"-->
-                        <!--:value="item.code">-->
-                    <!--</el-option>-->
+                <!--<el-option label="全部分类" value="0"></el-option>-->
+                <!--<el-option-->
+                <!--v-for="item in tagList"-->
+                <!--:key="item.code"-->
+                <!--:label="item.title"-->
+                <!--:value="item.code">-->
+                <!--</el-option>-->
                 <!--</el-select>-->
                 <el-input placeholder="请输入应用名" class="input-with-select" v-model="unchoiceAppName"
                           style="width:200px;margin-left:10px" @keyup.enter.native="searchUnchoiceApp(unchoiceAppName)">
-                    <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i class="el-icon-search"></i></el-button>
+                    <el-button slot="append" @click="searchUnchoiceApp(unchoiceAppName)"><i class="el-icon-search"></i>
+                    </el-button>
                 </el-input>
             </div>
             <el-table
@@ -212,10 +221,10 @@
                 appForm: {},
                 sortItemForm: {},
                 formLabelWidth: '110px',
-                unchoiceAppName:null,
+                unchoiceAppName: null,
                 fileDate: '',
                 value: [],
-                sortRule:'add',
+                sortRule: 'add',
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
@@ -225,57 +234,62 @@
                 dialogTableVisible: false,
                 dialogVisible: false,
                 dialogFormVisibleSort: false,
-                dialogVisibleReset:false,
+                dialogVisibleReset: false,
                 appList: [],
                 currentPage: 1,
                 nowPageSize: 10,
                 txcount: 0,
                 TagForm: {},
-                rankAndApp:{},
+                rankAndApp: {},
                 searchInfo: null,
                 multipleSelection: null,
                 fileTag: '0',
-                fileTagUnchoice:'0',
+                fileTagUnchoice: '0',
                 unChoiceAppList: [],
                 multipleSelectionAppTohere: [],
                 appId: [],
-                deleAppId:[],
-                appName:'',
-                urlTagIcon:null
+                deleAppId: [],
+                appName: '',
+                urlTagIcon: null
             };
         },
         components: {
             headTop
         },
         created() {
-           this.tagList=JSON.parse(sessionStorage.getItem('taglist'))
-            this.tagList.forEach(item=>{
-                if(item.code===this.$route.query.code){
-                    this.TagForm=item
+            this.tagList = JSON.parse(sessionStorage.getItem('taglist'))
+            this.tagList.forEach(item => {
+                if (item.code === this.$route.query.code) {
+                    this.TagForm = item
                 }
             })
             // console.log(this.TagForm);
-           if(this.TagForm.icon!==undefined&&this.TagForm.icon!=='tag_default.jpg'){
-               this.urlTagIcon=this.TagForm.icon
-           }
+            if (this.TagForm.icon !== undefined && this.TagForm.icon !== 'tag_default.jpg') {
+                this.urlTagIcon = this.TagForm.icon
+            }
             this.getData();
         },
         computed: {},
         methods: {
-            getData(){
+            getData() {
                 this.$ajax
                     .get(`${BaseUrl}apptag/mess`, {
-                        params: {pageCode: this.currentPage, pageSize: this.nowPageSize,tagId:this.$route.query.code,keyWords:null},
-                        headers: {'token': sessionStorage.getItem('token'), 'device':this.$route.query.type}
+                        params: {
+                            pageCode: this.currentPage,
+                            pageSize: this.nowPageSize,
+                            tagId: this.$route.query.code,
+                            keyWords: null
+                        },
+                        headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
                         // console.log(pageSize)
                         // console.log(pageValue)
                         if (response.data.flag == 200) {
-                            var that=this
+                            var that = this
                             // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.appList = response.data.data.appList
-                            this.txcount=response.data.data.fileNum
+                            this.txcount = response.data.data.fileNum
                             this.appList.forEach(item => {
                                 if (item.fileState == 1) {
                                     item.appState = "已上架";
@@ -283,18 +297,18 @@
                                     item.appState = "未上架";
                                 }
                             });
-                            this.appList.forEach((item,index) => {
+                            this.appList.forEach((item, index) => {
                                 // console.log(index)
-                                item.index=index+1+(this.currentPage-1)*this.nowPageSize
+                                item.index = index + 1 + (this.currentPage - 1) * this.nowPageSize
                             });
                             this.appList.forEach(item => {
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                             });
-                            if(this.$route.query.type=='android'){
+                            if (this.$route.query.type == 'android') {
                                 this.appList.forEach(item => {
                                     item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
                                 })
-                            }else if(this.$route.query.type=='ios'){
+                            } else if (this.$route.query.type == 'ios') {
                                 this.appList.forEach(item => {
                                     item.fileSize = item.fileSize + ' M'
                                 })
@@ -310,28 +324,28 @@
                         }
                     });
             },
-            add_img(event){
+            add_img(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -364,9 +378,9 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -378,13 +392,13 @@
                     });
 
             },
-            updateAppSort(appName,fileId,sort,row){
-                this.dialogFormVisible=true;
-                this.appName=appName;
-                this.rankAndApp.applyId=fileId;
-                this.rankAndApp.sortLable=sort
+            updateAppSort(appName, fileId, sort, row) {
+                this.dialogFormVisible = true;
+                this.appName = appName;
+                this.rankAndApp.applyId = fileId;
+                this.rankAndApp.sortLable = sort
             },
-            ensureSortApp(){
+            ensureSortApp() {
                 if (this.rankAndApp.sortLable >= 1 && this.rankAndApp.sortLable <= this.txcount) {
                     this.rankAndApp.titleId = this.$route.query.id;
                     this.rankAndApp.sortLable = Number(this.rankAndApp.sortLable);
@@ -423,7 +437,7 @@
                         }
                     });
                 } else {
-                    this.$alert('请输入顺序1到'+this.txcount+'之间的数字', '提示', {
+                    this.$alert('请输入顺序1到' + this.txcount + '之间的数字', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
                             this.$message({
@@ -434,12 +448,12 @@
                     });
                 }
             },
-            searchAppByTagCode(){
+            searchAppByTagCode() {
                 this.getData()
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                this.deleAppId=[];
+                this.deleAppId = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
                     this.deleAppId.push(this.multipleSelection[i].fileId)
                 }
@@ -454,7 +468,7 @@
             saveApp() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl + 'apptag/add/apply/'+this.$route.query.id,
+                    url: BaseUrl + 'apptag/add/apply/' + this.$route.query.id,
                     data: this.appId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
@@ -473,7 +487,7 @@
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
-                                this.dialogTableVisible=false
+                                this.dialogTableVisible = false
                                 this.getData()
                             }
                         });
@@ -492,7 +506,7 @@
                 this.getData()
             },
             handleCurrentChange(pageValue) {
-                this.currentPage=pageValue;
+                this.currentPage = pageValue;
                 this.getData()
             },
             deleteAll() {
@@ -537,18 +551,21 @@
                 this.dialogTableVisible = true;
                 this.getApp()
             },
-            searchUnchoiceApp(text){
+            searchUnchoiceApp(text) {
                 this.getApp()
             },
-            updateAppInfo(id){
-             this.$router.push({ path: "/updateApp", query:  {id:id,type:this.$route.query.type,page:this.currentPage,size:this.nowPageSize}});
+            updateAppInfo(id) {
+                this.$router.push({
+                    path: "/updateApp",
+                    query: {id: id, type: this.$route.query.type, page: this.currentPage, size: this.nowPageSize}
+                });
             },
-            saveUpdateDown(){
+            saveUpdateDown() {
                 // console.log(this.urlTagIcon)
-                if(this.urlTagIcon===null){
-                    this.TagForm.icon='tag_default.jpg'
-                }else{
-                    this.TagForm.icon=this.TagForm.icon
+                if (this.urlTagIcon === null) {
+                    this.TagForm.icon = 'tag_default.jpg'
+                } else {
+                    this.TagForm.icon = this.TagForm.icon
                 }
                 this.$ajax({
                     method: "POST",
@@ -571,9 +588,9 @@
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
-                                if(this.$route.query.type=='android'){
+                                if (this.$route.query.type == 'android') {
                                     this.$router.push("/applicationTag")
-                                }else if(this.$route.query.type=='ios'){
+                                } else if (this.$route.query.type == 'ios') {
                                     this.$router.push("/iosTag")
                                 }
                             }
@@ -591,14 +608,21 @@
             getApp() {
                 this.$ajax
                     .get(`${BaseUrl}apply/all`, {
-                        params: {pageCode: 0, pageSize:0, state: 1, fileState:2,tagId:0,keyWords:(this.unchoiceAppName!=null&&this.unchoiceAppName!='')?this.unchoiceAppName:null},
-                        headers: {'token': sessionStorage.getItem('token'), 'device':this.$route.query.type}
+                        params: {
+                            pageCode: 0,
+                            pageSize: 0,
+                            state: 1,
+                            fileState: 2,
+                            tagId: 0,
+                            keyWords: (this.unchoiceAppName != null && this.unchoiceAppName != '') ? this.unchoiceAppName : null
+                        },
+                        headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
                         // console.log(pageSize)
                         // console.log(pageValue)
                         if (response.data.flag == 200) {
-                            var that=this
+                            var that = this
                             // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.unChoiceAppList = response.data.data.appList
                             this.unChoiceAppList.forEach(item => {
@@ -611,11 +635,11 @@
                             this.appList.forEach(item => {
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                             });
-                            if(this.$route.query.type=='android'){
+                            if (this.$route.query.type == 'android') {
                                 this.unChoiceAppList.forEach(item => {
                                     item.fileSize = (item.fileSize / 1048576).toFixed(2) + ' M'
                                 })
-                            }else if(this.$route.query.type=='ios'){
+                            } else if (this.$route.query.type == 'ios') {
                                 this.unChoiceAppList.forEach(item => {
                                     item.fileSize = item.fileSize + ' M'
                                 })
@@ -661,8 +685,9 @@
             position: absolute;
         }
     }
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
 </style>

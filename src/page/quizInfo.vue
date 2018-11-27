@@ -37,10 +37,10 @@
                         <el-form-item label="竞猜选项二：" prop="name" v-if="Object.keys(option).length>=6">
                             {{option.F}}
                         </el-form-item>
-                        <el-form-item label="竞猜选项二：" prop="name"v-if="Object.keys(option).length>=7">
+                        <el-form-item label="竞猜选项二：" prop="name" v-if="Object.keys(option).length>=7">
                             {{option.G}}
                         </el-form-item>
-                        <el-form-item label="竞猜选项二：" prop="name"v-if="Object.keys(option).length==8">
+                        <el-form-item label="竞猜选项二：" prop="name" v-if="Object.keys(option).length==8">
                             {{option.H}}
                         </el-form-item>
                         <el-form-item label="每注：" prop="name">
@@ -52,7 +52,7 @@
                             <h4>开奖结果：</h4>
                         </div>
                         <div data-v-6b64c39e="" class="el-form-item">
-                            <label  class="el-form-item__label" style="width: 110px;">{{answerName}}：</label>
+                            <label class="el-form-item__label" style="width: 110px;">{{answerName}}：</label>
                             <div class="el-form-item__content" style="margin-left: 110px;">
                                 {{anwser}}
                             </div>
@@ -63,23 +63,41 @@
                             <h4>投注详情：</h4>
                         </div>
                         <el-form-item label="投注金额：" prop="name">
-                            <div><el-form-item label="总计：" prop="name" label-width="70px" style="color:#606266">
-                                <span>竞猜选项一 </span>  <span style="margin-left: 10px;">{{total.A}}</span><span style="display:inline-block;margin-left: 20px">竞猜选项二  </span> <span style="margin-left: 10px;">{{total.B}}</span>
-                            </el-form-item>
-                                <el-form-item label="实际：" label-width="70px" prop="name"  style="color:#606266">
-                                    <span>竞猜选项一  </span> <span style="margin-left: 10px;">{{actual.A}}</span><span style="display:inline-block;margin-left: 20px">竞猜选项二  </span>  <span style="margin-left: 10px;">{{actual.B}}</span>
+                            <div>
+                                <el-form-item label="总计：" prop="name" label-width="70px" style="color:#606266">
+                                    <span>竞猜选项一 </span> <span style="margin-left: 10px;">{{total.A}}</span><span
+                                    style="display:inline-block;margin-left: 20px">竞猜选项二  </span> <span
+                                    style="margin-left: 10px;">{{total.B}}</span>
+                                </el-form-item>
+                                <el-form-item label="实际：" label-width="70px" prop="name" style="color:#606266">
+                                    <span>竞猜选项一  </span> <span style="margin-left: 10px;">{{actual.A}}</span><span
+                                    style="display:inline-block;margin-left: 20px">竞猜选项二  </span> <span
+                                    style="margin-left: 10px;">{{actual.B}}</span>
                                 </el-form-item>
                             </div>
                         </el-form-item>
-                        <el-form-item  style="color:#606266" label="回报倍数：" prop="name">
+                        <el-form-item style="color:#606266" label="回报倍数：" prop="name">
                             <span>竞猜选项一</span> <span style="margin-left: 10px;">{{rate.A}}</span>
-                            <span style="display:inline-block;margin-left: 20px">竞猜选项二 </span> <span style="margin-left: 10px;">{{rate.B}}</span>
-                            <span v-if="Object.keys(option).length>=3"><span style="display:inline-block;margin-left: 20px">竞猜选项三 </span> <span style="margin-left: 10px;" >{{rate.C}}</span></span>
-                            <span v-if="Object.keys(option).length>=4"><span style="display:inline-block;margin-left: 20px">竞猜选项四 </span> <span style="margin-left: 10px;" >{{rate.D}}</span></span>
-                            <span v-if="Object.keys(option).length>=5"><span style="display:inline-block;margin-left: 20px">竞猜选项五 </span> <span style="margin-left: 10px;" >{{rate.E}}</span></span>
-                            <span v-if="Object.keys(option).length>=6"><span style="display:inline-block;margin-left: 20px">竞猜选项六 </span> <span style="margin-left: 10px;" >{{rate.F}}</span></span>
-                            <span v-if="Object.keys(option).length>=7"><span style="display:inline-block;margin-left: 20px">竞猜选项七 </span> <span style="margin-left: 10px;" >{{rate.G}}</span></span>
-                            <span v-if="Object.keys(option).length==8"><span style="display:inline-block;margin-left: 20px">竞猜选项八 </span> <span style="margin-left: 10px;" >{{rate.H}}</span></span>
+                            <span style="display:inline-block;margin-left: 20px">竞猜选项二 </span> <span
+                            style="margin-left: 10px;">{{rate.B}}</span>
+                            <span v-if="Object.keys(option).length>=3"><span
+                                style="display:inline-block;margin-left: 20px">竞猜选项三 </span> <span
+                                style="margin-left: 10px;">{{rate.C}}</span></span>
+                            <span v-if="Object.keys(option).length>=4"><span
+                                style="display:inline-block;margin-left: 20px">竞猜选项四 </span> <span
+                                style="margin-left: 10px;">{{rate.D}}</span></span>
+                            <span v-if="Object.keys(option).length>=5"><span
+                                style="display:inline-block;margin-left: 20px">竞猜选项五 </span> <span
+                                style="margin-left: 10px;">{{rate.E}}</span></span>
+                            <span v-if="Object.keys(option).length>=6"><span
+                                style="display:inline-block;margin-left: 20px">竞猜选项六 </span> <span
+                                style="margin-left: 10px;">{{rate.F}}</span></span>
+                            <span v-if="Object.keys(option).length>=7"><span
+                                style="display:inline-block;margin-left: 20px">竞猜选项七 </span> <span
+                                style="margin-left: 10px;">{{rate.G}}</span></span>
+                            <span v-if="Object.keys(option).length==8"><span
+                                style="display:inline-block;margin-left: 20px">竞猜选项八 </span> <span
+                                style="margin-left: 10px;">{{rate.H}}</span></span>
                         </el-form-item>
                     </div>
                 </el-form>
@@ -97,7 +115,8 @@
                             </el-option>
                         </el-select>
                     </el-col>
-                    <el-col :span="4" style="display: flex;justify-content: flex-end;margin-top:10px; margin-bottom: 10px">
+                    <el-col :span="4"
+                            style="display: flex;justify-content: flex-end;margin-top:10px; margin-bottom: 10px">
                         <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
                                    @click="search(phone,state)">搜索
                         </el-button>
@@ -174,39 +193,39 @@
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
     import Vue from "vue";
+
     let moment = require("moment");
     export default {
         data() {
             return {
-                quizInfo:{
-                },
-                option:{},
-                anwser:'',
-                ensureVisible:false,
-                answerName:'',
-                total:{},
-                actual:{},
-                rate:{},
-                tableData:[],
+                quizInfo: {},
+                option: {},
+                anwser: '',
+                ensureVisible: false,
+                answerName: '',
+                total: {},
+                actual: {},
+                rate: {},
+                tableData: [],
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                searchForm:{},
-                phone:'',
-                state:'1',
-                options:[
-                    {value:"1",label:'全部'},
-                    {value:"A",label:'竞猜选项一'},
-                    {value:"B",label:'竞猜选项二'},
-                    {value:"C",label:'竞猜选项三'},
-                    {value:"D",label:'竞猜选项四'},
-                    {value:"E",label:'竞猜选项五'},
-                    {value:"F",label:'竞猜选项六'},
-                    {value:"G",label:'竞猜选项七'},
-                    {value:"H",label:'竞猜选项八'},
+                searchForm: {},
+                phone: '',
+                state: '1',
+                options: [
+                    {value: "1", label: '全部'},
+                    {value: "A", label: '竞猜选项一'},
+                    {value: "B", label: '竞猜选项二'},
+                    {value: "C", label: '竞猜选项三'},
+                    {value: "D", label: '竞猜选项四'},
+                    {value: "E", label: '竞猜选项五'},
+                    {value: "F", label: '竞猜选项六'},
+                    {value: "G", label: '竞猜选项七'},
+                    {value: "H", label: '竞猜选项八'},
                 ],
-                multipleSelection:[],
-                confirm:[]
+                multipleSelection: [],
+                confirm: []
             };
         },
         components: {
@@ -215,11 +234,11 @@
         created() {
             this.$ajax({
                 method: "POST",
-                url:  BaseUrl+'guess/getById',
-                data: {id:this.$route.query.id},
+                url: BaseUrl + 'guess/getById',
+                data: {id: this.$route.query.id},
                 headers: {'token': sessionStorage.getItem('token')}
-            }).then(response=>{
-                if(response.data.flag==200) {
+            }).then(response => {
+                if (response.data.flag == 200) {
 
 
                     this.quizInfo = response.data.data.guess;
@@ -261,7 +280,7 @@
                     if (response.data.data.rate != undefined) {
                         this.rate = response.data.data.rate
                     }
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -270,25 +289,25 @@
                     });
                 }
             });
-            const form={id:this.$route.query.id,page:this.currentPage,size:this.nowPageSize,order:'date desc'}
+            const form = {id: this.$route.query.id, page: this.currentPage, size: this.nowPageSize, order: 'date desc'}
             this.getData(form)
         },
         computed: {},
         methods: {
-            cellcb({ row, column, rowIndex, columnIndex }) {
-                if ((row.settled==1&&columnIndex==0)||(row.balance<=0&&columnIndex==0)) {
+            cellcb({row, column, rowIndex, columnIndex}) {
+                if ((row.settled == 1 && columnIndex == 0) || (row.balance <= 0 && columnIndex == 0)) {
                     return "my-cells"
                 }
 
             },
-            getData(form){
+            getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/getJoin',
+                    url: BaseUrl + 'guess/getJoin',
                     data: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200) {
+                    if (response.data.flag == 200) {
 
 
                         this.tableData = response.data.data.data;
@@ -316,13 +335,13 @@
                             item.date = moment.utc(item.date).local().format('YYYY-MM-DD HH:mm:ss')
                         })
                         this.tableData.forEach(item => {
-                            if(item.settled==1){
-                                item.status='已完成'
-                            }else if(item.settled==0){
-                                item.status='失败'
+                            if (item.settled == 1) {
+                                item.status = '已完成'
+                            } else if (item.settled == 0) {
+                                item.status = '失败'
                             }
                         })
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -332,40 +351,45 @@
                     }
                 });
             },
-            handleSelectionChange(val){
-                this.multipleSelection=val.filter((item)=>{
+            handleSelectionChange(val) {
+                this.multipleSelection = val.filter((item) => {
                     // item的条件
-                    return item.balance>0&&item.settled===0
+                    return item.balance > 0 && item.settled === 0
                 });
-                this.confirm=[];
+                this.confirm = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
                     this.confirm.push(this.multipleSelection[i].joinId)
                 }
             },
-            revertSettle(){
+            revertSettle() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'guess/joinSettlement',
-                    data: {id:this.$route.query.id,joins:this.confirm},
+                    url: BaseUrl + 'guess/joinSettlement',
+                    data: {id: this.$route.query.id, joins: this.confirm},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200) {
-                        this.$alert(response.data.msg , '提示', {
+                    if (response.data.flag == 200) {
+                        this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
-                                this.getData({id:this.$route.query.id,page:this.currentPage,size:this.nowPageSize,order:'date desc'})
+                                this.getData({
+                                    id: this.$route.query.id,
+                                    page: this.currentPage,
+                                    size: this.nowPageSize,
+                                    order: 'date desc'
+                                })
                             }
                         });
 
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
-                        this.$alert(response.data.msg , '提示', {
+                    } else {
+                        this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                         });
                     }
@@ -376,12 +400,12 @@
                 // console.log(this.searchForm)
                 // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                if (this.searchForm.phone == undefined&&this.searchForm.anwser==undefined) {
+                if (this.searchForm.phone == undefined && this.searchForm.anwser == undefined) {
                     var listParams = {
-                        id:this.$route.query.id,
+                        id: this.$route.query.id,
                         page: 1,
                         size: pageSize,
-                        order:"date desc"
+                        order: "date desc"
                     };
                 } else {
                     this.searchForm.index = 1;
@@ -393,12 +417,12 @@
             handleCurrentChange(pageValue) {
                 // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                if (this.searchForm.phone == undefined&&this.searchForm.anwser==undefined) {
+                if (this.searchForm.phone == undefined && this.searchForm.anwser == undefined) {
                     var listParams = {
-                        id:this.$route.query.id,
+                        id: this.$route.query.id,
                         page: pageValue,
                         size: this.nowPageSize || 10,
-                        order:"date desc"
+                        order: "date desc"
                     };
                 } else {
                     this.searchForm.index = pageValue;
@@ -407,22 +431,22 @@
                 }
                 this.getData(listParams);
             },
-            search(phone,state) {
+            search(phone, state) {
                 // console.log(state)
-                if (phone != ''){
+                if (phone != '') {
                     this.searchForm.phone = phone;
-                }else{
-                    this.searchForm.phone=undefined
+                } else {
+                    this.searchForm.phone = undefined
                 }
-                if(state!='1'){
-                    this.searchForm.answer=state;
-                }else{
-                    this.searchForm.answer=undefined
+                if (state != '1') {
+                    this.searchForm.answer = state;
+                } else {
+                    this.searchForm.answer = undefined
                 }
-                this.searchForm.id=this.$route.query.id;
-                this.searchForm.index=1;
-                this.searchForm.size=this.nowPageSize;
-                this.searchForm.order="date desc"
+                this.searchForm.id = this.$route.query.id;
+                this.searchForm.index = 1;
+                this.searchForm.size = this.nowPageSize;
+                this.searchForm.order = "date desc"
                 this.getData(this.searchForm)
             }
         },
@@ -432,10 +456,11 @@
 
 <style lang="less">
     @import "../style/mixin";
+
     .my-cells {
 
-        .cell{
-            display:none!important;
+        .cell {
+            display: none !important;
         }
     }
 

@@ -6,8 +6,9 @@
                     <div>
                         <div style="display: flex;margin-bottom: 20px;">
                             <h4>应用版本：</h4>
-                            <div style="width:100px;height:100px;margin-left:10px;"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
-                                                                                         style="width:100px;height:100px;"/></div>
+                            <div style="width:100px;height:100px;margin-left:10px;"><img
+                                :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
+                                style="width:100px;height:100px;"/></div>
                         </div>
                         <el-form-item label="版本号：" prop="name">
                             {{appForm.fileVersion}}
@@ -33,20 +34,22 @@
                             {{positonTexts}}
                         </el-form-item>
                         <!--<el-form-item label="应用简介：" prop="name">-->
-                            <!--{{appForm.summary}}-->
+                        <!--{{appForm.summary}}-->
                         <!--</el-form-item>-->
                         <el-form-item label="应用描述：" prop="name">
                             {{appForm.fileMessage}}
                         </el-form-item>
                         <el-form-item label="应用图标：" prop="name">
-                            <div style="width:100px;height:100px;"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
-                                                                        style="width:100px;height:100px;"/></div>
+                            <div style="width:100px;height:100px;"><img
+                                :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
+                                style="width:100px;height:100px;"/></div>
                         </el-form-item>
                         <el-form-item label="应用图片：" prop="name">
                             <div style="max-width:700px;height:auto;">
-                                <div style="width:200px;height:auto;margin-right: 10px;display: inline-block" v-for="(item,index) in  showList" v-if="item!=''">
+                                <div style="width:200px;height:auto;margin-right: 10px;display: inline-block"
+                                     v-for="(item,index) in  showList" v-if="item!=''">
                                     <img :src=" 'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+item"
-                                         style="width:200px;height:auto;"  @click="bigImg(index)"/>
+                                         style="width:200px;height:auto;" @click="bigImg(index)"/>
                                 </div>
                             </div>
                         </el-form-item>
@@ -70,7 +73,9 @@
                     </div>
                     <div>
                         <div style="margin-bottom: 20px;">
-                            <h4>审核操作：<span style="    font-size: 14px;color: #48576a;font-weight:normal">{{checkStatus}}</span></h4>
+                            <h4>审核操作：<span
+                                style="    font-size: 14px;color: #48576a;font-weight:normal">{{checkStatus}}</span>
+                            </h4>
                         </div>
                     </div>
                 </el-form>
@@ -97,18 +102,17 @@
     export default {
         data() {
             return {
-                state:'',
-                remarks:'',
+                state: '',
+                remarks: '',
                 showBigImg: false,
-                num:0,
-                showList:[],
-                appForm:{
-                },
-                checkStatus:'',
-                value:'',
-                positonText:[],
-                positonTexts:'',
-                fileTagText:''
+                num: 0,
+                showList: [],
+                appForm: {},
+                checkStatus: '',
+                value: '',
+                positonText: [],
+                positonTexts: '',
+                fileTagText: ''
             };
         },
         components: {
@@ -119,39 +123,43 @@
         },
         computed: {},
         methods: {
-            getData(){
-                this.$ajax.get(BaseUrl+'apply/appmsg/'+this.$route.query.id,{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                    if(response.data.flag==200){
-                        this.appForm=response.data.data
-                    this.showList= this.appForm.fileShow.split(',');
-                    if(this.$route.query.activeName==1){
-                       this.checkStatus='审核通过'
-                    }else{
-                        this.checkStatus='审核未通过'
+            getData() {
+                this.$ajax.get(BaseUrl + 'apply/appmsg/' + this.$route.query.id, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.$route.query.type
                     }
-                    this.value=eval(this.appForm.fileDisplayPosition);
-                    var position= JSON.parse(sessionStorage.getItem('positionList'));
-                    this.value.forEach(item=>{
-                      position.forEach(nitem=>{
-                          if(item==nitem.code){
-                              // console.log(item)
-                              this.positonText.push(nitem.title);
-                          }
-                      })
-                    })
-                    this.fileTagText=
-                    this.positonTexts=this.positonText.join(' / ')
-                    // console.log( this.showList)
-                }else if(response.data.flag==201) {
-                    this.$alert(response.data.msg + '，请重新登录', '提示', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            this.$router.push('/')
+                }).then(response => {
+                    if (response.data.flag == 200) {
+                        this.appForm = response.data.data
+                        this.showList = this.appForm.fileShow.split(',');
+                        if (this.$route.query.activeName == 1) {
+                            this.checkStatus = '审核通过'
+                        } else {
+                            this.checkStatus = '审核未通过'
                         }
-                    });
-                }
+                        this.value = eval(this.appForm.fileDisplayPosition);
+                        var position = JSON.parse(sessionStorage.getItem('positionList'));
+                        this.value.forEach(item => {
+                            position.forEach(nitem => {
+                                if (item == nitem.code) {
+                                    // console.log(item)
+                                    this.positonText.push(nitem.title);
+                                }
+                            })
+                        })
+                        this.fileTagText =
+                            this.positonTexts = this.positonText.join(' / ')
+                        // console.log( this.showList)
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
                 })
-
 
 
             },
@@ -178,7 +186,6 @@
 
 <style lang="less" scoped>
     @import "../style/mixin";
-
 
 
 </style>

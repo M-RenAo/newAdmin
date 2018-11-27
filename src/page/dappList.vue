@@ -4,29 +4,31 @@
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
-                    <el-tabs v-model="tabsName"  style="height: 40px;" @tab-click="tabsClick">
+                    <el-tabs v-model="tabsName" style="height: 40px;" @tab-click="tabsClick">
                         <el-tab-pane label="全部" name="-1"></el-tab-pane>
                         <el-tab-pane label="已上架" name="true"></el-tab-pane>
                         <el-tab-pane label="未上架" name="false"></el-tab-pane>
                     </el-tabs>
                 </el-col>
-                <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
-                    <el-input placeholder="关键字"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchDapp">
-                        <el-button slot="append"  @click="searchDapp"><i class="el-icon-search"></i></el-button>
+                <el-col :span="12" style="display: flex;align-items: center;justify-content: flex-end">
+                    <el-input placeholder="关键字" class="input-with-select" v-model="searchInfo" style="width:60%"
+                              @keyup.enter.native="searchDapp">
+                        <el-button slot="append" @click="searchDapp"><i class="el-icon-search"></i></el-button>
                     </el-input>
                 </el-col>
 
             </el-row>
             <el-table
                 :data="info"
-                style="width: 100%" >
+                style="width: 100%">
                 <el-table-column
                     label="最新抓取时间"
-                    prop="newTime" >
+                    prop="newTime">
                 </el-table-column>
                 <el-table-column label="图标" prop="icon" min-width="50">
                     <template scope="scope">
-                        <img :src="scope.row.icon" style="width:30px;height:30px;" v-if="scope.row.icon!==''&&scope.row.icon!==undefined" >
+                        <img :src="scope.row.icon" style="width:30px;height:30px;"
+                             v-if="scope.row.icon!==''&&scope.row.icon!==undefined">
                         <span v-else>无</span>
                     </template>
 
@@ -34,27 +36,27 @@
                 <el-table-column
                     label="名称"
                     prop="name"
-                    >
+                >
                 </el-table-column>
                 <el-table-column
                     label="日活"
                     prop="dau"
-                   >
+                >
                 </el-table-column>
                 <el-table-column
                     label="24小时交易量"
                     prop="txAmount"
-                   >
+                >
                 </el-table-column>
                 <el-table-column
                     label="24小时交易笔数"
                     prop="txCount"
-                    >
+                >
                 </el-table-column>
                 <el-table-column
                     label="类型"
                     prop="type"
-                   >
+                >
                 </el-table-column>
                 <el-table-column
                     label="评分"
@@ -63,7 +65,7 @@
                 </el-table-column>
                 <el-table-column
                     label="状态"
-                   >
+                >
                     <template scope="scope">
                         <div>
                             {{scope.row.reviewed?"已上架":"未上架"}}
@@ -75,16 +77,23 @@
                     prop="title"
                     min-width="50">
                     <template scope="scope">
-                        <el-button  type="text"  style="margin-left:0"  v-clipboard:copy="scope.row.url" v-clipboard:success="onCopy" v-clipboard:error="onError">复制</el-button>
+                        <el-button type="text" style="margin-left:0" v-clipboard:copy="scope.row.url"
+                                   v-clipboard:success="onCopy" v-clipboard:error="onError">复制
+                        </el-button>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="操作"
                     min-width="100"
-                 >
+                >
                     <template scope="scope">
-                        <el-button  type="text" @click="checkDapp(scope.row.id,scope.row.reviewed,scope.row.icon,scope.row.name)" style="margin-left:0">审核</el-button>
-                        <el-button  type="text" @click="historyTable(scope.row.id,scope.row.name)" style="margin-left:0">历史数据</el-button>
+                        <el-button type="text"
+                                   @click="checkDapp(scope.row.id,scope.row.reviewed,scope.row.icon,scope.row.name)"
+                                   style="margin-left:0">审核
+                        </el-button>
+                        <el-button type="text" @click="historyTable(scope.row.id,scope.row.name)" style="margin-left:0">
+                            历史数据
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -103,18 +112,18 @@
                 <div class="titleconten">
                     <div style="display: flex;align-items: center;justify-content: center">
                         <div style="width:100px;height:auto;" v-if="checkIcon!==''&&checkIcon!==undefined">
-                            <img :src="checkIcon" style="width:100px;height:auto"  >
+                            <img :src="checkIcon" style="width:100px;height:auto">
                         </div>
-                       <h2 style="text-align:center;margin-left:20px">{{checkName}}</h2>
+                        <h2 style="text-align:center;margin-left:20px">{{checkName}}</h2>
                     </div>
                     <div style="width:300px;margin:0 auto;padding:20px 0px">
                         通过审核的Dapp会发布在客户端，按日活从高到低排序
                     </div>
                     <div style="width:300px;margin:0 auto;padding:20px 0px">
-                            <el-radio-group v-model="radio">
-                                <el-radio :label="true">上架</el-radio>
-                                <el-radio :label="false">下架</el-radio>
-                            </el-radio-group>
+                        <el-radio-group v-model="radio">
+                            <el-radio :label="true">上架</el-radio>
+                            <el-radio :label="false">下架</el-radio>
+                        </el-radio-group>
                     </div>
                 </div>
                 <div slot="footer" class="dialog-footer">
@@ -124,11 +133,11 @@
             </el-dialog>
             <el-dialog :title="dappName" :visible.sync="dialogTableVisibleData" width="600px">
                 <el-table :data="historyData">
-                    <el-table-column property="newTime" label="抓取时间" ></el-table-column>
-                    <el-table-column property="name" label="名称" ></el-table-column>
+                    <el-table-column property="newTime" label="抓取时间"></el-table-column>
+                    <el-table-column property="name" label="名称"></el-table-column>
                     <el-table-column property="dau" label="日活"></el-table-column>
-                    <el-table-column property="txAmount" label="24小时交易量" ></el-table-column>
-                    <el-table-column property="txCount" label="24小时交易笔数" ></el-table-column>
+                    <el-table-column property="txAmount" label="24小时交易量"></el-table-column>
+                    <el-table-column property="txCount" label="24小时交易笔数"></el-table-column>
                     <el-table-column property="score" label="评分"></el-table-column>
                 </el-table>
                 <div class="Pagination">
@@ -150,33 +159,34 @@
 
 <script>
     import headTop from "../components/headTop";
-    import { baseUrl, baseImgPath } from "@/config/env";
-    let moment=require('moment')
+    import {baseUrl, baseImgPath} from "@/config/env";
+
+    let moment = require('moment')
     export default {
         data() {
             return {
                 dialogTableVisible: false,
-                dialogTableVisibleData:false,
-                radio:null,
+                dialogTableVisibleData: false,
+                radio: null,
                 info: [],
-                historyData:[],
+                historyData: [],
                 currentPage: 1,
                 nowPageSize: 10,
-                currentPageHistory:1,
-                nowPageSizeHistory:10,
-                tabsName:"-1",//tabs
-                txcount:0,
-                historyCount:0,
-                searchInfo:"",//快讯关键字搜索
-                row:"",//当前行数据
-                dappName:'',
-                checkId:'',
-                checkIcon:'',
-                checkName:''
+                currentPageHistory: 1,
+                nowPageSizeHistory: 10,
+                tabsName: "-1",//tabs
+                txcount: 0,
+                historyCount: 0,
+                searchInfo: "",//快讯关键字搜索
+                row: "",//当前行数据
+                dappName: '',
+                checkId: '',
+                checkIcon: '',
+                checkName: ''
 
             };
         },
-        created(){
+        created() {
             this.getData()
         },
         mounted() {
@@ -185,36 +195,41 @@
             headTop
         },
         methods: {
-            onCopy(){
+            onCopy() {
                 this.$message({
                     message: '复制成功',
                     type: 'success'
                 });
             },
-            onError(){
+            onError() {
                 this.$message({
                     message: '复制失败',
                     type: 'error'
                 });
             },
-            tabsClick(){
-                this.currentPage=1;
-               this.getData()
+            tabsClick() {
+                this.currentPage = 1;
+                this.getData()
             },
-            getData(){
+            getData() {
                 this.$ajax({
                     method: "GET",
-                    url: BaseUrl+'dapp/list',
-                    params:{pageNum:this.currentPage, pageSize: this.nowPageSize,reviewed:this.tabsName==-1?null:this.tabsName,key:this.searchInfo==''?null:this.searchInfo},
+                    url: BaseUrl + 'dapp/list',
+                    params: {
+                        pageNum: this.currentPage,
+                        pageSize: this.nowPageSize,
+                        reviewed: this.tabsName == -1 ? null : this.tabsName,
+                        key: this.searchInfo == '' ? null : this.searchInfo
+                    },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.info = response.data.data;
-                        this.info.forEach(item=>{
-                            item.newTime=moment.utc(item.time*1000).local().format('YYYY-MM-DD HH:mm:ss')
+                        this.info.forEach(item => {
+                            item.newTime = moment.utc(item.time * 1000).local().format('YYYY-MM-DD HH:mm:ss')
                         })
                         this.getCount()
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -224,16 +239,19 @@
                     }
                 });
             },
-            getCount(){
+            getCount() {
                 this.$ajax({
                     method: "GET",
-                    url: BaseUrl+'dapp/count',
-                    params:{key:this.searchInfo==''?null:this.searchInfo,reviewed:this.tabsName==-1?null:this.tabsName},
+                    url: BaseUrl + 'dapp/count',
+                    params: {
+                        key: this.searchInfo == '' ? null : this.searchInfo,
+                        reviewed: this.tabsName == -1 ? null : this.tabsName
+                    },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.txcount = response.data.data;
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -243,25 +261,25 @@
                     }
                 });
             },
-            searchDapp(){
+            searchDapp() {
                 this.getData();
             },
-            checkDapp(id,reviewed,icon,name){
-               this.dialogTableVisible=true
-                this.checkId=id;
-                this.radio=reviewed;
-               this.checkIcon=icon;
-               this.checkName=name;
+            checkDapp(id, reviewed, icon, name) {
+                this.dialogTableVisible = true
+                this.checkId = id;
+                this.radio = reviewed;
+                this.checkIcon = icon;
+                this.checkName = name;
             },
-            ensureUpdate(){
+            ensureUpdate() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'dapp/audit',
-                    params:{id:this.checkId,reviewed:this.radio},
+                    url: BaseUrl + 'dapp/audit',
+                    params: {id: this.checkId, reviewed: this.radio},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                        this.dialogTableVisible=false
+                    if (response.data.flag == 200) {
+                        this.dialogTableVisible = false
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -272,20 +290,20 @@
                                 this.getData()
                             }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `error: ${ response.data.msg +',请重试'}`
+                                    message: `error: ${ response.data.msg + ',请重试'}`
                                 });
                             }
                         });
@@ -293,27 +311,27 @@
                     }
                 });
             },
-            historyTable(id,name){
-                this.dialogTableVisibleData=true;
-                this.dappName=name
-                this.currentPageHistory=1;
-                this.nowPageSizeHistory=10;
+            historyTable(id, name) {
+                this.dialogTableVisibleData = true;
+                this.dappName = name
+                this.currentPageHistory = 1;
+                this.nowPageSizeHistory = 10;
                 this.getHistory()
             },
-            getHistory(){
+            getHistory() {
                 this.$ajax({
                     method: "GET",
-                    url: BaseUrl+'dapp/history',
-                    params:{name:this.dappName,pageNum:this.currentPageHistory,pageSize:this.nowPageSizeHistory},
+                    url: BaseUrl + 'dapp/history',
+                    params: {name: this.dappName, pageNum: this.currentPageHistory, pageSize: this.nowPageSizeHistory},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.historyData = response.data.data;
-                        this.historyData.forEach(item=>{
-                            item.newTime=moment.utc(item.time*1000).local().format('YYYY-MM-DD HH:mm:ss')
+                        this.historyData.forEach(item => {
+                            item.newTime = moment.utc(item.time * 1000).local().format('YYYY-MM-DD HH:mm:ss')
                         })
                         this.getHistoryCount()
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -323,16 +341,16 @@
                     }
                 });
             },
-            getHistoryCount(){
+            getHistoryCount() {
                 this.$ajax({
                     method: "GET",
-                    url: BaseUrl+'dapp/historyCount',
-                    params:{name:this.dappName},
+                    url: BaseUrl + 'dapp/historyCount',
+                    params: {name: this.dappName},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.historyCount = response.data.data;
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -351,12 +369,12 @@
                 this.currentPage = pageValue;
                 this.getData();
             },
-            handleSizeChangeHistory(pageSize){
+            handleSizeChangeHistory(pageSize) {
                 this.nowPageSizeHistory = pageSize;
                 this.currentPageHistory = 1;
                 this.getHistory();
             },
-            handleCurrentChangeHistory(pageValue){
+            handleCurrentChangeHistory(pageValue) {
                 this.currentPageHistory = pageValue;
                 this.getHistory();
             }
@@ -366,7 +384,8 @@
 
 <style lang="less" scoped>
     @import "../style/mixin";
-    .fillcontain{
+
+    .fillcontain {
         text-align: left
     }
 
@@ -421,35 +440,39 @@
         height: 120px;
         display: block;
     }
+
     /*.cell {*/
     /*overflow: hidden;*/
     /*text-overflow: ellipsis;*/
     /*word-break: break-all;*/
     /*white-space: nowrap !important;*/
     /*}*/
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/
-    .title{
+    .title {
         overflow: hidden;
         cursor: pointer;
     }
-    .titles{
+
+    .titles {
         color: #6cf;
 
     }
-    .settop{
+
+    .settop {
         color: red;
-        border:1px solid red
-    }
-    .hot{
-        color:red
+        border: 1px solid red
     }
 
+    .hot {
+        color: red
+    }
 
 
 </style>

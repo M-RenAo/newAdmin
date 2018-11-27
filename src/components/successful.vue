@@ -17,38 +17,38 @@
         </div>
         <div>
             <el-table
-            :data="tableData"
-            style="width: 100%">
+                :data="tableData"
+                style="width: 100%">
                 <el-table-column
-                fixed
-                prop="inviteDate"
-                label="日期"
-                min-width="80">
+                    fixed
+                    prop="inviteDate"
+                    label="日期"
+                    min-width="80">
                 </el-table-column>
                 <el-table-column
-                prop="phone"
-                label="手机号"
-                min-width="50">
+                    prop="phone"
+                    label="手机号"
+                    min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="nick"
-                label="昵称"
-                min-width="50">
+                    prop="nick"
+                    label="昵称"
+                    min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="name"
-                label="姓名"
-                min-width="50">
+                    prop="name"
+                    label="姓名"
+                    min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="state"
-                label="实名状态"
-                min-width="50">
+                    prop="state"
+                    label="实名状态"
+                    min-width="50">
                 </el-table-column>
                 <el-table-column
-                prop="income"
-                label="奖励"
-                min-width="50">
+                    prop="income"
+                    label="奖励"
+                    min-width="50">
                 </el-table-column>
             </el-table>
             <el-pagination
@@ -65,82 +65,86 @@
 </template>
 
 <script>
-  let moment=require('moment')
-  export default {
-    props:["userId","thisName"],
-    data() {
-      return {
-        tableData: [],
-        usercount:0,//用户总数
-        currentPage: 1,
-        nowPageSize: 5,
-        inviterName:""//经谁邀请
-      }
-    },
-    created(){
-        this.getData();       
-    },
-    methods: {
-      handleCommand(command){
-        
-        this.command=command;
-      },
-      handleSizeChange(val) {
-        this.nowPageSize=val
-        this.getData();
-      },
-      handleCurrentChange(val) {
-        this.currentPage=val
-        this.getData();
-      },
-      getData(){
-        this.$ajax.get(BaseUrl+"inviterecord/all/"+this.userId+"/"+this.currentPage+"/"+this.nowPageSize,{
-                        headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
-                    res.data.data.list.forEach(item=>{
-                                if(item.inviteDate!=undefined){
-                                    item.inviteDate=moment.utc(item.inviteDate).local().format('YYYY-MM-DD HH:mm:ss')
-                                }
-                                item.state="未实名"
-                                if(item.name!=undefined){
-                                    item.state="已实名"
-                                }
-                            })
-                    this.tableData=res.data.data.list;
-                    this.usercount=res.data.data.num;
-                    this.inviterName=res.data.data.inviterName
-                }
-            )
-            
-      }
-    },
-    watch:{
-      userId(curVal,oldval){
-        this.userId=curVal;
-        this.currentPage=1;
-        this.nowPageSize=5;
-        this.getData();
-        
-      }
+    let moment = require('moment')
+    export default {
+        props: ["userId", "thisName"],
+        data() {
+            return {
+                tableData: [],
+                usercount: 0,//用户总数
+                currentPage: 1,
+                nowPageSize: 5,
+                inviterName: ""//经谁邀请
+            }
+        },
+        created() {
+            this.getData();
+        },
+        methods: {
+            handleCommand(command) {
+
+                this.command = command;
+            },
+            handleSizeChange(val) {
+                this.nowPageSize = val
+                this.getData();
+            },
+            handleCurrentChange(val) {
+                this.currentPage = val
+                this.getData();
+            },
+            getData() {
+                this.$ajax.get(BaseUrl + "inviterecord/all/" + this.userId + "/" + this.currentPage + "/" + this.nowPageSize, {
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                        res.data.data.list.forEach(item => {
+                            if (item.inviteDate != undefined) {
+                                item.inviteDate = moment.utc(item.inviteDate).local().format('YYYY-MM-DD HH:mm:ss')
+                            }
+                            item.state = "未实名"
+                            if (item.name != undefined) {
+                                item.state = "已实名"
+                            }
+                        })
+                        this.tableData = res.data.data.list;
+                        this.usercount = res.data.data.num;
+                        this.inviterName = res.data.data.inviterName
+                    }
+                )
+
+            }
+        },
+        watch: {
+            userId(curVal, oldval) {
+                this.userId = curVal;
+                this.currentPage = 1;
+                this.nowPageSize = 5;
+                this.getData();
+
+            }
+        }
+
     }
-    
-  }
 </script>
 <style lang="less" scoped>
     @import "../style/mixin";
-    .realname{
-        color:#000;
+
+    .realname {
+        color: #000;
         padding-right: 20px;
         font-size: 16px;
         font-weight: 900;
     }
-    .username{
-        color:#000;
+
+    .username {
+        color: #000;
         padding-right: 20px;
         font-size: 20px;
         font-weight: 900;
-        
+
     }
-    .content{
+
+    .content {
         text-align: left
     }
 </style>

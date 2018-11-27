@@ -7,7 +7,7 @@
                         <el-input v-model="appForm.appName"></el-input>
                     </el-form-item>
                     <!--<el-form-item label="版本号" prop="version">-->
-                        <!--<el-input v-model="appForm.version"></el-input>-->
+                    <!--<el-input v-model="appForm.version"></el-input>-->
                     <!--</el-form-item>-->
                     <el-form-item label="应用简介" prop="fileSummary">
                         <el-input
@@ -27,54 +27,54 @@
                         </el-input>
                     </el-form-item>
                     <!--<el-form-item label="应用包名" prop="packageName">-->
-                        <!--<el-input-->
-                            <!--placeholder="例如：com.tencent.mobileqq"-->
-                            <!--v-model="appForm.packageName">-->
-                        <!--</el-input>-->
+                    <!--<el-input-->
+                    <!--placeholder="例如：com.tencent.mobileqq"-->
+                    <!--v-model="appForm.packageName">-->
+                    <!--</el-input>-->
                     <!--</el-form-item>-->
 
-                        <!--<el-form-item label="应用权限">-->
-                        <!--<el-select v-model="appForm.tag">-->
-                        <!--<el-option label="公开" value="1">-->
-                        <!--</el-option>-->
-                        <!--<el-option label="不公开" value="2">-->
-                        <!--</el-option>-->
-                        <!--</el-select>-->
-                        <!--</el-form-item>-->
-                        <el-form-item label="应用图标" class="icon-el">
-                            <input class="upload" @change='add_img' type="file"
-                                   style="opacity: 0;width: 148px;height: 148px;z-index:222;">
-                            <div class="icon-plus-container" style="">
+                    <!--<el-form-item label="应用权限">-->
+                    <!--<el-select v-model="appForm.tag">-->
+                    <!--<el-option label="公开" value="1">-->
+                    <!--</el-option>-->
+                    <!--<el-option label="不公开" value="2">-->
+                    <!--</el-option>-->
+                    <!--</el-select>-->
+                    <!--</el-form-item>-->
+                    <el-form-item label="应用图标" class="icon-el">
+                        <input class="upload" @change='add_img' type="file"
+                               style="opacity: 0;width: 148px;height: 148px;z-index:222;">
+                        <div class="icon-plus-container" style="">
+                            <i class="el-icon-plus"></i>
+                        </div>
+                        <div class="img-wrap" v-if="uploadIconUrl!=''">
+                            <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"
+                                 class="border-radius" style="width: 146px;height: 146px;"/>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="应用图片" class="icon-els">
+                        <div class="addImage">
+                            <input class="upload img-wrap" style="opacity: 0;z-index:999" @change='add_imgs'
+                                   type="file">
+                            <div style="display: flex;justify-content: center;align-items: center" class="img-wrap">
                                 <i class="el-icon-plus"></i>
                             </div>
-                            <div class="img-wrap" v-if="uploadIconUrl!=''">
-                                <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"
-                                     class="border-radius" style="width: 146px;height: 146px;"/>
-                            </div>
-                        </el-form-item>
-                        <el-form-item label="应用图片" class="icon-els">
-                            <div class="addImage">
-                                <input class="upload img-wrap" style="opacity: 0;z-index:999" @change='add_imgs'
-                                       type="file">
-                                <div style="display: flex;justify-content: center;align-items: center" class="img-wrap">
-                                    <i class="el-icon-plus"></i>
-                                </div>
-                            </div>
-                            <div style="max-width:400px;height:auto;">
-                                <div v-if="imageUrl!=''" v-for="(value,index) in appimageUrlArray"
-                                     style="display: inline-block;margin-left: 10px;position: relative" :key="index">
+                        </div>
+                        <div style="max-width:400px;height:auto;">
+                            <div v-if="imageUrl!=''" v-for="(value,index) in appimageUrlArray"
+                                 style="display: inline-block;margin-left: 10px;position: relative" :key="index">
 
-                                    <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+value"
-                                         class="border-radius " style="" @click="bigImg(index)"/>
-                                    <i class="delete el-icon-close" @click="removeImage(index)"></i>
-                                </div>
-
+                                <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+value"
+                                     class="border-radius " style="" @click="bigImg(index)"/>
+                                <i class="delete el-icon-close" @click="removeImage(index)"></i>
                             </div>
-                        </el-form-item>
 
-                        <el-form-item>
-                            <el-button type="primary"  @click="nextpart(appForm)">下一步</el-button>
-                        </el-form-item>
+                        </div>
+                    </el-form-item>
+
+                    <el-form-item>
+                        <el-button type="primary" @click="nextpart(appForm)">下一步</el-button>
+                    </el-form-item>
                 </el-form>
 
             </el-col>
@@ -119,9 +119,9 @@
                     name: "",
                     message: "",
                     icon: "",
-                    version:'',
+                    version: '',
                     // tag: "",
-                    summary:'',
+                    summary: '',
                     showPict: "",
                     packageName: ''
                 },
@@ -134,9 +134,9 @@
                     ],
                     fileMessage: [
                         {required: true, message: '请输入介绍', trigger: 'blur'}
-                    ],packageName:[
+                    ], packageName: [
                         {required: true, message: '请输入包名', trigger: 'blur'}
-                    ],fileSummary:[
+                    ], fileSummary: [
                         {required: true, message: '请输入简介', trigger: 'blur'}
                     ]
                 },
@@ -152,25 +152,25 @@
             add_img(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -203,41 +203,41 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
                             data: form,
                         }).then(response => {
-                                this.uploadIconUrl = response.data.data;
-                                this.appForm.fileIcon = response.data.data;
+                            this.uploadIconUrl = response.data.data;
+                            this.appForm.fileIcon = response.data.data;
                         });
                     });
             },
             add_imgs(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -262,9 +262,9 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type']);
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type']);
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -281,23 +281,26 @@
             nextpart(appForm) {
                 alert();
                 this.$refs.appForm.validate(async (valid) => {
-                    if (valid&&this.uploadIconUrl!=''&&this.appimageUrlArray.length!=0) {
+                    if (valid && this.uploadIconUrl != '' && this.appimageUrlArray.length != 0) {
                         this.$ajax({
                             method: "POST",
-                            url:  BaseUrl+'apply/create/android',
+                            url: BaseUrl + 'apply/create/android',
                             data: appForm,
-                            headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
+                            headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                         }).then(response => {
                             if (response.data.msg != '应用详情创建失败!') {
-                                this.$router.push({path: "/uploadApp", query: {id: response.data.data,type:this.$route.query.type}});
-                            } else if(response.data.flag==201) {
+                                this.$router.push({
+                                    path: "/uploadApp",
+                                    query: {id: response.data.data, type: this.$route.query.type}
+                                });
+                            } else if (response.data.flag == 201) {
                                 this.$alert(response.data.msg + '，请重新登录', '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
                                         this.$router.push('/')
                                     }
                                 });
-                            }else {
+                            } else {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
@@ -310,7 +313,7 @@
                             }
                         });
                     } else {
-                        if(this.uploadIconUrl==''&&valid){
+                        if (this.uploadIconUrl == '' && valid) {
                             this.$alert('请上传应用图标', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -320,7 +323,7 @@
                                     });
                                 }
                             });
-                        }else if(this.appimageUrlArray.length==0&&valid){
+                        } else if (this.appimageUrlArray.length == 0 && valid) {
                             this.$alert('请上传应用图片', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -330,7 +333,7 @@
                                     });
                                 }
                             });
-                        }else {
+                        } else {
                             this.$alert('请填写完整', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -364,7 +367,7 @@
             },
             removeImage(index) {
                 this.appimageUrlArray.splice(index, 1);
-                this.appForm.showPict=this.appimageUrlArray.join(',')
+                this.appForm.showPict = this.appimageUrlArray.join(',')
                 // console.log(this.appimageUrlArray)
             }
         },

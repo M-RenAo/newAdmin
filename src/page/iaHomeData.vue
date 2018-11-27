@@ -9,10 +9,10 @@
 
                 <div style="width: 50%;padding:0px 20px">
                     用户挖矿总量：{{digTotal|MoneyFormat}}
-                    <circle-chart :dataNum="data2" ></circle-chart>
+                    <circle-chart :dataNum="data2"></circle-chart>
                 </div>
             </div>
-            <div  style="margin-bottom: 30px;">
+            <div style="margin-bottom: 30px;">
                 <span style="font-size: 14px;">时间：</span>
                 <el-date-picker
                     v-model="dataTime"
@@ -116,38 +116,38 @@
     import Vue from "vue";
     import dtime from 'time-formater'
     import circleChart from '../components/circleChart'
-    let moment=require('moment');
+
+    let moment = require('moment');
     export default {
         data() {
             return {
-                activeName:'1',
-                currentPage:1,
-                nowPageSize:30,
-                txcount:0,
-                iaTotal:10000000000,
-                digTotal:0,
-                newSignNum:200,
-                inviteSign:20,
+                activeName: '1',
+                currentPage: 1,
+                nowPageSize: 30,
+                txcount: 0,
+                iaTotal: 10000000000,
+                digTotal: 0,
+                newSignNum: 200,
+                inviteSign: 20,
                 // radio:'1',
-                dataTime:[moment().subtract('days', 31).format('YYYY-MM-DD'),moment().subtract('days', 1).format('YYYY-MM-DD')],
-                chartTime:null,
-                tableData:[
-                ],
-                max:'',
-                startDate1:moment().subtract('days',6).format('YYYY-MM-DD'),
+                dataTime: [moment().subtract('days', 31).format('YYYY-MM-DD'), moment().subtract('days', 1).format('YYYY-MM-DD')],
+                chartTime: null,
+                tableData: [],
+                max: '',
+                startDate1: moment().subtract('days', 6).format('YYYY-MM-DD'),
                 sevenDay: [],
-                sevenDate: [[],[],[],[],[],[],[]],
-                endDate1:moment().add('days',1).format('YYYY-MM-DD'),
-                startDate2:moment().subtract('days', 7).format('YYYY-MM-DD'),
-                endDate2:moment().add('days',1).format('YYYY-MM-DD'),
-                data1:[],
-                data2:[],
-                dataName:['总兑换量','打开应用奖励','新注册奖励','邀请好友奖励','下载奖励','猜猜使用','见证使用'],
+                sevenDate: [[], [], [], [], [], [], []],
+                endDate1: moment().add('days', 1).format('YYYY-MM-DD'),
+                startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
+                endDate2: moment().add('days', 1).format('YYYY-MM-DD'),
+                data1: [],
+                data2: [],
+                dataName: ['总兑换量', '打开应用奖励', '新注册奖励', '邀请好友奖励', '下载奖励', '猜猜使用', '见证使用'],
                 // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
         components: {
-            tendency,circleChart
+            tendency, circleChart
         },
         created() {
             // this.initData();
@@ -162,21 +162,21 @@
         },
         computed: {},
         methods: {
-            getCircleData(){
+            getCircleData() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'imwallet/getIaData',
+                    url: BaseUrl + 'imwallet/getIaData',
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     // console.log(response)
-                    if(response.data.flag==200){
-                       this.data1=response.data.data.data1;
-                       this.data2=response.data.data.data2;
-                       this.data2.forEach(item=>{
-                           this.digTotal+=item.value
-                       })
-                       // this.data1[2].value=this.data1[3].value
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        this.data1 = response.data.data.data1;
+                        this.data2 = response.data.data.data2;
+                        this.data2.forEach(item => {
+                            this.digTotal += item.value
+                        })
+                        // this.data1[2].value=this.data1[3].value
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -186,24 +186,29 @@
                     }
                 });
             },
-            test(){
+            test() {
                 this.getData()
             },
-            getData(){
+            getData() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'imwallet/getIaDataList',
-                    data:{btime:moment(this.dataTime[0]).format('YYYY-MM-DD'),etime:moment(this.dataTime[1]).format('YYYY-MM-DD'),page:this.currentPage,size:this.nowPageSize},
+                    url: BaseUrl + 'imwallet/getIaDataList',
+                    data: {
+                        btime: moment(this.dataTime[0]).format('YYYY-MM-DD'),
+                        etime: moment(this.dataTime[1]).format('YYYY-MM-DD'),
+                        page: this.currentPage,
+                        size: this.nowPageSize
+                    },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     // console.log(response)
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.tableData = response.data.data.data;
                         this.txcount = response.data.data.count;
-                        this.tableData.forEach(item=>{
+                        this.tableData.forEach(item => {
                             item.time = moment.utc(item.ctime).format('YYYY-MM-DD')
                         })
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -213,14 +218,14 @@
                     }
                 });
             },
-            handleSizeChange(size){
+            handleSizeChange(size) {
                 // console.log(size)
             },
-            handleCurrentChange(page){
+            handleCurrentChange(page) {
                 // console.log(page)
             },
-            serchData(dataTime){
-                if(dataTime==null){
+            serchData(dataTime) {
+                if (dataTime == null) {
                     this.$alert('请选择搜索日期', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -231,7 +236,7 @@
                         }
                     });
                     return false;
-                }else if((moment(dataTime[1])-moment(dataTime[0]))/(24*60*60*1000)>30){
+                } else if ((moment(dataTime[1]) - moment(dataTime[0])) / (24 * 60 * 60 * 1000) > 30) {
                     this.$alert('不能超过30天', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -242,24 +247,27 @@
                         }
                     });
                     return false;
-                }else if(dataTime!=null){
-                    this.startDate1=moment(dataTime[0]).format('YYYY-MM-DD')
-                    this.endDate1=moment(dataTime[1]).format('YYYY-MM-DD')
+                } else if (dataTime != null) {
+                    this.startDate1 = moment(dataTime[0]).format('YYYY-MM-DD')
+                    this.endDate1 = moment(dataTime[1]).format('YYYY-MM-DD')
                     this.getData()
                 }
             },
-            getDatas(){
+            getDatas() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'imwallet/getIaDataMapList ',
-                    data:{btime:moment(this.dataTime[0]).format('YYYY-MM-DD'),etime:moment(this.dataTime[1]).format('YYYY-MM-DD')},
+                    url: BaseUrl + 'imwallet/getIaDataMapList ',
+                    data: {
+                        btime: moment(this.dataTime[0]).format('YYYY-MM-DD'),
+                        etime: moment(this.dataTime[1]).format('YYYY-MM-DD')
+                    },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     // console.log(response)
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.sevenDay = response.data.data.data[0];
                         this.sevenDate = response.data.data.data[1];
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -269,11 +277,11 @@
                     }
                 });
             },
-            handleClick(){
-                if(this.activeName==2){
-                    this.startDate2=moment().subtract('days', 31).format('YYYY-MM-DD')
-                }else{
-                    this.startDate2=moment().subtract('days', 7).format('YYYY-MM-DD')
+            handleClick() {
+                if (this.activeName == 2) {
+                    this.startDate2 = moment().subtract('days', 31).format('YYYY-MM-DD')
+                } else {
+                    this.startDate2 = moment().subtract('days', 7).format('YYYY-MM-DD')
                 }
                 this.getDatas()
             },
@@ -314,30 +322,33 @@
 
 <style lang="less" scoped>
     @import "../style/mixin";
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
-    .card-data{
-        padding:5px 10px;
+
+    .card-data {
+        padding: 5px 10px;
         color: #fff;
         /*display: flex;*/
         /*flex-direction: column;*/
         /*justify-content: center;*/
-        width:200px;
+        width: 200px;
         height: 100px;
         /*border:1px solid #999;*/
-        margin-right:15px;
-        background:#85ce61;
+        margin-right: 15px;
+        background: #85ce61;
     }
-    .card-data:last-child{
-        padding:5px 10px;
+
+    .card-data:last-child {
+        padding: 5px 10px;
         /*display: flex;*/
         /*flex-direction: column;*/
         /*justify-content: center;*/
-        width:200px;
+        width: 200px;
         height: 100px;
         /*border:1px solid #999;*/
-        margin-right:0px;
+        margin-right: 0px;
 
     }
 </style>

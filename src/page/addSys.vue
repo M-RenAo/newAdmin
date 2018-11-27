@@ -4,7 +4,7 @@
             <el-col :span="14" :offset="4">
                 <el-form :model="sysForm" ref="sysForm" :rules="rule" label-width="150px" class="form food_form">
                     <el-form-item label="系统升级公告：" prop="title">
-                        <el-input v-model="sysForm.title"  type="textarea" :rows="4"></el-input>
+                        <el-input v-model="sysForm.title" type="textarea" :rows="4"></el-input>
                     </el-form-item>
                     <el-form-item label="系统升级时间：" prop="timePeriod">
                         <el-date-picker
@@ -37,8 +37,7 @@
                 timePeriod: null,
                 toItemId: null,
                 appName: null,
-                sysForm: {
-                },
+                sysForm: {},
                 pickerOptions0: {
                     disabledDate(time) {
                         return time.getTime() < Date.now() - 8.64e7;
@@ -51,7 +50,7 @@
                 }
             }
         },
-        created(){
+        created() {
         },
         methods: {
             GMTToStr(time) {
@@ -72,32 +71,32 @@
             },
             save(focusForm) {
                 this.$refs.focusForm.validate(async (valid) => {
-                    if (valid&&this.timePeriod != null) {
+                    if (valid && this.timePeriod != null) {
                         focusForm.startTime = this.GMTToStr(this.timePeriod[0]);
                         focusForm.endTime = this.GMTToStr(this.timePeriod[1]);
-                            // this.$ajax({
-                            //     method: "POST",
-                            //     url:  BaseUrl+'banner/add',
-                            //     data: focusForm,
-                            //     headers: {'token': sessionStorage.getItem('token')}
-                            // }).then(response => {
-                            //     if (response.data.flag == 500) {
-                            //         this.$alert(response.data.msg, '提示', {
-                            //             confirmButtonText: '确定',
-                            //             callback: action => {
-                            //                 this.$message({
-                            //                     type: 'info',
-                            //                     message: `error: ${ response.data.msg + ',请重试'}`
-                            //                 });
-                            //             }
-                            //         });
-                            //     } else if (response.data.flag == 200) {
-                            //         this.$alert(response.data.msg, '提示', {
-                            //             confirmButtonText: '确定',
-                            //             callback: this.$router.push({path: '/focusImg'})
-                            //         });
-                            //     }
-                            // });
+                        // this.$ajax({
+                        //     method: "POST",
+                        //     url:  BaseUrl+'banner/add',
+                        //     data: focusForm,
+                        //     headers: {'token': sessionStorage.getItem('token')}
+                        // }).then(response => {
+                        //     if (response.data.flag == 500) {
+                        //         this.$alert(response.data.msg, '提示', {
+                        //             confirmButtonText: '确定',
+                        //             callback: action => {
+                        //                 this.$message({
+                        //                     type: 'info',
+                        //                     message: `error: ${ response.data.msg + ',请重试'}`
+                        //                 });
+                        //             }
+                        //         });
+                        //     } else if (response.data.flag == 200) {
+                        //         this.$alert(response.data.msg, '提示', {
+                        //             confirmButtonText: '确定',
+                        //             callback: this.$router.push({path: '/focusImg'})
+                        //         });
+                        //     }
+                        // });
                     } else if (this.timePeriod == null) {
                         this.$alert('请选择时间', {
                             confirmButtonText: '确定',
@@ -114,8 +113,7 @@
             }
 
         },
-        components: {
-        },
+        components: {},
     };
 </script>
 

@@ -2,7 +2,7 @@
     <div>
         <el-row style="margin-top: 20px;">
             <el-col :span="14" :offset="4">
-                <el-form :model="appForm" ref="appForm" :rules="rule"  label-width="110px" class="form food_form">
+                <el-form :model="appForm" ref="appForm" :rules="rule" label-width="110px" class="form food_form">
                     <el-form-item label="公告标题：" prop="title">
                         <el-input v-model="appForm.title"></el-input>
                     </el-form-item>
@@ -21,9 +21,10 @@
                         <el-input v-model="appForm.summary"></el-input>
                     </el-form-item>
                     <el-form-item label="公告内容：" prop="message">
-                        <quill-editor ref="myTextEditor" v-model="appForm.message" :config="editorOption" ></quill-editor>
+                        <quill-editor ref="myTextEditor" v-model="appForm.message"
+                                      :config="editorOption"></quill-editor>
                         <!--<input class="upload" @change='add_imgs' type="file"-->
-                               <!--style="display: none;" id="uniqueId">-->
+                        <!--style="display: none;" id="uniqueId">-->
                     </el-form-item>
                     <el-form-item label="推送时间：" prop="pushDate">
                         <el-date-picker
@@ -36,7 +37,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary"  @click="save(appForm)">保存</el-button>
+                        <el-button type="primary" @click="save(appForm)">保存</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -49,34 +50,35 @@
 <script>
     import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import { quillEditor } from 'vue-quill-editor'
-    let moment =require('moment')
-    export default{
-        data(){
+    import {quillEditor} from 'vue-quill-editor'
+
+    let moment = require('moment')
+    export default {
+        data() {
             return {
-                uploadIconUrl:'',
-                addImgRange:'',
-                appForm:{
-                    cover:'',
+                uploadIconUrl: '',
+                addImgRange: '',
+                appForm: {
+                    cover: '',
                 },
-                readonly:false,
-                pushDate:'',
+                readonly: false,
+                pushDate: '',
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
-                content:null,
-                editorOption:{},
+                content: null,
+                editorOption: {},
                 PickerOptions: {
                     disabledDate(time) {
                         var date = new Date(),
                             Y = date.getFullYear(),
                             m = date.getMonth() + 1,
                             d = date.getDate();
-                        let timeSpace = time.getTime() < new Date(Y+'-'+m+'-'+d);
+                        let timeSpace = time.getTime() < new Date(Y + '-' + m + '-' + d);
                         return timeSpace;
                     }
                 },
-                rule:{
+                rule: {
                     title: [
                         {required: true, message: '请输入推送', trigger: 'blur'},
                     ],
@@ -96,19 +98,19 @@
         //     }
         //     this.$refs.newEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
         // },
-        created(){
-            if(this.$route.query.id!=undefined&&this.$route.query.id!=''){
-                this.readonly=true;
+        created() {
+            if (this.$route.query.id != undefined && this.$route.query.id != '') {
+                this.readonly = true;
                 this.$ajax
-                    .get(`${BaseUrl}push/mess/${this.$route.query.id}`,{headers:{'token':sessionStorage.getItem('token')}})
+                    .get(`${BaseUrl}push/mess/${this.$route.query.id}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        if(response.data.flag==200) {
+                        if (response.data.flag == 200) {
 
                             // console.log(response);
                             this.appForm = response.data.data;
                             this.pushDate = moment.utc(this.appForm.pushDate).local().format('YYYY-MM-DD HH:mm:ss')
                             this.uploadIconUrl = response.data.data.cover
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -119,22 +121,22 @@
                     })
             }
         },
-        methods:{
+        methods: {
             add_img(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image"
-                        }, headers:{'token':sessionStorage.getItem('token')}
+                            callBackType: "app_image"
+                        }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -172,16 +174,16 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
                             data: form
                         }).then(response => {
                             this.uploadIconUrl = response.data.data;
-                            this.appForm.cover=response.data.data;
+                            this.appForm.cover = response.data.data;
                         });
                     });
             },
@@ -262,95 +264,99 @@
             //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
             //
             // },
-            save(appForm){
+            save(appForm) {
                 this.$refs.appForm.validate(async (valid) => {
-                        if (valid&&this.pushDate!='') {
-                                appForm.pushDate = moment(this.pushDate).utc().format('YYYY-MM-DD HH:mm:ss');
-                            if (this.$route.query.id == '' || this.$route.query.id == undefined) {
-                                this.$ajax({
-                                    method: "POST",
-                                    url: BaseUrl + 'push/add',
-                                    data: appForm,
-                                    headers: {'token': sessionStorage.getItem('token')}
-                                }).then(response => {
-                                    if(response.data.flag==500){
-                                        this.$alert(response.data.msg, '提示', {
-                                            confirmButtonText: '确定',
-                                            callback: action => {
-                                                this.$message({
-                                                    type: 'info',
-                                                    message: `error: ${ response.data.msg +',请重试'}`
-                                                });
-                                            }
-                                        });
-                                    }else if(response.data.flag==200){
-                                        this.$alert(response.data.msg, '提示', {
-                                            confirmButtonText: '确定',
-                                            callback: action=>{this.$router.push({path:'/pushMessage'})}
-                                        });
-                                    }else if(response.data.flag==201) {
-                                        this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                            confirmButtonText: '确定',
-                                            callback: action => {
-                                                this.$router.push('/')
-                                            }
-                                        });
-                                    }
-                                });
-                            } else {
-                                this.$ajax({
-                                    method: "POST",
-                                    url: BaseUrl + 'push/update',
-                                    data: appForm,
-                                    headers: {'token': sessionStorage.getItem('token')}
-                                }).then(response => {
-                                    if(response.data.flag==500){
-                                        this.$alert(response.data.msg, '提示', {
-                                            confirmButtonText: '确定',
-                                            callback: action => {
-                                                this.$message({
-                                                    type: 'info',
-                                                    message: `error: ${ response.data.msg +',请重试'}`
-                                                });
-                                            }
-                                        });
-                                    }else if(response.data.flag==200){
-                                        this.$alert(response.data.msg, '提示', {
-                                            confirmButtonText: '确定',
-                                            callback: action=>{this.$router.push({path:'/pushMessage'})}
-                                        });
-                                    }else if(response.data.flag==201) {
-                                        this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                            confirmButtonText: '确定',
-                                            callback: action => {
-                                                this.$router.push('/')
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        }else{
-                            this.$alert('请填写完整', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$message({
-                                        type: 'info',
-                                        message: `请重试！`
+                    if (valid && this.pushDate != '') {
+                        appForm.pushDate = moment(this.pushDate).utc().format('YYYY-MM-DD HH:mm:ss');
+                        if (this.$route.query.id == '' || this.$route.query.id == undefined) {
+                            this.$ajax({
+                                method: "POST",
+                                url: BaseUrl + 'push/add',
+                                data: appForm,
+                                headers: {'token': sessionStorage.getItem('token')}
+                            }).then(response => {
+                                if (response.data.flag == 500) {
+                                    this.$alert(response.data.msg, '提示', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.$message({
+                                                type: 'info',
+                                                message: `error: ${ response.data.msg + ',请重试'}`
+                                            });
+                                        }
+                                    });
+                                } else if (response.data.flag == 200) {
+                                    this.$alert(response.data.msg, '提示', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.$router.push({path: '/pushMessage'})
+                                        }
+                                    });
+                                } else if (response.data.flag == 201) {
+                                    this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.$router.push('/')
+                                        }
                                     });
                                 }
                             });
-                            return false;
+                        } else {
+                            this.$ajax({
+                                method: "POST",
+                                url: BaseUrl + 'push/update',
+                                data: appForm,
+                                headers: {'token': sessionStorage.getItem('token')}
+                            }).then(response => {
+                                if (response.data.flag == 500) {
+                                    this.$alert(response.data.msg, '提示', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.$message({
+                                                type: 'info',
+                                                message: `error: ${ response.data.msg + ',请重试'}`
+                                            });
+                                        }
+                                    });
+                                } else if (response.data.flag == 200) {
+                                    this.$alert(response.data.msg, '提示', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.$router.push({path: '/pushMessage'})
+                                        }
+                                    });
+                                } else if (response.data.flag == 201) {
+                                    this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.$router.push('/')
+                                        }
+                                    });
+                                }
+                            });
                         }
-                   })
+                    } else {
+                        this.$alert('请填写完整', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `请重试！`
+                                });
+                            }
+                        });
+                        return false;
+                    }
+                })
 
                 // console.log(appForm)
             }
 
         },
         components: {
-            headTop,quillEditor
+            headTop, quillEditor
         },
-        computed:{
+        computed: {
             // timeDefaultShow:function(val){
 
             //         dt= date.toLocaleTimeString();
@@ -369,11 +375,13 @@
     };
 </script>
 
-<style lang="less" >
+<style lang="less">
     @import "../style/mixin";
-    .ql-editor{
+
+    .ql-editor {
         min-height: 300px;
     }
+
     .border-radius {
         border-radius: 6px;
         height: auto;
@@ -384,11 +392,13 @@
         width: 148px;
         height: 148px;
     }
+
     .icon-plus-container {
         display: flex;
         justify-content: center;
         align-items: center
     }
+
     .icon-el {
         height: 147px;
         position: relative;
@@ -412,50 +422,51 @@
             position: absolute;
         }
     }
+
     .demo-upload-list img {
         width: 50%;
         height: 50%;
     }
 </style>
 <!--<template>-->
-    <!--<div>-->
-        <!--<div class="container">-->
-            <!---->
-        <!--</div>-->
-    <!--</div>-->
+<!--<div>-->
+<!--<div class="container">-->
+<!---->
+<!--</div>-->
+<!--</div>-->
 <!--</template>-->
 
 <!--<script>-->
-    <!--import 'quill/dist/quill.core.css';-->
-    <!--import 'quill/dist/quill.snow.css';-->
-    <!--import 'quill/dist/quill.bubble.css';-->
-    <!--import { quillEditor } from 'vue-quill-editor';-->
-    <!--export default {-->
-        <!--name: 'editor',-->
-        <!--data: function(){-->
-            <!--return {-->
-                <!--content: '',-->
-                <!--editorOption: {-->
-                    <!--placeholder: 'Hello World'-->
-                <!--}-->
-            <!--}-->
-        <!--},-->
-        <!--components: {-->
-            <!--quillEditor-->
-        <!--},-->
-        <!--methods: {-->
-            <!--onEditorChange({ editor, html, text }) {-->
-                <!--this.content = html;-->
-            <!--},-->
-            <!--submit(){-->
-                <!--console.log(this.content);-->
-                <!--this.$message.success('提交成功！');-->
-            <!--}-->
-        <!--}-->
-    <!--}-->
+<!--import 'quill/dist/quill.core.css';-->
+<!--import 'quill/dist/quill.snow.css';-->
+<!--import 'quill/dist/quill.bubble.css';-->
+<!--import { quillEditor } from 'vue-quill-editor';-->
+<!--export default {-->
+<!--name: 'editor',-->
+<!--data: function(){-->
+<!--return {-->
+<!--content: '',-->
+<!--editorOption: {-->
+<!--placeholder: 'Hello World'-->
+<!--}-->
+<!--}-->
+<!--},-->
+<!--components: {-->
+<!--quillEditor-->
+<!--},-->
+<!--methods: {-->
+<!--onEditorChange({ editor, html, text }) {-->
+<!--this.content = html;-->
+<!--},-->
+<!--submit(){-->
+<!--console.log(this.content);-->
+<!--this.$message.success('提交成功！');-->
+<!--}-->
+<!--}-->
+<!--}-->
 <!--</script>-->
 <!--<style scoped>-->
-    <!--.editor-btn{-->
-        <!--margin-top: 20px;-->
-    <!--}-->
+<!--.editor-btn{-->
+<!--margin-top: 20px;-->
+<!--}-->
 <!--</style>-->
