@@ -48,7 +48,7 @@
             <el-dialog title="" :visible.sync="dialogFormVisible" :before-close="handleClose">
                 <el-form :model="form">
                     <el-form-item label="小号名" :label-width="formLabelWidth">
-                        <el-input v-model="form.name"  style="width:50%"></el-input>
+                        <el-input v-model="form.name" style="width:50%"></el-input>
                     </el-form-item>
                     <el-form-item label="小号头像" :label-width="formLabelWidth" class="icon-trumpet-el">
                         <input class="upload" @change='add_img' type="file"
@@ -69,9 +69,9 @@
                 </div>
             </el-dialog>
             <el-dialog title="" :visible.sync="bitchFormVisible" :before-close="handleClose">
-                <el-form >
+                <el-form>
                     <el-form-item label="创建数量" :label-width="formLabelWidth">
-                        <el-input v-model="numberCreate"  style="width:50%" min="1" max="200" type="number"></el-input>
+                        <el-input v-model="numberCreate" style="width:50%" min="1" max="200" type="number"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -83,11 +83,11 @@
                 title="提示"
                 :visible.sync="dialogVisible"
                 width="30%"
-                >
+            >
                 <span>确认删除小号？</span>
                 <span slot="footer" class="dialog-footer">
                    <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary"  @click="deleteEnsure()">确 定</el-button>
+                    <el-button type="primary" @click="deleteEnsure()">确 定</el-button>
                 </span>
             </el-dialog>
             <div class="Pagination">
@@ -133,8 +133,8 @@
                 currentPage: 1,
                 nowPageSize: 10,
                 dialogFormVisible: false,
-                bitchFormVisible:false,
-                numberCreate:'',
+                bitchFormVisible: false,
+                numberCreate: '',
                 formLabelWidth: '120px',
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
@@ -142,9 +142,9 @@
                 searchInfo: '',
                 activeName: 'first',
                 quizInfo: {topic: '', detail: ''},
-                form: {name:''},
-                dialogVisible:false,
-                delForm:[]
+                form: {name: ''},
+                dialogVisible: false,
+                delForm: []
 
             };
         },
@@ -160,14 +160,14 @@
             getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'agent/query',
+                    url: BaseUrl + 'agent/query',
                     data: form,
-                    headers:{'token':sessionStorage.getItem('token')}
+                    headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.tableData = response.data.data.data;
-                    this.txcount = response.data.data.count
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -224,10 +224,10 @@
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -315,24 +315,26 @@
                     if (this.form.id == undefined) {
                         this.$ajax({
                             method: "POST",
-                            url: BaseUrl+'agent/new',
+                            url: BaseUrl + 'agent/new',
                             data: this.form,
-                            headers:{'token':sessionStorage.getItem('token')}
+                            headers: {'token': sessionStorage.getItem('token')}
                         }).then(response => {
                             if (response.data.flag == '200') {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
-                                    callback: action=>{this.getData({page: 1, size: 10})}
+                                    callback: action => {
+                                        this.getData({page: 1, size: 10})
+                                    }
                                 });
                                 this.dialogFormVisible = false
-                            } else if(response.data.flag==201) {
+                            } else if (response.data.flag == 201) {
                                 this.$alert(response.data.msg + '，请重新登录', '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
                                         this.$router.push('/')
                                     }
                                 });
-                            }else {
+                            } else {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
@@ -347,24 +349,26 @@
                     } else {
                         this.$ajax({
                             method: "POST",
-                            url: BaseUrl+'agent/update',
+                            url: BaseUrl + 'agent/update',
                             data: this.form,
-                            headers:{'token':sessionStorage.getItem('token')}
+                            headers: {'token': sessionStorage.getItem('token')}
                         }).then(response => {
                             if (response.data.flag == '200') {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
-                                    callback: action=>{this.getData({page: 1, size: 10})}
+                                    callback: action => {
+                                        this.getData({page: 1, size: 10})
+                                    }
                                 });
                                 this.dialogFormVisible = false
-                            } else if(response.data.flag==201) {
+                            } else if (response.data.flag == 201) {
                                 this.$alert(response.data.msg + '，请重新登录', '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
                                         this.$router.push('/')
                                     }
                                 });
-                            }else {
+                            } else {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
@@ -379,33 +383,35 @@
                     }
                 }
             },
-            del(id){
-                this.delForm=[];
-                this.dialogVisible=true;
-              this.delForm.push(id);
+            del(id) {
+                this.delForm = [];
+                this.dialogVisible = true;
+                this.delForm.push(id);
             },
-            deleteEnsure(){
-                this.dialogVisible=false;
+            deleteEnsure() {
+                this.dialogVisible = false;
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'agent/remove',
+                    url: BaseUrl + 'agent/remove',
                     data: this.delForm,
-                    headers:{'token':sessionStorage.getItem('token')}
+                    headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.$message({
                             type: 'success',
                             message: '删除成功!',
-                            callback: action=>{this.getData({page: 1, size: 10})}
+                            callback: action => {
+                                this.getData({page: 1, size: 10})
+                            }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else {
+                    } else {
                         this.$message({
                             type: 'error',
                             message: '删除失败!',
@@ -413,36 +419,38 @@
                     }
                 });
             },
-            batchCreate(){
-               this.bitchFormVisible=true;
-               this.numberCreate='';
+            batchCreate() {
+                this.bitchFormVisible = true;
+                this.numberCreate = '';
             },
-            ensureBatch(numberCreate){
-                if(numberCreate>200||numberCreate<1){
+            ensureBatch(numberCreate) {
+                if (numberCreate > 200 || numberCreate < 1) {
                     this.$alert('请输入1～200的数字', '提示', {
                         confirmButtonText: '确定',
                     });
-                }else{
+                } else {
                     this.$ajax({
                         method: "POST",
-                        url: BaseUrl+'agent/create',
-                        params:{num:Number(numberCreate)},
-                        headers:{'token':sessionStorage.getItem('token')}
+                        url: BaseUrl + 'agent/create',
+                        params: {num: Number(numberCreate)},
+                        headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
                         if (response.data.flag == '200') {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
-                                callback: action=>{this.getData({page: 1, size: 10})}
+                                callback: action => {
+                                    this.getData({page: 1, size: 10})
+                                }
                             });
                             this.bitchFormVisible = false
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {

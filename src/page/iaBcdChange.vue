@@ -2,7 +2,7 @@
     <div>
         <div class="table_container">
             <!--<el-card class="box-card">-->
-                <!--<span style="font-weight: 700;letter-spacing: 1px;">兑换成BCD消耗：{{iaData.bcdExchange}} IA</span>-->
+            <!--<span style="font-weight: 700;letter-spacing: 1px;">兑换成BCD消耗：{{iaData.bcdExchange}} IA</span>-->
             <!--</el-card>-->
             <el-row type="flex" style="margin-bottom: 30px;margin-top: 20px">
                 <el-col :span="19" style="display:flex;height: auto;word-break:break-all;flex:1;">
@@ -42,19 +42,21 @@
                         </div>
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">提取数量：</span>
-                            <el-input v-model="searchForm.num" style="width:50px;"></el-input>-<el-input v-model="searchForm.num"  style="width:50px;"></el-input>
+                            <el-input v-model="searchForm.num" style="width:50px;"></el-input>
+                            -
+                            <el-input v-model="searchForm.num" style="width:50px;"></el-input>
                         </div>
                     </div>
                 </el-col>
-                    <div style="float:right">
-                        <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
-                                   @click="search(searchForm)">搜索
-                        </el-button>
-                        <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
-                                   @click="setStatus()">确认打币
-                        </el-button>
-                        <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
-                    </div>
+                <div style="float:right">
+                    <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
+                               @click="search(searchForm)">搜索
+                    </el-button>
+                    <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
+                               @click="setStatus()">确认打币
+                    </el-button>
+                    <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
+                </div>
             </el-row>
             <el-row type="flex" style="margin-bottom: 30px;margin-top: 20px">
                 <div style="font-size: 14px;width:200px;">已申请总量：{{amount|MoneyFormat}}</div>
@@ -63,13 +65,13 @@
             <el-table
                 :data="tableData"
                 style="width: 100%"
-                @selection-change="handleSelectionChange"  :cell-class-name="cellcb">
+                @selection-change="handleSelectionChange" :cell-class-name="cellcb">
                 <el-table-column
                     type="selection"
                     width="55"
-                   >
+                >
                     <!--<template slot-scope="scope">-->
-                        <!--<el-checkbox :checked="scope.row.isKey== 1" v-if="scope.row.state!=1"/>-->
+                    <!--<el-checkbox :checked="scope.row.isKey== 1" v-if="scope.row.state!=1"/>-->
                     <!--</template>-->
                 </el-table-column>
                 <el-table-column
@@ -86,7 +88,7 @@
                 </el-table-column>
                 <el-table-column
                     label="提取数量（BCD）"
-                    >
+                >
                     <template scope="scope">
                         {{scope.row.amount|MoneyFormat}}
                     </template>
@@ -109,7 +111,8 @@
                     min-width="90"
                 >
                     <template scope="scope">
-                        <el-button class="littleButton" style="margin-left:0;"  v-clipboard:copy="scope.row.address" v-clipboard:success="onCopy" v-clipboard:error="onError" >复制地址
+                        <el-button class="littleButton" style="margin-left:0;" v-clipboard:copy="scope.row.address"
+                                   v-clipboard:success="onCopy" v-clipboard:error="onError">复制地址
                         </el-button>
                         <el-button class="littleButton" style="margin-left:0;" @click="ensureCoin(scope.row.id)">确认
                         </el-button>
@@ -136,13 +139,14 @@
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
     import headTop from '../components/headTop'
-    let moment =require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
                 id: '',
-                iaData:'',
-                sysAppIds:'',
+                iaData: '',
+                sysAppIds: '',
                 tableData: [],
                 options: [{
                     value: '4',
@@ -165,18 +169,18 @@
                 topForm: {},
                 trumpetForm: {},
                 searchForm: {},
-                compareStartDate:'',
-                compareEndDate:'',
-                multipleSelection:[],
-                cellPhones:[],
+                compareStartDate: '',
+                compareEndDate: '',
+                multipleSelection: [],
+                cellPhones: [],
                 pickerOptions0: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now()- 8.64e7;
+                        return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                timePeriod:'',
-                settledAmount:'',
-                amount:'',
+                timePeriod: '',
+                settledAmount: '',
+                amount: '',
 
 
             };
@@ -198,19 +202,19 @@
         },
         computed: {},
         methods: {
-            cellcb({ row, column, rowIndex, columnIndex }) {
-                if (row.settled==1&&columnIndex==0) {
+            cellcb({row, column, rowIndex, columnIndex}) {
+                if (row.settled == 1 && columnIndex == 0) {
                     return "my-cell"
                 }
 
             },
-            onCopy(){
+            onCopy() {
                 this.$message({
                     message: '复制成功',
                     type: 'success'
                 });
             },
-            onError(){
+            onError() {
                 this.$message({
                     message: '复制失败',
                     type: 'error'
@@ -219,26 +223,26 @@
             getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'bcdWallet/getWithdrawBcd',
+                    url: BaseUrl + 'bcdWallet/getWithdrawBcd',
                     params: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.tableData = response.data.data.data;
-                    this.txcount = response.data.data.count;
-                    this.amount=response.data.data.amount;
-                    this.settledAmount=response.data.data.settledAmount;
-                    this.tableData.forEach(item => {
-                        if (item.settled == 1) {
-                            item.status = '已打币'
-                        } else if (item.settled == 0) {
-                            item.status = '未打币'
-                        }
-                    })
-                    this.tableData.forEach(item => {
-                        item.ctime=moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
-                    })
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count;
+                        this.amount = response.data.data.amount;
+                        this.settledAmount = response.data.data.settledAmount;
+                        this.tableData.forEach(item => {
+                            if (item.settled == 1) {
+                                item.status = '已打币'
+                            } else if (item.settled == 0) {
+                                item.status = '未打币'
+                            }
+                        })
+                        this.tableData.forEach(item => {
+                            item.ctime = moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -252,10 +256,10 @@
                 // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 // if (this.searchForm == '') {
-                    var listParams = {
-                        page: 1,
-                        size: pageSize,
-                    };
+                var listParams = {
+                    page: 1,
+                    size: pageSize,
+                };
                 // } else {
                 //     this.searchForm.page = 1;
                 //     this.searchForm.size = pageSize
@@ -267,10 +271,10 @@
                 // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 // if (this.searchForm == '') {
-                    var listParams = {
-                        page: pageValue,
-                        size: this.nowPageSize || 10,
-                    };
+                var listParams = {
+                    page: pageValue,
+                    size: this.nowPageSize || 10,
+                };
                 // } else {
                 //     this.searchForm.page = pageValue;
                 //     this.searchForm.size = this.nowPageSize || 10;
@@ -327,18 +331,18 @@
             //     }
             // },
             handleSelectionChange(val) {
-                this.multipleSelection=val.filter((item)=>{
+                this.multipleSelection = val.filter((item) => {
                     // item的条件
-                    return item.settled==0
+                    return item.settled == 0
                 });
                 // console.log( this.multipleSelection)
             },
-            setStatus(){
+            setStatus() {
                 // if(this.cellPhones.length==this.multipleSelection.length){
                 //
                 // }
                 // console.log(this.multipleSelection)
-                if(this.multipleSelection.length==0||this.multipleSelection==''){
+                if (this.multipleSelection.length == 0 || this.multipleSelection == '') {
                     this.$alert('请勾选条目', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -349,58 +353,58 @@
                         }
                     });
                     return false
-                }else{
-                this.cellPhones=[];
-                for (let i = 0; i < this.multipleSelection.length; i++) {
-                    this.cellPhones.push({id:this.multipleSelection[i].id})
-                }
-                this.$ajax({
-                    method: "POST",
-                    url: BaseUrl+'imwallet/withdrawOk',
-                    data:this.cellPhones,
-                    headers: {'token': sessionStorage.getItem('token')}
-                }).then(response => {
-                  if(response.data.flag==200){
-                      this.$alert(response.data.msg, '提示', {
-                          confirmButtonText: '确定',
-                          callback: action => {
-                              this.$message({
-                                  type: 'info',
-                                  message: `${ response.data.msg}`
-                              });
-                          }
-                      });
-                      this.getData({page: this.currentPage, size: this.nowPageSize})
-                  }else if(response.data.flag==201) {
-                      this.$alert(response.data.msg + '，请重新登录', '提示', {
-                          confirmButtonText: '确定',
-                          callback: action => {
-                              this.$router.push('/')
-                          }
-                      });
-                  }else{
-                      this.$alert(response.data.msg, '提示', {
-                          confirmButtonText: '确定',
-                          callback: action => {
-                              this.$message({
-                                  type: 'info',
-                                  message: `error: ${ response.data.msg +',请重试'}`
-                              });
-                          }
-                      });
-                      return false
-                  }
-                });
+                } else {
+                    this.cellPhones = [];
+                    for (let i = 0; i < this.multipleSelection.length; i++) {
+                        this.cellPhones.push({id: this.multipleSelection[i].id})
+                    }
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl + 'imwallet/withdrawOk',
+                        data: this.cellPhones,
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(response => {
+                        if (response.data.flag == 200) {
+                            this.$alert(response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `${ response.data.msg}`
+                                    });
+                                }
+                            });
+                            this.getData({page: this.currentPage, size: this.nowPageSize})
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        } else {
+                            this.$alert(response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `error: ${ response.data.msg + ',请重试'}`
+                                    });
+                                }
+                            });
+                            return false
+                        }
+                    });
                 }
             },
-            ensureCoin(id){
+            ensureCoin(id) {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'bcdWallet/withdrawOk',
-                    data:[{id:id}],
+                    url: BaseUrl + 'bcdWallet/withdrawOk',
+                    data: [{id: id}],
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -411,20 +415,20 @@
                             }
                         });
                         this.getData({page: this.currentPage, size: this.nowPageSize})
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `error: ${ response.data.msg +',请重试'}`
+                                    message: `error: ${ response.data.msg + ',请重试'}`
                                 });
                             }
                         });
@@ -444,12 +448,14 @@
     .table_container {
         padding: 20px;
     }
+
     .my-cell {
         background-color: red;
-    .cell{
-           display:none!important;
+        .cell {
+            display: none !important;
+        }
     }
-    }
+
     .littleButton {
         padding: 5px 10px !important;
         margin-left: 0 !important;

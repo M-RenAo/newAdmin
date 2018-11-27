@@ -49,7 +49,9 @@
                 </el-table-column>
                 <el-table-column label="操作" width="200">
                     <template scope="scope">
-                        <el-button class="littleButton" @click="update(scope.row.id,scope.row.code,scope.row.itemType,scope.row)">编辑</el-button>
+                        <el-button class="littleButton"
+                                   @click="update(scope.row.id,scope.row.code,scope.row.itemType,scope.row)">编辑
+                        </el-button>
                         <el-button class="littleButton" @click="sortMoudle(scope.row.id)">设置排序</el-button>
                         <el-button class="littleButton" @click="deletePosition(scope.row.id)">删除</el-button>
                     </template>
@@ -88,7 +90,7 @@
                         <el-select v-model="form.itemType" placeholder="请选择列表类型">
                             <!--<el-option label="applist" value="appList">applist</el-option>-->
                             <!--<el-option label="appList/Download-Ranking" value="appList/Download-Ranking">-->
-                                <!--appList/Download-Ranking-->
+                            <!--appList/Download-Ranking-->
                             <!--</el-option>-->
                             <el-option label="固定" value="item-app:fixationList">固定</el-option>
                             <el-option label="竖向" value="item-app:verticalList">竖向</el-option>
@@ -97,20 +99,30 @@
                             <el-option label="热讯" value="item-news:hot">热讯</el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="模块标题" :label-width="formLabelWidth" prop="title" v-if="form.itemType!='item-promote:advertise'">
+                    <el-form-item label="模块标题" :label-width="formLabelWidth" prop="title"
+                                  v-if="form.itemType!='item-promote:advertise'">
                         <el-input v-model="form.title" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
-                    <el-form-item label="地址" :label-width="formLabelWidth" prop="address"  v-if="form.itemType=='item-promote:advertise'">
+                    <el-form-item label="地址" :label-width="formLabelWidth" prop="address"
+                                  v-if="form.itemType=='item-promote:advertise'">
                         <el-input v-model="address" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
-                    <el-form-item label="推广图" :label-width="formLabelWidth" prop="advertisePic"  v-if="form.itemType=='item-promote:advertise'">
+                    <el-form-item label="推广图" :label-width="formLabelWidth" prop="advertisePic"
+                                  v-if="form.itemType=='item-promote:advertise'">
                         <div style="display: flex;align-items:flex-end;">
-                            <div style="width:150px;height:70px;border: 1px #999 solid;margin-right: 10px"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+advertisePic" v-if="advertisePic!==null&&advertisePic!=''" style="width:100%;height:100%;"/></div>
-                            <el-button type="primary" v-if="advertisePic===null" style="position: relative"><span>上传</span>  <input @change='add_img' type="file" style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0"></el-button>
-                            <el-button type="primary" v-if="advertisePic!==null" @click="advertisePic=null">删除</el-button>
+                            <div style="width:150px;height:70px;border: 1px #999 solid;margin-right: 10px"><img
+                                :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+advertisePic"
+                                v-if="advertisePic!==null&&advertisePic!=''" style="width:100%;height:100%;"/></div>
+                            <el-button type="primary" v-if="advertisePic===null" style="position: relative">
+                                <span>上传</span> <input @change='add_img' type="file"
+                                                       style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0">
+                            </el-button>
+                            <el-button type="primary" v-if="advertisePic!==null" @click="advertisePic=null">删除
+                            </el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item label="备注" :label-width="formLabelWidth" prop="remarks"  v-if="form.itemType=='item-promote:advertise'">
+                    <el-form-item label="备注" :label-width="formLabelWidth" prop="remarks"
+                                  v-if="form.itemType=='item-promote:advertise'">
                         <el-input v-model="remarks" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
                     <el-form-item label="状态" :label-width="formLabelWidth" prop="state">
@@ -122,7 +134,8 @@
                     <!--<el-form-item label="排序" :label-width="formLabelWidth" prop="sort">-->
                     <!--<el-input v-model="form.sort" auto-complete="off" style="width:80%"></el-input>-->
                     <!--</el-form-item>-->
-                    <el-form-item label="首页显示APP个数" :label-width="formLabelWidth" prop="itemNum" v-if="form.itemType!='item-promote:advertise'&&form.itemType!='item-news:hot'">
+                    <el-form-item label="首页显示APP个数" :label-width="formLabelWidth" prop="itemNum"
+                                  v-if="form.itemType!='item-promote:advertise'&&form.itemType!='item-news:hot'">
                         <el-input v-model="form.itemNum" auto-complete="off" style="width:80%" type="number" min="1"
                                   max="50"></el-input>
                     </el-form-item>
@@ -146,7 +159,7 @@
             <el-dialog title="" :visible.sync="dialogFormVisibleupdate">
                 <el-form :model="updataNewsForm">
                     <el-form-item label="模块名称" label-width="110px" prop="sort">
-                        <el-input v-model="updataNewsForm.title" auto-complete="off" style="width:200px" ></el-input>
+                        <el-input v-model="updataNewsForm.title" auto-complete="off" style="width:200px"></el-input>
                     </el-form-item>
                     <el-form-item label="状态" label-width="110px" prop="state">
                         <el-select v-model="updataNewsForm.state" placeholder="请选择展示状态">
@@ -190,12 +203,12 @@
                 dialogFormVisible: false,
                 dialogVisible: false,
                 dialogFormVisibleMoudleSort: false,
-                dialogFormVisibleupdate:false,
+                dialogFormVisibleupdate: false,
                 uploadIconUrl: '',
                 deleteId: '',
-                address:'',
-                advertisePic:null,
-                remarks:'',
+                address: '',
+                advertisePic: null,
+                remarks: '',
                 form: {
                     // id: '',
                     title: '',
@@ -208,7 +221,7 @@
                 },
                 formLabelWidth: '200px',
                 sortMoudleForm: {},
-                updataNewsForm:{},
+                updataNewsForm: {},
                 rule: {
                     // titleStyle: [
                     //     {required: true, message: '请选择标题类型', trigger: 'blur'},
@@ -257,16 +270,16 @@
                     if (response.data.flag == 200) {
                         this.positionList = response.data.data;
                         this.positionList.forEach(item => {
-                            if (item.itemType ==='item-app:fixationList') {
-                                item.show='固定'
-                            }else if(item.itemType === 'item-app:horizontalList'){
-                                item.show='滑动'
-                            }else if(item.itemType ==='item-promote:advertise'){
-                                item.show='广告'
-                            }else if(item.itemType ==='item-app:verticalList'){
-                                item.show='竖向'
-                            }else if(item.itemType==='item-news:hot'){
-                                item.show='热讯'
+                            if (item.itemType === 'item-app:fixationList') {
+                                item.show = '固定'
+                            } else if (item.itemType === 'item-app:horizontalList') {
+                                item.show = '滑动'
+                            } else if (item.itemType === 'item-promote:advertise') {
+                                item.show = '广告'
+                            } else if (item.itemType === 'item-app:verticalList') {
+                                item.show = '竖向'
+                            } else if (item.itemType === 'item-news:hot') {
+                                item.show = '热讯'
                             }
                         });
                         this.positionList.forEach(item => {
@@ -311,10 +324,10 @@
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -365,20 +378,20 @@
                         });
                     });
             },
-            update(id, code,itemType,item) {
-                if(itemType!=='item-news:hot'){
-                     this.$router.push({path: "/appSort", query: {type: 'ios', id: id, code: code}});
-                }else{
-                    this.updataNewsForm=item
-                    this.dialogFormVisibleupdate=true
+            update(id, code, itemType, item) {
+                if (itemType !== 'item-news:hot') {
+                    this.$router.push({path: "/appSort", query: {type: 'ios', id: id, code: code}});
+                } else {
+                    this.updataNewsForm = item
+                    this.dialogFormVisibleupdate = true
                 }
             },
-            ensureUpdateMoudle(){
+            ensureUpdateMoudle() {
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'position/update',
                     data: this.updataNewsForm,
-                    headers: {'token': sessionStorage.getItem('token'), 'device':'ios'}
+                    headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                 }).then(response => {
                     // console.log(response);
                     if (response.data.flag == 500) {
@@ -396,7 +409,7 @@
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
-                              this.getTagData()
+                                this.getTagData()
                             }
                         });
                     } else if (response.data.flag == 201) {
@@ -411,15 +424,22 @@
             },
             ensureAdd() {
                 this.$refs.form.validate(async (valid) => {
-                    if(this.form.itemType=='item-news:hot'){
-                        this.form.itemNum=1
+                    if (this.form.itemType == 'item-news:hot') {
+                        this.form.itemNum = 1
                     }
-                    if (valid &&((this.form.itemNum != '' && this.form.itemNum <= 50)||(this.address!=''&&this.advertisePic!==null&&this.remarks!=''))) {
-                        if(this.form.itemType!='item-promote:advertise') {
-                            this.form.titleStyle='text'
-                            var formData=this.form
-                        }else{
-                            var formData={title:this.remarks,linkText:{img:this.advertisePic,url:this.address},state:this.form.state,itemType:'item-promote:advertise',titleStyle:'text',itemNum:1}
+                    if (valid && ((this.form.itemNum != '' && this.form.itemNum <= 50) || (this.address != '' && this.advertisePic !== null && this.remarks != ''))) {
+                        if (this.form.itemType != 'item-promote:advertise') {
+                            this.form.titleStyle = 'text'
+                            var formData = this.form
+                        } else {
+                            var formData = {
+                                title: this.remarks,
+                                linkText: {img: this.advertisePic, url: this.address},
+                                state: this.form.state,
+                                itemType: 'item-promote:advertise',
+                                titleStyle: 'text',
+                                itemNum: 1
+                            }
                         }
                         this.$ajax({
                             method: "POST",

@@ -4,19 +4,26 @@
             <el-col :span="16" :offset="2">
                 <el-form :model="editdata" ref="editdata" label-width="110px" class="form food_form" :rules="rules">
                     <el-form-item label="推广图" class="icon-el">
-                                <!-- <input class="upload" @change='mapping' type="file" style="opacity: 0;width: 148px;height: 148px;z-index:222;"/> -->
+                        <!-- <input class="upload" @change='mapping' type="file" style="opacity: 0;width: 148px;height: 148px;z-index:222;"/> -->
                         <div class="updatas">
-                            
-                                <div class="icon-plus-container">
-                                    
-                                </div>
-                                <div class="img-wrap" v-if="editdata.image!==''&&editdata.image!==undefined">
-                                    <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+editdata.image" style="width:146px;height:146px;" v-if="editdata.image!==''&&editdata.image!==undefined" >
-                                </div>
-                                <el-button type="primary" v-if="editdata.image===''" class="btnone"><span>上传</span>  <input @change='mapping' type="file" style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;" class="upload"></el-button>
-                                <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''" class="btnone">删除</el-button>
+
+                            <div class="icon-plus-container">
+
+                            </div>
+                            <div class="img-wrap" v-if="editdata.image!==''&&editdata.image!==undefined">
+                                <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+editdata.image"
+                                     style="width:146px;height:146px;"
+                                     v-if="editdata.image!==''&&editdata.image!==undefined">
+                            </div>
+                            <el-button type="primary" v-if="editdata.image===''" class="btnone"><span>上传</span> <input
+                                @change='mapping' type="file"
+                                style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;"
+                                class="upload"></el-button>
+                            <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''"
+                                       class="btnone">删除
+                            </el-button>
                         </div>
-                        
+
                     </el-form-item>
                     <div class="line"></div>
                     <div class="radios">
@@ -44,24 +51,32 @@
                         <el-form-item label="竞猜周期">
                             <div style="float:left;">
                                 <el-radio-group v-model="round" size="small" @change="setRound">
-                                    <div style="margin:20px 0"><el-radio label="1" disabled>单次</el-radio></div>
-                                    <div style="margin:20px 0"><el-radio label="2" >每日</el-radio></div>
-                                    <div style="margin:20px 0"><el-radio label="3" disabled>每周</el-radio></div>
+                                    <div style="margin:20px 0">
+                                        <el-radio label="1" disabled>单次</el-radio>
+                                    </div>
+                                    <div style="margin:20px 0">
+                                        <el-radio label="2">每日</el-radio>
+                                    </div>
+                                    <div style="margin:20px 0">
+                                        <el-radio label="3" disabled>每周</el-radio>
+                                    </div>
                                 </el-radio-group>
                             </div>
                             <div v-if="round==='1'" style="float:left;margin:10px 0 0 20px">
-                                <el-date-picker v-model="choice" type="date" placeholder="选择日期" @change="setOncetime" value-format="yyyy-MM-dd" :disabled="switchs"></el-date-picker>
+                                <el-date-picker v-model="choice" type="date" placeholder="选择日期" @change="setOncetime"
+                                                value-format="yyyy-MM-dd" :disabled="switchs"></el-date-picker>
                             </div>
                             <div style="float:left;margin:80px 0 0 20px" v-if="round==='3'">
-                                    <el-checkbox-group v-model="checkList" size="mini" @change="setCheck" :disabled="switchs">
-                                        <el-checkbox label="星期一"></el-checkbox>
-                                        <el-checkbox label="星期二"></el-checkbox>
-                                        <el-checkbox label="星期三"></el-checkbox>
-                                        <el-checkbox label="星期四"></el-checkbox>
-                                        <el-checkbox label="星期五"></el-checkbox>
-                                        <el-checkbox label="星期六"></el-checkbox>
-                                        <el-checkbox label="星期日"></el-checkbox>
-                                    </el-checkbox-group>
+                                <el-checkbox-group v-model="checkList" size="mini" @change="setCheck"
+                                                   :disabled="switchs">
+                                    <el-checkbox label="星期一"></el-checkbox>
+                                    <el-checkbox label="星期二"></el-checkbox>
+                                    <el-checkbox label="星期三"></el-checkbox>
+                                    <el-checkbox label="星期四"></el-checkbox>
+                                    <el-checkbox label="星期五"></el-checkbox>
+                                    <el-checkbox label="星期六"></el-checkbox>
+                                    <el-checkbox label="星期日"></el-checkbox>
+                                </el-checkbox-group>
                             </div>
                         </el-form-item>
                     </div>
@@ -76,21 +91,22 @@
                                 </el-option>
                             </el-select> -->
                             <el-time-select
-                            v-model="etime"
-                            @change="setEtime"
-                            :picker-options="{
+                                v-model="etime"
+                                @change="setEtime"
+                                :picker-options="{
                                 start: '00:00',
                                 step: '01:00',
                                 end: '23:00'
                             }"
-                            disabled
-                            placeholder="选择时间">
+                                disabled
+                                placeholder="选择时间">
                             </el-time-select>
                         </el-form-item>
                     </div>
                     <div>
-                        <el-form-item label="每注金额" >
-                            <el-input v-model="amount" placeholder="请输入每注金额" @change="setAmount" :disabled="switchs" style="width:100px"></el-input>
+                        <el-form-item label="每注金额">
+                            <el-input v-model="amount" placeholder="请输入每注金额" @change="setAmount" :disabled="switchs"
+                                      style="width:100px"></el-input>
                         </el-form-item>
                     </div>
                     <div>
@@ -111,10 +127,10 @@
                     </div>
                 </el-form>
                 <el-dialog
-                title="提示"
-                :visible.sync="dialogVisible"
-                center
-                width="30%">
+                    title="提示"
+                    :visible.sync="dialogVisible"
+                    center
+                    width="30%">
                     <span>你确定要{{tips}}吗?</span>
                     <div style="text-align:center;margin-top:20px;">
                         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -131,23 +147,23 @@
     export default {
         data() {
             return {
-                dialogVisible:false,
-                stateType:"",//判断是删除  开启   关闭
-                tips:"",
-                choice:"",
-                uploadImageUrl:'',
+                dialogVisible: false,
+                stateType: "",//判断是删除  开启   关闭
+                tips: "",
+                choice: "",
+                uploadImageUrl: '',
                 type: '',
-                round:"2",
+                round: "2",
                 checkList: [],
-                arr:[],
-                textarea:"",
-                etime:"12:00",
-                amount:"50",
+                arr: [],
+                textarea: "",
+                etime: "12:00",
+                amount: "50",
                 rules: {
                     title: [
                         {required: true, message: '请输入竞猜标题', trigger: 'blur'},
                     ],
-                    intro:[
+                    intro: [
                         {required: true, message: '请输入竞猜介绍', trigger: 'blur'},
                     ],
                     rules: [
@@ -157,164 +173,164 @@
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
-                editdata:{
-                    title:"",
-                    image:"",
-                    type:"",
-                    intro:"",
-                    round:"",
-                    etime:"12:00",
-                    amount:"50",
-                    rules:"",
-                    state:"",
-                    timeZone:8,
-                    effect:undefined
+                editdata: {
+                    title: "",
+                    image: "",
+                    type: "",
+                    intro: "",
+                    round: "",
+                    etime: "12:00",
+                    amount: "50",
+                    rules: "",
+                    state: "",
+                    timeZone: 8,
+                    effect: undefined
                 },
-                typeType1:false,
-                typeType2:false,
-                typeType3:false,
-                switchs:false,//判断是否是进行中
-                currentPage:"",
-                nowPageSize:"",
-                str:[],
-                arrDate:[],
-                arrType:[],
+                typeType1: false,
+                typeType2: false,
+                typeType3: false,
+                switchs: false,//判断是否是进行中
+                currentPage: "",
+                nowPageSize: "",
+                str: [],
+                arrDate: [],
+                arrType: [],
 
             };
         },
 
         created() {
-            if(this.$route.query.dataId){
-                this.currentPage=this.$route.query.currentPage;
-                this.nowPageSize=this.$route.query.nowPageSize;
+            if (this.$route.query.dataId) {
+                this.currentPage = this.$route.query.currentPage;
+                this.nowPageSize = this.$route.query.nowPageSize;
                 this.getDataguess();
-                
-            }else{
-                let arr=this.$route.query.row;
-                    if(arr.length!=0){
-                        arr.forEach(item=>{
-                        if(item=="1"){
-                            this.typeType1=true
-                        }else if(item=="2"){
-                            this.typeType2=true
-                        }else if(item=="3"){
-                            this.typeType3=true
+
+            } else {
+                let arr = this.$route.query.row;
+                if (arr.length != 0) {
+                    arr.forEach(item => {
+                        if (item == "1") {
+                            this.typeType1 = true
+                        } else if (item == "2") {
+                            this.typeType2 = true
+                        } else if (item == "3") {
+                            this.typeType3 = true
                         }
                     })
-                    }
-                this.editdata.round="0123456"
-                this.editdata.timeZone="8"
+                }
+                this.editdata.round = "0123456"
+                this.editdata.timeZone = "8"
             }
-            
+
         },
         methods: {
-            setType(){//设置竞猜模式
-                this.editdata.type=this.type;
-                if(this.type==1){
-                        this.etime="12:00"
-                        
-                    }else if(this.type==2){
-                        this.etime="14:00"
-                    }else if(this.type==3){
-                        this.etime="16:00"
-                    }
-                this.editdata.etime=this.etime
+            setType() {//设置竞猜模式
+                this.editdata.type = this.type;
+                if (this.type == 1) {
+                    this.etime = "12:00"
+
+                } else if (this.type == 2) {
+                    this.etime = "14:00"
+                } else if (this.type == 3) {
+                    this.etime = "16:00"
+                }
+                this.editdata.etime = this.etime
             },
-            setRound(){//设置周期   每日
-                this.choice="";
-                this.checkList=[];
-                this.arr=[];
-                if(this.round=='2'){
-                    this.editdata.round="0123456";
+            setRound() {//设置周期   每日
+                this.choice = "";
+                this.checkList = [];
+                this.arr = [];
+                if (this.round == '2') {
+                    this.editdata.round = "0123456";
                 }
             },
-            setOncetime(){//设置周期里的单次日期
-            this.editdata.round=this.choice
+            setOncetime() {//设置周期里的单次日期
+                this.editdata.round = this.choice
             },
-            setCheck(){//设置周期里的每周
-                let len=this.checkList.length;
-                this.arr=[];
-                for(var i=0;i<len;i++){
-                    if(this.checkList[i]=="星期一"){
-                         this.arr.push("1");
-                    }else if(this.checkList[i]=="星期二"){
-                         this.arr.push("2");
-                    }else if(this.checkList[i]=="星期三"){
-                         this.arr.push("3");
-                    }else if(this.checkList[i]=="星期四"){
-                         this.arr.push("4");
-                    }else if(this.checkList[i]=="星期五"){
-                         this.arr.push("5");
-                    }else if(this.checkList[i]=="星期六"){
-                         this.arr.push("6");
-                    }else if(this.checkList[i]=="星期日"){
-                         this.arr.push("0");
+            setCheck() {//设置周期里的每周
+                let len = this.checkList.length;
+                this.arr = [];
+                for (var i = 0; i < len; i++) {
+                    if (this.checkList[i] == "星期一") {
+                        this.arr.push("1");
+                    } else if (this.checkList[i] == "星期二") {
+                        this.arr.push("2");
+                    } else if (this.checkList[i] == "星期三") {
+                        this.arr.push("3");
+                    } else if (this.checkList[i] == "星期四") {
+                        this.arr.push("4");
+                    } else if (this.checkList[i] == "星期五") {
+                        this.arr.push("5");
+                    } else if (this.checkList[i] == "星期六") {
+                        this.arr.push("6");
+                    } else if (this.checkList[i] == "星期日") {
+                        this.arr.push("0");
                     }
                 }
-                this.editdata.round=this.arr.join('')
+                this.editdata.round = this.arr.join('')
             },
-            setEtime(){//设置开奖时间
-                this.editdata.etime=this.etime;
+            setEtime() {//设置开奖时间
+                this.editdata.etime = this.etime;
             },
-            setAmount(){//设置每注金额
-                this.editdata.amount=this.amount;
+            setAmount() {//设置每注金额
+                this.editdata.amount = this.amount;
             },
-            deleteGuess(){//删除竞猜
+            deleteGuess() {//删除竞猜
                 this.dialogVisible = true
-                this.tips="删除当前玩法"
-                this.stateType=-1;
-                
+                this.tips = "删除当前玩法"
+                this.stateType = -1;
+
             },
-            closeGame(){//关闭玩法
+            closeGame() {//关闭玩法
                 this.dialogVisible = true
-                this.tips="关闭当前玩法"
-                this.stateType=0
+                this.tips = "关闭当前玩法"
+                this.stateType = 0
             },
-            openGame(){//开启玩法
+            openGame() {//开启玩法
                 this.dialogVisible = true
-                this.tips="开启当前玩法"
-                this.stateType=1
+                this.tips = "开启当前玩法"
+                this.stateType = 1
             },
-            implement(){//执行关闭   开启  删除
+            implement() {//执行关闭   开启  删除
                 this.dialogVisible = false
-                if(this.stateType==-1){
-                    if(this.$route.query.dataId){//删除
+                if (this.stateType == -1) {
+                    if (this.$route.query.dataId) {//删除
                         this.$ajax({
-                        method: "POST",
-                        url: BaseUrl+'guess/deleteStyle',
-                        params:{id:this.$route.query.dataId},
-                        headers: {'token': sessionStorage.getItem('token')}
-                        }).then(res=>{
-                            this.$router.push({path:'/guessing'})          
+                            method: "POST",
+                            url: BaseUrl + 'guess/deleteStyle',
+                            params: {id: this.$route.query.dataId},
+                            headers: {'token': sessionStorage.getItem('token')}
+                        }).then(res => {
+                            this.$router.push({path: '/guessing'})
                         })
                     }
-                }else if(this.stateType==0){//关闭
-                    this.editdata.state=0;
+                } else if (this.stateType == 0) {//关闭
+                    this.editdata.state = 0;
                     this.setData()
-                }else if(this.stateType==1){//开启
-                    this.editdata.state=1;
+                } else if (this.stateType == 1) {//开启
+                    this.editdata.state = 1;
                     this.submit()
                 }
             },
-            submit(){//提交
-            this.$refs.editdata.validate(async (valid) => {
-                    
-                    if (valid&&this.editdata.image!=''&&this.editdata.type!=""&&this.editdata.round!="") {
-                        
-                        if(this.$route.query.dataId&&!this.switchs){
-                            this.editdata.state=1;
+            submit() {//提交
+                this.$refs.editdata.validate(async (valid) => {
+
+                    if (valid && this.editdata.image != '' && this.editdata.type != "" && this.editdata.round != "") {
+
+                        if (this.$route.query.dataId && !this.switchs) {
+                            this.editdata.state = 1;
                             this.chuangijan();
-                        }else if(this.$route.query.dataId&&this.switchs){
+                        } else if (this.$route.query.dataId && this.switchs) {
                             this.chuangijan();
-                            
-                        }else if(this.$route.query.dataId==undefined){
+
+                        } else if (this.$route.query.dataId == undefined) {
                             // this.chuangijan();
                             this.setData()
                         }
-                        // this.setData()       
-                        // console.log(this.switchs)  
+                        // this.setData()
+                        // console.log(this.switchs)
                     } else {
-                        if(this.editdata.image==''&&valid){
+                        if (this.editdata.image == '' && valid) {
                             this.$alert('请上传推广图', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -324,7 +340,7 @@
                                     });
                                 }
                             });
-                        }else if(this.editdata.type==""&&valid){
+                        } else if (this.editdata.type == "" && valid) {
                             this.$alert('请选择玩法', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -334,7 +350,7 @@
                                     });
                                 }
                             });
-                        }else {
+                        } else {
                             this.$alert('请填写完整', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -346,177 +362,177 @@
                             });
 
                         }
-                        
+
                         return false;
                     }
                 });
-            // console.log(this.editdata)
-            // this.setData()
+                // console.log(this.editdata)
+                // this.setData()
             },
-            setData(){//设置数据
-                
-                var url=''
-                if(this.$route.query.dataId){
-                    url='guess/updateStyle'
-                }else{
-                    url='guess/newStyle'
+            setData() {//设置数据
+
+                var url = ''
+                if (this.$route.query.dataId) {
+                    url = 'guess/updateStyle'
+                } else {
+                    url = 'guess/newStyle'
                 }
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+url,
-                    data:this.editdata,
+                    url: BaseUrl + url,
+                    data: this.editdata,
                     headers: {'token': sessionStorage.getItem('token')}
-                }).then(res=>{ 
-                    this.$router.push({path:'/guessing'})      
+                }).then(res => {
+                    this.$router.push({path: '/guessing'})
                 })
             },
-            goGuess(){//返回竞猜管理界面
-                this.$router.push({path:'/guessing'})
+            goGuess() {//返回竞猜管理界面
+                this.$router.push({path: '/guessing'})
             },
-            getDataguess(){
+            getDataguess() {
                 this.$ajax({
-                method: "POST",
-                url: BaseUrl+'guess/findStyle',
-                data:{
-                    page:"1",
-                    size:"100"
-                },
-                headers: {'token': sessionStorage.getItem('token')}
-                }).then(res=>{
-                    res.data.data.data.forEach(item=>{
-                                        if(item.round!=undefined&&item.round.length>7){
-                                            item.round=item.round
-                                        }else if(item.round!=undefined&&item.round.length==7){
-                                            item.round="每日"
-                                        }else if(item.round!=undefined&&item.round.length<7&&item.round.length>0){
-                                            this.dateCheng(item.round)
-                                            item.round=this.arrDate.join(",")
-                                        }
+                    method: "POST",
+                    url: BaseUrl + 'guess/findStyle',
+                    data: {
+                        page: "1",
+                        size: "100"
+                    },
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                    res.data.data.data.forEach(item => {
+                        if (item.round != undefined && item.round.length > 7) {
+                            item.round = item.round
+                        } else if (item.round != undefined && item.round.length == 7) {
+                            item.round = "每日"
+                        } else if (item.round != undefined && item.round.length < 7 && item.round.length > 0) {
+                            this.dateCheng(item.round)
+                            item.round = this.arrDate.join(",")
+                        }
 
-                                        if(item.type!=undefined){
-                                            this.str.push(item.type+"")
-                                        }
+                        if (item.type != undefined) {
+                            this.str.push(item.type + "")
+                        }
 
-                                        if(item.id===this.$route.query.dataId){
-                                            this.editdata=item
-                                        }
-                                        // this.switchs=true;
-                                        
-                            })
-                                // this.switchs=false
-                            if(this.editdata.state!=undefined&&this.editdata.state==1){
-                                this.switchs=true;
-                            }else if(this.editdata.state==undefined||this.editdata.state==0){           
-                                this.switchs=false
-                            }
-                            this.editdata.effect=undefined
-                            this.setGuessdata()
-                            if(this.type==1){
-                                this.typeType2=true;
-                                this.typeType3=true;
-                            }else if(this.type==2){
-                                this.typeType1=true;
-                                this.typeType3=true;
-                            }else if(this.type==3){
-                                this.typeType1=true;
-                                this.typeType2=true;
-                            }          
+                        if (item.id === this.$route.query.dataId) {
+                            this.editdata = item
+                        }
+                        // this.switchs=true;
+
+                    })
+                    // this.switchs=false
+                    if (this.editdata.state != undefined && this.editdata.state == 1) {
+                        this.switchs = true;
+                    } else if (this.editdata.state == undefined || this.editdata.state == 0) {
+                        this.switchs = false
+                    }
+                    this.editdata.effect = undefined
+                    this.setGuessdata()
+                    if (this.type == 1) {
+                        this.typeType2 = true;
+                        this.typeType3 = true;
+                    } else if (this.type == 2) {
+                        this.typeType1 = true;
+                        this.typeType3 = true;
+                    } else if (this.type == 3) {
+                        this.typeType1 = true;
+                        this.typeType2 = true;
+                    }
                 })
             },
-            setGuessdata(){
-                    this.type=this.editdata.type+"";
-                    this.amount=this.editdata.amount+"";
-                    this.round="2"
-                    this.editdata.round="0123456"
-                    if(this.type==1){
-                        this.etime="12:00"
-                        
-                    }else if(this.type==2){
-                        this.etime="14:00"
-                    }else if(this.type==3){
-                        this.etime="16:00"
-                    }
-                    this.editdata.etime=this.etime
-                    // this.etime=this.editdata.etime;
-                    // var pat=new RegExp(',');
-                    // if(pat.test(this.editdata.round)||this.editdata.round.length==3){
-                    //     this.round="3";
-                    //     this.checkList=this.editdata.round.split(",")
-                    // }else{
-                    //     if(this.editdata.round.length==2){
-                    //         this.round="2"
-                    //         this.editdata.round="0123456"
-                    //     }else{
-                    //         this.round="1";
-                    //         this.choice=this.editdata.round
-                    //     }
-                    // }
+            setGuessdata() {
+                this.type = this.editdata.type + "";
+                this.amount = this.editdata.amount + "";
+                this.round = "2"
+                this.editdata.round = "0123456"
+                if (this.type == 1) {
+                    this.etime = "12:00"
+
+                } else if (this.type == 2) {
+                    this.etime = "14:00"
+                } else if (this.type == 3) {
+                    this.etime = "16:00"
+                }
+                this.editdata.etime = this.etime
+                // this.etime=this.editdata.etime;
+                // var pat=new RegExp(',');
+                // if(pat.test(this.editdata.round)||this.editdata.round.length==3){
+                //     this.round="3";
+                //     this.checkList=this.editdata.round.split(",")
+                // }else{
+                //     if(this.editdata.round.length==2){
+                //         this.round="2"
+                //         this.editdata.round="0123456"
+                //     }else{
+                //         this.round="1";
+                //         this.choice=this.editdata.round
+                //     }
+                // }
             },
-            dateCheng(round){
-                this.arrDate=[];
-                var arr=round.split('');
-                var len=arr.length
-                for(var i=0;i<len;i++){
-                        if(arr[i]=="1"){
-                            this.arrDate.push("星期一");
-                        }else if(arr[i]=="2"){
-                            this.arrDate.push("星期二");
-                        }else if(arr[i]=="3"){
-                            this.arrDate.push("星期三");
-                        }else if(arr[i]=="4"){
-                            this.arrDate.push("星期四");
-                        }else if(arr[i]=="5"){
-                            this.arrDate.push("星期五");
-                        }else if(arr[i]=="6"){
-                            this.arrDate.push("星期六");
-                        }else if(arr[i]=="0"){
-                            this.arrDate.push("星期日");
-                        }
+            dateCheng(round) {
+                this.arrDate = [];
+                var arr = round.split('');
+                var len = arr.length
+                for (var i = 0; i < len; i++) {
+                    if (arr[i] == "1") {
+                        this.arrDate.push("星期一");
+                    } else if (arr[i] == "2") {
+                        this.arrDate.push("星期二");
+                    } else if (arr[i] == "3") {
+                        this.arrDate.push("星期三");
+                    } else if (arr[i] == "4") {
+                        this.arrDate.push("星期四");
+                    } else if (arr[i] == "5") {
+                        this.arrDate.push("星期五");
+                    } else if (arr[i] == "6") {
+                        this.arrDate.push("星期六");
+                    } else if (arr[i] == "0") {
+                        this.arrDate.push("星期日");
                     }
+                }
             },
-            chuangijan(){
+            chuangijan() {
                 this.$confirm('是否立即创建?', '提示', {
-                confirmButtonText: '是',
-                cancelButtonText: '否',
-                type: 'warning'
+                    confirmButtonText: '是',
+                    cancelButtonText: '否',
+                    type: 'warning'
                 }).then(() => {
-                    this.editdata.effect="立即创建";
+                    this.editdata.effect = "立即创建";
                     this.$message({
                         type: 'success',
                         message: '立即创建成功!'
                     });
                     this.setData()
                 }).catch(() => {
-                    this.editdata.effect=undefined;
+                    this.editdata.effect = undefined;
                     this.$message({
                         type: 'success',
                         message: '创建成功!'
-                    });     
-                    this.setData()     
+                    });
+                    this.setData()
                 });
             },
-            mapping(event){//图片上传
+            mapping(event) {//图片上传
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -547,23 +563,23 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
                             data: form,
                         }).then(response => {
-                                // this.uploadImageUrl = response.data.data;
-                                this.editdata.image = response.data.data;
+                            // this.uploadImageUrl = response.data.data;
+                            this.editdata.image = response.data.data;
                         });
                     });
             }
-            
-            
+
+
         },
-     
+
 
     };
 </script>
@@ -612,33 +628,38 @@
         }
     }
 
-    .updatas{
+    .updatas {
         position: relative
     }
-    .btnone{
+
+    .btnone {
         position: absolute;
-        left:170px;
-        top:105px;
-        width:70px;
-        height:40px
+        left: 170px;
+        top: 105px;
+        width: 70px;
+        height: 40px
     }
-    .line{
-        margin-top:20px;
-        width:100%;
-        border-top:1px solid #000;
+
+    .line {
+        margin-top: 20px;
+        width: 100%;
+        border-top: 1px solid #000;
     }
-    .playRules{
-        width:100px;
+
+    .playRules {
+        width: 100px;
         text-align: right;
-        margin:10px 0 20px 0
+        margin: 10px 0 20px 0
     }
-    .radios{
-        margin:10px 0 10px 0
+
+    .radios {
+        margin: 10px 0 10px 0
     }
-    .ruleMethod{
+
+    .ruleMethod {
         padding: 10px;
-        width:60%;
-        
+        width: 60%;
+
     }
 
 </style>

@@ -7,7 +7,8 @@
                         <el-input v-model="quizForm.topic"></el-input>
                     </el-form-item>
                     <el-form-item label="描述：" prop="detail">
-                        <el-input type="textarea" :rows="2" v-model="quizForm.detail" placeholder="描述至少10个字以上"></el-input>
+                        <el-input type="textarea" :rows="2" v-model="quizForm.detail"
+                                  placeholder="描述至少10个字以上"></el-input>
                     </el-form-item>
                     <el-form-item label="开始时间：" prop="startDate">
                         <el-date-picker
@@ -54,6 +55,7 @@
     import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {quillEditor} from 'vue-quill-editor'
+
     let moment = require("moment");
     export default {
         data() {
@@ -61,12 +63,12 @@
                 uploadIconUrl: '',
                 addImgRange: '',
                 quizForm: {},
-                guessLabel: ['A','B','C','D','E','F','G','H'],
+                guessLabel: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
                 guess: [],
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
-                guessObj:{},
+                guessObj: {},
                 content: null,
                 editorOption: {},
                 PickerOptions1: {
@@ -125,36 +127,37 @@
         //     this.$refs.newEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
         // },
         created() {
-            if (this.$route.query.id != undefined ) {
+            if (this.$route.query.id != undefined) {
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'guess/getById',
-                    data: {id:this.$route.query.id},
+                    data: {id: this.$route.query.id},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.quizForm = response.data.data.guess;
-                    this.quizForm.startDate=moment.utc(this.quizForm.startDate).local().format('YYYY-MM-DD HH:mm:ss')
-                    this.quizForm.endDate=moment.utc(this.quizForm.endDate).local().format('YYYY-MM-DD HH:mm:ss')
-                    if(Object.keys(JSON.parse(response.data.data.guess.option)).length==3){
-                    this.optionData = [   {
-                        label: "竞猜选项一:",
-                        rules: {required: true, message: "不能为空", trigger: "blur"}
-                    },
-                        {
-                            label: "竞猜选项二:",
-                            rules: {required: true, message: "不能为空", trigger: "blur"}
-                        },{
-                            label: "竞猜选项三:",
-                            rules: {required: true, message: "不能为空", trigger: "blur"}
-                        }]
-                    };
-                    this.guessObj=JSON.parse(response.data.data.guess.option)
-                    for (var key in this.guessObj) {
-                        // console.log(this.guessObj[key]);//jack,25,male
-                        this.guess.push(this.guessObj[key])
-                    }
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        this.quizForm = response.data.data.guess;
+                        this.quizForm.startDate = moment.utc(this.quizForm.startDate).local().format('YYYY-MM-DD HH:mm:ss')
+                        this.quizForm.endDate = moment.utc(this.quizForm.endDate).local().format('YYYY-MM-DD HH:mm:ss')
+                        if (Object.keys(JSON.parse(response.data.data.guess.option)).length == 3) {
+                            this.optionData = [{
+                                label: "竞猜选项一:",
+                                rules: {required: true, message: "不能为空", trigger: "blur"}
+                            },
+                                {
+                                    label: "竞猜选项二:",
+                                    rules: {required: true, message: "不能为空", trigger: "blur"}
+                                }, {
+                                    label: "竞猜选项三:",
+                                    rules: {required: true, message: "不能为空", trigger: "blur"}
+                                }]
+                        }
+                        ;
+                        this.guessObj = JSON.parse(response.data.data.guess.option)
+                        for (var key in this.guessObj) {
+                            // console.log(this.guessObj[key]);//jack,25,male
+                            this.guess.push(this.guessObj[key])
+                        }
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -201,44 +204,44 @@
                             });
                         }
                     });
-                }else{
-                this.currentOpinionNum += 1;
-                switch (this.currentOpinionNum){
-                    case 3:
-                        this.num='三'
-                        break;
-                    case 4:
-                        this.num='四'
-                        break;
-                    case 5:
-                        this.num='五'
-                        break;
-                    case 6:
-                        this.num='六'
-                        break;
-                    case 7:
-                        this.num='七'
-                        break;
-                    case 8:
-                        this.num='八'
-                        break;
-                }
-                const optionObj = {
-                    label: "竞猜选项" +  this.num + ':',
-                    num: this.currentOpinionNum,
-                    rules: {required: true, message: "不能为空", trigger: "blur"}
-                };
-                this.optionData.push(optionObj); // 给选项计数
+                } else {
+                    this.currentOpinionNum += 1;
+                    switch (this.currentOpinionNum) {
+                        case 3:
+                            this.num = '三'
+                            break;
+                        case 4:
+                            this.num = '四'
+                            break;
+                        case 5:
+                            this.num = '五'
+                            break;
+                        case 6:
+                            this.num = '六'
+                            break;
+                        case 7:
+                            this.num = '七'
+                            break;
+                        case 8:
+                            this.num = '八'
+                            break;
+                    }
+                    const optionObj = {
+                        label: "竞猜选项" + this.num + ':',
+                        num: this.currentOpinionNum,
+                        rules: {required: true, message: "不能为空", trigger: "blur"}
+                    };
+                    this.optionData.push(optionObj); // 给选项计数
                 }
             },
             save(quizForm) {
-                if(quizForm.amount!=''&&quizForm.amount!=undefined){
-                quizForm.amount=Number( quizForm.amount)
+                if (quizForm.amount != '' && quizForm.amount != undefined) {
+                    quizForm.amount = Number(quizForm.amount)
                 }
-                quizForm.option=JSON.stringify(this.guessObj)
+                quizForm.option = JSON.stringify(this.guessObj)
                 this.$refs.quizForm.validate(async (valid) => {
-                    if (valid&& Object.keys(this.guessObj).length>=2) {
-                        if(quizForm.startDate>quizForm.endDate){
+                    if (valid && Object.keys(this.guessObj).length >= 2) {
+                        if (quizForm.startDate > quizForm.endDate) {
                             this.$alert('开始时间不能大于结束时间', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -249,7 +252,7 @@
                                 }
                             });
                             return false;
-                        }else if(quizForm.detail.length<10){
+                        } else if (quizForm.detail.length < 10) {
                             this.$alert('描述需10个字以上', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -260,121 +263,125 @@
                                 }
                             });
                             return false;
-                        }else{
-                        if (typeof(quizForm.startDate) == "string") {
-                            quizForm.startDate =  moment(quizForm.startDate).utc().format('YYYY-MM-DD HH:mm:ss');
                         } else {
-                            quizForm.startDate = moment(quizForm.startDate).utc().format('YYYY-MM-DD HH:mm:ss');
-                            quizForm.llt=quizForm.startDate
-                        }
-                        if (typeof(quizForm.endDate) == "string") {
-                            quizForm.endDate =moment(quizForm.endDate).utc().format('YYYY-MM-DD HH:mm:ss');
-                        } else {
-                            quizForm.endDate =  moment(quizForm.endDate).utc().format('YYYY-MM-DD HH:mm:ss');
+                            if (typeof(quizForm.startDate) == "string") {
+                                quizForm.startDate = moment(quizForm.startDate).utc().format('YYYY-MM-DD HH:mm:ss');
+                            } else {
+                                quizForm.startDate = moment(quizForm.startDate).utc().format('YYYY-MM-DD HH:mm:ss');
+                                quizForm.llt = quizForm.startDate
+                            }
+                            if (typeof(quizForm.endDate) == "string") {
+                                quizForm.endDate = moment(quizForm.endDate).utc().format('YYYY-MM-DD HH:mm:ss');
+                            } else {
+                                quizForm.endDate = moment(quizForm.endDate).utc().format('YYYY-MM-DD HH:mm:ss');
 
-                        }
+                            }
 
-                        if (this.$route.query.id == '' || this.$route.query.id == undefined) {
-                            this.$ajax({
-                                method: "POST",
-                                url:  BaseUrl+'guess/new',
-                                data: quizForm,
-                                headers: {'token': sessionStorage.getItem('token')}
-                            }).then(response => {
-                                if (response.data.flag == 500) {
-                                    this.$alert(response.data.msg, '提示', {
+                            if (this.$route.query.id == '' || this.$route.query.id == undefined) {
+                                this.$ajax({
+                                    method: "POST",
+                                    url: BaseUrl + 'guess/new',
+                                    data: quizForm,
+                                    headers: {'token': sessionStorage.getItem('token')}
+                                }).then(response => {
+                                    if (response.data.flag == 500) {
+                                        this.$alert(response.data.msg, '提示', {
+                                            confirmButtonText: '确定',
+                                            callback: action => {
+                                                this.$message({
+                                                    type: 'info',
+                                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                                });
+                                            }
+                                        });
+                                        return false
+                                    } else if (response.data.flag == 200) {
+                                        this.$alert(response.data.msg, '提示', {
+                                            confirmButtonText: '确定',
+                                            callback: action => {
+                                                this.$router.push({path: '/quizList'})
+                                            }
+                                        });
+                                    } else if (response.data.flag == 201) {
+                                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                            confirmButtonText: '确定',
+                                            callback: action => {
+                                                this.$router.push('/')
+                                            }
+                                        });
+                                    }
+                                }, error => {
+                                    this.$alert('请检查服务器接口', '提示', {
                                         confirmButtonText: '确定',
                                         callback: action => {
                                             this.$message({
                                                 type: 'info',
-                                                message: `error: ${ response.data.msg + ',请重试'}`
+                                                message: `error: ${ '请重试'}`
                                             });
                                         }
                                     });
                                     return false
-                                } else if (response.data.flag == 200) {
-                                    this.$alert(response.data.msg, '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action=>{this.$router.push({path: '/quizList'})}
-                                    });
-                                }else if(response.data.flag==201) {
-                                    this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$router.push('/')
-                                        }
-                                    });
-                                }
-                            },error=>{
-                                this.$alert('请检查服务器接口', '提示', {
-                                    confirmButtonText: '确定',
-                                    callback: action => {
-                                        this.$message({
-                                            type: 'info',
-                                            message: `error: ${ '请重试'}`
+                                });
+                            } else {
+                                this.$ajax({
+                                    method: "POST",
+                                    url: BaseUrl + 'guess/delById',
+                                    data: {id: this.$route.query.id},
+                                    headers: {'token': sessionStorage.getItem('token')}
+                                }).then(response => {
+                                    if (response.data.flag == 500) {
+                                        this.$alert(response.data.msg, '提示', {
+                                            confirmButtonText: '确定',
+                                            callback: action => {
+                                                this.$message({
+                                                    type: 'info',
+                                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                                });
+                                            }
+                                        });
+                                    } else if (response.data.flag == 200) {
+                                        this.$ajax({
+                                            method: "POST",
+                                            url: BaseUrl + 'guess/new',
+                                            data: quizForm,
+                                            headers: {'token': sessionStorage.getItem('token')}
+                                        }).then(response => {
+                                            if (response.data.flag == 500) {
+                                                this.$alert(response.data.msg, '提示', {
+                                                    confirmButtonText: '确定',
+                                                    callback: action => {
+                                                        this.$message({
+                                                            type: 'info',
+                                                            message: `error: ${ response.data.msg + ',请重试'}`
+                                                        });
+                                                    }
+                                                });
+                                            } else if (response.data.flag == 200) {
+                                                this.$alert(response.data.msg, '提示', {
+                                                    confirmButtonText: '确定',
+                                                    callback: action => {
+                                                        this.$router.push({path: '/quizList'})
+                                                    }
+                                                });
+                                            } else if (response.data.flag == 201) {
+                                                this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                                    confirmButtonText: '确定',
+                                                    callback: action => {
+                                                        this.$router.push('/')
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    } else if (response.data.flag == 201) {
+                                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                            confirmButtonText: '确定',
+                                            callback: action => {
+                                                this.$router.push('/')
+                                            }
                                         });
                                     }
                                 });
-                                return false
-                            });
-                        } else {
-                            this.$ajax({
-                                method: "POST",
-                                url:BaseUrl+'guess/delById',
-                                data: {id:this.$route.query.id},
-                                headers: {'token': sessionStorage.getItem('token')}
-                            }).then(response => {
-                                if (response.data.flag == 500) {
-                                    this.$alert(response.data.msg, '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$message({
-                                                type: 'info',
-                                                message: `error: ${ response.data.msg + ',请重试'}`
-                                            });
-                                        }
-                                    });
-                                } else if (response.data.flag == 200) {
-                                    this.$ajax({
-                                        method: "POST",
-                                        url: BaseUrl+'guess/new',
-                                        data: quizForm,
-                                        headers: {'token': sessionStorage.getItem('token')}
-                                    }).then(response => {
-                                        if (response.data.flag == 500) {
-                                            this.$alert(response.data.msg, '提示', {
-                                                confirmButtonText: '确定',
-                                                callback: action => {
-                                                    this.$message({
-                                                        type: 'info',
-                                                        message: `error: ${ response.data.msg + ',请重试'}`
-                                                    });
-                                                }
-                                            });
-                                        } else if (response.data.flag == 200) {
-                                            this.$alert(response.data.msg, '提示', {
-                                                confirmButtonText: '确定',
-                                                callback: action=>{this.$router.push({path: '/quizList'})}
-                                            });
-                                        }else if(response.data.flag==201) {
-                                            this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                                confirmButtonText: '确定',
-                                                callback: action => {
-                                                    this.$router.push('/')
-                                                }
-                                            });
-                                        }
-                                    });
-                                }else if(response.data.flag==201) {
-                                    this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$router.push('/')
-                                        }
-                                    });
-                                }
-                            });
-                        }
+                            }
                         }
                     } else {
                         this.$alert('请填写完整', {

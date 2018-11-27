@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="table_container">
-            <div type="flex"  style="margin-bottom: 30px;">
+            <div type="flex" style="margin-bottom: 30px;">
                 <span style="font-size: 14px;">时间：</span>
                 <el-date-picker
                     v-model="startDate"
@@ -78,13 +78,14 @@
 
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
+
     export default {
         data() {
             return {
-                radio:'1',
-                tableData:[
-                    {title:'总计',allUsers:'10000',registerNum:'122',signUsers:'9334'},
-                    {title:'2018-08-23',allUsers:'10000',registerNum:'122',signUsers:'9334'}
+                radio: '1',
+                tableData: [
+                    {title: '总计', allUsers: '10000', registerNum: '122', signUsers: '9334'},
+                    {title: '2018-08-23', allUsers: '10000', registerNum: '122', signUsers: '9334'}
                 ],
                 options: [{
                     value: '1',
@@ -100,15 +101,14 @@
                     label: '重新下载'
                 }],
                 value: '1',
-                startDate:'',
-                endDate:'',
-                txcount:0,
-                nowPageSize:10,
-                currentPage:1
+                startDate: '',
+                endDate: '',
+                txcount: 0,
+                nowPageSize: 10,
+                currentPage: 1
             };
         },
-        components: {
-        },
+        components: {},
         created() {
             // this.initData();
             // for (let i = 6; i > -1; i--) {
@@ -119,7 +119,7 @@
         },
         computed: {},
         methods: {
-            recordInfo(){
+            recordInfo() {
 
             }
         },
@@ -129,13 +129,16 @@
 
 <style lang="less" scoped>
     @import "../style/mixin";
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
-    .littleButton{
+
+    .littleButton {
         padding: 5px 10px;
     }
-    .el-table .cell, .el-table th>div{
+
+    .el-table .cell, .el-table th > div {
         padding-left: 13px;
         padding-right: 13px;
         box-sizing: border-box;

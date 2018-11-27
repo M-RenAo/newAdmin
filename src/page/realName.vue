@@ -3,18 +3,20 @@
         <div class="table_container">
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
-                    <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
+                <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
-                    <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})" style="height: 40px;">
+                    <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})"
+                             style="height: 40px;">
                         <el-tab-pane label="全部" name="3"></el-tab-pane>
                         <el-tab-pane label="未审核" name="2"></el-tab-pane>
                         <el-tab-pane label="审核通过" name="1"></el-tab-pane>
                         <el-tab-pane label="审核不通过" name="0"></el-tab-pane>
                     </el-tabs>
                 </el-col>
-                <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
-                    <el-input placeholder="手机号／身份证号"  class="input-with-select" v-model="searchInfo" style="width:60%">
-                        <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
+                <el-col :span="12" style="display: flex;align-items: center;justify-content: flex-end">
+                    <el-input placeholder="手机号／身份证号" class="input-with-select" v-model="searchInfo" style="width:60%">
+                        <el-button slot="append" @click="searchCheck(searchInfo)"><i class="el-icon-search"></i>
+                        </el-button>
                     </el-input>
                 </el-col>
 
@@ -35,37 +37,37 @@
                     prop="cardId" min-width="50">
                 </el-table-column>
                 <!--<el-table-column-->
-                    <!--label="证件照"-->
-                     <!--min-width="50">-->
-                    <!--<template scope="scope">-->
-                        <!--<div v-for="(item,index) in scope.row.authPicUrl" style="display: inline-block;margin-left: 5px;">-->
-                        <!--<img  :src="item" style="width:30px;height:30px;" @click="bigImg(index,scope.row)">-->
-                        <!--</div>-->
+                <!--label="证件照"-->
+                <!--min-width="50">-->
+                <!--<template scope="scope">-->
+                <!--<div v-for="(item,index) in scope.row.authPicUrl" style="display: inline-block;margin-left: 5px;">-->
+                <!--<img  :src="item" style="width:30px;height:30px;" @click="bigImg(index,scope.row)">-->
+                <!--</div>-->
 
-                    <!--</template>-->
+                <!--</template>-->
                 <!--</el-table-column>-->
                 <el-table-column
                     label="申请时间"
-                    prop="auditDate" min-width="50" >
+                    prop="auditDate" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="状态"
-                    prop="auditState" min-width="50" >
+                    prop="auditState" min-width="50">
                 </el-table-column>
                 <!--<el-table-column-->
-                    <!--label="原因"-->
-                    <!--prop="remarks" min-width="50"  v-if="activeName==0||activeName==3">-->
+                <!--label="原因"-->
+                <!--prop="remarks" min-width="50"  v-if="activeName==0||activeName==3">-->
                 <!--</el-table-column>-->
                 <!--<el-table-column-->
-                    <!--label="操作"-->
-                    <!--v-if="activeName==2||activeName==3"-->
-                    <!--key="upload"-->
-                    <!--min-width="30"-->
+                <!--label="操作"-->
+                <!--v-if="activeName==2||activeName==3"-->
+                <!--key="upload"-->
+                <!--min-width="30"-->
                 <!--&gt;-->
-                    <!--<template scope="scope">-->
-                        <!--<el-button  class="littleButton" @click="check(scope.row.id,scope.row.userId)"  v-if="scope.row.auditState=='未审核'" >审核-->
-                        <!--</el-button>-->
-                    <!--</template>-->
+                <!--<template scope="scope">-->
+                <!--<el-button  class="littleButton" @click="check(scope.row.id,scope.row.userId)"  v-if="scope.row.auditState=='未审核'" >审核-->
+                <!--</el-button>-->
+                <!--</template>-->
                 <!--</el-table-column>-->
             </el-table>
             <div class="Pagination">
@@ -82,80 +84,80 @@
             </div>
             <!--<el-button type="text" @click="outerVisible = true">点击打开外层 Dialog</el-button>-->
             <!--<el-dialog title="提示" :visible.sync="outerVisible" :before-close="handleClose">-->
-                <!--<el-form :model="form" label-width="110px">-->
-                  <!--<el-form-item label="审核：" prop="name" :rules="{required: true, message: '必选', trigger: 'blur'}">-->
-                    <!--<el-select v-model="form.state" placeholder="请选择">-->
-                        <!--<el-option-->
-                            <!--label="审核通过"-->
-                            <!--value="1">-->
-                        <!--</el-option>-->
-                        <!--<el-option-->
-                            <!--label="审核不通过"-->
-                            <!--value="0">-->
-                        <!--</el-option>-->
-                    <!--</el-select>-->
-                   <!--</el-form-item>-->
-                    <!--<el-form-item label="原因：" prop="name"  :rules="{required: true, message: '原因必填', trigger: 'blur'}" v-if="form.state==='0'">-->
-                        <!--<el-input-->
-                            <!--type="textarea"-->
-                            <!--:rows="2"-->
-                            <!--placeholder="请输入内容"-->
-                            <!--v-model="form.remarks" style="width:80%">-->
-                        <!--</el-input>-->
-                    <!--</el-form-item>-->
-                <!--</el-form>-->
-                <!--<div slot="footer" class="dialog-footer button-check">-->
-                    <!--<el-button @click="outerVisible = false;form={remarks:''}">取消</el-button>-->
-                    <!--<el-button type="primary" @click="ensureCheck(form)">提交</el-button>-->
-                <!--</div>-->
+            <!--<el-form :model="form" label-width="110px">-->
+            <!--<el-form-item label="审核：" prop="name" :rules="{required: true, message: '必选', trigger: 'blur'}">-->
+            <!--<el-select v-model="form.state" placeholder="请选择">-->
+            <!--<el-option-->
+            <!--label="审核通过"-->
+            <!--value="1">-->
+            <!--</el-option>-->
+            <!--<el-option-->
+            <!--label="审核不通过"-->
+            <!--value="0">-->
+            <!--</el-option>-->
+            <!--</el-select>-->
+            <!--</el-form-item>-->
+            <!--<el-form-item label="原因：" prop="name"  :rules="{required: true, message: '原因必填', trigger: 'blur'}" v-if="form.state==='0'">-->
+            <!--<el-input-->
+            <!--type="textarea"-->
+            <!--:rows="2"-->
+            <!--placeholder="请输入内容"-->
+            <!--v-model="form.remarks" style="width:80%">-->
+            <!--</el-input>-->
+            <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<div slot="footer" class="dialog-footer button-check">-->
+            <!--<el-button @click="outerVisible = false;form={remarks:''}">取消</el-button>-->
+            <!--<el-button type="primary" @click="ensureCheck(form)">提交</el-button>-->
+            <!--</div>-->
             <!--</el-dialog>-->
             <!--<el-dialog title="提示" :visible.sync="checkVisible" center :before-close="handleCloses">-->
-                <!--<span>确定执行此操作？</span>-->
-                <!--<div slot="footer" class="dialog-footer button-check">-->
-                    <!--<el-button type="primary" @click="checkVisible = false">取消</el-button>-->
-                    <!--<el-button type="primary" @click="confirmCheck()">确定</el-button>-->
-                <!--</div>-->
+            <!--<span>确定执行此操作？</span>-->
+            <!--<div slot="footer" class="dialog-footer button-check">-->
+            <!--<el-button type="primary" @click="checkVisible = false">取消</el-button>-->
+            <!--<el-button type="primary" @click="confirmCheck()">确定</el-button>-->
+            <!--</div>-->
             <!--</el-dialog>-->
 
             <!--<el-dialog title="提示" :visible.sync="outerVisible" >-->
-                <!--<span>审核是否通过</span>-->
-                <!--<div slot="footer" class="dialog-footer button-check">-->
-                    <!--<el-button type="primary" @click="ensureCheck()">审核通过</el-button>-->
-                    <!--<el-button type="primary" @click="innerVisible = true;">审核不通过</el-button>-->
-                <!--</div>-->
+            <!--<span>审核是否通过</span>-->
+            <!--<div slot="footer" class="dialog-footer button-check">-->
+            <!--<el-button type="primary" @click="ensureCheck()">审核通过</el-button>-->
+            <!--<el-button type="primary" @click="innerVisible = true;">审核不通过</el-button>-->
+            <!--</div>-->
             <!--</el-dialog>-->
             <!--<el-dialog title="提示" :visible.sync="checkVisible" center>-->
-                <!--<span>确定执行此操作？</span>-->
-                <!--<div slot="footer" class="dialog-footer button-check">-->
-                    <!--<el-button type="primary" @click="checkVisible = false">取消</el-button>-->
-                    <!--<el-button type="primary" @click="confirmCheck()">确定</el-button>-->
-                <!--</div>-->
+            <!--<span>确定执行此操作？</span>-->
+            <!--<div slot="footer" class="dialog-footer button-check">-->
+            <!--<el-button type="primary" @click="checkVisible = false">取消</el-button>-->
+            <!--<el-button type="primary" @click="confirmCheck()">确定</el-button>-->
+            <!--</div>-->
             <!--</el-dialog>-->
             <!--<el-dialog title="原因" :visible.sync="innerVisible" center>-->
-                <!--<el-form :model="form" :rules="{remarks:[{required: true, message: '请输入原因', trigger: 'blur'}]}">-->
-                    <!--<el-form-item label="原因：" prop="remarks">-->
-                        <!--<el-input type="textarea" v-model="form.remarks"style="width:80%" ></el-input>-->
-                    <!--</el-form-item>-->
-                <!--</el-form>-->
-                <!--<div slot="footer" class="dialog-footer button-check">-->
-                    <!--<el-button type="primary" @click="innerVisible = false">取消</el-button>-->
-                    <!--<el-button type="primary" @click="innerVisible = false">确定</el-button>-->
-                <!--</div>-->
+            <!--<el-form :model="form" :rules="{remarks:[{required: true, message: '请输入原因', trigger: 'blur'}]}">-->
+            <!--<el-form-item label="原因：" prop="remarks">-->
+            <!--<el-input type="textarea" v-model="form.remarks"style="width:80%" ></el-input>-->
+            <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<div slot="footer" class="dialog-footer button-check">-->
+            <!--<el-button type="primary" @click="innerVisible = false">取消</el-button>-->
+            <!--<el-button type="primary" @click="innerVisible = false">确定</el-button>-->
+            <!--</div>-->
             <!--</el-dialog>-->
         </div>
         <!--<div class="imgMask" v-if="showBigImg" @click.stop="showBigImg=!showBigImg">-->
-            <!--<i class="prev el-icon-arrow-left" @click.stop="prev"></i>-->
-            <!--<div class="showImg">-->
-                <!--<img class="bigImg" :src="rows.authPicUrl[num]">-->
-            <!--</div>-->
-            <!--<i class="next el-icon-arrow-right" @click.stop="next"></i>-->
+        <!--<i class="prev el-icon-arrow-left" @click.stop="prev"></i>-->
+        <!--<div class="showImg">-->
+        <!--<img class="bigImg" :src="rows.authPicUrl[num]">-->
+        <!--</div>-->
+        <!--<i class="next el-icon-arrow-right" @click.stop="next"></i>-->
         <!--</div>-->
     </div>
 </template>
 
 <script>
     import headTop from "../components/headTop";
-    import { baseUrl, baseImgPath } from "@/config/env";
+    import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
         getResturants,
@@ -167,7 +169,8 @@
     } from "@/api/getData";
     import FileSaver from 'file-saver'
     import XLSX from 'xlsx'
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
@@ -181,88 +184,88 @@
                 activeName: '3',
                 positionList: "",
                 searchInfo: "",
-                downloadLoading:false,
-                outerVisible:false,
+                downloadLoading: false,
+                outerVisible: false,
                 // innerVisible:false,
-                showBigImg:false,
-                checkVisible:false,
-                form:{remarks:''},
-                formLabelWidth:150,
-                num:0
+                showBigImg: false,
+                checkVisible: false,
+                form: {remarks: ''},
+                formLabelWidth: 150,
+                num: 0
             };
         },
         created() {
-            this.queryListData({activeName:3});
+            this.queryListData({activeName: 3});
         },
         components: {
             headTop
         },
         methods: {
-            queryListData({ activeName, pageValue, pageSize }) {
+            queryListData({activeName, pageValue, pageSize}) {
                 this.$ajax
-                    .get(`${BaseUrl}auth/all/${pageValue || 1}/${this.nowPageSize || 10}/${activeName || 2}`, {headers: {'token':sessionStorage.getItem('token')}},
-            )
+                    .get(`${BaseUrl}auth/all/${pageValue || 1}/${this.nowPageSize || 10}/${activeName || 2}`, {headers: {'token': sessionStorage.getItem('token')}},
+                    )
                     .then(response => {
-                        if(response.data.flag==200){
-                        this.info = response.data.data.list;
-                        this.txcount = response.data.data.num;
-                        this.info.forEach(item=>{
-                            if(item.auditDate!=undefined){
-                              item.auditDate=moment.utc(item.auditDate).local().format('YYYY-MM-DD HH:mm:ss')
-                            }
-                        })
-                        this.info.forEach(item=>{
-                            if(item.auditState==1){
-                            item.auditState='审核通过'
-                            }else if(item.auditState==2){
-                                item.auditState='未审核'
-                            }else{
-                                item.auditState='审核不通过'
-                            }
-                        })
-                        }else if(response.data.flag==201) {
+                        if (response.data.flag == 200) {
+                            this.info = response.data.data.list;
+                            this.txcount = response.data.data.num;
+                            this.info.forEach(item => {
+                                if (item.auditDate != undefined) {
+                                    item.auditDate = moment.utc(item.auditDate).local().format('YYYY-MM-DD HH:mm:ss')
+                                }
+                            })
+                            this.info.forEach(item => {
+                                if (item.auditState == 1) {
+                                    item.auditState = '审核通过'
+                                } else if (item.auditState == 2) {
+                                    item.auditState = '未审核'
+                                } else {
+                                    item.auditState = '审核不通过'
+                                }
+                            })
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else{
-                            this.info=[]
+                        } else {
+                            this.info = []
                         }
                         // this.showlist=this.info[0].authPic.split(',')
                     });
                 this.searchInfo = "";
             },
             searchCheck(searchInfo) {
-                this.activeName='3'
+                this.activeName = '3'
                 this.searchInfo = searchInfo;
                 this.$ajax
-                    .get(BaseUrl + "auth/search/"+this.searchInfo,{headers: {'token':sessionStorage.getItem('token')}})
+                    .get(BaseUrl + "auth/search/" + this.searchInfo, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         // console.log(response);
-                        if(response.data.flag==200){
-                        this.info = response.data.data;
-                        this.txcount = response.data.data.length;
-                            this.info.forEach(item=>{
-                                if(item.auditState==1){
-                                    item.auditState='审核通过'
-                                }else if(item.auditState==2){
-                                    item.auditState='未审核'
-                                }else{
-                                    item.auditState='审核不通过'
+                        if (response.data.flag == 200) {
+                            this.info = response.data.data;
+                            this.txcount = response.data.data.length;
+                            this.info.forEach(item => {
+                                if (item.auditState == 1) {
+                                    item.auditState = '审核通过'
+                                } else if (item.auditState == 2) {
+                                    item.auditState = '未审核'
+                                } else {
+                                    item.auditState = '审核不通过'
                                 }
                             })
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else{
-                            this.info=[];
-                            this.txcount=0
+                        } else {
+                            this.info = [];
+                            this.txcount = 0
                         }
 
                     });
@@ -287,15 +290,15 @@
                 };
                 this.queryListData(listParams);
             },
-            check(id,userId) {
-                this.outerVisible=true
-                this.form.id=id;
-                this.form.userId=userId
+            check(id, userId) {
+                this.outerVisible = true
+                this.form.id = id;
+                this.form.userId = userId
             },
-            ensureCheck(form){
-                if(form.state==1||(form.state==0&&form.remarks!='')){
-                    this.checkVisible=true;
-                }else{
+            ensureCheck(form) {
+                if (form.state == 1 || (form.state == 0 && form.remarks != '')) {
+                    this.checkVisible = true;
+                } else {
                     this.$alert('请填写完整', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -309,32 +312,34 @@
                 }
 
             },
-            confirmCheck(){
-                this.outerVisible=false;
-                this.checkVisible=false;
+            confirmCheck() {
+                this.outerVisible = false;
+                this.checkVisible = false;
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + '/auth/do',
                     data: this.form,
-                    headers:{'token':sessionStorage.getItem('token')}
+                    headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     // console.log(response);
-                    if(response.data.flag==500){
+                    if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `error: ${ response.data.msg +',请重试'}`
+                                    message: `error: ${ response.data.msg + ',请重试'}`
                                 });
                             }
                         });
-                    }else if(response.data.flag==200){
+                    } else if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
-                            callback: action=>{this.queryListData({activeName:2})}
+                            callback: action => {
+                                this.queryListData({activeName: 2})
+                            }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -349,19 +354,21 @@
                 this.$confirm('确认关闭？')
                     .then(_ => {
                         done();
-                        this.form={remarks:''}
+                        this.form = {remarks: ''}
                     })
-                    .catch(_ => {});
+                    .catch(_ => {
+                    });
             },
-            handleCloses(done){
+            handleCloses(done) {
                 this.$confirm('确认关闭？')
                     .then(_ => {
                         done();
                     })
-                    .catch(_ => {});
+                    .catch(_ => {
+                    });
             },
-            bigImg(index,rw) {
-                this.rows=rw;
+            bigImg(index, rw) {
+                this.rows = rw;
                 this.showBigImg = true;
                 this.num = index;
             },
@@ -435,16 +442,18 @@
         height: 120px;
         display: block;
     }
+
     /*.cell {*/
     /*overflow: hidden;*/
     /*text-overflow: ellipsis;*/
     /*word-break: break-all;*/
     /*white-space: nowrap !important;*/
     /*}*/
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/
@@ -494,7 +503,8 @@
         height: 40px;
         color: #fff;
     }
-    .button-check{
+
+    .button-check {
         display: flex;
         justify-content: center;
     }

@@ -1,88 +1,95 @@
 <template>
     <div>
-        <el-tabs v-model="activeName" style="margin:0px 20px;" >
+        <el-tabs v-model="activeName" style="margin:0px 20px;">
             <el-tab-pane label="基本信息" name="first">
                 <div v-if="activeName=='first'">
                     <el-row style="margin-top: 20px;">
-                    <el-col :span="14" :offset="4">
-                        <el-form :model="appForm" ref="appForm" label-width="110px" class="form food_form">
-                            <div>
-                                <div style="display: flex;margin-bottom: 20px;">
-                                    <h4>应用版本：</h4>
-                                    <div style="width:100px;height:100px;margin-left:10px;"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
-                                                                                                 style="width:100px;height:100px;"/></div>
-                                </div>
-                                <el-form-item label="版本号：" prop="name">
-                                    {{appForm.fileVersion}}
-                                </el-form-item>
-                                <el-form-item label="上传时间：" prop="name">
-                                    {{appForm.fileDate}}
-                                </el-form-item>
-                                <!--<el-form-item label="历史版本：" prop="name">-->
-                                <!--</el-form-item>-->
-
-                            </div>
-                            <div>
-                                <div style="display: flex;margin-bottom: 20px;">
-                                    <h4>应用信息：</h4>
-                                </div>
-                                <el-form-item label="应用名称：" prop="name">
-                                    {{appForm.appName}}
-                                </el-form-item>
-                                <el-form-item label="应用分类：" prop="name">
-                                    {{tagText}}
-                                </el-form-item>
-                                <el-form-item label="应用模块：" prop="name">
-                                    {{positonTexts}}
-                                </el-form-item>
-                                <el-form-item label="应用简介：" prop="name">
-                                {{appForm.fileSummary}}
-                                </el-form-item>
-                                <el-form-item label="应用描述：" prop="name">
-                                    {{appForm.fileMessage}}
-                                </el-form-item>
-                                <el-form-item label="应用图标：" prop="name">
-                                    <div style="width:100px;height:100px;"><img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
-                                                                                style="width:100px;height:100px;"/></div>
-                                </el-form-item>
-                                <el-form-item label="应用图片：" prop="name">
-                                    <div style="max-width:700px;height:auto;">
-                                        <div style="width:200px;height:auto;margin-right: 10px;display: inline-block" v-for="(item,index) in  showList" v-if="item!=''" :key="index">
-                                            <img :src=" 'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+item"
-                                                 style="width:200px;height:auto;"  @click="bigImg(index)"/>
-                                        </div>
+                        <el-col :span="14" :offset="4">
+                            <el-form :model="appForm" ref="appForm" label-width="110px" class="form food_form">
+                                <div>
+                                    <div style="display: flex;margin-bottom: 20px;">
+                                        <h4>应用版本：</h4>
+                                        <div style="width:100px;height:100px;margin-left:10px;"><img
+                                            :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
+                                            style="width:100px;height:100px;"/></div>
                                     </div>
-                                </el-form-item>
-                                <!--<el-form-item label="历史版本：" prop="name">-->
-                                <!--</el-form-item>-->
+                                    <el-form-item label="版本号：" prop="name">
+                                        {{appForm.fileVersion}}
+                                    </el-form-item>
+                                    <el-form-item label="上传时间：" prop="name">
+                                        {{appForm.fileDate}}
+                                    </el-form-item>
+                                    <!--<el-form-item label="历史版本：" prop="name">-->
+                                    <!--</el-form-item>-->
 
-                            </div>
-                            <div>
-                                <div style="display: flex;margin-bottom: 20px;">
-                                    <h4>开发者信息：</h4>
                                 </div>
-                                <el-form-item label="联系人姓名：" prop="name">
-                                    <!--{{appForm.fileSummary}}-->
-                                </el-form-item>
-                                <el-form-item label="电话号码：" prop="name">
-                                    <!--{{appForm.fileTag}}-->
-                                </el-form-item>
-                                <!--<el-form-item label="历史版本：" prop="name">-->
-                                <!--</el-form-item>-->
+                                <div>
+                                    <div style="display: flex;margin-bottom: 20px;">
+                                        <h4>应用信息：</h4>
+                                    </div>
+                                    <el-form-item label="应用名称：" prop="name">
+                                        {{appForm.appName}}
+                                    </el-form-item>
+                                    <el-form-item label="应用分类：" prop="name">
+                                        {{tagText}}
+                                    </el-form-item>
+                                    <el-form-item label="应用模块：" prop="name">
+                                        {{positonTexts}}
+                                    </el-form-item>
+                                    <el-form-item label="应用简介：" prop="name">
+                                        {{appForm.fileSummary}}
+                                    </el-form-item>
+                                    <el-form-item label="应用描述：" prop="name">
+                                        {{appForm.fileMessage}}
+                                    </el-form-item>
+                                    <el-form-item label="应用图标：" prop="name">
+                                        <div style="width:100px;height:100px;"><img
+                                            :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
+                                            style="width:100px;height:100px;"/></div>
+                                    </el-form-item>
+                                    <el-form-item label="应用图片：" prop="name">
+                                        <div style="max-width:700px;height:auto;">
+                                            <div
+                                                style="width:200px;height:auto;margin-right: 10px;display: inline-block"
+                                                v-for="(item,index) in  showList" v-if="item!=''" :key="index">
+                                                <img :src=" 'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+item"
+                                                     style="width:200px;height:auto;" @click="bigImg(index)"/>
+                                            </div>
+                                        </div>
+                                    </el-form-item>
+                                    <!--<el-form-item label="历史版本：" prop="name">-->
+                                    <!--</el-form-item>-->
 
-                            </div>
-                            <div>
-                                <div style="margin-bottom: 20px;">
-                                    <h4>审核操作：<span style="    font-size: 14px;color: #48576a;font-weight:normal">{{checkStatus}}</span></h4>
                                 </div>
-                            </div>
-                        </el-form>
+                                <div>
+                                    <div style="display: flex;margin-bottom: 20px;">
+                                        <h4>开发者信息：</h4>
+                                    </div>
+                                    <el-form-item label="联系人姓名：" prop="name">
+                                        <!--{{appForm.fileSummary}}-->
+                                    </el-form-item>
+                                    <el-form-item label="电话号码：" prop="name">
+                                        <!--{{appForm.fileTag}}-->
+                                    </el-form-item>
+                                    <!--<el-form-item label="历史版本：" prop="name">-->
+                                    <!--</el-form-item>-->
 
-                    </el-col>
-                </el-row>
+                                </div>
+                                <div>
+                                    <div style="margin-bottom: 20px;">
+                                        <h4>审核操作：<span style="    font-size: 14px;color: #48576a;font-weight:normal">{{checkStatus}}</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </el-form>
+
+                        </el-col>
+                    </el-row>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="安装、打开详情" name="second"><data-info v-if="activeName=='second'"></data-info></el-tab-pane>
+            <el-tab-pane label="安装、打开详情" name="second">
+                <data-info v-if="activeName=='second'"></data-info>
+            </el-tab-pane>
         </el-tabs>
         <div class="imgMask" v-if="showBigImg" @click.stop="showBigImg=!showBigImg">
             <i class="prev el-icon-arrow-left" @click.stop="prev"></i>
@@ -99,35 +106,40 @@
     import appBasicInfo from '../page/appBasicInfo'
     import dataInfo from '../page/dataInfo'
     import {userCount, orderCount, getUserCount, getOrderCount, adminDayCount, adminCount} from '@/api/getData'
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
-        data(){
+        data() {
             return {
-                activeName:'first',
-                state:'',
-                remarks:'',
+                activeName: 'first',
+                state: '',
+                remarks: '',
                 showBigImg: false,
-                num:0,
-                showList:[],
-                appForm:{
-                },
-                checkStatus:'',
-                value:'',
-                positonText:[],
-                positonTexts:'',
-                tagText:'',
-                tagList:[]
+                num: 0,
+                showList: [],
+                appForm: {},
+                checkStatus: '',
+                value: '',
+                positonText: [],
+                positonTexts: '',
+                tagText: '',
+                tagList: []
             }
         },
         components: {
-           dataInfo
+            dataInfo
 
         },
-        created(){
-            this.$ajax.get(BaseUrl + "position/title",{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                if(response.data.flag==200){
+        created() {
+            this.$ajax.get(BaseUrl + "position/title", {
+                headers: {
+                    'token': sessionStorage.getItem('token'),
+                    'device': this.$route.query.type
+                }
+            }).then(response => {
+                if (response.data.flag == 200) {
                     this.positionList = response.data.data;
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -137,10 +149,15 @@
                 }
 
             });
-            this.$ajax.get(BaseUrl+'apptag/all',{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                if(response.data.flag==200) {
+            this.$ajax.get(BaseUrl + 'apptag/all', {
+                headers: {
+                    'token': sessionStorage.getItem('token'),
+                    'device': this.$route.query.type
+                }
+            }).then(response => {
+                if (response.data.flag == 200) {
                     this.tagList = response.data.data
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -152,41 +169,44 @@
             })
 
         },
-        computed: {
-
-        },
+        computed: {},
         methods: {
-            getData(){
-                this.$ajax.get(BaseUrl+'apply/appmsg/'+this.$route.query.id,{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                    if(response.data.flag==200){
-                        this.appForm=response.data.data
-                    this.showList= this.appForm.fileShow.split(',');
-                    if(this.$route.query.activeName==1){
-                        this.checkStatus='审核通过'
-                    }else{
-                        this.checkStatus='审核未通过'
+            getData() {
+                this.$ajax.get(BaseUrl + 'apply/appmsg/' + this.$route.query.id, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.$route.query.type
                     }
-                    this.appForm.fileDate=moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
-                    this.value=eval(this.appForm.fileDisplayPosition);
-                    this.value.forEach(item=>{
-                        this.positionList.forEach(nitem=>{
-                            if(item==nitem.code){
-                                console.log(item)
-                                this.positonText.push(nitem.title);
-                            }
-                        })
-                    })
-                        this.tagList.forEach(item=>{
-                            if(item.code== this.appForm.fileTag){
-                                this.tagText=item.title
-                            }
-                        })
-                        if(this.appForm.fileTag==0){
-                            this.tagText='未定义'
+                }).then(response => {
+                    if (response.data.flag == 200) {
+                        this.appForm = response.data.data
+                        this.showList = this.appForm.fileShow.split(',');
+                        if (this.$route.query.activeName == 1) {
+                            this.checkStatus = '审核通过'
+                        } else {
+                            this.checkStatus = '审核未通过'
                         }
-                    this.positonTexts=this.positonText.join(' / ')
-                    // console.log( this.showList)
-                    }else if(response.data.flag==201) {
+                        this.appForm.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
+                        this.value = eval(this.appForm.fileDisplayPosition);
+                        this.value.forEach(item => {
+                            this.positionList.forEach(nitem => {
+                                if (item == nitem.code) {
+                                    console.log(item)
+                                    this.positonText.push(nitem.title);
+                                }
+                            })
+                        })
+                        this.tagList.forEach(item => {
+                            if (item.code == this.appForm.fileTag) {
+                                this.tagText = item.title
+                            }
+                        })
+                        if (this.appForm.fileTag == 0) {
+                            this.tagText = '未定义'
+                        }
+                        this.positonTexts = this.positonText.join(' / ')
+                        // console.log( this.showList)
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -195,7 +215,6 @@
                         });
                     }
                 })
-
 
 
             },
@@ -219,31 +238,33 @@
     }
 </script>
 
-<style lang="less" >
+<style lang="less">
     @import '../style/mixin';
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
-    .data_section{
+
+    .data_section {
         padding: 20px;
         margin-bottom: 40px;
-        .section_title{
+        .section_title {
             text-align: center;
             font-size: 30px;
             margin-bottom: 10px;
         }
-        .data_list{
+        .data_list {
             text-align: center;
             font-size: 14px;
             color: #666;
             border-radius: 6px;
             background: #E5E9F2;
-            .data_num{
+            .data_num {
                 color: #333;
                 font-size: 26px;
 
             }
-            .head{
+            .head {
                 border-radius: 6px;
                 font-size: 22px;
                 padding: 4px 0;
@@ -251,17 +272,17 @@
                 display: inline-block;
             }
         }
-        .today_head{
+        .today_head {
             background: #FF9800;
         }
-        .all_head{
+        .all_head {
             background: #20A0FF;
         }
     }
-    .wan{
+
+    .wan {
         .sc(16px, #333)
     }
-
 
     .imgMask {
         position: absolute;

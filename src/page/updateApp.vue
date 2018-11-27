@@ -7,7 +7,7 @@
                         <div style="display: flex;margin-bottom: 20px;">
                             <h4>应用版本：</h4>
                             <!--<div style="width:100px;height:100px;margin-left:10px;"><img :src="'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"-->
-                                                                                         <!--style="width:100px;height:100px;"/></div>-->
+                            <!--style="width:100px;height:100px;"/></div>-->
                         </div>
                         <el-form-item label="版本号：">
                             {{appForm.fileVersion}}
@@ -26,8 +26,8 @@
                         <el-form-item label="应用名称：" prop="appName">
                             <el-input v-model="appForm.appName"></el-input>
                         </el-form-item>
-                        <el-form-item label="应用分类：" prop="fileTag" >
-                            <el-select v-model="appForm.fileTag" placeholder="请选择" >
+                        <el-form-item label="应用分类：" prop="fileTag">
+                            <el-select v-model="appForm.fileTag" placeholder="请选择">
                                 <el-option key="0" label="未定义" value="0">
                                 </el-option>
                                 <el-option
@@ -38,7 +38,7 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="应用模块：" >
+                        <el-form-item label="应用模块：">
                             <el-select v-model="value" multiple placeholder="请选择">
                                 <el-option key="0" label="未定义" value="0-1">
                                 </el-option>
@@ -73,11 +73,12 @@
                         <el-form-item label="下载地址：" prop="fileDir" v-if="$route.query.type=='ios'">
                             <el-input v-model="appForm.fileDir"></el-input>
                         </el-form-item>
-                        <el-form-item label="包名："  v-if="$route.query.type=='ios'">
+                        <el-form-item label="包名：" v-if="$route.query.type=='ios'">
                             <el-input v-model="appForm.packageName"></el-input>
                         </el-form-item>
                         <el-form-item label="安装包大小：" prop="fileSize" v-if="$route.query.type=='ios'">
-                            <el-input v-model="appForm.fileSize" style="width:60%"></el-input>M
+                            <el-input v-model="appForm.fileSize" style="width:60%"></el-input>
+                            M
                         </el-form-item>
                         <el-form-item label="应用简介" prop="fileSummary">
                             <el-input
@@ -105,25 +106,28 @@
                             </div>
                         </el-form-item>
                         <!--<el-form-item label="应用图标：" prop="name">-->
-                            <!--<div style="width:100px;height:100px;"><img :src="'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"-->
-                                                                        <!--style="width:100px;height:100px;"/></div>-->
+                        <!--<div style="width:100px;height:100px;"><img :src="'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"-->
+                        <!--style="width:100px;height:100px;"/></div>-->
                         <!--</el-form-item>-->
                         <el-form-item label="应用图片：" prop="iconList">
                             <div style="max-width:700px;height:auto;">
-                                <div style="position: relative;width:200px;height:auto;margin-right: 10px;display: inline-block" v-for="(item,index) in  showList" v-if="item!=''">
+                                <div
+                                    style="position: relative;width:200px;height:auto;margin-right: 10px;display: inline-block"
+                                    v-for="(item,index) in  showList" v-if="item!=''">
                                     <img :src=" 'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+item"
-                                         style="width:200px;height:auto;"  @click="bigImg(index)" v-if="item!=''"/>
+                                         style="width:200px;height:auto;" @click="bigImg(index)" v-if="item!=''"/>
                                     <i class="delete el-icon-close" @click="removeImage(index)" v-if="item!=''"></i>
                                 </div>
                             </div>
-                            <div><input type="file"  @change='add_imgs'/></div>
+                            <div><input type="file" @change='add_imgs'/></div>
                         </el-form-item>
                         <!--<el-form-item label="历史版本：" prop="name">-->
                         <!--</el-form-item>-->
                     </div>
                     <div>
                         <div style="margin-bottom: 20px;">
-                            <h4>审核状态： <span style="    font-size: 14px;color: #48576a;font-weight:normal">审核通过</span></h4>
+                            <h4>审核状态： <span style="    font-size: 14px;color: #48576a;font-weight:normal">审核通过</span>
+                            </h4>
                         </div>
                     </div>
                     <el-form-item>
@@ -149,27 +153,27 @@
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
     import Vue from "vue";
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
-                state:'',
-                remarks:'',
+                state: '',
+                remarks: '',
                 showBigImg: false,
-                num:0,
-                showList:[],
-                appForm:{
-                },
-                fileDate:'',
-                value:[],
-                tagList:[],
-                uploadIconUrl:'',
+                num: 0,
+                showList: [],
+                appForm: {},
+                fileDate: '',
+                value: [],
+                tagList: [],
+                uploadIconUrl: '',
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
                 },
-                positionList:[],
-                typeList:[],
-                offical:[{'title':'是','code':'1'},{'title':'否','code':'0'}],
+                positionList: [],
+                typeList: [],
+                offical: [{'title': '是', 'code': '1'}, {'title': '否', 'code': '0'}],
                 rule: {
                     appName: [
                         {required: true, message: '请输入应用名称', trigger: 'blur'},
@@ -177,17 +181,17 @@
                     // fileTag: [
                     //     {required: true, message: '请选择分类', trigger: 'blur'}
                     // ],
-                    isOfficial:[
+                    isOfficial: [
                         {required: true, message: '请选择是否官方', trigger: 'blur'}
                     ],
-                    fileState:[
+                    fileState: [
                         {required: true, message: '请选择应用状态', trigger: 'blur'}
                     ],
                     fileMessage: [
                         {required: true, message: '请输入介绍', trigger: 'blur'}
-                    ],fileSummary:[
+                    ], fileSummary: [
                         {required: true, message: '请输入简介', trigger: 'blur'}
-                    ],fileDir:[
+                    ], fileDir: [
                         {required: true, message: '请输入下载地址', trigger: 'blur'}
                     ]
                     // ,packageName:[
@@ -201,10 +205,15 @@
         },
         created() {
             this.getData();
-            this.$ajax.get(BaseUrl + "position/title",{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                if(response.data.flag==200){
+            this.$ajax.get(BaseUrl + "position/title", {
+                headers: {
+                    'token': sessionStorage.getItem('token'),
+                    'device': this.$route.query.type
+                }
+            }).then(response => {
+                if (response.data.flag == 200) {
                     this.positionList = response.data.data;
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -217,34 +226,44 @@
         },
         computed: {},
         methods: {
-            getData(){
-                this.$ajax.get(BaseUrl+'apply/appmsg/'+this.$route.query.id,{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                   if(response.data.flag==200) {
-                       this.appForm = response.data.data
-                       this.uploadIconUrl = response.data.data.fileIcon;
-                       // this.appForm.isOffical='0';
-                       // this.offical=[{title:'是',code:'1'},{title:'否',code:'0'}]
-                       if (this.appForm.fileShow != '') {
-                           this.showList = this.appForm.fileShow.split(',')
-                       }
-                       // if(this.appForm.fileState=)
-                       this.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
-                       // console.log(this.appForm.fileDisplayPosition)
-                       if (this.appForm.fileDisplayPosition != undefined) {
-                           this.value = eval(this.appForm.fileDisplayPosition)
-                       }
-                   }else if(response.data.flag==201) {
-                       this.$alert(response.data.msg + '，请重新登录', '提示', {
-                           confirmButtonText: '确定',
-                           callback: action => {
-                               this.$router.push('/')
-                           }
-                       });
-                   }
+            getData() {
+                this.$ajax.get(BaseUrl + 'apply/appmsg/' + this.$route.query.id, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.$route.query.type
+                    }
+                }).then(response => {
+                    if (response.data.flag == 200) {
+                        this.appForm = response.data.data
+                        this.uploadIconUrl = response.data.data.fileIcon;
+                        // this.appForm.isOffical='0';
+                        // this.offical=[{title:'是',code:'1'},{title:'否',code:'0'}]
+                        if (this.appForm.fileShow != '') {
+                            this.showList = this.appForm.fileShow.split(',')
+                        }
+                        // if(this.appForm.fileState=)
+                        this.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
+                        // console.log(this.appForm.fileDisplayPosition)
+                        if (this.appForm.fileDisplayPosition != undefined) {
+                            this.value = eval(this.appForm.fileDisplayPosition)
+                        }
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
                     // this.value=this.appForm.fileDisplayPosition.split(',')
                 })
-                this.$ajax.get(BaseUrl+'apptag/all',{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                    if(response.data.flag==200) {
+                this.$ajax.get(BaseUrl + 'apptag/all', {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.$route.query.type
+                    }
+                }).then(response => {
+                    if (response.data.flag == 200) {
                         this.tagList = response.data.data;
 
                         this.typeList = [
@@ -259,7 +278,7 @@
                                 "title": "下架"
                             }
                         ]
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -272,78 +291,94 @@
 
 
             },
-            saveUpdate(appForm){
-                appForm.fileDisplayPosition=this.value
+            saveUpdate(appForm) {
+                appForm.fileDisplayPosition = this.value
                 this.$refs.appForm.validate(async (valid) => {
-                        if (valid&&this.uploadIconUrl!=''&&this.showList!=0) {
-                            this.$ajax({
-                                method: "POST",
-                                url: BaseUrl+'apply/update',
-                                data:appForm,
-                                headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
-                            }).then(response => {
-                                // console.log(response);
-                                if(response.data.flag==500){
-                                    this.$alert(response.data.msg, '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$message({
-                                                type: 'info',
-                                                message: `error: ${ response.data.msg +',请重试'}`
-                                            });
+                    if (valid && this.uploadIconUrl != '' && this.showList != 0) {
+                        this.$ajax({
+                            method: "POST",
+                            url: BaseUrl + 'apply/update',
+                            data: appForm,
+                            headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
+                        }).then(response => {
+                            // console.log(response);
+                            if (response.data.flag == 500) {
+                                this.$alert(response.data.msg, '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$message({
+                                            type: 'info',
+                                            message: `error: ${ response.data.msg + ',请重试'}`
+                                        });
+                                    }
+                                });
+                            } else if (response.data.flag == 200) {
+                                this.$alert(response.data.msg, '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        // this.$router.back(-1)
+                                        if (this.$route.query.type == 'android') {
+                                            this.$router.push({
+                                                path: '/applicationList',
+                                                query: {
+                                                    page: this.$route.query.page,
+                                                    size: this.$route.query.size,
+                                                    flag: this.$route.query.flag,
+                                                    tagcode: this.$route.query.tagcode
+                                                }
+                                            })
+                                        } else if (this.$route.query.type == 'ios') {
+                                            this.$router.push({
+                                                path: '/iosList',
+                                                query: {
+                                                    page: this.$route.query.page,
+                                                    size: this.$route.query.size,
+                                                    flag: this.$route.query.flag,
+                                                    tagcode: this.$route.query.tagcode
+                                                }
+                                            })
                                         }
-                                    });
-                                }else if(response.data.flag==200){
-                                    this.$alert(response.data.msg, '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action=>{
-                                            // this.$router.back(-1)
-                                            if(this.$route.query.type=='android'){
-                                            this.$router.push({path:'/applicationList',query:{page:this.$route.query.page,size:this.$route.query.size,flag:this.$route.query.flag,tagcode:this.$route.query.tagcode}})
-                                            }else if(this.$route.query.type=='ios'){
-                                                this.$router.push({path:'/iosList',query:{page:this.$route.query.page,size:this.$route.query.size,flag:this.$route.query.flag,tagcode:this.$route.query.tagcode}})
-                                            }
-                                        }
-                                    });
-                                }else if(response.data.flag==201) {
-                                    this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$router.push('/')
-                                        }
-                                    });
-                                }
-                            });
-                        }else {
-                            this.$alert('请填写完整', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$message({
-                                        type: 'info',
-                                        message: `请重试！`
-                                    });
-                                }
-                            });
-                            return false;
-                        }
+                                    }
+                                });
+                            } else if (response.data.flag == 201) {
+                                this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$router.push('/')
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        this.$alert('请填写完整', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `请重试！`
+                                });
+                            }
+                        });
+                        return false;
+                    }
                 })
 
             },
             add_img(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image"
-                        },headers: {'token': sessionStorage.getItem('token')}
+                            callBackType: "app_image"
+                        }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -379,12 +414,12 @@
                         form.append("expire", uploadPolicy["expire"]);
                         form.append("policy", uploadPolicy["policy"]);
                         form.append("Signature", uploadPolicy["Signature"]);
-                        form.append('Content-Disposition',uploadPolicy['Content-Disposition']);
+                        form.append('Content-Disposition', uploadPolicy['Content-Disposition']);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -398,18 +433,18 @@
             add_imgs(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image"
-                        },headers: {'token': sessionStorage.getItem('token')}
+                            callBackType: "app_image"
+                        }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -439,12 +474,12 @@
                         form.append("expire", uploadPolicy["expire"]);
                         form.append("policy", uploadPolicy["policy"]);
                         form.append("Signature", uploadPolicy["Signature"]);
-                        form.append('Content-Disposition',uploadPolicy['Content-Disposition']);
+                        form.append('Content-Disposition', uploadPolicy['Content-Disposition']);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type']);
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type']);
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -484,9 +519,8 @@
     };
 </script>
 
-<style lang="less" >
+<style lang="less">
     @import "../style/mixin";
-
 
     .icon-el-update {
         height: 100px;
@@ -509,6 +543,7 @@
             position: absolute;
         }
     }
+
     .imgMask {
         position: absolute;
         height: 100%;

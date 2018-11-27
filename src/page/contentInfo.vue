@@ -5,7 +5,7 @@
                 <el-form :model="agreeInfo" ref="agreeInfo" label-width="110px" class="form food_form">
                     <div>
                         <el-form-item label="时间：" prop="name">
-                           {{agreeInfo.date}}
+                            {{agreeInfo.date}}
                         </el-form-item>
                         <el-form-item label="内容：" prop="name">
                             {{agreeInfo.content}}
@@ -33,25 +33,23 @@
     export default {
         data() {
             return {
-                agreeInfo:{},
-                contentList:[],
+                agreeInfo: {},
+                contentList: [],
             };
         },
         components: {
             headTop
         },
         created() {
-            this.contentList=JSON.parse(sessionStorage.getItem('contentList'));
-            this.contentList.forEach(item=>{
-                if(item.agrId==this.$route.query.id){
-                    this.agreeInfo=item;
+            this.contentList = JSON.parse(sessionStorage.getItem('contentList'));
+            this.contentList.forEach(item => {
+                if (item.agrId == this.$route.query.id) {
+                    this.agreeInfo = item;
                 }
             })
         },
         computed: {},
-        methods: {
-
-        },
+        methods: {},
 
     };
 </script>

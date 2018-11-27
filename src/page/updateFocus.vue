@@ -69,11 +69,12 @@
     import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {quillEditor} from 'vue-quill-editor'
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
-                url:null,
+                url: null,
                 content: null,
                 timePeriod: null,
                 uploadIconUrl: '',
@@ -93,7 +94,7 @@
                         return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                typeList: [{code: '1', title: '图文详情'}, {code: '2', title: '推广APP'},{code: '3', title: '跳转链接'}],
+                typeList: [{code: '1', title: '图文详情'}, {code: '2', title: '推广APP'}, {code: '3', title: '跳转链接'}],
                 rule: {
                     title: [
                         {required: true, message: '请输入焦点图标题', trigger: 'blur'},
@@ -104,26 +105,31 @@
                 }
             }
         },
-        created(){
+        created() {
             // console.log(this.$route.query.id);
-            if(this.$route.query.id!=undefined){
-                this.$ajax.get(BaseUrl + 'banner/' + this.$route.query.id,{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
+            if (this.$route.query.id != undefined) {
+                this.$ajax.get(BaseUrl + 'banner/' + this.$route.query.id, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.$route.query.type
+                    }
+                }).then(response => {
                     // console.log(response)
                     if (response.data.flag == 200) {
-                         this.focusForm=response.data.data;
-                         this.uploadIconUrl=response.data.data.picAddr;
-                         if(response.data.data.text!=undefined){
-                         this.content=response.data.data.text;
-                         }
-                         if(response.data.data.toItemId!=undefined){
-                             this.url=response.data.data.toItemId
-                         }
-                         if(response.data.data.toItem!=undefined){
-                        this.toItemId=response.data.data.toItem.appId;
-                        this.appName=response.data.data.toItem.appName;
-                         }
-                        this.timePeriod=[moment.utc(this.focusForm.startTime).local(),moment.utc(this.focusForm.endTime).local()]
-                    }else if(response.data.flag==201) {
+                        this.focusForm = response.data.data;
+                        this.uploadIconUrl = response.data.data.picAddr;
+                        if (response.data.data.text != undefined) {
+                            this.content = response.data.data.text;
+                        }
+                        if (response.data.data.toItemId != undefined) {
+                            this.url = response.data.data.toItemId
+                        }
+                        if (response.data.data.toItem != undefined) {
+                            this.toItemId = response.data.data.toItem.appId;
+                            this.appName = response.data.data.toItem.appName;
+                        }
+                        this.timePeriod = [moment.utc(this.focusForm.startTime).local(), moment.utc(this.focusForm.endTime).local()]
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -158,7 +164,12 @@
             querySearch(queryString, cb) {
                 // var appNames = this.appNames;
 
-                this.$ajax.get(BaseUrl + 'apply/sign/' + queryString,{headers: {'token':sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
+                this.$ajax.get(BaseUrl + 'apply/sign/' + queryString, {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': this.$route.query.type
+                    }
+                }).then(response => {
                     // console.log(response)
                     if (response.data.flag == 200) {
                         // this.appNames=response.data.data
@@ -169,7 +180,7 @@
                             appNameArray.push(appNameObj);
                         })
                         cb(appNameArray)
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -209,10 +220,10 @@
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -267,7 +278,7 @@
             changeType() {
                 this.content = null;
                 this.toItemId = null;
-                this.appName = null ;
+                this.appName = null;
             },
             // GMTToStr(time) {
             //     var date = time;
@@ -288,25 +299,25 @@
             save(focusForm) {
                 // console.log( this.timePeriod)
                 this.$refs.focusForm.validate(async (valid) => {
-                    if (valid && (this.content != null || this.toItemId != null||this.url!=null) && this.timePeriod != null&&this.timePeriod[0]>=new Date()) {
+                    if (valid && (this.content != null || this.toItemId != null || this.url != null) && this.timePeriod != null && this.timePeriod[0] >= new Date()) {
                         focusForm.startTime = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
                         focusForm.endTime = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
-                        if (this.content != null&&focusForm.type==1) {
+                        if (this.content != null && focusForm.type == 1) {
                             focusForm.text = this.content;
                         }
                         if (this.toItemId != null) {
                             focusForm.toItemId = this.toItemId;
-                        } else if(this.url!= null&&focusForm.type==3){
-                            focusForm.toItemId=this.url
-                        }else{
-                            focusForm.toItemId=null
+                        } else if (this.url != null && focusForm.type == 3) {
+                            focusForm.toItemId = this.url
+                        } else {
+                            focusForm.toItemId = null
                         }
                         if (this.$route.query.id == '' || this.$route.query.id == undefined) {
                             this.$ajax({
                                 method: "POST",
-                                url:  BaseUrl+'banner/add',
+                                url: BaseUrl + 'banner/add',
                                 data: focusForm,
-                                headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
+                                headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                             }).then(response => {
                                 if (response.data.flag == 500) {
                                     this.$alert(response.data.msg, '提示', {
@@ -321,15 +332,15 @@
                                 } else if (response.data.flag == 200) {
                                     this.$alert(response.data.msg, '提示', {
                                         confirmButtonText: '确定',
-                                        callback: action=>{
-                                           if(this.$route.query.type=='android'){
-                                            this.$router.push({path: '/focusImg'})
-                                           }else if(this.$route.query.type=='ios'){
-                                               this.$router.push({path: '/iosFocusImg'})
+                                        callback: action => {
+                                            if (this.$route.query.type == 'android') {
+                                                this.$router.push({path: '/focusImg'})
+                                            } else if (this.$route.query.type == 'ios') {
+                                                this.$router.push({path: '/iosFocusImg'})
                                             }
                                         }
                                     });
-                                }else if(response.data.flag==201) {
+                                } else if (response.data.flag == 201) {
                                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                                         confirmButtonText: '确定',
                                         callback: action => {
@@ -341,9 +352,9 @@
                         } else {
                             this.$ajax({
                                 method: "POST",
-                                url:BaseUrl+'banner/update',
-                                data:focusForm,
-                                headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
+                                url: BaseUrl + 'banner/update',
+                                data: focusForm,
+                                headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                             }).then(response => {
                                 if (response.data.flag == 500) {
                                     this.$alert(response.data.msg, '提示', {
@@ -358,15 +369,15 @@
                                 } else if (response.data.flag == 200) {
                                     this.$alert(response.data.msg, '提示', {
                                         confirmButtonText: '确定',
-                                        callback: action=>{
-                                            if(this.$route.query.type=='android'){
+                                        callback: action => {
+                                            if (this.$route.query.type == 'android') {
                                                 this.$router.push({path: '/focusImg'})
-                                            }else if(this.$route.query.type=='ios'){
+                                            } else if (this.$route.query.type == 'ios') {
                                                 this.$router.push({path: '/iosFocusImg'})
                                             }
                                         }
-                                });
-                                }else if(response.data.flag==201) {
+                                    });
+                                } else if (response.data.flag == 201) {
                                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                                         confirmButtonText: '确定',
                                         callback: action => {
@@ -409,7 +420,7 @@
                             }
                         });
                         return false;
-                    }else if (this.timePeriod[0] < new Date()) {
+                    } else if (this.timePeriod[0] < new Date()) {
                         this.$alert('开始时间不能小于当前时间', {
                             confirmButtonText: '确定',
                             callback: action => {

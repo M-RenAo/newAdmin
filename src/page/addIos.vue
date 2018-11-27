@@ -33,10 +33,10 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item label="下载地址" prop="fileDir">
-                    <el-input
-                    placeholder="请输入有效的下载链接"
-                    v-model="appForm.fileDir">
-                    </el-input>
+                        <el-input
+                            placeholder="请输入有效的下载链接"
+                            v-model="appForm.fileDir">
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="包名">
                         <el-input
@@ -49,7 +49,8 @@
                             style="width:70%"
                             placeholder="请输入安装包大小"
                             v-model="appForm.fileSize">
-                        </el-input> M
+                        </el-input>
+                        M
                     </el-form-item>
                     <!--<el-form-item label="应用权限">-->
                     <!--<el-select v-model="appForm.tag">-->
@@ -91,7 +92,7 @@
                     </el-form-item>
 
                     <el-form-item>
-                        <el-button type="primary"  @click="nextpart(appForm)">提交</el-button>
+                        <el-button type="primary" @click="nextpart(appForm)">提交</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -137,9 +138,9 @@
                     name: "",
                     message: "",
                     icon: "",
-                    version:'',
+                    version: '',
                     // tag: "",
-                    summary:'',
+                    summary: '',
                     showPict: "",
                     packageName: ''
                 },
@@ -152,11 +153,11 @@
                     ],
                     fileMessage: [
                         {required: true, message: '请输入介绍', trigger: 'blur'}
-                    ],fileDir:[
+                    ], fileDir: [
                         {required: true, message: '请输入下载地址', trigger: 'blur'}
-                    ],fileSize:[
+                    ], fileSize: [
                         {required: true, message: '请输入安装包大小', trigger: 'blur'}
-                    ],fileSummary:[
+                    ], fileSummary: [
                         {required: true, message: '请输入简介', trigger: 'blur'}
                     ]
                 },
@@ -172,25 +173,25 @@
             add_img(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -223,9 +224,9 @@
                         form.append("Signature", uploadPolicy["Signature"]);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type'])
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -239,25 +240,25 @@
             add_imgs(event) {
                 let uploadPolicy = null;
                 this.$ajax
-                    .get(BaseUrl+"alioss/getpolicy", {
+                    .get(BaseUrl + "alioss/getpolicy", {
                         params: {
                             fileName: event.target.files[0].name,
                             type: "image",
-                            callBackType:"app_image",
+                            callBackType: "app_image",
                         }, headers: {'token': sessionStorage.getItem('token')}
                     })
                     .then(response => {
-                        if (response.data.flag==200) {
+                        if (response.data.flag == 200) {
                             uploadPolicy = response.data.data;
                             this.UploadUrl = response.data.data.host;
-                        } else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        }else {
+                        } else {
                             alert("权限获取失败！");
                             return;
                         }
@@ -280,12 +281,12 @@
                         form.append("expire", uploadPolicy["expire"]);
                         form.append("policy", uploadPolicy["policy"]);
                         form.append("Signature", uploadPolicy["Signature"]);
-                        form.append('Content-Disposition',uploadPolicy['Content-Disposition']);
+                        form.append('Content-Disposition', uploadPolicy['Content-Disposition']);
                         form.append("callback", uploadPolicy["callback"]);
                         form.append("file", img1);
-                        form.append('x:user',sessionStorage.getItem('userName'));
-                        form.append('x:filename',uploadPolicy['fileName']);
-                        form.append('x:type',uploadPolicy['type']);
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type']);
                         this.$ajax({
                             method: "POST",
                             url: this.UploadUrl,
@@ -301,23 +302,23 @@
             },
             nextpart(appForm) {
                 this.$refs.appForm.validate(async (valid) => {
-                    if (valid&&this.uploadIconUrl!=''&&this.appimageUrlArray.length!=0) {
+                    if (valid && this.uploadIconUrl != '' && this.appimageUrlArray.length != 0) {
                         this.$ajax({
                             method: "POST",
-                            url:  BaseUrl+'apply/create/ios',
+                            url: BaseUrl + 'apply/create/ios',
                             data: appForm,
-                            headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}
+                            headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                         }).then(response => {
                             if (response.data.msg != '应用详情创建失败!') {
-                                this.$router.push({path: "/iosList", query: {active:0}});
-                            } else if(response.data.flag==201) {
+                                this.$router.push({path: "/iosList", query: {active: 0}});
+                            } else if (response.data.flag == 201) {
                                 this.$alert(response.data.msg + '，请重新登录', '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
                                         this.$router.push('/')
                                     }
                                 });
-                            }else {
+                            } else {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
@@ -330,7 +331,7 @@
                             }
                         });
                     } else {
-                        if(this.uploadIconUrl==''&&valid){
+                        if (this.uploadIconUrl == '' && valid) {
                             this.$alert('请上传应用图标', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -340,7 +341,7 @@
                                     });
                                 }
                             });
-                        }else if(this.appimageUrlArray.length==0&&valid){
+                        } else if (this.appimageUrlArray.length == 0 && valid) {
                             this.$alert('请上传应用图片', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -350,7 +351,7 @@
                                     });
                                 }
                             });
-                        }else {
+                        } else {
                             this.$alert('请填写完整', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -384,7 +385,7 @@
             },
             removeImage(index) {
                 this.appimageUrlArray.splice(index, 1);
-                this.appForm.showPict=this.appimageUrlArray.join(',')
+                this.appForm.showPict = this.appimageUrlArray.join(',')
                 // console.log(this.appimageUrlArray)
             }
         },

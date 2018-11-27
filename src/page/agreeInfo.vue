@@ -5,10 +5,10 @@
                 <el-form :model="agreeInfo" ref="agreeInfo" label-width="110px" class="form food_form">
                     <div>
                         <el-form-item label="时间：" prop="name">
-                             {{agreeInfo.date}}
+                            {{agreeInfo.date}}
                         </el-form-item>
                         <el-form-item label="小协议名称：" prop="name">
-                              {{agreeInfo.title}}
+                            {{agreeInfo.title}}
                         </el-form-item>
                         <el-form-item label="小协议内容：" prop="name">
                             {{agreeInfo.content}}
@@ -39,25 +39,23 @@
     export default {
         data() {
             return {
-                agreeInfo:{},
-                agreelist:[]
+                agreeInfo: {},
+                agreelist: []
             };
         },
         components: {
             headTop
         },
         created() {
-            this.agreelist=JSON.parse(sessionStorage.getItem('litNumList'));
-            this.agreelist.forEach(item=>{
-                if(item.agrId==this.$route.query.id){
-                    this.agreeInfo=item;
+            this.agreelist = JSON.parse(sessionStorage.getItem('litNumList'));
+            this.agreelist.forEach(item => {
+                if (item.agrId == this.$route.query.id) {
+                    this.agreeInfo = item;
                 }
             })
         },
         computed: {},
-        methods: {
-
-        },
+        methods: {},
 
     };
 </script>

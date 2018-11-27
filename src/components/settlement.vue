@@ -8,14 +8,17 @@
                             <h4>竞猜账户余额：{{quizAmount.balance|MoneyFormat}} IA</h4>
                         </div>
                         <el-form-item>
-                            <div style="font-weight:600;letter-spacing: 1px;margin-bottom:5px">竞猜收益余额：{{quizAmount.allIncome|MoneyFormat}}  IA</div>
+                            <div style="font-weight:600;letter-spacing: 1px;margin-bottom:5px">
+                                竞猜收益余额：{{quizAmount.allIncome|MoneyFormat}} IA
+                            </div>
                         </el-form-item>
-                        <el-form-item  label="结算至平台收益账户：">
+                        <el-form-item label="结算至平台收益账户：">
                         </el-form-item>
                         <el-form-item label="结算金额：">
-                            <el-input style="width:200px" type="number" min="1" v-model="money"></el-input> IA
+                            <el-input style="width:200px" type="number" min="1" v-model="money"></el-input>
+                            IA
                         </el-form-item>
-                        <el-form-item label="" >
+                        <el-form-item label="">
                             <el-button type="primary" @click="settlement(money)">结算</el-button>
                         </el-form-item>
                     </div>
@@ -25,7 +28,7 @@
                 </div>
                 <el-table
                     :data="tableData"
-                    style="width: 100%;" >
+                    style="width: 100%;">
                     <el-table-column
                         align="center"
                         label="时间"
@@ -34,7 +37,7 @@
                     <el-table-column
                         align="center"
                         label="结算金额（IA）"
-                        >
+                    >
                         <template scope="scope">
                             {{scope.row.amount|MoneyFormat}}
                         </template>
@@ -53,9 +56,10 @@
                     </el-pagination>
                 </div>
                 <el-dialog title="请输入竞猜账户密码" :visible.sync="ensureVisible">
-                    <el-form  >
+                    <el-form>
                         <el-form-item label="账户密码" :label-width="formLabelWidth" prop="title">
-                            <el-input v-model="passWord"  type="password" auto-complete="off"  style="width:80%"></el-input>
+                            <el-input v-model="passWord" type="password" auto-complete="off"
+                                      style="width:80%"></el-input>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
@@ -72,33 +76,33 @@
 <script>
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    let moment =require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
-                money:'',
-                quizAmount:{},
-                passWord:'',
-                ensureVisible:false,
-                tableData:[],
+                money: '',
+                quizAmount: {},
+                passWord: '',
+                ensureVisible: false,
+                tableData: [],
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                formLabelWidth:'110px'
+                formLabelWidth: '110px'
             };
         },
-        components: {
-        },
+        components: {},
         created() {
             this.$ajax({
                 method: "POST",
-                url: BaseUrl+'imwallet/appwalletinfo',
-                params: {type:'2341a6e2c53d4ed182bd35bee0ddce84'},
+                url: BaseUrl + 'imwallet/appwalletinfo',
+                params: {type: '2341a6e2c53d4ed182bd35bee0ddce84'},
                 headers: {'token': sessionStorage.getItem('token')}
             }).then(response => {
-                if(response.data.flag==200){
-                this.quizAmount = response.data.data;
-                }else if(response.data.flag==201) {
+                if (response.data.flag == 200) {
+                    this.quizAmount = response.data.data;
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -115,25 +119,25 @@
             //     // headers: {'token': sessionStorage.getItem('token')}
             // }).then(response=>{
             // });
-            const form={page:this.currentPage,size:this.nowPageSize,from:'2341a6e2c53d4ed182bd35bee0ddce84'}
+            const form = {page: this.currentPage, size: this.nowPageSize, from: '2341a6e2c53d4ed182bd35bee0ddce84'}
             this.getData(form)
         },
         computed: {},
         methods: {
-            getData(form){
+            getData(form) {
                 this.$ajax({
                     method: "POST",
-                    url:BaseUrl+'imwallet/appIncomeBill',
-                    params:form,
-                    headers:{'token':sessionStorage.getItem('token')}
+                    url: BaseUrl + 'imwallet/appIncomeBill',
+                    params: form,
+                    headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.tableData = response.data.data.data;
-                    this.txcount = response.data.data.count;
-                    this.tableData.forEach(item=>{
-                        item.ctime=moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
-                    })
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count;
+                        this.tableData.forEach(item => {
+                            item.ctime = moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -158,7 +162,7 @@
                 //     this.searchForm.size = pageSize
                 //     var listParams = this.searchForm
                 // }
-                this.getData({page:1,size:this.nowPageSize,from:'2341a6e2c53d4ed182bd35bee0ddce84'});
+                this.getData({page: 1, size: this.nowPageSize, from: '2341a6e2c53d4ed182bd35bee0ddce84'});
             },
             handleCurrentChange(pageValue) {
                 // console.log(">>>>>>pageValue", pageValue);
@@ -174,11 +178,15 @@
                 //     this.searchForm.size = this.nowPageSize || 10;
                 //     var listParams = this.searchForm
                 // }
-                this.getData({page:this.currentPage,size:this.nowPageSize,from:'2341a6e2c53d4ed182bd35bee0ddce84'});
+                this.getData({
+                    page: this.currentPage,
+                    size: this.nowPageSize,
+                    from: '2341a6e2c53d4ed182bd35bee0ddce84'
+                });
             },
-            settlement(money){
-                this.passWord='';
-                if(money==''||money==undefined){
+            settlement(money) {
+                this.passWord = '';
+                if (money == '' || money == undefined) {
                     this.$alert('请填写金额', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -189,13 +197,13 @@
                         }
                     });
                     return false;
-                }else{
-                    this.ensureVisible=true;
+                } else {
+                    this.ensureVisible = true;
                 }
 
             },
-            ensureReward(passWord){
-                if(passWord==''||passWord==undefined){
+            ensureReward(passWord) {
+                if (passWord == '' || passWord == undefined) {
                     this.$alert('请填写密码', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -206,41 +214,45 @@
                         }
                     });
                     return false;
-                }else{
+                } else {
                     this.$ajax({
                         method: "POST",
-                        url:BaseUrlApp+'transaction/transferAppToVendor',
+                        url: BaseUrlApp + 'transaction/transferAppToVendor',
                         data: {
                             amount: Number(this.money),
-                            key:passWord,
-                            appName:'guess',
-                            appId:'2341a6e2c53d4ed182bd35bee0ddce84',
-                            assetId:'iaincomeasset323434bc43b0a87ffff'
+                            key: passWord,
+                            appName: 'guess',
+                            appId: '2341a6e2c53d4ed182bd35bee0ddce84',
+                            assetId: 'iaincomeasset323434bc43b0a87ffff'
                         },
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
                         if (response.data.flag == 200) {
                             this.$ajax({
                                 method: "POST",
-                                url:BaseUrl+'guess/guessIncome',
+                                url: BaseUrl + 'guess/guessIncome',
                                 params: {
-                                    amount:-Number(this.money),
-                                    remark:'管理结算竞猜至平台收益账户',
-                                    type:'竞猜结算转出'
+                                    amount: -Number(this.money),
+                                    remark: '管理结算竞猜至平台收益账户',
+                                    type: '竞猜结算转出'
                                 },
                                 headers: {'token': sessionStorage.getItem('token')}
-                            }).then(response=>{
+                            }).then(response => {
 
                             })
-                            this.quizAmount.balance=this.quizAmount.balance-this.money
+                            this.quizAmount.balance = this.quizAmount.balance - this.money
                             this.$alert('转账成功', {
                                 confirmButtonText: '确定',
                                 callback: action => {
-                                    this.getData({page:this.currentPage,size:this.nowPageSize,from:'2341a6e2c53d4ed182bd35bee0ddce84'});
+                                    this.getData({
+                                        page: this.currentPage,
+                                        size: this.nowPageSize,
+                                        from: '2341a6e2c53d4ed182bd35bee0ddce84'
+                                    });
                                     this.ensureVisible = false;
                                 }
                             });
-                        } else if(response.data.flag==1000){
+                        } else if (response.data.flag == 1000) {
                             this.$alert('密码错误', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -251,14 +263,14 @@
                                 }
                             });
                             return false;
-                        }else if(response.data.flag==201) {
+                        } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
                                     this.$router.push('/')
                                 }
                             });
-                        } else{
+                        } else {
                             this.$alert(response.data.msg, {
                                 confirmButtonText: '确定',
                                 callback: action => {

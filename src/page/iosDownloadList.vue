@@ -2,7 +2,9 @@
     <div class="fillcontain">
         <div class="table_container">
             <div style="display:flex;margin-bottom: 30px;">
-                <el-button type="primary" @click="deleteAll()" v-bind:disabled="multipleSelection==null||multipleSelection.length==0">批量删除</el-button>
+                <el-button type="primary" @click="deleteAll()"
+                           v-bind:disabled="multipleSelection==null||multipleSelection.length==0">批量删除
+                </el-button>
                 <el-button type="primary" @click="addDownload()">新增排行榜</el-button>
             </div>
             <el-table
@@ -15,25 +17,28 @@
                 </el-table-column>
                 <el-table-column
                     label="顺序"
-                    prop="sort" >
+                    prop="sort">
                 </el-table-column>
                 <el-table-column
                     label="排行榜名称"
-                    prop="title" >
+                    prop="title">
                 </el-table-column>
                 <el-table-column
                     label="排序标准"
-                    prop="rules" >
+                    prop="rules">
                 </el-table-column>
                 <el-table-column
                     label="应用数量"
-                    prop="itemNumOfAll" >
+                    prop="itemNumOfAll">
                 </el-table-column>
                 <el-table-column label="操作" width="200">
                     <template scope="scope">
-                        <el-button class="littleButton"  @click="updateDownload(scope.row.id,scope.row.title,scope.row.rule,scope.row.sort)">编辑
-                        </el-button >
-                        <el-button class="littleButton" @click="downloadSort(scope.row.id,scope.row.title,scope.row.sort)">设置顺序
+                        <el-button class="littleButton"
+                                   @click="updateDownload(scope.row.id,scope.row.title,scope.row.rule,scope.row.sort)">
+                            编辑
+                        </el-button>
+                        <el-button class="littleButton"
+                                   @click="downloadSort(scope.row.id,scope.row.title,scope.row.sort)">设置顺序
                         </el-button>
                     </template>
                 </el-table-column>
@@ -41,11 +46,12 @@
             </el-table>
 
         </div>
-        <el-dialog title="" :visible.sync="dialogFormVisible" >
-            <el-form :model="form" >
-                <el-form-item label="排行榜名称：" >{{form.title}}</el-form-item>
+        <el-dialog title="" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="排行榜名称：">{{form.title}}</el-form-item>
                 <el-form-item label="顺序：" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off" type="number" min="1" :max="info.length"></el-input>
+                    <el-input v-model="form.name" autocomplete="off" type="number" min="1"
+                              :max="info.length"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer" align="center">
@@ -55,11 +61,14 @@
         <el-dialog title="" :visible.sync="dialogFormVisibleSort" align="center">
             <el-form :model="sortItemForm">
                 <el-form-item label="排行榜名称：" :label-width="formLabelWidth">
-                    <el-input v-model="sortItemForm.title" autocomplete="off" maxlength="6"  onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" placeholder="最多输入六位"></el-input>
+                    <el-input v-model="sortItemForm.title" autocomplete="off" maxlength="6"
+                              onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" placeholder="最多输入六位"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer" align="center">
-                <el-button type="primary" @click="addNewSort()" v-bind:disabled="sortItemForm.title===undefined||sortItemForm.title===''">确 定</el-button>
+                <el-button type="primary" @click="addNewSort()"
+                           v-bind:disabled="sortItemForm.title===undefined||sortItemForm.title===''">确 定
+                </el-button>
             </div>
         </el-dialog>
         <el-dialog
@@ -92,16 +101,16 @@
     export default {
         data() {
             return {
-                info:[],
-                url:'',
-                dialogFormVisible:false,
-                dialogFormVisibleSort:false,
-                dialogVisible:false,
-                formLabelWidth:'110px',
-                form:{},
-                multipleSelection:null,
-                sortItemForm:{},
-                deleAppId:[]
+                info: [],
+                url: '',
+                dialogFormVisible: false,
+                dialogFormVisibleSort: false,
+                dialogVisible: false,
+                formLabelWidth: '110px',
+                form: {},
+                multipleSelection: null,
+                sortItemForm: {},
+                deleAppId: []
             }
         },
         created() {
@@ -111,23 +120,28 @@
             headTop,
         },
         methods: {
-            getData () {
-                this.$ajax.get(BaseUrl+'ranking/title',{headers:{'token': sessionStorage.getItem('token'),'device':'ios'}}).then(response => {
+            getData() {
+                this.$ajax.get(BaseUrl + 'ranking/title', {
+                    headers: {
+                        'token': sessionStorage.getItem('token'),
+                        'device': 'ios'
+                    }
+                }).then(response => {
                     this.info = response.data.data
-                    this.info.forEach(item=>{
-                        if(item.rule!=undefined){
-                            switch(item.rule.split(':')[0]){
+                    this.info.forEach(item => {
+                        if (item.rule != undefined) {
+                            switch (item.rule.split(':')[0]) {
                                 case 'add':
-                                    item.rules='添加时间'
+                                    item.rules = '添加时间'
                                     break;
                                 case 'new':
-                                    item.rules='最新版本发布'
+                                    item.rules = '最新版本发布'
                                     break;
                                 case 'down':
-                                    item.rules='下载量'
+                                    item.rules = '下载量'
                                     break;
                                 case 'touch':
-                                    item.rules='点击量'
+                                    item.rules = '点击量'
                                     break
                             }
 
@@ -139,12 +153,12 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                this.deleAppId=[];
+                this.deleAppId = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
                     this.deleAppId.push(this.multipleSelection[i].id)
                 }
             },
-            handleCurrentChange(pageValue){
+            handleCurrentChange(pageValue) {
                 this.currentPage = pageValue;
                 // var that = this
                 // var thats = that
@@ -159,21 +173,21 @@
                 // })
                 this.getData()
             },
-            downloadSort(id,title,sort){
-                this.dialogFormVisible=true
-                this.form.id=id
-                this.form.title=title
-                this.form.sort=sort
+            downloadSort(id, title, sort) {
+                this.dialogFormVisible = true
+                this.form.id = id
+                this.form.title = title
+                this.form.sort = sort
             },
-            deleteAll(){
-                this.dialogVisible=true
+            deleteAll() {
+                this.dialogVisible = true
             },
-            ensureDelete(){
+            ensureDelete() {
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'ranking/del/ranktitle',
                     data: this.deleAppId,
-                    headers: {'token': sessionStorage.getItem('token'), 'device':'ios'}
+                    headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                 }).then(response => {
                     // console.log(response);
                     if (response.data.flag == 500) {
@@ -190,7 +204,7 @@
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
-                                this.dialogFormVisibleSort=false;
+                                this.dialogFormVisibleSort = false;
                                 this.getData()
                             }
                         });
@@ -203,16 +217,16 @@
                         });
                     }
                 });
-                this.dialogVisible=false
+                this.dialogVisible = false
             },
-            ensureSort(){
-                this.dialogFormVisible=false
+            ensureSort() {
+                this.dialogFormVisible = false
             },
-            addDownload(){
-                this.dialogFormVisibleSort=true
+            addDownload() {
+                this.dialogFormVisibleSort = true
             },
             addNewSort() {
-                if(this.sortItemForm.title.length<2){
+                if (this.sortItemForm.title.length < 2) {
                     this.$alert('请输入正确的排行榜名称', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -222,7 +236,7 @@
                             });
                         }
                     });
-                }else {
+                } else {
                     this.$ajax({
                         method: "POST",
                         url: BaseUrl + 'ranking/add/ranktitle',
@@ -276,8 +290,11 @@
             //         this.getCategory();
             //     }
             // },
-            updateDownload(id,title,rule,sort) {
-                this.$router.push({path: '/addDownload',query:{id:id,title:title,rule:rule,sort:sort,type:'ios'}})
+            updateDownload(id, title, rule, sort) {
+                this.$router.push({
+                    path: '/addDownload',
+                    query: {id: id, title: title, rule: rule, sort: sort, type: 'ios'}
+                })
             },
             // downloadApp(id){
             //     console.log(id)
@@ -348,13 +365,19 @@
         height: 120px;
         display: block;
     }
-    .cell{
-        overflow:hidden;text-overflow:ellipsis;word-break: break-all;white-space: nowrap!important;
+
+    .cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: nowrap !important;
     }
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/

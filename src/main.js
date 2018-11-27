@@ -14,17 +14,18 @@ import 'quill/dist/quill.bubble.css'
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 import md5 from 'js-md5';
-Vue.prototype.$md5 = md5;
-Vue.prototype.encryptByPublicKey = function (data){
-        var key = {
-            "modulus":"93c6fb8837702ea0f1032485a584ec4dd158501da0b5d4732a7ac99ebb5fed132cefdf40a4137e056c92b0044b4d8691c56cc628e51f8740d65922741e24519b9fa843494b03bafcdeb7087d6372ab0c91906a41f46aef3f8c61bc5a541566c8a3063cf09e6f7ff60f8ae052747ddae0b49472720aa15966a9fdf1c2dcdace65",
-            "publicExponent":"10001"
-        };
 
-        // 实例化js的RSA对象生成
-        var rsa = new RSAKey();
-        rsa.setPublic(key.modulus, key.publicExponent);
-        return rsa.encrypt(data);
+Vue.prototype.$md5 = md5;
+Vue.prototype.encryptByPublicKey = function (data) {
+    var key = {
+        "modulus": "93c6fb8837702ea0f1032485a584ec4dd158501da0b5d4732a7ac99ebb5fed132cefdf40a4137e056c92b0044b4d8691c56cc628e51f8740d65922741e24519b9fa843494b03bafcdeb7087d6372ab0c91906a41f46aef3f8c61bc5a541566c8a3063cf09e6f7ff60f8ae052747ddae0b49472720aa15966a9fdf1c2dcdace65",
+        "publicExponent": "10001"
+    };
+
+    // 实例化js的RSA对象生成
+    var rsa = new RSAKey();
+    rsa.setPublic(key.modulus, key.publicExponent);
+    return rsa.encrypt(data);
 }
 
 // var parse=require('apkreader')
@@ -45,16 +46,16 @@ Vue.use(FileSaver);
 Vue.use(XLSX)
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 new Vue({
-	el: '#app',
-	router,
-	store,
-	template: '<App/>',
-	components: { App }
+    el: '#app',
+    router,
+    store,
+    template: '<App/>',
+    components: {App}
 })
 
 router.beforeEach((to, from, next) => {
-    console.log(to);
-    console.log(from);
+    // console.log(to);
+    // console.log(from);
     if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
         if (sessionStorage.getItem('token')) { //判断本地是否存在access_token
             next();

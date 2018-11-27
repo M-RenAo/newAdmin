@@ -12,7 +12,7 @@
             <el-table
                 :data="tableData"
                 style="width: 100%"
-                >
+            >
                 <el-table-column
                     min-width="50"
                     label="安装挖矿（IA）"
@@ -44,24 +44,24 @@
                     prop="registerReward">
                 </el-table-column>
                 <!--<el-table-column-->
-                    <!--label="使用规则时间"-->
-                   <!--&gt;-->
-                    <!--<template scope="scope">-->
-                        <!--<span>{{scope.row.startDate}}~{{scope.row.endDate}}</span>-->
-                    <!--</template>-->
+                <!--label="使用规则时间"-->
+                <!--&gt;-->
+                <!--<template scope="scope">-->
+                <!--<span>{{scope.row.startDate}}~{{scope.row.endDate}}</span>-->
+                <!--</template>-->
                 <!--</el-table-column>-->
             </el-table>
             <!--<div class="Pagination">-->
-                <!--<el-pagination-->
-                    <!--@size-change="handleSizeChange"-->
-                    <!--@current-change="handleCurrentChange"-->
-                    <!--:current-page="currentPage"-->
-                    <!--:page-size="nowPageSize"-->
-                    <!--:page-sizes="[5, 10, 20, 40]"-->
-                    <!--:total="txcount"-->
-                    <!--layout="total, sizes, prev, pager, next, jumper"-->
-                <!--&gt;-->
-                <!--</el-pagination>-->
+            <!--<el-pagination-->
+            <!--@size-change="handleSizeChange"-->
+            <!--@current-change="handleCurrentChange"-->
+            <!--:current-page="currentPage"-->
+            <!--:page-size="nowPageSize"-->
+            <!--:page-sizes="[5, 10, 20, 40]"-->
+            <!--:total="txcount"-->
+            <!--layout="total, sizes, prev, pager, next, jumper"-->
+            <!--&gt;-->
+            <!--</el-pagination>-->
             <!--</div>-->
         </div>
     </div>
@@ -98,14 +98,14 @@
                 topForm: {},
                 trumpetForm: {},
                 searchForm: {},
-                compareStartDate:'',
-                compareEndDate:'',
+                compareStartDate: '',
+                compareEndDate: '',
                 pickerOptions0: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now()- 8.64e7;
+                        return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                timePeriod:''
+                timePeriod: ''
 
             };
         },
@@ -121,14 +121,14 @@
             getData() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'mining/getrulelist',
+                    url: BaseUrl + 'mining/getrulelist',
                     // data: form
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    // console.log(response)
-                    this.tableData = response.data.data;
-                    }else if(response.data.flag==201) {
+                    if (response.data.flag == 200) {
+                        // console.log(response)
+                        this.tableData = response.data.data;
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -206,7 +206,7 @@
 
             },
             add() {
-               this.$router.push({path:'/addDigRule'})
+                this.$router.push({path: '/addDigRule'})
             },
             // toggleSelection(rows) {
             //     if (rows) {
@@ -229,6 +229,7 @@
     .table_container {
         padding: 20px;
     }
+
     .myCell {
         .cell {
             .el-checkbox {
@@ -239,6 +240,7 @@
             }
         }
     }
+
     .littleButton {
         padding: 5px 10px !important;
         margin-left: 0 !important;

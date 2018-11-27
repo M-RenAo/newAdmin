@@ -5,18 +5,20 @@
                 <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
-                    <el-tabs v-model="activeName"  style="height: 40px;"   @tab-click="changeState()">
+                    <el-tabs v-model="activeName" style="height: 40px;" @tab-click="changeState()">
                         <el-tab-pane label="全部" name="3"></el-tab-pane>
                         <el-tab-pane label="黑名单" name="2"></el-tab-pane>
                         <el-tab-pane label="白名单" name="0"></el-tab-pane>
                         <el-tab-pane label="待定" name="1"></el-tab-pane>
                     </el-tabs>
                 </el-col>
-                <el-col  :span="12" style="display: flex;align-items: center;justify-content: flex-end">
+                <el-col :span="12" style="display: flex;align-items: center;justify-content: flex-end">
                     <el-button type="primary" @click="deleteAllUserBlack" style="margin-right:10px">批量删除</el-button>
                     <!--<el-button type="primary" @click="scanning" style="margin-right: 10px">扫描异常用户</el-button>-->
-                    <el-input placeholder="手机号／用户昵称／异常情况"  class="input-with-select" v-model="searchInfo" style="width:60%" @keyup.enter.native="searchCheck(searchInfo)">
-                        <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
+                    <el-input placeholder="手机号／用户昵称／异常情况" class="input-with-select" v-model="searchInfo"
+                              style="width:60%" @keyup.enter.native="searchCheck(searchInfo)">
+                        <el-button slot="append" @click="searchCheck(searchInfo)"><i class="el-icon-search"></i>
+                        </el-button>
                     </el-input>
                 </el-col>
 
@@ -24,7 +26,7 @@
             <el-table
                 :data="info"
                 @selection-change="handleSelectionChange"
-                style="width: 100%" >
+                style="width: 100%">
                 <el-table-column
                     type="selection"
                     width="55"
@@ -36,7 +38,8 @@
                 </el-table-column>
                 <el-table-column label="头像" prop="fileIcon" min-width="50">
                     <template scope="scope">
-                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.icon" style="width:30px;height:30px;" v-if="scope.row.icon!==''&&scope.row.icon!==undefined">
+                        <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.icon"
+                             style="width:30px;height:30px;" v-if="scope.row.icon!==''&&scope.row.icon!==undefined">
                     </template>
 
                 </el-table-column>
@@ -46,26 +49,29 @@
                 </el-table-column>
                 <el-table-column
                     label="异常情况"
-                    prop="describe" min-width="50" >
+                    prop="describe" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="IA总数"
-                    prop="ia" min-width="50" >
+                    prop="ia" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="实名状态"
-                    prop="realNameState" min-width="50" >
+                    prop="realNameState" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="审核结果"
-                    prop="checkResult" min-width="50" >
+                    prop="checkResult" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="操作"
-                    min-width="50" >
+                    min-width="50">
                     <template scope="scope">
-                        <el-button  type="text" @click="abnormalRecords(scope.row.userId,scope.row.userNickName)">异常记录</el-button>
-                        <el-button  type="text" @click="update(scope.row.id,scope.row.phone,scope.row.state)" style="margin-left:0">编辑</el-button>
+                        <el-button type="text" @click="abnormalRecords(scope.row.userId,scope.row.userNickName)">异常记录
+                        </el-button>
+                        <el-button type="text" @click="update(scope.row.id,scope.row.phone,scope.row.state)"
+                                   style="margin-left:0">编辑
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -85,28 +91,28 @@
         <el-dialog title="异常记录" :visible.sync="dialogTableVisible" width="1000px">
             <!--<div style="margin-bottom: 10px">用户：{{userNickName}}</div>-->
             <!--<div style="display:inline-block">-->
-                <!--<div style="display: inline-block">-->
-                    <!--<span style="font-size: 14px;width:80px;">类型：</span>-->
-                    <!--<el-select v-model="state" placeholder="请选择" @change="changeIAType">-->
-                        <!--<el-option-->
-                            <!--v-for="item in options"-->
-                            <!--:key="item.label"-->
-                            <!--:label="item.label"-->
-                            <!--:value="item.label">-->
-                        <!--</el-option>-->
-                    <!--</el-select>-->
-                <!--</div>-->
-                <!--<div style="display: inline-block">-->
-                    <!--<span style="font-size: 14px;width:80px;">时间：</span>-->
-                    <!--<el-date-picker-->
-                        <!--style="width:200px"-->
-                        <!--v-model="startDate"-->
-                        <!--type="datetimerange"-->
-                        <!--align="right"-->
-                        <!--:default-time="['12:00:00', '08:00:00']">-->
-                    <!--</el-date-picker>-->
-                <!--</div>-->
-                <!--<el-button type="primary" @click="serchByTime">搜索</el-button>-->
+            <!--<div style="display: inline-block">-->
+            <!--<span style="font-size: 14px;width:80px;">类型：</span>-->
+            <!--<el-select v-model="state" placeholder="请选择" @change="changeIAType">-->
+            <!--<el-option-->
+            <!--v-for="item in options"-->
+            <!--:key="item.label"-->
+            <!--:label="item.label"-->
+            <!--:value="item.label">-->
+            <!--</el-option>-->
+            <!--</el-select>-->
+            <!--</div>-->
+            <!--<div style="display: inline-block">-->
+            <!--<span style="font-size: 14px;width:80px;">时间：</span>-->
+            <!--<el-date-picker-->
+            <!--style="width:200px"-->
+            <!--v-model="startDate"-->
+            <!--type="datetimerange"-->
+            <!--align="right"-->
+            <!--:default-time="['12:00:00', '08:00:00']">-->
+            <!--</el-date-picker>-->
+            <!--</div>-->
+            <!--<el-button type="primary" @click="serchByTime">搜索</el-button>-->
             <!--</div>-->
             <el-table :data="tableData">
                 <el-table-column property="time" label="日期"></el-table-column>
@@ -161,7 +167,7 @@
 
 <script>
     import headTop from "../components/headTop";
-    import { baseUrl, baseImgPath } from "@/config/env";
+    import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
         getResturants,
@@ -173,18 +179,19 @@
     } from "@/api/getData";
     import FileSaver from 'file-saver'
     import XLSX from 'xlsx'
-    let moment=require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
-                tableData:[
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                    {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
+                tableData: [
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
 
 
                 ],
@@ -192,19 +199,19 @@
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                currentPageDetail:1,
-                nowPageSizeDetail:10,
-                txcountDetail:0,
+                currentPageDetail: 1,
+                nowPageSizeDetail: 10,
+                txcountDetail: 0,
                 activeName: '3',
                 searchInfo: "",
                 // innerVisible:false,
-                dialogVisible:false,
-                dialogTableVisible:false,
-                dialogFormVisible:false,
-                formLabelWidth:'120px',
-                form:{remark:''},
-                multipleSelection:[],
-                deleteIds:[],
+                dialogVisible: false,
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                formLabelWidth: '120px',
+                form: {remark: ''},
+                multipleSelection: [],
+                deleteIds: [],
                 // result:'',
                 // remarks:''
             };
@@ -212,20 +219,20 @@
         created() {
             this.$ajax({
                 method: "POST",
-                url: BaseUrl+'blacklist/scan',
-                data:{type:1},
+                url: BaseUrl + 'blacklist/scan',
+                data: {type: 1},
                 headers: {'token': sessionStorage.getItem('token')}
             }).then(response => {
-                if(response.data.flag==200){
+                if (response.data.flag == 200) {
                     this.$ajax({
                         method: "POST",
-                        url: BaseUrl+'blacklist/scan',
-                        data:{type:2},
+                        url: BaseUrl + 'blacklist/scan',
+                        data: {type: 2},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(res => {
-                        if(res.data.flag==200){
+                        if (res.data.flag == 200) {
                             this.getData()
-                        }else if(res.data.flag==201) {
+                        } else if (res.data.flag == 201) {
                             this.$alert(res.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
                                 callback: action => {
@@ -235,7 +242,7 @@
                         }
                     });
 
-                }else if(response.data.flag==201) {
+                } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -287,35 +294,40 @@
             //     });
             //
             // },
-            changeState(){
-                this.currentPage=1;
+            changeState() {
+                this.currentPage = 1;
                 this.getData()
             },
             getData() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'blacklist/query',
-                    data:{page:this.currentPage, size: this.nowPageSize,dstate:this.activeName==3?undefined:Number(this.activeName),keyword:this.searchInfo==''?undefined:this.searchInfo},
+                    url: BaseUrl + 'blacklist/query',
+                    data: {
+                        page: this.currentPage,
+                        size: this.nowPageSize,
+                        dstate: this.activeName == 3 ? undefined : Number(this.activeName),
+                        keyword: this.searchInfo == '' ? undefined : this.searchInfo
+                    },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.info = response.data.data.data;
                         this.txcount = response.data.data.count;
-                        this.info.forEach(item=>{
-                            if(item.dstate=='1'){
-                            item.checkResult='待定'
-                            }else if(item.dstate=='2') {
-                            item.checkResult='黑名单';
-                            }else if(item.dstate=='0'){
-                                item.checkResult='白名单'
+                        this.info.forEach(item => {
+                            if (item.dstate == '1') {
+                                item.checkResult = '待定'
+                            } else if (item.dstate == '2') {
+                                item.checkResult = '黑名单';
+                            } else if (item.dstate == '0') {
+                                item.checkResult = '白名单'
                             }
-                            if(item.name===undefined){
-                                item.realNameState='未实名'
-                            }else{
-                                item.realNameState='已实名'
+                            if (item.name === undefined) {
+                                item.realNameState = '未实名'
+                            } else {
+                                item.realNameState = '已实名'
                             }
                         })
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -327,7 +339,7 @@
             },
             searchCheck(searchInfo) {
                 this.searchInfo = searchInfo;
-                this.currentPage=1;
+                this.currentPage = 1;
                 this.getData()
             },
             handleSizeChange(pageSize) {
@@ -347,30 +359,30 @@
                 this.getData();
             },
             handleSelectionChange(val) {
-                this.multipleSelection=val
-                this. deleteIds = [];
+                this.multipleSelection = val
+                this.deleteIds = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
-                    this.deleteIds.push( this.multipleSelection[i].id)
+                    this.deleteIds.push(this.multipleSelection[i].id)
                 }
             },
-            deleteAllUserBlack(){
-                if( this.deleteIds.length==0){
+            deleteAllUserBlack() {
+                if (this.deleteIds.length == 0) {
                     this.$alert('请勾选用户', '提示', {
                         confirmButtonText: '确定',
                     });
-                }else{
-                    this.dialogVisible=true
+                } else {
+                    this.dialogVisible = true
                 }
             },
-            ensureDelete(){
+            ensureDelete() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'blacklist/delete',
-                    data:this.deleteIds,
+                    url: BaseUrl + 'blacklist/delete',
+                    data: this.deleteIds,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    this.dialogVisible=false
-                    if(response.data.flag==200){
+                    this.dialogVisible = false
+                    if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -381,20 +393,20 @@
                                 this.getData()
                             }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `error: ${ response.data.msg +',请重试'}`
+                                    message: `error: ${ response.data.msg + ',请重试'}`
                                 });
                             }
                         });
@@ -402,32 +414,32 @@
                     }
                 });
             },
-            abnormalRecords(){
-                this.dialogTableVisible=true
+            abnormalRecords() {
+                this.dialogTableVisible = true
 
             },
-            handleDetailSizeChange(){
+            handleDetailSizeChange() {
 
             },
-            handleDetailCurrentChange(){
+            handleDetailCurrentChange() {
 
             },
-            update(id,phone,state){
-              this.form={remark:''};
-              this.form.id=id;
-              this.form.phone=phone;
-              this.form.state=state;
-               this.dialogFormVisible=true
+            update(id, phone, state) {
+                this.form = {remark: ''};
+                this.form.id = id;
+                this.form.phone = phone;
+                this.form.state = state;
+                this.dialogFormVisible = true
             },
-            saveBlackState(){
+            saveBlackState() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'blacklist/update',
-                    data:this.form,
+                    url: BaseUrl + 'blacklist/update',
+                    data: this.form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    this.dialogFormVisible=false
-                    if(response.data.flag==200){
+                    this.dialogFormVisible = false
+                    if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -438,20 +450,20 @@
                                 this.getData()
                             }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `error: ${ response.data.msg +',请重试'}`
+                                    message: `error: ${ response.data.msg + ',请重试'}`
                                 });
                             }
                         });
@@ -517,20 +529,21 @@
         height: 120px;
         display: block;
     }
+
     /*.cell {*/
     /*overflow: hidden;*/
     /*text-overflow: ellipsis;*/
     /*word-break: break-all;*/
     /*white-space: nowrap !important;*/
     /*}*/
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/
-
 
 
 </style>

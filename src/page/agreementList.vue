@@ -4,7 +4,9 @@
             <el-tab-pane label="小协议" name="first">
                 <lit-agree v-if="activeName=='first'"></lit-agree>
             </el-tab-pane>
-            <el-tab-pane label="内容上链" name="second"><content-chain v-if="activeName=='second'"></content-chain></el-tab-pane>
+            <el-tab-pane label="内容上链" name="second">
+                <content-chain v-if="activeName=='second'"></content-chain>
+            </el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -13,25 +15,26 @@
     import litAgree from '../components/litAgree'
     import {getUserList, getUserCount} from '@/api/getData'
     import contentChain from '../components/contentChain'
+
     export default {
-        data(){
+        data() {
             return {
                 activeName: 'first'
             }
         },
         components: {
-            litAgree,contentChain
+            litAgree, contentChain
         },
-        created(){
+        created() {
         },
-        methods: {
-        },
+        methods: {},
     }
 </script>
 
 <style lang="less">
     @import '../style/mixin';
-    .table_container{
+
+    .table_container {
         padding: 20px;
     }
 </style>

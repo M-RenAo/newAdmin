@@ -29,7 +29,9 @@
                         </div>
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">数量：</span>
-                            <el-input v-model="searchForm.amount1" style="width:50px;"></el-input>-<el-input v-model="searchForm.amount2"  style="width:50px;"></el-input>
+                            <el-input v-model="searchForm.amount1" style="width:50px;"></el-input>
+                            -
+                            <el-input v-model="searchForm.amount2" style="width:50px;"></el-input>
                         </div>
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">备注：</span>
@@ -54,7 +56,10 @@
                     <span> 数据一经导入将不能修改或删除，是否继续导入？</span>
                     <span slot="footer" class="dialog-footer">
                      <el-button @click="ensureVisible = false">取 消</el-button>
-                     <el-button type="primary" style="position: relative"><input id="upload" type="file" @change="importExcel(this)"  accept=".csv,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="opacity:0;width:71px;height:41px;position: absolute;top:0;left: 0"
+                     <el-button type="primary" style="position: relative"><input id="upload" type="file"
+                                                                                 @change="importExcel(this)"
+                                                                                 accept=".csv,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                                                                 style="opacity:0;width:71px;height:41px;position: absolute;top:0;left: 0"
                      />导入</el-button>
                 </span>
                 </el-dialog>
@@ -62,7 +67,7 @@
             <el-table
                 :data="tableData"
                 style="width: 100%"
-                @selection-change="handleSelectionChange"  :cell-class-name="cellcb">
+                @selection-change="handleSelectionChange" :cell-class-name="cellcb">
                 <el-table-column
                     type="selection"
                     width="55"
@@ -96,22 +101,22 @@
                     prop="remark">
                 </el-table-column>
                 <!--<el-table-column-->
-                    <!--label="备注"-->
-                    <!--prop="remark">-->
+                <!--label="备注"-->
+                <!--prop="remark">-->
                 <!--</el-table-column>-->
                 <!--<el-table-column-->
-                    <!--label="状态"-->
-                    <!--prop="status">-->
+                <!--label="状态"-->
+                <!--prop="status">-->
                 <!--</el-table-column>-->
                 <!--<el-table-column-->
-                    <!--label="操作"-->
-                    <!--key="upload"-->
-                    <!--min-width="90"-->
+                <!--label="操作"-->
+                <!--key="upload"-->
+                <!--min-width="90"-->
                 <!--&gt;-->
-                    <!--<template scope="scope">-->
-                        <!--<el-button class="littleButton" style="margin-left:0;"  v-clipboard:copy="scope.row.bcdAddress" v-clipboard:success="onCopy" v-clipboard:error="onError" >复制地址-->
-                        <!--</el-button>-->
-                    <!--</template>-->
+                <!--<template scope="scope">-->
+                <!--<el-button class="littleButton" style="margin-left:0;"  v-clipboard:copy="scope.row.bcdAddress" v-clipboard:success="onCopy" v-clipboard:error="onError" >复制地址-->
+                <!--</el-button>-->
+                <!--</template>-->
                 <!--</el-table-column>-->
             </el-table>
             <div class="Pagination">
@@ -139,13 +144,14 @@
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
     import headTop from '../components/headTop'
-    let moment =require('moment')
+
+    let moment = require('moment')
     export default {
         data() {
             return {
                 id: '',
-                ensureVisible:false,
-                sysAppIds:'',
+                ensureVisible: false,
+                sysAppIds: '',
                 tableData: [],
                 options: [{
                     value: '4',
@@ -168,16 +174,16 @@
                 topForm: {},
                 trumpetForm: {},
                 searchForm: {},
-                compareStartDate:'',
-                compareEndDate:'',
-                multipleSelection:[],
-                cellPhones:[],
+                compareStartDate: '',
+                compareEndDate: '',
+                multipleSelection: [],
+                cellPhones: [],
                 pickerOptions0: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now()- 8.64e7;
+                        return time.getTime() < Date.now() - 8.64e7;
                     }
                 },
-                timePeriod:null
+                timePeriod: null
 
             };
         },
@@ -215,21 +221,21 @@
                     data: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
-                    this.tableData = response.data.data.data;
-                    this.txcount = response.data.data.count
-                    this.tableData.forEach(item => {
-                        if (item.flag == 1) {
-                            item.flag = '已发放'
-                        } else if (item.flag == 0) {
-                            item.flag = '未发放'
-                        }
-                    })
-                    this.tableData.forEach(item => {
-                        item.gtime=moment.utc(item.gtime).local().format('YYYY-MM-DD HH:mm:ss')
-                    })
-                    }else if(response.data.flag==201){
-                        this.$alert(response.data.msg+'，请重新登录', '提示', {
+                    if (response.data.flag == 200) {
+                        this.tableData = response.data.data.data;
+                        this.txcount = response.data.data.count
+                        this.tableData.forEach(item => {
+                            if (item.flag == 1) {
+                                item.flag = '已发放'
+                            } else if (item.flag == 0) {
+                                item.flag = '未发放'
+                            }
+                        })
+                        this.tableData.forEach(item => {
+                            item.gtime = moment.utc(item.gtime).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
@@ -269,16 +275,16 @@
 
                 this.getData(listParams);
             },
-            search(searchForm,state,timePeriod) {
-                if(timePeriod!=null){
-                    searchForm.gtime1=moment(timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss')
-                    searchForm.gtime2=moment(timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss')
+            search(searchForm, state, timePeriod) {
+                if (timePeriod != null) {
+                    searchForm.gtime1 = moment(timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss')
+                    searchForm.gtime2 = moment(timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss')
                 }
-                if(state!=4){
-                    searchForm.flag=state
+                if (state != 4) {
+                    searchForm.flag = state
                 }
-                searchForm.page=1;
-                searchForm.size=this.nowPageSize
+                searchForm.page = 1;
+                searchForm.size = this.nowPageSize
                 this.getData(searchForm)
             },
             // toggleSelection(rows) {
@@ -298,58 +304,58 @@
                 //      return item.flag=='未发放'
                 // })
 
-                this.multipleSelection = data.filter((item)=>{
+                this.multipleSelection = data.filter((item) => {
                     // item的条件
-                    return item.flag=='未发放'
+                    return item.flag == '未发放'
                 });
-                this.multipleSelection.forEach(item=>{
-                    item.flag=0;
-                    item.gtime=moment(item.gtime).utc().format('YYYY-MM-DD HH:mm:ss')
+                this.multipleSelection.forEach(item => {
+                    item.flag = 0;
+                    item.gtime = moment(item.gtime).utc().format('YYYY-MM-DD HH:mm:ss')
                 })
                 // console.log(this.multipleSelection)
             },
             setStatus() {
-                if(this.multipleSelection.length!=0){
-                this.multipleSelection.flag=0
-                this.$ajax({
-                    method: "POST",
-                    url: BaseUrl + 'gift/settle',
-                    data: this.multipleSelection,
-                    headers: {'token': sessionStorage.getItem('token')}
-                }).then(response => {
-                   if(response.data.flag==500){
-                       this.$alert((response.data.data.data!=undefined?response.data.data.data:'')+response.data.msg, '提示', {
-                           confirmButtonText: '确定',
-                           callback: action => {
-                               this.$message({
-                                   type: 'error',
-                                   message: `${ response.data.msg + '请重试'}`
-                               });
-                           }
-                       });
-                       return false
-                   }else if(response.data.flag==200){
-                       this.$alert(response.data.msg, '提示', {
-                           confirmButtonText: '确定',
-                           callback: action => {
-                               this.$message({
-                                   type: 'info',
-                                   message: `${ response.data.msg}`
-                               });
-                           }
-                       });
-                       this.getData({page: this.currentPage, size: this.nowPageSize})
-                   }else if(response.data.flag==201){
-                       this.$alert(response.data.msg+'，请重新登录', '提示', {
-                           confirmButtonText: '确定',
-                           callback: action => {
-                               this.$router.push('/')
-                           }
-                       });
+                if (this.multipleSelection.length != 0) {
+                    this.multipleSelection.flag = 0
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl + 'gift/settle',
+                        data: this.multipleSelection,
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(response => {
+                        if (response.data.flag == 500) {
+                            this.$alert((response.data.data.data != undefined ? response.data.data.data : '') + response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'error',
+                                        message: `${ response.data.msg + '请重试'}`
+                                    });
+                                }
+                            });
+                            return false
+                        } else if (response.data.flag == 200) {
+                            this.$alert(response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `${ response.data.msg}`
+                                    });
+                                }
+                            });
+                            this.getData({page: this.currentPage, size: this.nowPageSize})
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
 
-                   }
-                });
-                }else{
+                        }
+                    });
+                } else {
                     this.$alert('请勾选发放条目', '提示', {
                         confirmButtonText: '确定',
                         callback: action => {
@@ -364,7 +370,7 @@
             },
             importExcel(obj) {
                 let _this = this;
-                _this.ensureVisible=false;
+                _this.ensureVisible = false;
                 let inputDOM = this.$refs.inputer;
                 // 通过DOM取文件数据
                 this.file = event.currentTarget.files[0];
@@ -372,21 +378,21 @@
                 var f = this.file;
                 var reader = new FileReader();
                 //if (!FileReader.prototype.readAsBinaryString) {
-                FileReader.prototype.readAsBinaryString = function(f) {
+                FileReader.prototype.readAsBinaryString = function (f) {
                     var binary = "";
                     var rABS = false; //是否将文件读取为二进制字符串
                     var pt = this;
                     var wb; //读取完成的数据
                     var outdata;
                     var reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         var bytes = new Uint8Array(reader.result);
                         var length = bytes.byteLength;
-                        for(var i = 0; i < length; i++) {
+                        for (var i = 0; i < length; i++) {
                             binary += String.fromCharCode(bytes[i]);
                         }
                         var XLSX = require('xlsx');
-                        if(rABS) {
+                        if (rABS) {
                             wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
                                 type: 'base64'
                             });
@@ -400,21 +406,21 @@
                         let arr = []
                         this.da.map(v => {
                             let obj = {}
-                            obj.phone =v.电话.toString()
-                            if(v.币种==''||v.币种==undefined){
-                                obj.currency='IA'
-                            }else{
-                            obj.currency=v.币种
+                            obj.phone = v.电话.toString()
+                            if (v.币种 == '' || v.币种 == undefined) {
+                                obj.currency = 'IA'
+                            } else {
+                                obj.currency = v.币种
                             }
                             obj.amount = Number(v.数量)
-                            if(v.时间!=''){
-                            obj.gtime=moment(v.时间).utc().format('YYYY-MM-DD HH:mm:ss')
-                            }else{
-                                obj.gtime=moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                            if (v.时间 != '') {
+                                obj.gtime = moment(v.时间).utc().format('YYYY-MM-DD HH:mm:ss')
+                            } else {
+                                obj.gtime = moment().utc().format('YYYY-MM-DD HH:mm:ss')
                             }
-                            obj.remark=v.备注;
+                            obj.remark = v.备注;
 
-                            if(obj.phone!=undefined&&isNaN(obj.amount)==false){
+                            if (obj.phone != undefined && isNaN(obj.amount) == false) {
                                 arr.push(obj)
                             }
 
@@ -434,7 +440,7 @@
                             headers: {'token': sessionStorage.getItem('token')}
                         }).then(response => {
                             // console.log(response);
-                            if(response.data.flag==200){
+                            if (response.data.flag == 200) {
                                 _this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
@@ -444,8 +450,8 @@
                                         });
                                     }
                                 });
-                                _this.getData({page:  _this.currentPage, size:  _this.nowPageSize})
-                            }else if(response.data.flag==500){
+                                _this.getData({page: _this.currentPage, size: _this.nowPageSize})
+                            } else if (response.data.flag == 500) {
                                 _this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
@@ -455,8 +461,8 @@
                                         });
                                     }
                                 });
-                            }else if(response.data.flag==201){
-                                _this.$alert(response.data.msg+'请重新登录', '提示', {
+                            } else if (response.data.flag == 201) {
+                                _this.$alert(response.data.msg + '请重新登录', '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
                                         _this.$router.push('/')
@@ -475,7 +481,7 @@
                     }
                     reader.readAsArrayBuffer(f);
                 }
-                if(rABS) {
+                if (rABS) {
                     reader.readAsArrayBuffer(f);
                 } else {
                     reader.readAsBinaryString(f);
@@ -494,12 +500,14 @@
     .table_container {
         padding: 20px;
     }
+
     .my-cell {
         background-color: red;
-        .cell{
-            display:none!important;
+        .cell {
+            display: none !important;
         }
     }
+
     .littleButton {
         padding: 5px 10px !important;
         margin-left: 0 !important;

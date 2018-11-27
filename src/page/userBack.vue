@@ -4,16 +4,17 @@
             <el-row style="display:flex;margin-bottom: 30px;">
                 <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
                 <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
-                    <el-input placeholder="反馈关键字"  class="input-with-select" v-model="searchInfo" style="width:300px" @keyup.enter.native="searchCheck(searchInfo)">
-                        <el-button slot="append"  @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
-                    </el-input>
+                <el-input placeholder="反馈关键字" class="input-with-select" v-model="searchInfo" style="width:300px"
+                          @keyup.enter.native="searchCheck(searchInfo)">
+                    <el-button slot="append" @click="searchCheck(searchInfo)"><i class="el-icon-search"></i></el-button>
+                </el-input>
                 <el-button type="primary" @click="deleteAllUserBack" style="margin-left:30px">批量删除</el-button>
             </el-row>
             <el-table
                 :data="info"
                 class="test-class"
                 @selection-change="handleSelectionChange"
-                style="width: 100%" >
+                style="width: 100%">
                 <el-table-column
                     type="selection"
                     width="55"
@@ -24,9 +25,9 @@
                     prop="time" min-width="50">
                 </el-table-column>
                 <!--<el-table-column label="头像" prop="fileIcon" min-width="50">-->
-                    <!--<template scope="scope">-->
-                        <!--<img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.pic" style="width:30px;height:30px;" v-if="scope.row.pic!==''&&scope.row.pic!==undefined">-->
-                    <!--</template>-->
+                <!--<template scope="scope">-->
+                <!--<img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.pic" style="width:30px;height:30px;" v-if="scope.row.pic!==''&&scope.row.pic!==undefined">-->
+                <!--</template>-->
 
                 <!--</el-table-column>-->
                 <el-table-column
@@ -35,28 +36,30 @@
                 </el-table-column>
                 <el-table-column
                     label="姓名"
-                    prop="name" min-width="50" >
+                    prop="name" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="手机号"
-                    prop="contact" min-width="50" >
+                    prop="contact" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="反馈信息"
-                    prop="content" min-width="50" >
+                    prop="content" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="奖励"
-                    min-width="50" >
+                    min-width="50">
                     <template scope="scope">
                         {{scope.row.amount!==0?scope.row.amount+'IA':'未奖励'}}
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="操作"
-                    min-width="50" >
+                    min-width="50">
                     <template scope="scope">
-                        <el-button  type="text" @click="abnormalRecords(scope.row.userId,scope.row.content,scope.row)">查看</el-button>
+                        <el-button type="text" @click="abnormalRecords(scope.row.userId,scope.row.content,scope.row)">
+                            查看
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -76,12 +79,13 @@
         <el-dialog title="用户：" :visible.sync="dialogTableVisible">
             <div>
                 <p style="overflow: hidden;text-overflow: ellipsis; word-break: break-all;">
-                   {{content}}
+                    {{content}}
                 </p>
             </div>
             <div style="margin-top:20px" v-if="this.rowUpdate.amount==0||this.rowUpdate.amount==undefined">
                 <div>IA奖励</div>
-                <el-input type="number" v-model="rewardNum" placeholder="请输入奖励用户的ia数量" style="margin-top: 5px"></el-input>
+                <el-input type="number" v-model="rewardNum" placeholder="请输入奖励用户的ia数量"
+                          style="margin-top: 5px"></el-input>
                 <div style="color:#999;">奖励的IA无法修改和收回</div>
             </div>
             <span slot="footer" class="dialog-footer" v-if="this.rowUpdate.amount==0||this.rowUpdate.amount==undefined">
@@ -103,11 +107,11 @@
 </template>
 
 <script>
-    let moment=require('moment')
+    let moment = require('moment')
     export default {
         data() {
             return {
-                info:[],
+                info: [],
                 // tableData:[
                 //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
                 //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
@@ -130,24 +134,24 @@
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                currentPageDetail:1,
-                nowPageSizeDetail:10,
-                txcountDetail:0,
+                currentPageDetail: 1,
+                nowPageSizeDetail: 10,
+                txcountDetail: 0,
                 activeName: '3',
                 searchInfo: "",
                 // innerVisible:false,
-                dialogVisible:false,
-                dialogTableVisible:false,
-                dialogFormVisible:false,
-                formLabelWidth:'120px',
-                form:{},
-                content:'',
-                multipleSelection:[],
-                deleteIds:[],
-                rewardNum:'',
-                rowUpdate:{},
+                dialogVisible: false,
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                formLabelWidth: '120px',
+                form: {},
+                content: '',
+                multipleSelection: [],
+                deleteIds: [],
+                rewardNum: '',
+                rowUpdate: {},
                 // result:'',
-                test:''
+                test: ''
                 // remarks:''
             };
         },
@@ -161,23 +165,27 @@
             getData() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'feedback/query',
-                    data:{page:this.currentPage, size: this.nowPageSize,keyword:this.searchInfo==''?undefined:this.searchInfo},
+                    url: BaseUrl + 'feedback/query',
+                    data: {
+                        page: this.currentPage,
+                        size: this.nowPageSize,
+                        keyword: this.searchInfo == '' ? undefined : this.searchInfo
+                    },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    if(response.data.flag==200){
+                    if (response.data.flag == 200) {
                         this.info = response.data.data.data;
                         this.txcount = response.data.data.count;
-                        this.info.forEach(item=>{
-                                item.time = moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
-                            if(item.userName===undefined){
-                                item.personName='未实名'
-                            }else{
-                                item.personName=item.userName
+                        this.info.forEach(item => {
+                            item.time = moment.utc(item.time).local().format('YYYY-MM-DD HH:mm:ss')
+                            if (item.userName === undefined) {
+                                item.personName = '未实名'
+                            } else {
+                                item.personName = item.userName
                             }
                         })
-                        sessionStorage.setItem('userList',JSON.stringify(response.data.data.list))
-                    }else if(response.data.flag==201) {
+                        sessionStorage.setItem('userList', JSON.stringify(response.data.data.list))
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -192,30 +200,30 @@
                 this.getData()
             },
             handleSelectionChange(val) {
-                this.multipleSelection=val
-                this. deleteIds = [];
+                this.multipleSelection = val
+                this.deleteIds = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
-                    this.deleteIds.push( this.multipleSelection[i].id)
+                    this.deleteIds.push(this.multipleSelection[i].id)
                 }
             },
-            deleteAllUserBack(){
-                if( this.deleteIds.length==0){
+            deleteAllUserBack() {
+                if (this.deleteIds.length == 0) {
                     this.$alert('请勾选用户', '提示', {
                         confirmButtonText: '确定',
                     });
-                }else{
-                    this.dialogVisible=true
+                } else {
+                    this.dialogVisible = true
                 }
             },
-            ensureDelete(){
+            ensureDelete() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl+'feedback/delete',
-                    data:this.deleteIds,
+                    url: BaseUrl + 'feedback/delete',
+                    data: this.deleteIds,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    this.dialogVisible=false
-                    if(response.data.flag==200){
+                    this.dialogVisible = false
+                    if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
@@ -226,20 +234,20 @@
                                 this.getData()
                             }
                         });
-                    }else if(response.data.flag==201) {
+                    } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$router.push('/')
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `error: ${ response.data.msg +',请重试'}`
+                                    message: `error: ${ response.data.msg + ',请重试'}`
                                 });
                             }
                         });
@@ -250,7 +258,7 @@
             handleSizeChange(pageSize) {
                 // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                this.currentPage=1
+                this.currentPage = 1
                 this.getData();
             },
             handleCurrentChange(pageValue) {
@@ -258,12 +266,12 @@
                 this.currentPage = pageValue;
                 this.getData();
             },
-            abnormalRecords(id,content,row){
-                this.dialogTableVisible=true
-                this.content=content;
-                this.rowUpdate=row
-                if(this.rowUpdate.state===0) {
-                    this.rowUpdate.state=1
+            abnormalRecords(id, content, row) {
+                this.dialogTableVisible = true
+                this.content = content;
+                this.rowUpdate = row
+                if (this.rowUpdate.state === 0) {
+                    this.rowUpdate.state = 1
                     this.$ajax({
                         method: "POST",
                         url: BaseUrl + 'feedback/modify',
@@ -304,11 +312,11 @@
                 }
 
             },
-            ensureRewards(){
-                if(this.rewardNum!=='') {
-                    if(this.rewardNum>0) {
+            ensureRewards() {
+                if (this.rewardNum !== '') {
+                    if (this.rewardNum > 0) {
                         this.rowUpdate.amount = this.rewardNum
-                        this.rowUpdate.state=2
+                        this.rowUpdate.state = 2
                         this.$ajax({
                             method: "POST",
                             url: BaseUrl + 'feedback/modify',
@@ -347,24 +355,24 @@
                                 return false
                             }
                         });
-                    }else{
+                    } else {
                         this.$alert('请输入IA奖励', '提示', {
                             confirmButtonText: '确定',
                         });
                         return false
                     }
-                }else{
+                } else {
                     this.$alert('请填写完整', '提示', {
                         confirmButtonText: '确定',
                     });
                     return false
                 }
             },
-            update(){
-                this.form={};
-                this.dialogFormVisible=true
+            update() {
+                this.form = {};
+                this.dialogFormVisible = true
             },
-            saveBlackState(){
+            saveBlackState() {
                 // console.log(this.form)
             }
         }
@@ -425,22 +433,24 @@
         height: 120px;
         display: block;
     }
-    .test-class{
-      .cell {
-       overflow: hidden !important;
-       text-overflow: ellipsis !important;
-       word-break: break-all !important;
-        white-space: nowrap !important;
+
+    .test-class {
+        .cell {
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            word-break: break-all !important;
+            white-space: nowrap !important;
+        }
     }
+
+    .littleButton {
+        padding: 5px 10px !important;
+        margin-left: 0 !important;
     }
-    .littleButton{
-        padding:5px 10px!important;
-        margin-left: 0!important;
-    }
+
     /*.el-button{*/
     /*border: 0;*/
     /*}*/
-
 
 
 </style>
