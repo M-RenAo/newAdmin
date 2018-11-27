@@ -481,6 +481,7 @@
                 type: 'warning'
                 }).then(() => {
                     this.editdata.effect="立即创建";
+                    // this.editdata.effect=undefined;
                     this.$message({
                         type: 'success',
                         message: '立即创建成功!'
@@ -492,7 +493,7 @@
                         type: 'success',
                         message: '创建成功!'
                     });     
-                    this.setData()     
+                    this.setData()    
                 });
             },
             mapping(event){//图片上传
