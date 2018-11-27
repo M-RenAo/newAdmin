@@ -70,7 +70,7 @@
         created() {
          this.getData()
             this.positionList=JSON.parse(sessionStorage.getItem('positionList'));
-            console.log( this.positionList)
+            // console.log( this.positionList)
         },
         computed: {},
         methods: {
@@ -96,14 +96,14 @@
 
             },
             submitForm(appform){
-                console.log(appform)
+                // console.log(appform)
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl+'apply/update',
                     data: appform,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if(response.data.flag==500){
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

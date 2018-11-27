@@ -6,12 +6,12 @@
                     <div>统计时间：{{ctime}}</div>
                     <el-col :span="20" style="margin: 20px" v-if="activeName=='first'">
                         <el-form  ref="iaData" label-width="200px" class="form food_form">
-                            <div v-for="(item,index) in iaData" :key="index">
-                                <div  v-for="(nitem,index) in item" :key="index">
+                            <div v-for="item in iaData">
+                                <div  v-for="(nitem,index) in item">
                                   <p style="font-size: 18px;">{{index}}</p>
-                                  <div v-for="(litem,index) in nitem" :key="index">
-                                     <el-form-item v-for="(sitem,nindex) in litem" :label="nindex+'：'" prop="name" :key="nindex">
-                                    {{sitem|MoneyFormat}} {{index}}
+                                  <div v-for="litem in nitem">
+                                     <el-form-item v-for="(sitem,nindex) in litem" :label="nindex+'：'" prop="name">
+                                    {{sitem|MoneyFormat}} {{index==MINING?'IA':index}}
                                     </el-form-item>
                                    </div>
                                 </div>

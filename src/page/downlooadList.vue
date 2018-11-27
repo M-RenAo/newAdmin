@@ -176,7 +176,7 @@
                     data: this.deleAppId,
                     headers: {'token': sessionStorage.getItem('token'), 'device':'android'}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -215,7 +215,7 @@
                     data: this.form,
                     headers: {'token': sessionStorage.getItem('token'), 'device':'android'}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -257,7 +257,7 @@
                this.dialogFormVisibleSort=true
             },
             addNewSort() {
-                console.log(this.sortItemForm.title.length)
+                // console.log(this.sortItemForm.title.length)
                 if(this.sortItemForm.title.length<2){
                     this.$alert('请输入正确的排行榜名称', '提示', {
                         confirmButtonText: '确定',

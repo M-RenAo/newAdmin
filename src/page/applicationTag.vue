@@ -183,7 +183,7 @@
                         //     // 删除掉不需要传的参数
                         //     delete uploadPolicy[item];
                         // });
-                        console.log(event.target.files)
+                        // console.log(event.target.files)
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         // console.log(type)

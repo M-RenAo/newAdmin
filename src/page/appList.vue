@@ -164,7 +164,7 @@ export default {
     };
   },
   created() {
-      console.log(this.$route.path)
+      // console.log(this.$route.path)
       this.flag= this.$route.query.flag||'2';
       this.fileTagUnchoice= this.$route.query.tagcode||'-1'
       if(this.$route.query.active==0){
@@ -279,7 +279,7 @@ export default {
         this.queryListData(params)
     },
     handleSizeChange(pageSize) {
-      console.log(">>>>>>pageSize", pageSize);
+      // console.log(">>>>>>pageSize", pageSize);
       this.nowPageSize = pageSize;
       const listParams = {
         activeName: this.activeName,
@@ -290,7 +290,7 @@ export default {
       this.queryListData(listParams);
     },
     handleCurrentChange(pageValue) {
-      console.log(">>>>>>pageValue", pageValue);
+      // console.log(">>>>>>pageValue", pageValue);
       this.currentPage = pageValue;
       const listParams = {
         activeName: this.activeName,
@@ -311,7 +311,7 @@ export default {
       this.$ajax
         .get(BaseUrl + "alioss/signatureurl／" + id + "/apply",{headers:{'token': sessionStorage.getItem('token'),'device':'android'}})
         .then(response => {
-          console.log(response);
+          // console.log(response);
           if(response.data.flag==200){
           this.url = response.data.data;
           window.open(this.url, "_self");
@@ -398,7 +398,7 @@ export default {
                       const tHeader = ['应用图标', '应用名', '应用类型', '安装包大小','版本号','最新上传时间']
                       const filterVal = ['fileIcon', 'appName', 'fileType', 'fileSize','fileVersion','fileDate']
                       const list = this.info
-                      console.log(this.info)
+                      // console.log(this.info)
                       const data = this.formatJson(filterVal, list)
                       excel.export_json_to_excel({
                           header: tHeader,

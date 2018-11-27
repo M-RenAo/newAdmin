@@ -331,7 +331,7 @@
                 this.getData()
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.currentPage = 1;
                 // const listParams = {
@@ -342,7 +342,7 @@
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 this.getData();
             },
