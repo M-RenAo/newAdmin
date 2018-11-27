@@ -54,12 +54,12 @@
                         <!--<el-menu-item index="appSort">应用排序</el-menu-item>-->
                         <el-menu-item index="checkList">应用审核</el-menu-item>
 					</el-submenu>
-                    <!--<el-submenu index="'4c'">-->
-                        <!--<template slot="title"><i class="el-icon-document"></i>自选管理</template>-->
-                        <!--&lt;!&ndash;<el-menu-item index="quizList">竞猜管理</el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="agreementList">小协议</el-menu-item>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<el-menu-item index="guessing">竞猜管理</el-menu-item>&ndash;&gt;-->
-                    <!--</el-submenu>-->
+                    <el-submenu index="'4c'">
+                        <template slot="title"><i class="el-icon-document"></i>自选管理</template>
+                        <!--<el-menu-item index="quizList">竞猜管理</el-menu-item>-->
+                        <el-menu-item index="agreementList">小协议</el-menu-item>
+                        <!--<el-menu-item index="guessing">竞猜管理</el-menu-item>-->
+                    </el-submenu>
                     <!--<div v-for="item in items">-->
                         <!--<template v-if="item.subs">-->
                             <!--<el-submenu :index="item.index" :key="item.index">-->

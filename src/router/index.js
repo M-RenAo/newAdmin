@@ -26,7 +26,7 @@ const applicationModule=resolve =>require(['@/page/applicationModule'],resolve);
 const applicationTag=resolve =>require(['@/page/applicationTag'],resolve);
 const dig=resolve =>require(['@/page/dig'],resolve);
 const willUpdateApps=resolve =>require(['@/page/willUpdateApps'],resolve);
-const chainWallet=resolve =>require(['@/page/chainWallet'],resolve);
+// const chainWallet=resolve =>require(['@/page/chainWallet'],resolve);
 const appInfo=resolve =>require(['@/page/appInfo'],resolve);
 const appSort=resolve =>require(['@/page/appSort'],resolve);
 const realName=resolve =>require(['@/page/realName'],resolve);
@@ -95,10 +95,6 @@ const routes = [
         },{
             path: '/dig',
             component: dig,
-            meta: ['数据概览','挖矿'],
-        },{
-            path: '/chainWallet',
-            component: chainWallet,
             meta: ['数据概览','挖矿'],
         },{
             path: '/iaBcdChange',

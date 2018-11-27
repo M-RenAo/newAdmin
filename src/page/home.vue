@@ -15,8 +15,6 @@
 <script>
 	import headTop from '../components/headTop'
     import basicData from '../components/basicData'
-    import pageData from '../components/pageData'
-    import useHours from '../components/useHours'
 	import {userCount, orderCount, getUserCount, getOrderCount, adminDayCount, adminCount} from '@/api/getData'
     export default {
     	data(){
