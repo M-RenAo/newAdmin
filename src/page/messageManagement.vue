@@ -64,6 +64,10 @@
                     </template>
                 </el-table-column>
                 <el-table-column
+                    label="点赞"
+                    prop="upvotes" min-width="50" >
+                </el-table-column>
+                <el-table-column
                     label="作者"
                     prop="author" min-width="50" >
                 </el-table-column>
@@ -238,6 +242,7 @@
                     this.tableData=res.data.data
                     this.currentPage=this.dataparams.pageNum
                     this.nowPageSize=this.dataparams.pageSize
+                    console.log(this.tableData)
                     }
                 );
                 
