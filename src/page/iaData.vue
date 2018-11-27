@@ -11,7 +11,7 @@
                                   <p style="font-size: 18px;">{{index}}</p>
                                   <div v-for="litem in nitem">
                                      <el-form-item v-for="(sitem,nindex) in litem" :label="nindex+'：'" prop="name">
-                                    {{sitem|MoneyFormat}} {{index==MINING?'IA':index}}
+                                    {{sitem|MoneyFormat}} {{index=='MINING'?'IA':index}}
                                     </el-form-item>
                                    </div>
                                 </div>
