@@ -242,10 +242,10 @@
                     this.tableData=res.data.data
                     this.currentPage=this.dataparams.pageNum
                     this.nowPageSize=this.dataparams.pageSize
-                    console.log(this.tableData)
+                    // console.log(this.tableData)
                     }
                 );
-                
+
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
                             params: this.numparams,
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
@@ -286,7 +286,7 @@
                         key:this.searchInfo,
                         pageNum:this.currentPage,
                         pageSize:this.nowPageSize
-                        
+
                         }
             },
             paramsss(){

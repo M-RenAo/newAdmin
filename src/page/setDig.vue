@@ -126,7 +126,7 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     if(response.data.flag==200){
-                    console.log(response)
+                    // console.log(response)
                     this.tableData = response.data.data;
                     }else if(response.data.flag==201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {

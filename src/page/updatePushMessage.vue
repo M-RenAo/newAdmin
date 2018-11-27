@@ -104,7 +104,7 @@
                     .then(response => {
                         if(response.data.flag==200) {
 
-                            console.log(response);
+                            // console.log(response);
                             this.appForm = response.data.data;
                             this.pushDate = moment.utc(this.appForm.pushDate).local().format('YYYY-MM-DD HH:mm:ss')
                             this.uploadIconUrl = response.data.data.cover
@@ -343,7 +343,7 @@
                         }
                    })
 
-                console.log(appForm)
+                // console.log(appForm)
             }
 
         },

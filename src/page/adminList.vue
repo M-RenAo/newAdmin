@@ -93,11 +93,11 @@
         methods: {
             hh(){
                 let el=this.$refs.aaa;
-                console.log(el)
+                // console.log(el)
             },
             getData () {
                 this.$ajax.get(BaseUrl+'all'+'/'+this.currentPage+'/'+this.nowPageSize, {headers:{'token':sessionStorage.getItem('token')}}).then(response => {
-                    console.log(response)
+                    // console.log(response)
                     if(response.data.flag==200){
                     this.adminList =  response.data.data.admin.filter((item)=>{
                         return item.adminName!=sessionStorage.getItem('userName')
@@ -131,7 +131,7 @@
                 this.getData()
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.getData();
             },

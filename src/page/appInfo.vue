@@ -185,7 +185,7 @@
                             this.tagText='未定义'
                         }
                     this.positonTexts=this.positonText.join(' / ')
-                    console.log( this.showList)
+                    // console.log( this.showList)
                     }else if(response.data.flag==201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',

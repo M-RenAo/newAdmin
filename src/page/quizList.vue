@@ -302,7 +302,7 @@
                 });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -319,7 +319,7 @@
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -349,10 +349,10 @@
                 this.compareStartDate=new Date(startDate);
                 this.compareEndDate=new Date(endDate);
                 this.timePeriod=[this.compareStartDate,this.compareEndDate];
-                console.log(id)
+                // console.log(id)
             },
             topEnsure(){
-                console.log(this.timePeriod);
+                // console.log(this.timePeriod);
                 if(this.timePeriod[0]<this.compareStartDate){
                     this.$alert('开始时间不能小于竞猜开始时间', '提示', {
                         confirmButtonText: '确定',
@@ -397,7 +397,7 @@
                     data:this.placeTopForm,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    console.log(response)
+                    // console.log(response)
                     if(response.data.flag==500){
                         this.ensureTopVisible=false;
                         this.$alert(response.data.msg, '提示', {

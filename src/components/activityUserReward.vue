@@ -239,7 +239,7 @@
                 });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", this.searchForm);
+                // console.log(">>>>>>pageSize", this.searchForm);
                 this.nowPageSize = pageSize;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -254,7 +254,7 @@
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -292,7 +292,7 @@
             // },
             handleSelectionChange(val) {
                 const data = JSON.parse(JSON.stringify(val));
-                console.log('>>>>>>data',data)
+                // console.log('>>>>>>data',data)
                 // data.filter((item)=>{
                 //     // item的条件
                 //      return item.flag=='未发放'
@@ -306,7 +306,7 @@
                     item.flag=0;
                     item.gtime=moment(item.gtime).utc().format('YYYY-MM-DD HH:mm:ss')
                 })
-                console.log(this.multipleSelection)
+                // console.log(this.multipleSelection)
             },
             setStatus() {
                 if(this.multipleSelection.length!=0){
@@ -433,7 +433,7 @@
                             data: arr,
                             headers: {'token': sessionStorage.getItem('token')}
                         }).then(response => {
-                            console.log(response);
+                            // console.log(response);
                             if(response.data.flag==200){
                                 _this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',

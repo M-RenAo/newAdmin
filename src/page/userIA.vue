@@ -162,7 +162,7 @@
                 // });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 // this.nowPageSize = pageSize;
                 // if (this.searchForm == '') {
                 //     var listParams = {
@@ -179,7 +179,7 @@
                 // this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 // this.currentPage = pageValue;
                 // if (this.searchForm == '') {
                 //     var listParams = {

@@ -168,7 +168,7 @@
                     url: BaseUrl+'imwallet/getIaData',
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    console.log(response)
+                    // console.log(response)
                     if(response.data.flag==200){
                        this.data1=response.data.data.data1;
                        this.data2=response.data.data.data2;
@@ -196,7 +196,7 @@
                     data:{btime:moment(this.dataTime[0]).format('YYYY-MM-DD'),etime:moment(this.dataTime[1]).format('YYYY-MM-DD'),page:this.currentPage,size:this.nowPageSize},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    console.log(response)
+                    // console.log(response)
                     if(response.data.flag==200){
                         this.tableData = response.data.data.data;
                         this.txcount = response.data.data.count;
@@ -214,10 +214,10 @@
                 });
             },
             handleSizeChange(size){
-                console.log(size)
+                // console.log(size)
             },
             handleCurrentChange(page){
-                console.log(page)
+                // console.log(page)
             },
             serchData(dataTime){
                 if(dataTime==null){
@@ -255,7 +255,7 @@
                     data:{btime:moment(this.dataTime[0]).format('YYYY-MM-DD'),etime:moment(this.dataTime[1]).format('YYYY-MM-DD')},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    console.log(response)
+                    // console.log(response)
                     if(response.data.flag==200){
                         this.sevenDay = response.data.data.data[0];
                         this.sevenDate = response.data.data.data[1];

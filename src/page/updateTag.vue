@@ -254,7 +254,7 @@
                     this.TagForm=item
                 }
             })
-            console.log(this.TagForm);
+            // console.log(this.TagForm);
            if(this.TagForm.icon!==undefined&&this.TagForm.icon!=='tag_default.jpg'){
                this.urlTagIcon=this.TagForm.icon
            }
@@ -284,7 +284,7 @@
                                 }
                             });
                             this.appList.forEach((item,index) => {
-                                console.log(index)
+                                // console.log(index)
                                 item.index=index+1+(this.currentPage-1)*this.nowPageSize
                             });
                             this.appList.forEach(item => {
@@ -340,12 +340,12 @@
                         //     // 删除掉不需要传的参数
                         //     delete uploadPolicy[item];
                         // });
-                        console.log(event.target.files)
+                        // console.log(event.target.files)
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
-                        console.log(type)
+                        // console.log(type)
                         let size = img1.size; //文件的大小，判断图片的大小
-                        console.log(img1)
+                        // console.log(img1)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -394,7 +394,7 @@
                         data: this.rankAndApp,
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     }).then(response => {
-                        console.log(response);
+                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -458,7 +458,7 @@
                     data: this.appId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -544,7 +544,7 @@
              this.$router.push({ path: "/updateApp", query:  {id:id,type:this.$route.query.type,page:this.currentPage,size:this.nowPageSize}});
             },
             saveUpdateDown(){
-                console.log(this.urlTagIcon)
+                // console.log(this.urlTagIcon)
                 if(this.urlTagIcon===null){
                     this.TagForm.icon='tag_default.jpg'
                 }else{
@@ -556,7 +556,7 @@
                     data: this.TagForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
