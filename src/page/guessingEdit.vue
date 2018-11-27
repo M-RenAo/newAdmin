@@ -498,7 +498,6 @@
                 }).then(() => {
                     this.editdata.effect="立即创建";
                     // this.editdata.effect=undefined;
-
                     this.$message({
                         type: 'success',
                         message: '立即创建成功!'
