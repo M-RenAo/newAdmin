@@ -113,7 +113,7 @@
                         </div>
                         <el-input v-model="address" style="margin:10px 0" placeholder="请输入验证地址"></el-input>
                     </div>
-                
+
                     <el-button @click="closeDialog">确定</el-button>
                 </div>
             </el-dialog>
@@ -300,9 +300,9 @@
         methods: {
             isNum(){
                 let re = /^[0-9]*$/;
-                if (!re.test(this.res)) { 
+                if (!re.test(this.res)) {
                     this.isnum=true
-            　　} 
+            　　}
                 if(this.res.length!=3){
                     this.isnums=true
                 }
@@ -335,7 +335,7 @@
                 }
            },
            closeDialog(){
-               
+
                let answerType=""
                if(this.radio==1){
                     answerType="A"
@@ -363,7 +363,7 @@
                         },
                         headers: {'token': sessionStorage.getItem('token')}
                         }).then(res=>{
-                            
+
                             if(res.data.flag==200){
                                 setTimeout(()=>{
                                     this.getData()
@@ -373,8 +373,8 @@
                                     type: 'success'
                                     });
                                 },500)
-                                
-                                
+
+
                             }else{
                                 this.$message({
                                 showClose: true,
@@ -382,7 +382,7 @@
                                 type: 'error'
                                 });
                             }
-                            console.log(res) 
+                            // console.log(res)
                         })
            },
            handleSizeChange(pageSize) {
@@ -398,8 +398,8 @@
                 this.getGuessdata();
             },
             optsSizeChange(pageSize){
-                this.optsPageSize=pageSize;   
-                this.getGuessdata();   
+                this.optsPageSize=pageSize;
+                this.getGuessdata();
             },
             closeSeeDialog(){
                 this.seedialogVisible=false
@@ -449,10 +449,10 @@
                                 this.$message({
                                     type: 'success',
                                     message: '更改成功!'
-                                }); 
+                                });
                                 this.getData()
                             }
-                            
+
                         })
             },
             getData(){
@@ -472,8 +472,8 @@
                                 }
                             })
                             this.tableData=res.data.data.data
-                            this.guesscount=res.data.data.count    
-                            console.log(this.tableData) 
+                            this.guesscount=res.data.data.count
+                            console.log(this.tableData)
                         })
             },
             getGuessdata(){
@@ -508,9 +508,9 @@
             }
         },
         watch:{
-          
+
         }
-     
+
 
     };
 </script>

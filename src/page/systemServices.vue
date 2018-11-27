@@ -122,7 +122,7 @@
                     }else{
                         this.value2=true
                     }
-                    console.log(this.iaData.details)
+                    // console.log(this.iaData.details)
                     }else if(response.data.flag==201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',

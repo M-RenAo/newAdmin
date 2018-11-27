@@ -240,7 +240,7 @@
                 this.$ajax
                     .get(BaseUrl + "auth/search/"+this.searchInfo,{headers: {'token':sessionStorage.getItem('token')}})
                     .then(response => {
-                        console.log(response);
+                        // console.log(response);
                         if(response.data.flag==200){
                         this.info = response.data.data;
                         this.txcount = response.data.data.length;
@@ -268,7 +268,7 @@
                     });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 const listParams = {
                     activeName: this.activeName,
@@ -278,7 +278,7 @@
                 this.queryListData(listParams);
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 const listParams = {
                     activeName: this.activeName,
@@ -318,7 +318,7 @@
                     data: this.form,
                     headers:{'token':sessionStorage.getItem('token')}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if(response.data.flag==500){
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

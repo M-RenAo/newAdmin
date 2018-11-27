@@ -454,7 +454,7 @@
                             this.showList.push(response.data.data);
 
                             this.appForm.fileShow = this.showList.join(',');
-                            console.log('>>>>>>>', this.appForm.showPict)
+                            // console.log('>>>>>>>', this.appForm.showPict)
                         });
                     });
             },

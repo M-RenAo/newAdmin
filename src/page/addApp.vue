@@ -182,9 +182,9 @@
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
-                        console.log(type)
+                        // console.log(type)
                         let size = img1.size; //文件的大小，判断图片的大小
-                        console.log(img1)
+                        // console.log(img1)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -274,7 +274,7 @@
                             this.appimageUrlArray.push(response.data.data);
 
                             this.appForm.fileShow = this.appimageUrlArray.join(',');
-                            console.log('>>>>>>>', this.appForm.showPict)
+                            // console.log('>>>>>>>', this.appForm.showPict)
                         });
                     });
             },
@@ -365,7 +365,7 @@
             removeImage(index) {
                 this.appimageUrlArray.splice(index, 1);
                 this.appForm.showPict=this.appimageUrlArray.join(',')
-                console.log(this.appimageUrlArray)
+                // console.log(this.appimageUrlArray)
             }
         },
 

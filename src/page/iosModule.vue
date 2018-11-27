@@ -380,7 +380,7 @@
                     data: this.updataNewsForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device':'ios'}
                 }).then(response => {
-                    console.log(response);
+                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -427,7 +427,7 @@
                             data: formData,
                             headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                         }).then(response => {
-                            console.log(response);
+                            // console.log(response);
                             if (response.data.flag == 500) {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',

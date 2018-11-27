@@ -194,7 +194,7 @@
         },
         methods: {
             queryListData({ activeName, pageValue, pageSize }) {
-                console.log(pageValue+'>>>>>>>'+ pageSize)
+                // console.log(pageValue+'>>>>>>>'+ pageSize)
                 this.$ajax
                     .get(`${BaseUrl}apply/all`,{params:{pageCode:pageValue || 1,pageSize:pageSize || 10,state:activeName || 0,fileState:this.flag,tagId: this.fileTagUnchoice==-1?null:this.fileTagUnchoice,keyWords:(this.searchInfo!=null&&this.searchInfo!='')?this.searchInfo:null},headers: {'token': sessionStorage.getItem('token'),'device':'ios'}})
                     .then(response => {
@@ -256,7 +256,7 @@
             this.queryListData(params)
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 const listParams = {
                     activeName: this.activeName,
@@ -266,7 +266,7 @@
                 this.queryListData(listParams);
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 const listParams = {
                     activeName: this.activeName,
@@ -282,7 +282,7 @@
             //     this.$router.push({path: "/willUpdateApps", query: {id:id,type:'ios'}});
             // },
             downloadApp(fileDir) {
-                console.log(fileDir);
+                // console.log(fileDir);
                 window.open(fileDir, "_self")
                 // this.$ajax
                 //     .get(BaseUrl + "alioss/signatureurl／" + id + "/apply",{headers: {'token': sessionStorage.getItem('token'),'device':'ios'}})
@@ -374,7 +374,7 @@
                                 const tHeader = ['应用图标', '应用名', '应用类型', '安装包大小', '版本号', '最新上传时间']
                                 const filterVal = ['fileIcon', 'appName', 'fileType', 'fileSize', 'fileVersion', 'fileDate']
                                 const list = this.info
-                                console.log(this.info)
+                                // console.log(this.info)
                                 const data = this.formatJson(filterVal, list)
                                 excel.export_json_to_excel({
                                     header: tHeader,

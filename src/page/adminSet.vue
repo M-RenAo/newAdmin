@@ -57,7 +57,7 @@
                                 'token': sessionStorage.getItem('token')
                             }
                         }).then(response => {
-                            console.log(response);
+                            // console.log(response);
                            if(response.data.flag==200){
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',

@@ -112,7 +112,7 @@
         },
         created() {
             this.getTagData()
-            console.log(this.$route.path)
+            // console.log(this.$route.path)
         },
         components: {
             headTop
@@ -186,9 +186,9 @@
                         console.log(event.target.files)
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
-                        console.log(type)
+                        // console.log(type)
                         let size = img1.size; //文件的大小，判断图片的大小
-                        console.log(img1)
+                        // console.log(img1)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -235,7 +235,7 @@
                         data: this.form,
                         headers: {'token': sessionStorage.getItem('token'),'device':'android'}
                     }).then(response => {
-                        console.log(response);
+                        // console.log(response);
                         if(response.data.flag==500){
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -340,7 +340,7 @@
             },
             ensureDelete(){
                 this.dialogVisible=false;
-               console.log(this.deleteId);
+               // console.log(this.deleteId);
                 this.$ajax.get(BaseUrl + 'apptag/delete/' + this.deleteId,{headers: {'token': sessionStorage.getItem('token'),'device':'android'}}).then(response => {
                     // console.log(response)
                     if(response.data.flag==200){

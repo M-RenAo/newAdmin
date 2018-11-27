@@ -248,13 +248,13 @@
                 });
             },
             handleSizeChange(pageSize) {
-                console.log(">>>>>>pageSize", pageSize);
+                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.currentPage=1
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                console.log(">>>>>>pageValue", pageValue);
+                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 this.getData();
             },
@@ -365,7 +365,7 @@
                 this.dialogFormVisible=true
             },
             saveBlackState(){
-                console.log(this.form)
+                // console.log(this.form)
             }
         }
     };

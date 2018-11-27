@@ -245,7 +245,7 @@
                     // console.log(this.tableData)
                     }
                 );
-                
+
                 this.$ajax.get(BaseUrl+"newsFlash/articleAmount",{
                             params: this.numparams,
                             headers: {'token': sessionStorage.getItem('token')}}).then(res=>{
@@ -286,7 +286,7 @@
                         key:this.searchInfo,
                         pageNum:this.currentPage,
                         pageSize:this.nowPageSize
-                        
+
                         }
             },
             paramsss(){
