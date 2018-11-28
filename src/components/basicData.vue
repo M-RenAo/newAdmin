@@ -66,24 +66,24 @@
                 <!--</el-table-column>-->
                 <el-table-column
                     label="新增注册用户"
-                    prop="userSum">
+                    prop="regiNum">
                 </el-table-column>
                 <el-table-column
                     label="实名用户"
                     prop="authNum">
                 </el-table-column>
-                <el-table-column
-                    label="邀请好友用户"
-                    prop="authNum">
-                </el-table-column>
-                <el-table-column
-                    label="经邀请注册用户"
-                    prop="authNum">
-                </el-table-column>
                 <!--<el-table-column-->
-                <!--label="总用户"-->
-                <!--prop="userSum">-->
+                    <!--label="邀请好友用户"-->
+                    <!--prop="authNum">-->
                 <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--label="经邀请注册用户"-->
+                    <!--prop="authNum">-->
+                <!--</el-table-column>-->
+                <el-table-column
+                label="总用户"
+                prop="userSum">
+                </el-table-column>
                 <!--<el-table-column-->
                 <!--label="注册用户"-->
                 <!--prop="regiNum">-->
@@ -146,7 +146,7 @@
                 endDate1: moment().add('days', 1).format('YYYY-MM-DD'),
                 startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2: moment().add('days', 1).format('YYYY-MM-DD'),
-                dataName: ['注册用户', '实名认证用户', '邀请好友用户', '登录用户', '经邀请注册用户']
+                dataName: ['新增注册用户', '实名认证用户', '总用户', '登录用户']
                 // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
