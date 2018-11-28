@@ -19,7 +19,7 @@
                                 @change='mapping' type="file"
                                 style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;"
                                 class="upload"></el-button>
-                            <el-button type="primary" v-if="editdata.image!==''" @click="editdata.image=''"
+                            <el-button type="primary" v-if="editdata.image!==undefined&&editdata.image!==''" @click="deleteImg"
                                        class="btnone">删除
                             </el-button>
                         </div>
@@ -311,6 +311,37 @@
                     this.editdata.state = 1;
                     this.submit()
                 }
+            },
+            deleteImg(){
+                // console.log(this.editdata.image)
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'common/cleanImage',
+                    params: {objectName:this.editdata.image},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.editdata.image=""
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             },
             submit() {//提交
                 this.$refs.editdata.validate(async (valid) => {
