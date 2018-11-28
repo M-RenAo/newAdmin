@@ -123,6 +123,36 @@
         },
         methods: {
             add_img(event) {
+                if(this.uploadIconUrl!==''&&event.target.files[0]!==undefined){
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl + 'common/cleanImage',
+                        params: {objectName:this.uploadIconUrl},
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(response => {
+                        // console.log(response);
+                        if (response.data.flag == 500) {
+                            this.$alert(response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `${ response.data.msg + ',请重试'}`
+                                    });
+                                }
+                            });
+                        } else if (response.data.flag == 200) {
+                            this.uploadIconUrl=''
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        }
+                    });
+                }
                 let uploadPolicy = null;
                 this.$ajax
                     .get(BaseUrl + "alioss/getpolicy", {

@@ -114,7 +114,7 @@
                                 <span>上传</span> <input @change='add_img' type="file"
                                                        style="opacity: 0;width:70px;height: 40px;position: absolute;top:0;left:0">
                             </el-button>
-                            <el-button type="primary" v-if="advertisePic!==null" @click="advertisePic=null">删除
+                            <el-button type="primary" v-if="advertisePic!==null" @click="deletePic()">删除
                             </el-button>
                         </div>
                     </el-form-item>
@@ -405,6 +405,36 @@
                                 this.getTagData()
                             }
                         });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+            },
+            deletePic(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'common/cleanImage',
+                    params: {objectName:this.advertisePic},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.advertisePic=null
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
