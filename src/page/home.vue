@@ -33,8 +33,8 @@
         components: {
             headTop,
             basicData,
-            pageData,
-            useHours
+            // pageData,
+            // useHours
         },
         mounted() {
 

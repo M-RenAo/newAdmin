@@ -314,7 +314,7 @@
             },
             ensureRewards() {
                 if (this.rewardNum !== '') {
-                    if (this.rewardNum > 0) {
+                    if (this.rewardNum > 0&&this.rewardNum<=10000) {
                         this.rowUpdate.amount = this.rewardNum
                         this.rowUpdate.state = 2
                         this.$ajax({
@@ -356,7 +356,7 @@
                             }
                         });
                     } else {
-                        this.$alert('请输入IA奖励', '提示', {
+                        this.$alert('请输入0~10000内的IA奖励', '提示', {
                             confirmButtonText: '确定',
                         });
                         return false
