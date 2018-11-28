@@ -68,7 +68,7 @@
                     label="操作"
                     min-width="50">
                     <template scope="scope">
-                        <el-button type="text" @click="abnormalRecords(scope.row.userId,scope.row.userNickName)">异常记录
+                        <el-button type="text" @click="abnormalRecords(scope.row.userId)">异常记录
                         </el-button>
                         <el-button type="text" @click="update(scope.row)"
                                    style="margin-left:0">编辑
@@ -404,8 +404,23 @@
                     }
                 });
             },
-            abnormalRecords() {
+            abnormalRecords(id) {
                 this.dialogTableVisible = true
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'imwallet/getbilllist',
+                    data:{
+                        type:1,
+                        endTime: "",
+                        pageCode: this.currentPageDetail,
+                        pageSize: this.nowPageSizeDetail,
+                        startTime: "",
+                        userId:id
+                    },
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res=> {
+                    console.log(res)
+                })
 
             },
             handleDetailSizeChange() {
