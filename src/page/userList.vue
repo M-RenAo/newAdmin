@@ -25,9 +25,10 @@
                             <span style="font-size: 14px;width:80px;">排序：</span>
                             <el-select v-model="sortRule" placeholder="请选择" style="width:200px;" @change="searchBySort">
                                 <el-option
-                                    v-for="item in sortList"
+                                    v-for="(item,index) in sortList"
                                     :label="item.label"
-                                    :value="item.code">
+                                    :value="item.code"
+                                    :key="index">
                                 </el-option>
                             </el-select>
                             <el-select v-model="desc" style="width:80px" @change="searchBySort">
@@ -122,6 +123,13 @@
                     min-width="100">
                 </el-table-column>
                 <el-table-column
+                    label="状态"
+                    width="60">
+                    <template scope="scope">
+                        {{scope.row.state?'异常':'正常'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
                     label="操作"
                     min-width="100">
                     <template scope="scope">
@@ -153,6 +161,14 @@
             width="30%"
         >
             <span>确认拉黑选中用户？</span>
+            <el-select v-model="userstate" placeholder="请选择">
+            <el-option
+            v-for="item in useroptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+            </el-option>
+            </el-select>
             <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="ensureShield">确 定</el-button>
@@ -345,6 +361,8 @@
                     {label: '邀请挖矿', value: '6'}, {label: '注册挖矿', value: '7'}, {label: '竞猜花费', value: '8'},
                     {label: '竞猜赚取', value: '9'}, {label: '平台奖励', value: '10'}, {label: '平台转账应用', value: '11'}
                 ],
+                userstate:"",
+                useroptions:[{value:1,label:'身份重复认证异常'},{value:2,label:'打开挖矿异常'}],
                 // options2:[
                 //     {label:'全部',value:'0'},{label:'IA兑换',value:'1'}, {label:'平台奖励',value:'2'},{label:'提取',value:'2'},
                 // ],
@@ -376,6 +394,7 @@
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.list;
                         this.txcount = response.data.data.num;
+                        console.log(this.tableData)
                         this.tableData.forEach(item => {
                             if (item.loginTime != undefined) {
                                 item.loginTime = moment.utc(item.loginTime).local().format('YYYY-MM-DD HH:mm:ss')
@@ -435,10 +454,11 @@
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'user/shieldUser',
-                    data: {ids: this.shieldID},
+                    data: {ids: this.shieldID,state:this.userstate},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     this.dialogVisible = false
+                    console.log(response)
                     if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

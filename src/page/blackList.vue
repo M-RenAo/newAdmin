@@ -13,6 +13,7 @@
                     </el-tabs>
                 </el-col>
                 <el-col :span="12" style="display: flex;align-items: center;justify-content: flex-end">
+                    <el-button type="primary"  style="margin-right:10px" @click="scanning">扫描异常用户到黑白名单</el-button>
                     <el-button type="primary" @click="deleteAllUserBlack" style="margin-right:10px">批量删除</el-button>
                     <!--<el-button type="primary" @click="scanning" style="margin-right: 10px">扫描异常用户</el-button>-->
                     <el-input placeholder="手机号／用户昵称／异常情况" class="input-with-select" v-model="searchInfo"
@@ -69,7 +70,7 @@
                     <template scope="scope">
                         <el-button type="text" @click="abnormalRecords(scope.row.userId,scope.row.userNickName)">异常记录
                         </el-button>
-                        <el-button type="text" @click="update(scope.row.id,scope.row.phone,scope.row.state)"
+                        <el-button type="text" @click="update(scope.row)"
                                    style="margin-left:0">编辑
                         </el-button>
                     </template>
@@ -136,7 +137,7 @@
         <el-dialog title="" :visible.sync="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="审核结果：" :label-width="formLabelWidth">
-                    <el-radio-group v-model="form.dstate">
+                    <el-radio-group v-model="form.dstate" @change="bian">
                         <el-radio :label="2">黑名单</el-radio>
                         <el-radio :label="0">白名单</el-radio>
                         <el-radio :label="1">待定</el-radio>
@@ -209,7 +210,7 @@
                 dialogTableVisible: false,
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
-                form: {remark: ''},
+                form: {remark: '',dstate:''},
                 multipleSelection: [],
                 deleteIds: [],
                 // result:'',
@@ -217,83 +218,70 @@
             };
         },
         created() {
-            this.$ajax({
-                method: "POST",
-                url: BaseUrl + 'blacklist/scan',
-                data: {type: 1},
-                headers: {'token': sessionStorage.getItem('token')}
-            }).then(response => {
-                if (response.data.flag == 200) {
-                    this.$ajax({
-                        method: "POST",
-                        url: BaseUrl + 'blacklist/scan',
-                        data: {type: 2},
-                        headers: {'token': sessionStorage.getItem('token')}
-                    }).then(res => {
-                        if (res.data.flag == 200) {
-                            this.getData()
-                        } else if (res.data.flag == 201) {
-                            this.$alert(res.data.msg + '，请重新登录', '提示', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$router.push('/')
-                                }
-                            });
-                        }
-                    });
+            // this.$ajax({
+            //     method: "POST",
+            //     url: BaseUrl + 'blacklist/scan',
+            //     data: {type: 1},
+            //     headers: {'token': sessionStorage.getItem('token')}
+            // }).then(response => {
+            //     if (response.data.flag == 200) {
+            //         this.$ajax({
+            //             method: "POST",
+            //             url: BaseUrl + 'blacklist/scan',
+            //             data: {type: 2},
+            //             headers: {'token': sessionStorage.getItem('token')}
+            //         }).then(res => {
+            //             console.log(res)
+            //             if (res.data.flag == 200) {
+            //                 this.getData()
+            //             } else if (res.data.flag == 201) {
+            //                 this.$alert(res.data.msg + '，请重新登录', '提示', {
+            //                     confirmButtonText: '确定',
+            //                     callback: action => {
+            //                         this.$router.push('/')
+            //                     }
+            //                 });
+            //             }
+            //         });
 
-                } else if (response.data.flag == 201) {
-                    this.$alert(response.data.msg + '，请重新登录', '提示', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            this.$router.push('/')
-                        }
-                    });
-                }
-            });
-            // this.getData();
+            //     } else if (response.data.flag == 201) {
+            //         this.$alert(response.data.msg + '，请重新登录', '提示', {
+            //             confirmButtonText: '确定',
+            //             callback: action => {
+            //                 this.$router.push('/')
+            //             }
+            //         });
+            //     }
+            // });
+            this.getData();
         },
         components: {
             headTop
         },
         methods: {
-            // scanning(){
-            //     this.$ajax({
-            //         method: "POST",
-            //         url: BaseUrl+'blacklist/scan',
-            //         data:{type:1},
-            //         headers: {'token': sessionStorage.getItem('token')}
-            //     }).then(response => {
-            //         if(response.data.flag==200){
-            //             this.$ajax({
-            //                 method: "POST",
-            //                 url: BaseUrl+'blacklist/scan',
-            //                 data:{type:2},
-            //                 headers: {'token': sessionStorage.getItem('token')}
-            //             }).then(res => {
-            //                 if(res.data.flag==200){
-            //                     this.getData()
-            //                 }else if(res.data.flag==201) {
-            //                     this.$alert(res.data.msg + '，请重新登录', '提示', {
-            //                         confirmButtonText: '确定',
-            //                         callback: action => {
-            //                             this.$router.push('/')
-            //                         }
-            //                     });
-            //                 }
-            //             });
-            //
-            //         }else if(response.data.flag==201) {
-            //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$router.push('/')
-            //                 }
-            //             });
-            //         }
-            //     });
-            //
-            // },
+            scanning(){
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl+'blacklist/scan',
+                    data:{type:100},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                            if(response.data.flag==200){
+                                this.$message({
+                                    type: 'success',
+                                    message: `${ response.data.msg}`
+                                });
+                                this.getData()
+                            }else if(response.data.flag==201) {
+                                this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$router.push('/')
+                                    }
+                                });
+                            }
+                        });
+            },
             changeState() {
                 this.currentPage = 1;
                 this.getData()
@@ -306,13 +294,15 @@
                         page: this.currentPage,
                         size: this.nowPageSize,
                         dstate: this.activeName == 3 ? undefined : Number(this.activeName),
-                        keyword: this.searchInfo == '' ? undefined : this.searchInfo
+                        keyword: this.searchInfo == '' ? undefined : this.searchInfo,
+
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     if (response.data.flag == 200) {
                         this.info = response.data.data.data;
                         this.txcount = response.data.data.count;
+                        console.log(this.info)
                         this.info.forEach(item => {
                             if (item.dstate == '1') {
                                 item.checkResult = '待定'
@@ -424,12 +414,18 @@
             handleDetailCurrentChange() {
 
             },
-            update(id, phone, state) {
-                this.form = {remark: ''};
-                this.form.id = id;
-                this.form.phone = phone;
-                this.form.state = state;
+            update(row) {
+                // this.form = {remark: ''};
+                // this.form.id = id;
+                // this.form.phone = phone;
+                // this.form.state = state;
+                // console.log(row)
+                this.form=row
+                // this.form.dstate=''
                 this.dialogFormVisible = true
+            },
+            bian(){
+                // console.log(this.form.dstate)
             },
             saveBlackState() {
                 this.$ajax({
@@ -439,6 +435,8 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     this.dialogFormVisible = false
+                    console.log(response)
+                    console.log(this.form)
                     if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
