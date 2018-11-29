@@ -82,44 +82,33 @@
                     @current-change="handleCurrentChange"
                     :current-page="currentPage"
                     :page-size="nowPageSize"
-                    :page-sizes="[5, 10, 20, 40]"
+                    :page-sizes="[10, 20, 40]"
                     :total="txcount"
                     layout="total, sizes, prev, pager, next, jumper"
                 >
                 </el-pagination>
             </div>
         </div>
-        <el-dialog title="异常记录" :visible.sync="dialogTableVisible" width="1000px">
-            <!--<div style="margin-bottom: 10px">用户：{{userNickName}}</div>-->
-            <!--<div style="display:inline-block">-->
-            <!--<div style="display: inline-block">-->
-            <!--<span style="font-size: 14px;width:80px;">类型：</span>-->
-            <!--<el-select v-model="state" placeholder="请选择" @change="changeIAType">-->
-            <!--<el-option-->
-            <!--v-for="item in options"-->
-            <!--:key="item.label"-->
-            <!--:label="item.label"-->
-            <!--:value="item.label">-->
-            <!--</el-option>-->
-            <!--</el-select>-->
-            <!--</div>-->
-            <!--<div style="display: inline-block">-->
-            <!--<span style="font-size: 14px;width:80px;">时间：</span>-->
-            <!--<el-date-picker-->
-            <!--style="width:200px"-->
-            <!--v-model="startDate"-->
-            <!--type="datetimerange"-->
-            <!--align="right"-->
-            <!--:default-time="['12:00:00', '08:00:00']">-->
-            <!--</el-date-picker>-->
-            <!--</div>-->
-            <!--<el-button type="primary" @click="serchByTime">搜索</el-button>-->
-            <!--</div>-->
+        <el-dialog title="操作记录" :visible.sync="dialogTableVisible" width="1000px">
+            <el-select v-model="abnormal" placeholder="请选择">
+                <el-option
+                v-for="item in abnormals"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+                </el-option>
+            </el-select>
             <el-table :data="tableData">
-                <el-table-column property="time" label="日期"></el-table-column>
+                <el-table-column property="createTime" label="日期"></el-table-column>
                 <el-table-column property="amount" label="获取或提取IA"></el-table-column>
-                <el-table-column property="detail" label="行为"></el-table-column>
+                <el-table-column property="type" label="操作记录"></el-table-column>
+                <el-table-column label="备注">
+                    <template scope="scope">
+                        {{scope.row.remark?scope.row.remark:"无"}}
+                    </template>
+                </el-table-column>
                 <el-table-column property="aboutUsers" label="有关用户"></el-table-column>
+                <el-table-column property="accumulation" label="当前累积"></el-table-column>
             </el-table>
             <div class="Pagination">
                 <el-pagination
@@ -186,16 +175,15 @@
         data() {
             return {
                 tableData: [
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-
-
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
+                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
                 ],
+                userId:'',
                 info: [],
                 txcount: 0,
                 currentPage: 1,
@@ -215,6 +203,8 @@
                 deleteIds: [],
                 // result:'',
                 // remarks:''
+                abnormal:"全部",
+                abnormals:[{value:"1",label:"全部"},{value:"2",label:"挖矿"},{value:"3",label:"转账"},{value:"4",label:"收款"},{value:"5",label:"消耗"},{value:"6",label:"平台奖励"}]
             };
         },
         created() {
@@ -405,7 +395,13 @@
                 });
             },
             abnormalRecords(id) {
+                this.userId=id
                 this.dialogTableVisible = true
+                this.nowPageSizeDetail=10
+                this.currentPageDetail=1
+                this.getbilllist();
+            },
+            getbilllist(){
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl+'imwallet/getbilllist',
@@ -415,19 +411,22 @@
                         pageCode: this.currentPageDetail,
                         pageSize: this.nowPageSizeDetail,
                         startTime: "",
-                        userId:id
+                        userId:this.userId
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(res=> {
-                    console.log(res)
+                    console.log(res.data.data.billList)
+                    this.tableData=res.data.data.billList
+                    this.txcountDetail=res.data.data.total
                 })
-
             },
-            handleDetailSizeChange() {
-
+            handleDetailSizeChange(val) {
+                this.nowPageSizeDetail=val
+                this.getbilllist();
             },
-            handleDetailCurrentChange() {
-
+            handleDetailCurrentChange(val) {
+                this.currentPageDetail=val
+                this.getbilllist();
             },
             update(row) {
                 // this.form = {remark: ''};
