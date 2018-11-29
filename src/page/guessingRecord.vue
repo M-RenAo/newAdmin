@@ -475,7 +475,7 @@
                     })
                     this.tableData = res.data.data.data
                     this.guesscount = res.data.data.count
-                    console.log(this.tableData)
+                    // console.log(this.tableData)
                 })
             },
             getGuessdata() {

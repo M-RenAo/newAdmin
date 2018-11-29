@@ -75,6 +75,10 @@ const guessingEdit = resolve => require(['@/page/guessingEdit'], resolve);
 const guessingRecord = resolve => require(['@/page/guessingRecord'], resolve);
 
 const dappList = resolve => require(['@/page/dappList'], resolve);
+const sensitiveWords = resolve => require(['@/page/sensitiveWords'], resolve);
+const deploy = resolve => require(['@/page/deploy'], resolve);
+const bannerDeploy = resolve => require(['@/page/bannerDeploy'], resolve);
+
 
 const routes = [
     {
@@ -284,15 +288,17 @@ const routes = [
             path: '/trumpet',
             component: trumpet,
             meta: ['通用中心', '小号'],
-        }, {
-            path: '/focusImg',
-            component: focusImg,
-            meta: ['通用中心', 'android焦点图'],
-        }, {
-            path: '/iosFocusImg',
-            component: iosFocusImg,
-            meta: ['通用中心', 'ios焦点图'],
-        }, {
+        }, 
+        // {
+        //     path: '/focusImg',
+        //     component: focusImg,
+        //     meta: ['通用中心', 'android焦点图'],
+        // }, {
+        //     path: '/iosFocusImg',
+        //     component: iosFocusImg,
+        //     meta: ['通用中心', 'ios焦点图'],
+        // }, 
+        {
             path: '/updateFocus',
             component: updateFocus,
             meta: ['通用中心', '编辑焦点图'],
@@ -376,6 +382,19 @@ const routes = [
                 component: dappList,
                 meta: ['自选管理', 'dapp部署'],
 
+            }, {
+                path: '/sensitiveWords',
+                component: sensitiveWords,
+                meta: ['通用中心', '敏感词'],
+            }, {
+                path: '/deploy',
+                component: deploy,
+                meta: ['通用中心', '运营部署'],
+            }, {
+                path: '/bannerDeploy',
+                name:'bannerDeploy',
+                component: bannerDeploy,
+                meta: ['通用中心', 'banner部署'],
             }
         ]
     }

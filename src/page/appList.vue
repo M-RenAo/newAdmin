@@ -83,6 +83,10 @@
                     prop="fileDate" min-width="50">
                 </el-table-column>
                 <el-table-column
+                    label="评论数/评分"
+                    prop="comments" min-width="50">
+                </el-table-column>
+                <el-table-column
                     label="下载"
                     v-if="activeName==0"
                     key="upload"

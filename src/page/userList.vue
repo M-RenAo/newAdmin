@@ -350,6 +350,7 @@
                 }],
                 multipleSelection: [],
                 shieldID: [],
+                userStates:[],
                 startDate: null,
                 state: '全部',
                 options: [
@@ -433,6 +434,7 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val
+                console.log(this.multipleSelection)
                 this.shieldID = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
                     this.shieldID.push(this.multipleSelection[i].userPhone)

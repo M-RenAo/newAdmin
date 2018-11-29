@@ -90,14 +90,14 @@
             </div>
         </div>
         <el-dialog title="操作记录" :visible.sync="dialogTableVisible" width="1000px">
-            <el-select v-model="abnormal" placeholder="请选择">
+            <!-- <el-select v-model="abnormal" placeholder="请选择">
                 <el-option
                 v-for="item in abnormals"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
                 </el-option>
-            </el-select>
+            </el-select> -->
             <el-table :data="tableData">
                 <el-table-column property="createTime" label="日期"></el-table-column>
                 <el-table-column property="amount" label="获取或提取IA"></el-table-column>
@@ -174,15 +174,7 @@
     export default {
         data() {
             return {
-                tableData: [
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                    // {time: 'afsgagydgysgeggey', nickName: '小红', pic: '', amount: 1000, detail: '提取', aboutUsers: '老李'},
-                ],
+                tableData: [],
                 userId:'',
                 info: [],
                 txcount: 0,
@@ -201,8 +193,6 @@
                 form: {remark: '',dstate:''},
                 multipleSelection: [],
                 deleteIds: [],
-                // result:'',
-                // remarks:''
                 abnormal:"全部",
                 abnormals:[{value:"1",label:"全部"},{value:"2",label:"挖矿"},{value:"3",label:"转账"},{value:"4",label:"收款"},{value:"5",label:"消耗"},{value:"6",label:"平台奖励"}]
             };
@@ -292,7 +282,7 @@
                     if (response.data.flag == 200) {
                         this.info = response.data.data.data;
                         this.txcount = response.data.data.count;
-                        console.log(this.info)
+                        // console.log(this.info)
                         this.info.forEach(item => {
                             if (item.dstate == '1') {
                                 item.checkResult = '待定'
@@ -415,7 +405,7 @@
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(res=> {
-                    console.log(res.data.data.billList)
+                    // console.log(res.data.data.billList)
                     this.tableData=res.data.data.billList
                     this.txcountDetail=res.data.data.total
                 })
@@ -449,8 +439,8 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     this.dialogFormVisible = false
-                    console.log(response)
-                    console.log(this.form)
+                    // console.log(response)
+                    // console.log(this.form)
                     if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

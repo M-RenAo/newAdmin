@@ -20,7 +20,7 @@
                         <!--&lt;!&ndash;</el-option>&ndash;&gt;-->
                         <!--</el-select>-->
                         <div style="display: inline-block">
-                            <span style="font-size: 14px;width:80px;">开始时间：</span>
+                            <span style="font-size: 14px;width:80px;">起止时间：</span>
                             <!--<el-date-picker-->
                             <!--v-model="searchForm.startDate"-->
                             <!--type="datetime"-->
@@ -39,27 +39,16 @@
                                 :default-time="['12:00:00', '08:00:00']">
                             </el-date-picker>
                         </div>
-                        <div style="display: inline-block">
+                        <!-- <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">结束时间：</span>
-                            <!--<el-date-picker-->
-                            <!--v-model="searchForm.startDate"-->
-                            <!--type="datetime"-->
-                            <!--&gt;-->
-                            <!--</el-date-picker>-->
-                            <!--—-->
-                            <!--<el-date-picker-->
-                            <!--v-model="searchForm.endDate"-->
-                            <!--type="datetime"-->
-                            <!--&gt;-->
-                            <!--</el-date-picker>-->
                             <el-date-picker
                                 v-model="endDate"
                                 type="datetimerange"
                                 align="right"
                                 :default-time="['12:00:00', '08:00:00']">
                             </el-date-picker>
-                        </div>
-                        <div style="display: inline-block">
+                        </div> -->
+                        <!-- <div style="display: inline-block"> -->
                             <!--<span style="font-size: 14px;">类型：</span>-->
                             <!--<el-select v-model="state" placeholder="请选择">-->
                             <!--<el-option-->
@@ -69,7 +58,7 @@
                             <!--:value="item.value">-->
                             <!--</el-option>-->
                             <!--</el-select>-->
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </el-col>
                 <div style="float:right">
@@ -79,6 +68,16 @@
                     <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
                 </div>
             </el-row>
+            <div>
+                <el-select v-model="bannerType">
+                    <el-option
+                    v-for="item in bannerTypes"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
             <el-table
                 :data="tableData"
                 style="width: 100%">
@@ -161,6 +160,8 @@
                 startDate: '',
                 endDate: '',
                 type: 'ios',
+                bannerType:"全部",
+                bannerTypes:[{value:0,label:"全部"},{value:1,label:"上架"},{value:2,label:"下架"}]
             }
         },
         mounted() {

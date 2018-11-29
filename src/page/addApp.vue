@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content">
         <el-row style="margin-top: 20px;">
             <el-col :span="14" :offset="4">
                 <el-form :model="appForm" ref="appForm" :rules="rules" label-width="110px" class="form food_form">
@@ -377,7 +377,7 @@
 
 <style lang="less">
     @import "../style/mixin";
-
+.content{
     .form {
         min-width: 400px;
         margin-bottom: 30px;
@@ -597,4 +597,5 @@
         font-size: 18px;
         /*transform:translate(10px,-50%);*/
     }
+}
 </style>
