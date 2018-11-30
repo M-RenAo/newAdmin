@@ -79,6 +79,7 @@ const sensitiveWords = resolve => require(['@/page/sensitiveWords'], resolve);
 const deploy = resolve => require(['@/page/deploy'], resolve);
 const bannerDeploy = resolve => require(['@/page/bannerDeploy'], resolve);
 const startupPage = resolve => require(['@/page/startupPage'], resolve);
+const appComment =resolve => require(['@/page/appComments'], resolve);
 
 const routes = [
     {
@@ -288,7 +289,7 @@ const routes = [
             path: '/trumpet',
             component: trumpet,
             meta: ['通用中心', '小号'],
-        }, 
+        },
         // {
         //     path: '/focusImg',
         //     component: focusImg,
@@ -297,7 +298,7 @@ const routes = [
         //     path: '/iosFocusImg',
         //     component: iosFocusImg,
         //     meta: ['通用中心', 'ios焦点图'],
-        // }, 
+        // },
         {
             path: '/updateFocus',
             component: updateFocus,
@@ -396,6 +397,11 @@ const routes = [
                 component: bannerDeploy,
                 meta: ['通用中心', 'banner部署'],
             }, {
+                path: '/appComment',
+                name:'appComment',
+                component: appComment,
+                meta: ['应用管理', '应用评论'],
+            },{
                 path: '/startupPage',
                 name:'startupPage',
                 component: startupPage,
