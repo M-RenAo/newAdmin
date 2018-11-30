@@ -6,14 +6,9 @@
                     <el-form-item label="弹窗名称：" prop="title">
                         <el-input v-model="focusForm.title"></el-input>
                     </el-form-item>
-                    <el-form-item label="弹窗属性：" >
-                       <div>
-                           <el-radio v-model="radio" label="1">每日首次启动</el-radio>
-                       </div>
-                        <div>
-                            <el-radio v-model="radio" label="2">每次启动</el-radio>
-                            <el-input  placeholder="每日弹出上限" v-model="focusForm.title" style="width:200px;margin-left: 30px" v-bind:disabled="radio!=2"></el-input>
-                        </div>
+                    <el-form-item label="弹窗次数：" >
+
+                            <el-input  placeholder="每日弹出上限" v-model="focusForm.title" style="width:200px;"></el-input>
                     </el-form-item>
                     <el-form-item label="背景图：" prop="picAddr">
                         <div style="display: flex;align-items:flex-end;">
@@ -46,11 +41,11 @@
                                 </div>
                                 <div>
                                     左边按钮
-                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pupupType!=1"></el-input>
+                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pupupType!=1" placeholder="默认文案：取消"></el-input>
                                 </div>
                                 <div>
                                     右边按钮
-                                    <el-input style="width:140px;"  v-bind:disabled="pupupType!=1"></el-input>
+                                    <el-input style="width:140px;"  v-bind:disabled="pupupType!=1" placeholder="默认文案：确定"></el-input>
                                 </div>
                             </div>
                             <div class="pupup-type-choice">
@@ -68,7 +63,7 @@
                                 </div>
                                 <div>
                                     中间按钮
-                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pupupType!=2"></el-input>
+                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pupupType!=2" placeholder="默认文案：确定"></el-input>
                                 </div>
                             </div>
                         </div>
@@ -79,10 +74,9 @@
                         </div>
                         <div>
                             <el-radio v-model="closeType" label="2">禁止关闭</el-radio>
-                            <el-input  placeholder="每日弹出上限" v-model="focusForm.title" style="width:200px;margin-left: 30px" v-bind:disabled="radio!=2"></el-input>
                         </div>
                     </el-form-item>
-                    <el-form-item label="推广地址：" prop="url" v-if="focusForm.type==3">
+                    <el-form-item label="推广地址：" prop="url" >
                         <el-input v-model="url"></el-input>
                     </el-form-item>
                     <el-form-item label="推广周期：" prop="timePeriod">
@@ -96,6 +90,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
+                        <el-button @click="goback()">返回</el-button>
                         <el-button type="primary" @click="save(focusForm)">保存</el-button>
                     </el-form-item>
                 </el-form>
@@ -143,11 +138,14 @@
                 typeList: [{code: '1', title: '图文详情'}, {code: '2', title: '推广APP'}, {code: '3', title: '跳转链接'}],
                 rule: {
                     title: [
-                        {required: true, message: '请输入焦点图标题', trigger: 'blur'},
+                        {required: true, message: '请输入弹窗名称', trigger: 'blur'},
                     ],
                     picAddr: [
-                        {required: true, message: '请选择焦点图片', trigger: 'blur'}
-                    ]
+                        {required: true, message: '请选择弹窗背景图', trigger: 'blur'}
+                    ],
+                    url: [
+                        {required: true, message: '请输入推广地址', trigger: 'blur'}
+                    ],
                 }
             }
         },
@@ -350,10 +348,14 @@
                         });
                     });
             },
+            //返回
+            goback(){
+                this.$router.push({path:'/popupDeploy'})
+            },
             save(focusForm) {
                 // console.log( this.timePeriod)
                 this.$refs.focusForm.validate(async (valid) => {
-                    if (valid && (this.content != null || this.toItemId != null || this.url != null) && this.timePeriod != null && this.timePeriod[0] >= new Date()) {
+                    if (valid) {
                         focusForm.startTime = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
                         focusForm.endTime = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
                         if (this.content != null && focusForm.type == 1) {
@@ -441,50 +443,16 @@
                                 }
                             });
                         }
-                    } else if (this.content == null && this.focusForm.type == 1) {
-                        this.$alert('请填写图文详情', {
+                    } else{
+                        this.$alert('请填写完整', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({
                                     type: 'info',
-                                    message: `请重试！`
+                                    message: `${'请重试'}`
                                 });
                             }
                         });
-                        return false;
-                    } else if (this.toItemId == null && this.focusForm.type == 2) {
-                        this.$alert('请填写App名称', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$message({
-                                    type: 'info',
-                                    message: `请重试！`
-                                });
-                            }
-                        });
-                        return false;
-                    } else if (this.timePeriod == null) {
-                        this.$alert('请选择时间', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$message({
-                                    type: 'info',
-                                    message: `请重试！`
-                                });
-                            }
-                        });
-                        return false;
-                    } else if (this.timePeriod[0] < new Date()) {
-                        this.$alert('开始时间不能小于当前时间', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$message({
-                                    type: 'info',
-                                    message: `请重试！`
-                                });
-                            }
-                        });
-                        return false;
                     }
                 })
                 //    console.log(this.content)

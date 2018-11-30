@@ -423,6 +423,11 @@ const routes = [
                 name:'addPopup',
                 component: addPopup,
                 meta: ['通用中心', '新增弹窗'],
+            },{
+                path: '/updatePopup',
+                name:'updatePopup',
+                component: addPopup,
+                meta: ['通用中心', '编辑弹窗'],
             }
         ]
     }
