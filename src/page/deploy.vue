@@ -4,14 +4,14 @@
             <h2>banner部署:3张</h2>
             <div class="foot">
                 <p class="details">1个应用   1个网页   1个排版</p>
-                <el-button class="right" @click="goAdministration">管理</el-button>
+                <el-button class="right" @click="goAdministration(1)">管理</el-button>
             </div>
         </div>
          <div class="moudel">
-            <h2>banner部署:3张</h2>
+            <h2>启动页部署</h2>
             <div class="foot">
-                <p class="details">1个应用   1个网页   1个排版</p>
-                <el-button class="right" @click="goAdministration">管理</el-button>
+                <p class="details">京东推广,腾讯,阿里</p>
+                <el-button class="right" @click="goAdministration(2)">管理</el-button>
             </div>
         </div>
     </div>
@@ -19,13 +19,23 @@
 <script>
     export default{
         methods: {
-            goAdministration(){
-                this.$router.push({
-                    name: 'bannerDeploy',
-                    query: {
-                        row:'1'
-                    }
-                 })
+            goAdministration(num){
+                if(num==1){
+                    this.$router.push({
+                        name: 'bannerDeploy',
+                        query: {
+                            row:'1'
+                        }
+                    })
+                }
+                if(num==2){
+                    this.$router.push({
+                        name: 'startupPage',
+                        query: {
+                            row:'1'
+                        }
+                    })
+                }
             },
         },
     }

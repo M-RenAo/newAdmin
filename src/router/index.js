@@ -78,7 +78,7 @@ const dappList = resolve => require(['@/page/dappList'], resolve);
 const sensitiveWords = resolve => require(['@/page/sensitiveWords'], resolve);
 const deploy = resolve => require(['@/page/deploy'], resolve);
 const bannerDeploy = resolve => require(['@/page/bannerDeploy'], resolve);
-
+const startupPage = resolve => require(['@/page/startupPage'], resolve);
 
 const routes = [
     {
@@ -395,6 +395,11 @@ const routes = [
                 name:'bannerDeploy',
                 component: bannerDeploy,
                 meta: ['通用中心', 'banner部署'],
+            }, {
+                path: '/startupPage',
+                name:'startupPage',
+                component: startupPage,
+                meta: ['通用中心', '启动页部署'],
             }
         ]
     }
