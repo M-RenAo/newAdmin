@@ -81,8 +81,8 @@ const bannerDeploy = resolve => require(['@/page/bannerDeploy'], resolve);
 const startupPage = resolve => require(['@/page/startupPage'], resolve);
 const appComment =resolve => require(['@/page/appComments'], resolve);
 const updataStartup =resolve => require(['@/page/updataStartup'], resolve);
-
-
+const popupDeploy = resolve => require(['@/page/popupDeploy'], resolve);
+const addPopup = resolve => require(['@/page/addPopup'], resolve);
 const routes = [
     {
         path: '/',
@@ -413,6 +413,21 @@ const routes = [
                 name:'updataStartup',
                 component: updataStartup,
                 meta: ['通用中心', '启动页部署'],
+            },{
+                path: '/popupDeploy',
+                name:'popupDeploy',
+                component: popupDeploy,
+                meta: ['通用中心', '弹窗部署'],
+            },{
+                path: '/addPopup',
+                name:'addPopup',
+                component: addPopup,
+                meta: ['通用中心', '新增弹窗'],
+            },{
+                path: '/updatePopup',
+                name:'updatePopup',
+                component: addPopup,
+                meta: ['通用中心', '编辑弹窗'],
             }
         ]
     }

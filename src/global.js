@@ -3,9 +3,14 @@
 //
 // window.BaseUrl='http://52.230.122.251:36788/admin/'
 window.BaseUrlApp='http://52.230.122.251:36786/app/'
+<<<<<<< HEAD
 // window.BaseUrl='http://192.168.50.5:36788/admin/'
 window.BaseUrl='http://192.168.50.6:36788/admin/'
 
 // window.BaseUrlApp='http://192.168.50.5:36786/app/'
 
+=======
+// window.BaseUrl='http://192.168.50.6:36788/admin/'
+// window.BaseUrlApp='http://192.168.50.6:36786/app/'
+>>>>>>> 476599606381f1b3fe148aaf6c0a25b30484c011
 // window.BaseUrlAdmin='http://192.168.50.5:36788/admin/'

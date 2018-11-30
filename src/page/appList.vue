@@ -88,8 +88,8 @@
                     min-width="50">
                     <template scope="scope">
                         <router-link
-                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName,scope:scope.row.commments}}">
-                            {{scope.row.appName}}
+                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName}}">
+                            {{scope.row.comment}}
                         </router-link>
                     </template>
                 </el-table-column>
@@ -262,7 +262,8 @@
                                 }
                             });
                             this.info.forEach(item => {
-                                item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
+                                item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss');
+
                             });
                             // this.info.forEach(item => {
                             //   var positionLists = JSON.parse(

@@ -88,8 +88,8 @@
                     min-width="50">
                     <template scope="scope">
                         <router-link
-                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName,scope:scope.row.commments}}">
-                            {{scope.row.appName}}
+                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName}}">
+                            {{scope.row.comment}}
                         </router-link>
                     </template>
                 </el-table-column>

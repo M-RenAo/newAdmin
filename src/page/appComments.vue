@@ -6,45 +6,62 @@
                     {{$route.query.appName}}
                 </el-form-item>
                 <el-form-item label="综合评分：">
-                    {{$route.query.comments}}
+                    {{comment}}分
                 </el-form-item>
             </el-form>
+            <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="全部" name="2"></el-tab-pane>
+                <el-tab-pane label="显示" name="0"></el-tab-pane>
+                <el-tab-pane label="隐藏" name="1"></el-tab-pane>
+            </el-tabs>
             <el-table
                 :data="tableData"
                 class="test-class"
                 style="width: 100%">
                 <el-table-column
-                    fixed
-                    prop="time"
+                    prop="ctime"
                     label="发布日期"
-                    min-width="50">
-                </el-table-column>
-                <el-table-column
-                    prop="username"
-                    label="用户"
-                    width="160">
-                </el-table-column>
-                <el-table-column
-                    label="手机号"
-                    min-width="50">
-                    <template scope="scope">
-                        <div class="ellipsis">
-                            {{scope.row.message}}
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="phone"
-                    label="评分"
                     min-width="100">
                 </el-table-column>
                 <el-table-column
+                    prop="userNickName"
+                    label="用户"
+                    min-width="80">
+                </el-table-column>
+                <el-table-column
+                    label="状态"
+                    min-width="80">
+                    <template scope="scope">
+                        {{scope.row.state==0?'显示':'隐藏'}}
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    prop="userCellPhone"
+                    label="手机号"
+                    min-width="100">
+                </el-table-column>
+                <el-table-column
+                    label="评论"
+                    min-width="80">
+                    <template scope="scope">
+                        <div class="ellipsis">
+                            {{scope.row.content}}
+                        </div>
+                    </template>
+                </el-table-column>
+
+                <el-table-column
+                    prop="starLevel"
+                    label="评分"
+                    min-width="50">
+                </el-table-column>
+                <el-table-column
                     label="操作"
-                    width="150">
+                    min-width="100">
                     <template slot-scope="scope">
                         <el-button @click="See(scope.row)" type="text" size="medium">查看</el-button>
                         <el-button type="text" size="medium" @click="cbPopup(scope.row)">
-                            {{!scope.row.hidden?"隐藏":"显示"}}
+                            {{scope.row.state==0?"隐藏":"显示"}}
                         </el-button>
 
                     </template>
@@ -58,21 +75,21 @@
                     :page-sizes="[10, 20, 30, 50]"
                     :page-size="nowPageSize"
                     layout="total, sizes, prev, pager, next, jumper"
-                    :total="usercount">
+                    :total="txcount">
                 </el-pagination>
             </div>
             <el-dialog
                 :visible.sync="centerDialogVisible"
                 width="700px"
                 center>
-                <h2>用户:{{row.username}}</h2>
-                <div class="comment">评论内容:{{row.message}}</div>
+                <h2>用户:{{row.userNickName}}</h2>
+                <div class="comment">{{row.content}}</div>
             </el-dialog>
             <el-dialog
                 title="提示"
                 :visible.sync="dialogVisible"
                 width="30%">
-                <span>确定要{{!row.hidden?"隐藏":"显示"}}吗</span>
+                <span>确定要{{row.state==0?"隐藏":"显示"}}该条评论吗?</span>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="changeType">确 定</el-button>
@@ -88,50 +105,35 @@
     export default {
         data() {
             return {
-                activeName: '1',
+                activeName: '2',
                 centerDialogVisible: false,
                 dialogVisible: false,
-                newsflashID: "",//此条快讯ID
+                applyId: "",//此条快讯ID
                 tableData: [],
                 currentPage: 1,
                 nowPageSize: 10,
-                usercount: 0,
+                txcount: 0,
+                comment:'',
                 searchInfo: "",//关键字
                 row: "",//当前行数据
                 data: {},
-                appName:'支付宝',
-                appScore:'4.8'
             };
         },
-        mounted() {
-            this.setData()
-            this.newsflashID = this.$route.query.id;
+        created() {
+            this.$ajax.get(BaseUrl + "applyComment/getStarLevel/"+this.$route.query.id ,{ headers: {'token': sessionStorage.getItem('token')}
+            }).then(res => {
+                    if (res.data.flag == 200) {
+                        this.comment=res.data.data
+                    }
+                }
+            )
             this.getData()
         },
         methods: {
-            search() {//关键字搜索
-                this.setData()
-                this.getData()
-            },
             handleClick() {
                 this.currentPage = 1;
                 this.nowPageSize = 10;
-                this.getcomm()
-            },
-            getcomm() {
-                if (this.activeName == 1) {
-                    this.setData()
-                    delete this.data.hidden
-                    this.getData()
-                } else if (this.activeName == 2) {
-                    this.setData()
-                    this.data.hidden = "false"
-                    this.getData()
-                } else {
-                    this.setData()
-                    this.data.hidden = "true"
-                    this.getData()
-                }
+                this.getData()
             },
             See(row) {//查看
                 this.row = row
@@ -142,34 +144,30 @@
                 this.nowPageSize = pageSize;
                 // this.setData()
                 // this.getData()
-                this.getcomm()
+                this.getData()
             },
             handleCurrentChange(pageValue) {
                 this.currentPage = pageValue;
                 // this.setData()
                 // this.getData()
-                this.getcomm()
+                this.getData()
             },
             getData() {
-                this.$ajax.get(BaseUrl + "newsFlash/commentList/" + this.newsflashID, {
-                    params: this.data, headers: {'token': sessionStorage.getItem('token')}
+                this.$ajax.get(BaseUrl + "applyComment/getComment" , {
+                    params:{applyId:this.$route.query.id,pageCode:this.currentPage,pageSize:this.nowPageSize,state:this.activeName}, headers: {'token': sessionStorage.getItem('token')}
                 }).then(res => {
                         if (res.data.flag == 200) {
-                            res.data.data.forEach(item => {
-                                if (item.time != undefined) {
-                                    item.time = moment.utc(item.time * 1000).local().format('YYYY-MM-DD HH:mm:ss')
+                            this.tableData = res.data.data.list;
+                            this.txcount = res.data.data.num
+                            this.tableData.forEach(item => {
+                                if (item.dateTime != undefined) {
+                                    item.ctime = moment.utc(item.dateTime).local().format('YYYY-MM-DD HH:mm:ss');
                                 }
 
                             })
                         }
-                        this.tableData = res.data.data;
+
                         // console.log(res)
-                    }
-                )
-                this.$ajax.get(BaseUrl + "newsFlash/commentAmount/" + this.newsflashID, {
-                    params: this.data, headers: {'token': sessionStorage.getItem('token')}
-                }).then(res => {
-                        this.usercount = res.data.data
                     }
                 )
             },
@@ -178,27 +176,60 @@
                 this.dialogVisible = true;
             },
             async changeType() {//显示或隐藏
-                this.dialogVisible = false;
-                if (!this.row.hidden) {
-                    await this.$ajax.get(BaseUrl + "newsFlash/hideComment/" + this.row.id, {
-                        headers: {'token': sessionStorage.getItem('token')}
-                    }).then(res => {
-                    })
-                } else {
-                    await this.$ajax.get(BaseUrl + "newsFlash/displayComment/" + this.row.id, {
-                        headers: {'token': sessionStorage.getItem('token')}
-                    }).then(res => {
-                    })
-                }
-                this.getData();
+                // if (!this.row.state) {
+                //     await this.$ajax.get(BaseUrl + "newsFlash/hideComment/" + this.row.id, {
+                //         headers: {'token': sessionStorage.getItem('token')}
+                //     }).then(res => {
+                //     })
+                // } else {
+                //     await this.$ajax.get(BaseUrl + "newsFlash/displayComment/" + this.row.id, {
+                //         headers: {'token': sessionStorage.getItem('token')}
+                //     }).then(res => {
+                //     })
+                // }
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'applyComment/lable',
+                    params: {id:this.row.id,state:this.row.state==1?0:1},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.dialogVisible = false;
+                                this.getData();
+                            }
+                        });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+
             },
-            setData() {
-                this.data = {
-                    key: this.searchInfo,
-                    pageNum: this.currentPage,
-                    pageSize: this.nowPageSize
-                }
-            }
+            // setData() {
+            //     this.data = {
+            //         key: this.searchInfo,
+            //         pageNum: this.currentPage,
+            //         pageSize: this.nowPageSize
+            //     }
+            // }
         }
     };
 </script>
