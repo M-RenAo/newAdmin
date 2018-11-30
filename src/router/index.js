@@ -80,6 +80,8 @@ const deploy = resolve => require(['@/page/deploy'], resolve);
 const bannerDeploy = resolve => require(['@/page/bannerDeploy'], resolve);
 const startupPage = resolve => require(['@/page/startupPage'], resolve);
 const appComment =resolve => require(['@/page/appComments'], resolve);
+const updataStartup =resolve => require(['@/page/updataStartup'], resolve);
+
 
 const routes = [
     {
@@ -406,11 +408,15 @@ const routes = [
                 name:'startupPage',
                 component: startupPage,
                 meta: ['通用中心', '启动页部署'],
+            },{
+                path: '/updataStartup',
+                name:'updataStartup',
+                component: updataStartup,
+                meta: ['通用中心', '启动页部署'],
             }
         ]
     }
 ]
-
 export default new Router({
     routes,
     strict: process.env.NODE_ENV !== 'production',

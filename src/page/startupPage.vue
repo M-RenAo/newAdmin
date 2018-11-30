@@ -82,10 +82,20 @@
         },
         methods: {
             addStartup(){//新增
-
+                this.$router.push({
+                    name: 'updataStartup',
+                    query: {
+                        dataId: "1",
+                    }
+                })
             },
             updateStartup(){//编辑
-
+                this.$router.push({
+                    name: 'updataStartup',
+                    query: {
+                        dataId: "1",
+                    }
+                })
             },
             more(){//更多
 
