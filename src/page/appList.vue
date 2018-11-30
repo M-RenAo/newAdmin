@@ -83,8 +83,15 @@
                     prop="fileDate" min-width="50">
                 </el-table-column>
                 <el-table-column
+                    v-if="activeName==1"
                     label="评论数/评分"
-                    prop="comments" min-width="50">
+                    min-width="50">
+                    <template scope="scope">
+                        <router-link
+                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName,scope:scope.row.commments}}">
+                            {{scope.row.appName}}
+                        </router-link>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     label="下载"
