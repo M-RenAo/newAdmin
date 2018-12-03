@@ -81,7 +81,7 @@
                     if (data !== 1) {
                         let dataId = data.id
                         this.$router.push({
-                            name: 'guessingEdit',
+                            path: 'guessingEdit',
                             query: {
                                 dataId: dataId,
                                 currentPage: this.currentPage,
@@ -93,7 +93,7 @@
                             this.dialogVisible = true
                         } else {
                             this.$router.push({
-                                name: 'guessingEdit',
+                                path: 'guessingEdit',
                                 query: {
                                     row: this.str
                                 }
@@ -109,7 +109,7 @@
             goRecord(data) {//前往查看界面
                 // this.$router.push({path:'/guessingRecord'})
                 this.$router.push({
-                    name: 'guessingRecord',
+                    path: 'guessingRecord',
                     query: {
                         guessType: data.type
                     }

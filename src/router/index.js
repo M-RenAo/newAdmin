@@ -83,6 +83,9 @@ const appComment =resolve => require(['@/page/appComments'], resolve);
 const updataStartup =resolve => require(['@/page/updataStartup'], resolve);
 const popupDeploy = resolve => require(['@/page/popupDeploy'], resolve);
 const addPopup = resolve => require(['@/page/addPopup'], resolve);
+const channelManagement = resolve => require(['@/page/channelManagement'], resolve);
+
+
 const routes = [
     {
         path: '/',
@@ -428,6 +431,11 @@ const routes = [
                 name:'updatePopup',
                 component: addPopup,
                 meta: ['通用中心', '编辑弹窗'],
+            },{
+                path: '/channelManagement',
+                name:'channelManagement',
+                component: channelManagement,
+                meta: ['通用中心', '渠道分销'],
             }
         ]
     }

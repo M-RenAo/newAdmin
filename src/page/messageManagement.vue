@@ -216,7 +216,7 @@
                 //     id:row.id
                 // }})
                 this.$router.push({
-                    name: 'EditingInterface',
+                    path: 'EditingInterface',
                     query: {
                         dataId: row.id,
                         page: this.currentPage,

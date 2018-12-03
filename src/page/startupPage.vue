@@ -91,22 +91,19 @@
             },
             addStartup(){//新增
                 this.$router.push({
-                    name: 'updataStartup',
-                    query: {
-                        dataId: "1",
-                    }
+                    path: 'updataStartup',
+
                 })
             },
-            updateStartup(){//编辑
+            updateStartup(id){//编辑
                 this.$router.push({
-                    name: 'updataStartup',
+                    path: 'updataStartup',
                     query: {
-                        dataId: "1",
+                        dataId: id,
                     }
                 })
             },
             more(){//更多
-
             },
             delStartup(){//删除
 

@@ -40,7 +40,7 @@
                             </el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item label="类型：">
+                    <!-- <el-form-item label="类型：">
                         <el-select v-model="focusForm.type" placeholder="请选择" @change="changeType">
                             <el-option
                                 v-for="nitem in typeList"
@@ -49,7 +49,7 @@
                                 :value="nitem.code">
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
                     <!-- <el-form-item label="应用名称：" prop="toItemId" v-if="focusForm.type == 2">
                         <el-autocomplete
                             class="inline-input"
@@ -60,12 +60,12 @@
                             @select="handleSelect"
                         ></el-autocomplete>
                     </el-form-item> -->
-                    <el-form-item label="图文详情：" prop="content" v-if="focusForm.type!=2&&focusForm.type!=3">
+                    <!-- <el-form-item label="图文详情：" prop="content" v-if="focusForm.type!=2&&focusForm.type!=3">
                         <quill-editor ref="newEditor" v-model="content" :config="editorOption"></quill-editor>
-                        <!--<input class="upload" @change='add_imgs' type="file"-->
-                        <!--style="display: none;" id="uniqueId">-->
-                    </el-form-item>
-                    <el-form-item label="链接地址：" prop="url" v-if="focusForm.type==3">
+                        <input class="upload" @change='add_imgs' type="file"
+                        style="display: none;" id="uniqueId">
+                    </el-form-item> -->
+                    <el-form-item label="链接地址：" prop="url">
                         <el-input v-model="url"></el-input>
                     </el-form-item>
                     <el-form-item label="起止时间" prop="timePeriod">
@@ -78,6 +78,7 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
+                         <el-button>返回</el-button>
                         <el-button type="primary" @click="save(focusForm)">保存</el-button>
                     </el-form-item>
                 </el-form>
@@ -105,9 +106,7 @@
                 addImgRange: '',
                 toItemId: null,
                 appName: null,
-                focusForm: {
-                    type: '1',
-                },
+                focusForm: {},
                 // appNames:[],
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
@@ -162,76 +161,9 @@
             //         }
             //     })
             // }
+            
         },
         methods: {
-            // loadAll() {
-            //     this.$ajax.get(BaseUrl+'apply/all/0/0/1').then(response => {
-            //        console.log(response)
-            //         if(response.data.flag==200){
-            //             this.getData()
-            //             // var that=this;
-            //             // this.adminList.forEach(function(item,index){
-            //             //     if(item.id==that.deleteId){
-            //             //         that.adminList.splice(index,1);
-            //             //         that.txcount=that.txcount-1
-            //             //     }
-            //             // })
-            //         }else{
-            //             this.$alert(response.data.msg, '提示', {
-            //                 confirmButtonText: '确定',
-            //             });
-            //         }
-            //     })
-            //     return ;
-            // },
-            // querySearch(queryString, cb) {
-            //     // var appNames = this.appNames;
-
-            //     this.$ajax.get(BaseUrl + 'apply/sign/' + queryString, {
-            //         headers: {
-            //             'token': sessionStorage.getItem('token'),
-            //             'device': this.$route.query.type
-            //         }
-            //     }).then(response => {
-            //         // console.log(response)
-            //         if (response.data.flag == 200) {
-            //             // this.appNames=response.data.data
-            //             const currentArray = response.data.data;
-            //             const appNameArray = [];
-            //             currentArray.forEach((item) => {
-            //                 const appNameObj = {value: item.appName, fileId: item.fileId};
-            //                 appNameArray.push(appNameObj);
-            //             })
-            //             cb(appNameArray)
-            //         } else if (response.data.flag == 201) {
-            //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$router.push('/')
-            //                 }
-            //             });
-            //         } else {
-            //             this.$alert(response.data.msg, '提示', {
-            //                 confirmButtonText: '确定',
-            //             });
-            //         }
-            //     })
-            //     clearTimeout(this.timeout);
-            //     this.timeout = setTimeout(() => {
-            //         // cb(results);
-            //     }, 3000 * Math.random());
-            // },
-            // createStateFilter(queryString) {
-            //     return (state) => {
-            //         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-            //     };
-            // },
-            // handleSelect(item) {
-            //     // console.log('>>>>>>>item', item.fileId);
-            //     this.toItemId = item.fileId;
-            //     // console.log(item)
-            //     this.appName = item.value;
-            // },
             mapping(event) {//图片上传
                 let uploadPolicy = null;
                 this.$ajax
@@ -297,169 +229,150 @@
                         });
                     });
             },
-            changeType() {
-                this.content = null;
-                this.toItemId = null;
-                this.appName = null;
-            },
-            // GMTToStr(time) {
-            //     var date = time;
-            //     var Y = date.getFullYear();
-            //     var M = date.getMonth() + 1;
-            //     M = M < 10 ? '0' + M : M;// 不够两位补充0
-            //     var D = date.getDate();
-            //     D = D < 10 ? '0' + D : D;
-            //     var H = date.getHours();
-            //     H = H < 10 ? '0' + H : H;
-            //     var Mi = date.getMinutes();
-            //     Mi = Mi < 10 ? '0' + Mi : Mi;
-            //     var S = date.getSeconds();
-            //     S = S < 10 ? '0' + S : S;
-            //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
-            //
+            // changeType() {
+            //     this.content = null;
+            //     this.toItemId = null;
+            //     this.appName = null;
             // },
+            GMTToStr(time) {
+                var date = time;
+                var Y = date.getFullYear();
+                var M = date.getMonth() + 1;
+                M = M < 10 ? '0' + M : M;// 不够两位补充0
+                var D = date.getDate();
+                D = D < 10 ? '0' + D : D;
+                var H = date.getHours();
+                H = H < 10 ? '0' + H : H;
+                var Mi = date.getMinutes();
+                Mi = Mi < 10 ? '0' + Mi : Mi;
+                var S = date.getSeconds();
+                S = S < 10 ? '0' + S : S;
+                return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
+            
+            },
             save(focusForm) {
-                // console.log( this.timePeriod)
-                // this.$refs.focusForm.validate(async (valid) => {
-                //     if (valid && (this.content != null || this.toItemId != null || this.url != null) && this.timePeriod != null && this.timePeriod[0] >= new Date()) {
-                //         focusForm.startTime = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
-                //         focusForm.endTime = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
-                //         if (this.content != null && focusForm.type == 1) {
-                //             focusForm.text = this.content;
-                //         }
-                //         if (this.toItemId != null) {
-                //             focusForm.toItemId = this.toItemId;
-                //         } else if (this.url != null && focusForm.type == 3) {
-                //             focusForm.toItemId = this.url
-                //         } else {
-                //             focusForm.toItemId = null
-                //         }
-                //         if (this.$route.query.id == '' || this.$route.query.id == undefined) {
-                //             this.$ajax({
-                //                 method: "POST",
-                //                 url: BaseUrl + 'banner/add',
-                //                 data: focusForm,
-                //                 headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
-                //             }).then(response => {
-                //                 if (response.data.flag == 500) {
-                //                     this.$alert(response.data.msg, '提示', {
-                //                         confirmButtonText: '确定',
-                //                         callback: action => {
-                //                             this.$message({
-                //                                 type: 'info',
-                //                                 message: `error: ${ response.data.msg + ',请重试'}`
-                //                             });
-                //                         }
-                //                     });
-                //                 } else if (response.data.flag == 200) {
-                //                     this.$alert(response.data.msg, '提示', {
-                //                         confirmButtonText: '确定',
-                //                         callback: action => {
-                //                             if (this.$route.query.type == 'android') {
-                //                                 this.$router.push({path: '/focusImg'})
-                //                             } else if (this.$route.query.type == 'ios') {
-                //                                 this.$router.push({path: '/iosFocusImg'})
-                //                             }
-                //                         }
-                //                     });
-                //                 } else if (response.data.flag == 201) {
-                //                     this.$alert(response.data.msg + '，请重新登录', '提示', {
-                //                         confirmButtonText: '确定',
-                //                         callback: action => {
-                //                             this.$router.push('/')
-                //                         }
-                //                     });
-                //                 }
-                //             });
-                //         } else {
-                //             this.$ajax({
-                //                 method: "POST",
-                //                 url: BaseUrl + 'banner/update',
-                //                 data: focusForm,
-                //                 headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
-                //             }).then(response => {
-                //                 if (response.data.flag == 500) {
-                //                     this.$alert(response.data.msg, '提示', {
-                //                         confirmButtonText: '确定',
-                //                         callback: action => {
-                //                             this.$message({
-                //                                 type: 'info',
-                //                                 message: `error: ${ response.data.msg + ',请重试'}`
-                //                             });
-                //                         }
-                //                     });
-                //                 } else if (response.data.flag == 200) {
-                //                     this.$alert(response.data.msg, '提示', {
-                //                         confirmButtonText: '确定',
-                //                         callback: action => {
-                //                             if (this.$route.query.type == 'android') {
-                //                                 this.$router.push({path: '/focusImg'})
-                //                             } else if (this.$route.query.type == 'ios') {
-                //                                 this.$router.push({path: '/iosFocusImg'})
-                //                             }
-                //                         }
-                //                     });
-                //                 } else if (response.data.flag == 201) {
-                //                     this.$alert(response.data.msg + '，请重新登录', '提示', {
-                //                         confirmButtonText: '确定',
-                //                         callback: action => {
-                //                             this.$router.push('/')
-                //                         }
-                //                     });
-                //                 }
-                //             });
-                //         }
-                //     } else if (this.content == null && this.focusForm.type == 1) {
-                //         this.$alert('请填写图文详情', {
-                //             confirmButtonText: '确定',
-                //             callback: action => {
-                //                 this.$message({
-                //                     type: 'info',
-                //                     message: `请重试！`
-                //                 });
-                //             }
-                //         });
-                //         return false;
-                //     } else if (this.toItemId == null && this.focusForm.type == 2) {
-                //         this.$alert('请填写App名称', {
-                //             confirmButtonText: '确定',
-                //             callback: action => {
-                //                 this.$message({
-                //                     type: 'info',
-                //                     message: `请重试！`
-                //                 });
-                //             }
-                //         });
-                //         return false;
-                //     } else if (this.timePeriod == null) {
-                //         this.$alert('请选择时间', {
-                //             confirmButtonText: '确定',
-                //             callback: action => {
-                //                 this.$message({
-                //                     type: 'info',
-                //                     message: `请重试！`
-                //                 });
-                //             }
-                //         });
-                //         return false;
-                //     } else if (this.timePeriod[0] < new Date()) {
-                //         this.$alert('开始时间不能小于当前时间', {
-                //             confirmButtonText: '确定',
-                //             callback: action => {
-                //                 this.$message({
-                //                     type: 'info',
-                //                     message: `请重试！`
-                //                 });
-                //             }
-                //         });
-                //         return false;
-                //     }
-                // })
-                //    console.log(this.content)
-                //    if(this.timePeriod!=null){
-                //      focusForm.startTime=this.GMTToStr(this.timePeriod[0]);
-                //      focusForm.endDate=this.GMTToStr(this.timePeriod[1]);
-                //    }
+                console.log( this.timePeriod)
+                this.$refs.focusForm.validate(async (valid) => {
+                    if (valid && this.url != null && this.timePeriod != null && this.timePeriod[0] >= new Date()) {
+                        focusForm.startTime = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        focusForm.endTime = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        // if (this.content != null && focusForm.type == 1) {
+                        //     focusForm.text = this.content;
+                        // }
+                        // if (this.toItemId != null) {
+                        //     focusForm.toItemId = this.toItemId;
+                        // } else if (this.url != null && focusForm.type == 3) {
+                        //     focusForm.toItemId = this.url
+                        // } else {
+                        //     focusForm.toItemId = null
+                        // }
+                        if (this.url != null) {
+                            focusForm.toItemId = this.url
+                        }
+                        if (this.$route.query.id == '' || this.$route.query.id == undefined) {
+                            // this.$ajax({
+                            //     method: "POST",
+                            //     url: BaseUrl + 'banner/add',
+                            //     data: focusForm,
+                            //     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
+                            // }).then(response => {
+                            //     if (response.data.flag == 500) {
+                            //         this.$alert(response.data.msg, '提示', {
+                            //             confirmButtonText: '确定',
+                            //             callback: action => {
+                            //                 this.$message({
+                            //                     type: 'info',
+                            //                     message: `error: ${ response.data.msg + ',请重试'}`
+                            //                 });
+                            //             }
+                            //         });
+                            //     } else if (response.data.flag == 200) {
+                            //         this.$alert(response.data.msg, '提示', {
+                            //             confirmButtonText: '确定',
+                            //             callback: action => {
+                            //                 if (this.$route.query.type == 'android') {
+                            //                     this.$router.push({path: '/focusImg'})
+                            //                 } else if (this.$route.query.type == 'ios') {
+                            //                     this.$router.push({path: '/iosFocusImg'})
+                            //                 }
+                            //             }
+                            //         });
+                            //     } else if (response.data.flag == 201) {
+                            //         this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            //             confirmButtonText: '确定',
+                            //             callback: action => {
+                            //                 this.$router.push('/')
+                            //             }
+                            //         });
+                            //     }
+                            // });
+                        } else {
+                            // this.$ajax({
+                            //     method: "POST",
+                            //     url: BaseUrl + 'banner/update',
+                            //     data: focusForm,
+                            //     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
+                            // }).then(response => {
+                            //     if (response.data.flag == 500) {
+                            //         this.$alert(response.data.msg, '提示', {
+                            //             confirmButtonText: '确定',
+                            //             callback: action => {
+                            //                 this.$message({
+                            //                     type: 'info',
+                            //                     message: `error: ${ response.data.msg + ',请重试'}`
+                            //                 });
+                            //             }
+                            //         });
+                            //     } else if (response.data.flag == 200) {
+                            //         this.$alert(response.data.msg, '提示', {
+                            //             confirmButtonText: '确定',
+                            //             callback: action => {
+                            //                 if (this.$route.query.type == 'android') {
+                            //                     this.$router.push({path: '/focusImg'})
+                            //                 } else if (this.$route.query.type == 'ios') {
+                            //                     this.$router.push({path: '/iosFocusImg'})
+                            //                 }
+                            //             }
+                            //         });
+                            //     } else if (response.data.flag == 201) {
+                            //         this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            //             confirmButtonText: '确定',
+                            //             callback: action => {
+                            //                 this.$router.push('/')
+                            //             }
+                            //         });
+                            //     }
+                            // });
+                        }
+                    } else if (this.timePeriod == null) {
+                        this.$alert('请选择时间', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `请重试！`
+                                });
+                            }
+                        });
+                        return false;
+                    } else if (this.timePeriod[0] < new Date()) {
+                        this.$alert('开始时间不能小于当前时间', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `请重试！`
+                                });
+                            }
+                        });
+                        return false;
+                    }
+                })
+                   console.log(this.content)
+                   if(this.timePeriod!=null){
+                     focusForm.startTime=this.GMTToStr(this.timePeriod[0]);
+                     focusForm.endDate=this.GMTToStr(this.timePeriod[1]);
+                   }
                 //    if(this.content!=null){
                 //    focusForm.text=this.content;
                 //    }else{
@@ -470,13 +383,40 @@
                 //    }else{
                 //        focusForm.toItemId=null
                 //    }
-                //
-                // console.log(focusForm)
+                
+                console.log(focusForm)
+            },
+            deleteImg(){//删除图片
+                // this.$ajax({
+                //     method: "POST",
+                //     url: BaseUrl + 'common/cleanImage',
+                //     params: {objectName:this.editdata.image},
+                //     headers: {'token': sessionStorage.getItem('token')}
+                // }).then(response => {
+                //     // console.log(response);
+                //     if (response.data.flag == 500) {
+                //         this.$alert(response.data.msg, '提示', {
+                //             confirmButtonText: '确定',
+                //             callback: action => {
+                //                 this.$message({
+                //                     type: 'info',
+                //                     message: `${ response.data.msg + ',请重试'}`
+                //                 });
+                //             }
+                //         });
+                //     } else if (response.data.flag == 200) {
+                //         this.editdata.image=""
+                //     } else if (response.data.flag == 201) {
+                //         this.$alert(response.data.msg + '，请重新登录', '提示', {
+                //             confirmButtonText: '确定',
+                //             callback: action => {
+                //                 this.$router.push('/')
+                //             }
+                //         });
+                //     }
+                // });
             }
 
-        },
-        components: {
-            quillEditor
         },
     };
 </script>

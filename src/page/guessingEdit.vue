@@ -137,6 +137,16 @@
                         <el-button type="primary" @click="implement">确 定</el-button>
                     </div>
                 </el-dialog>
+                <el-dialog
+                title="提示"
+                :visible.sync="chuangjiandialogVisible"
+                width="30%">
+                    <span>是否立即创建</span>
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="chuangjianFalse">否</el-button>
+                        <el-button type="primary" @click="chuangjianTrue">是</el-button>
+                    </span>
+                </el-dialog>
             </el-col>
         </el-row>
     </div>
@@ -148,6 +158,7 @@
         data() {
             return {
                 dialogVisible: false,
+                chuangjiandialogVisible:false,
                 stateType: "",//判断是删除  开启   关闭
                 tips: "",
                 choice: "",
@@ -522,26 +533,24 @@
                 }
             },
             chuangijan() {
-                this.$confirm('是否立即创建?', '提示', {
-                    confirmButtonText: '是',
-                    cancelButtonText: '否',
-                    type: 'warning'
-                }).then(() => {
-                    this.editdata.effect="立即创建";
+                this.chuangjiandialogVisible=true
+            },
+            chuangjianFalse(){//否
+                this.editdata.effect = undefined;
+                    this.$message({
+                        type: 'success',
+                        message: '创建成功!'
+                    });
+                    this.setData()
+            },
+            chuangjianTrue(){//是
+                this.editdata.effect="立即创建";
                     // this.editdata.effect=undefined;
                     this.$message({
                         type: 'success',
                         message: '立即创建成功!'
                     });
                     this.setData()
-                }).catch(() => {
-                    this.editdata.effect = undefined;
-                    this.$message({
-                        type: 'success',
-                        message: '创建成功!'
-                    });
-                    this.setData()
-                });
             },
             mapping(event) {//图片上传
                 let uploadPolicy = null;

@@ -62,6 +62,7 @@
                 title="提示"
                 :visible.sync="dialogVisible"
                 width="30%">
+                <div style="margin-bottom:10px">如果需要一次屏蔽多个，请用空格隔开</div>
                 <el-input v-model="sensitive" placeholder="请输入需要屏蔽的敏感词" @change="arrsen"></el-input>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -117,24 +118,35 @@
                     this.badwordEq=undefined
                     this.badword=undefined
                 }
+                this.classNameUpdate()
                 this.keyEq=undefined
                 this.otherKey=undefined
                 this.currentPage=1
                 this.nowPageSize=10
                 this.getData();
             },
-            arrsen(){//将输入的敏感词转成数组
+            arrsen(){//将输入的敏感词转成数组  去重
                 this.arr=[]
+                let arrs=[]
                 this.arrsensitive=this.sensitive.split(' ')
-                this.arrsensitive.forEach(time=>{
+                this.arrsensitive.forEach(time=>{//去首尾空格
                     time.replace(/(^\s*)|(\s*$)/g,"");
                 })
-                this.arr=this.arrsensitive.filter(time=>{
+                arrs=this.arrsensitive.filter(time=>{
                     return time!=''
+                })
+                this.arr=arrs.filter((val,index,array)=>{//去重
+                    return array.indexOf(val)===index
                 })
                 console.log(this.arr)
             },
             refresh(){//刷新
+                this.searchInfo=""
+                this.badwordEq=undefined
+                this.badword=undefined
+                this.keyEq=undefined
+                this.currentPage=1
+                this.nowPageSize=10
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'sensitive/reload',
@@ -144,6 +156,7 @@
                 }).then(res => {
                     if(res.data.flag==200){
                         this.getData()
+                        this.classNameUpdate()
                         this.$message({
                         message:`${res.data.msg}`,
                         type: 'success'
@@ -161,9 +174,9 @@
                         'token': sessionStorage.getItem('token')
                     }
                 }).then(res => {
-                    console.log(res)
                     if(res.data.flag==200){
                         this.getData()
+                        this.classNameUpdate()
                     }else{
                         this.$message.error(`${res.data.msg}`);
                     }
@@ -171,7 +184,6 @@
                 })
             },
             letterSearch(e,letter){//字母搜索
-                console.log(e,letter)
                 this.$refs.zm.childNodes.forEach(time=>{
                     time.classList.remove('active')
                 }) 
@@ -186,6 +198,7 @@
                     this.keyEq=letter
                     this.otherKey=undefined
                 }
+                this.searchInfo=""
                 this.badwordEq=undefined
                 this.badword=undefined
                 this.currentPage=1
@@ -226,6 +239,7 @@
                     // console.log(res)
                     if(res.data.flag==200){
                         this.getData()
+                        
                     }else{
                         this.$message.error(`${res.data.msg}`);
                     }
@@ -274,6 +288,12 @@
                     this.tableData=res.data.data.data
                     this.usercount=res.data.data.count
                 })
+            },
+            classNameUpdate(){//
+                this.$refs.zm.childNodes.forEach(time=>{
+                    time.classList.remove('active')
+                }) 
+                this.$refs.zm.firstChild.classList.add('active')
             }
         },
         watch:{
