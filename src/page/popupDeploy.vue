@@ -26,36 +26,43 @@
                 <!--</el-table-column>-->
                 <el-table-column
                     label="弹窗名称"
-                    prop="name" min-width="50">
+                    prop="title" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="状态"
+                    prop="state"
                     min-width="50">
-                    <template scope="scope">
-                        <div :class="{'up-state-type':scope.row.state===1}">
-                            {{scope.row.state==1?'上架':'下架'}}
-                        </div>
-                    </template>
+                    <!--<template scope="scope">-->
+                        <!--<div :class="{'up-state-type':scope.row.state===1}">-->
+                            <!--{{scope.row.state==1?'上架':'下架'}}-->
+                        <!--</div>-->
+                    <!--</template>-->
                 </el-table-column>
                 <el-table-column
-                    label="触发属性"
-                    prop="auditDate" min-width="50">
+                    label="弹窗次数"
+                    prop="times" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="样式"
-                    prop="auditDate" min-width="50">
+                    min-width="50">
+                    <template scope="scope">
+                        {{scope.row.pstyle==2?'选择弹窗':'单选弹窗'}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     label="日期"
-                    prop="auditDate" min-width="50">
+                    min-width="50">
+                    <template scope="scope">
+                       {{scope.row.stime!=undefined?scope.row.startTime+'至'+scope.row.endTime:'无'}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     label="展示量"
-                    prop="auditState" min-width="50">
+                    prop="shows" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="点击量"
-                    prop="remarks" min-width="50"  v-if="activeName==0||activeName==3">
+                    prop="clicks" min-width="50">
                 </el-table-column>
                 <el-table-column
                     label="操作"
@@ -70,12 +77,12 @@
                         trigger="click"
                         v-model="scope.row.visible">
                         <div style=" width:70px">
-                            <el-button style="display: block;margin: 0" type="text" size="mini" @click="setState(scope.row.id)" v-if="scope.row.state==1">
+                            <el-button style="display: block;margin: 0" type="text" size="mini" @click="setState(scope.row.id)" v-if="scope.row.state=='上架'">
                                 下架
                             </el-button>
-                            <el-button style="display: block;margin: 0" type="text" size="mini" @click="setSort(scope.row)">
-                                设置顺序
-                            </el-button>
+                            <!--<el-button style="display: block;margin: 0" type="text" size="mini" @click="setSort(scope.row)">-->
+                                <!--设置顺序-->
+                            <!--</el-button>-->
                             <el-button style="display: block;margin: 0" size="mini" type="text" @click="deleteData(scope.row.id)">删除</el-button>
                         </div>
                         <el-button type="text" slot="reference">更多</el-button>
@@ -132,7 +139,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
@@ -143,14 +149,12 @@
         searchplace,
         deleteResturant
     } from "@/api/getData";
-    import FileSaver from 'file-saver'
-    import XLSX from 'xlsx'
 
     let moment = require('moment')
     export default {
         data() {
             return {
-                info: [{name:'test',state:1,auditDate:1,remarks:'ceshi'},{name:'test',state:0,auditDate:1,remarks:'ceshi'},{name:'test',state:3,auditDate:1,remarks:'ceshi'}],
+                info: [],
                 rows: [],
                 txcount: 0,
                 totalfees: 0,
@@ -168,104 +172,191 @@
                 // innerVisible:false,
                 form: {remarks: ''},
                 formLabelWidth: 150,
-                num: 0
+                num: 0,
+                queryData:{},
+                delId:'',
+                lowerId:''
             };
         },
         created() {
             this.queryListData({activeName: 3});
         },
         components: {
-            headTop
         },
         methods: {
             addNewPopup(){
               this.$router.push({path:'/addPopup'})
             },
             queryListData({activeName, pageValue, pageSize}) {
-                // this.$ajax
-                //     .get(`${BaseUrl}auth/all/${pageValue || 1}/${this.nowPageSize || 10}/${activeName || 2}`, {headers: {'token': sessionStorage.getItem('token')}},
-                //     )
-                //     .then(response => {
-                //         if (response.data.flag == 200) {
-                //             this.info = response.data.data.list;
-                //             this.txcount = response.data.data.num;
-                //             this.info.forEach(item => {
-                //                 if (item.auditDate != undefined) {
-                //                     item.auditDate = moment.utc(item.auditDate).local().format('YYYY-MM-DD HH:mm:ss')
-                //                 }
-                //             })
-                //             this.info.forEach(item => {
-                //                 if (item.auditState == 1) {
-                //                     item.auditState = '审核通过'
-                //                 } else if (item.auditState == 2) {
-                //                     item.auditState = '未审核'
-                //                 } else {
-                //                     item.auditState = '审核不通过'
-                //                 }
-                //             })
-                //         } else if (response.data.flag == 201) {
-                //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-                //                 confirmButtonText: '确定',
-                //                 callback: action => {
-                //                     this.$router.push('/')
-                //                 }
-                //             });
-                //         } else {
-                //             this.info = []
-                //         }
-                //         // this.showlist=this.info[0].authPic.split(',')
-                //     });
-                // this.searchInfo = "";
+                if(activeName==3){
+                    this.queryData={
+                    }
+                }else if(activeName==2){
+                    this.queryData={
+                        // page:1,
+                        // size:1000000,
+                        upperShelf:true
+                    }
+                }else{
+                    this.queryData={
+                        // page:1,
+                        // size:1000000,
+                        lowerShelf:true
+                    }
+                }
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'popup/query',
+                    data:this.queryData,
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.info=response.data.data.data;
+                        sessionStorage.setItem('popupList',JSON.stringify(this.info))
+                        this.info.forEach(item=>{
+                            if(item.stime!==undefined&&item.etime!==undefined) {
+                                item.startTime = moment.utc(item.stime).local().format('YYYY-MM-DD')
+                                item.endTime = moment.utc(item.etime).local().format('YYYY-MM-DD')
+                            }
+                        })
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             },
-            handleSizeChange(pageSize) {
-                this.nowPageSize = pageSize;
-                const listParams = {
-                    activeName: this.activeName,
-                    pageValue: 1,
-                    pageSize: pageSize
-                };
-                this.queryListData(listParams);
-            },
-            handleCurrentChange(pageValue) {
-                this.currentPage = pageValue;
-                const listParams = {
-                    activeName: this.activeName,
-                    pageValue: pageValue,
-                    pageSize: this.nowPageSize || 10
-                };
-                this.queryListData(listParams);
-            },
+            // handleSizeChange(pageSize) {
+            //     this.nowPageSize = pageSize;
+            //     const listParams = {
+            //         activeName: this.activeName,
+            //         pageValue: 1,
+            //         pageSize: pageSize
+            //     };
+            //     this.queryListData(listParams);
+            // },
+            // handleCurrentChange(pageValue) {
+            //     this.currentPage = pageValue;
+            //     const listParams = {
+            //         activeName: this.activeName,
+            //         pageValue: pageValue,
+            //         pageSize: this.nowPageSize || 10
+            //     };
+            //     this.queryListData(listParams);
+            // },
             //编辑弹窗
             goEdit(id){
                 this.$router.push({path:'/updatePopup',query:{id:id}})
             },
             //上下架弹窗
-            setState(){
+            setState(id){
                 this.dialogVisible=true
+                this.lowerId=id;
             },
             ensureSetState(){
-
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'popup/lowerShelf',
+                    params:{id:this.lowerId},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.dialogVisible = false;
+                                this.queryListData({activeName:this.activeName,pageValue:this.currentPage,pageSize:this.nowPageSize});
+                            }
+                        });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             },
             //设置顺序
-            setSort(){
-                this.dialogFormSort=true
-            },
-            ensureSortPopup(){
-
-            },
+            // setSort(){
+            //     this.dialogFormSort=true
+            // },
+            // ensureSortPopup(){
+            //
+            // },
             //删除弹框
-            deleteData(){
-                this.dialogVisibleDelete=true
+            deleteData(id){
+                this.dialogVisibleDelete=true;
+                this.delId=id
             },
             ensureDelete(){
-
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'popup/delete',
+                    params:{id:this.delId},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `error: ${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.dialogVisibleDelete = false;
+                                this.queryListData({activeName:this.activeName,pageValue:this.currentPage,pageSize:this.nowPageSize});
+                            }
+                        });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             }
 
         }
     };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
     @import "../style/mixin";
     .popup-deploy {
         .demo-table-expand {

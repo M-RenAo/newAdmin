@@ -2,15 +2,15 @@
     <div>
         <el-row style="margin-top: 20px;">
             <el-col :span="14" :offset="4">
-                <el-form :model="focusForm" ref="focusForm" :rules="rule" label-width="110px" class="form food_form">
+                <el-form :model="popupForm" ref="popupForm" :rules="rule" label-width="110px" class="form food_form">
                     <el-form-item label="弹窗名称：" prop="title">
-                        <el-input v-model="focusForm.title"></el-input>
+                        <el-input v-model="popupForm.title"></el-input>
                     </el-form-item>
-                    <el-form-item label="弹窗次数：" >
+                    <el-form-item label="弹窗次数："  prop="times">
 
-                            <el-input  placeholder="每日弹出上限" v-model="focusForm.title" style="width:200px;"></el-input>
+                            <el-input  placeholder="每日弹出上限" v-model="popupForm.times" style="width:200px;" type="number" min="1"></el-input>
                     </el-form-item>
-                    <el-form-item label="背景图：" prop="picAddr">
+                    <el-form-item label="背景图：" >
                         <div style="display: flex;align-items:flex-end;">
                             <div style="width:150px;height:150px;border: 1px #999 dashed;margin-right: 10px"><img
                                 :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+advertisePic"
@@ -37,15 +37,15 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <el-radio v-model="pupupType" label="1">选择弹窗</el-radio>
+                                    <el-radio v-model="pstyle" label="2">选择弹窗</el-radio>
                                 </div>
                                 <div>
                                     左边按钮
-                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pupupType!=1" placeholder="默认文案：取消"></el-input>
+                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pstyle!=2" placeholder="默认文案：取消" v-model="leftTxt"></el-input>
                                 </div>
                                 <div>
                                     右边按钮
-                                    <el-input style="width:140px;"  v-bind:disabled="pupupType!=1" placeholder="默认文案：确定"></el-input>
+                                    <el-input style="width:140px;"  v-bind:disabled="pstyle!=2" placeholder="默认文案：确定" v-model="rightTxt"></el-input>
                                 </div>
                             </div>
                             <div class="pupup-type-choice">
@@ -59,25 +59,25 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <el-radio v-model="pupupType" label="2">单选弹窗</el-radio>
+                                    <el-radio v-model="pstyle" label="1">单选弹窗</el-radio>
                                 </div>
                                 <div>
                                     中间按钮
-                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pupupType!=2" placeholder="默认文案：确定"></el-input>
+                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pstyle!=1" v-model="centerTxt" placeholder="默认文案：确定"></el-input>
                                 </div>
                             </div>
                         </div>
                     </el-form-item>
                     <el-form-item label="弹窗退出类型：" >
                         <div>
-                            <el-radio v-model="closeType" label="1">允许关闭</el-radio>
+                            <el-radio v-model="qstyle" label="1">允许关闭</el-radio>
                         </div>
                         <div>
-                            <el-radio v-model="closeType" label="2">禁止关闭</el-radio>
+                            <el-radio v-model="qstyle" label="0">禁止关闭</el-radio>
                         </div>
                     </el-form-item>
                     <el-form-item label="推广地址：" prop="url" >
-                        <el-input v-model="url"></el-input>
+                        <el-input v-model="popupForm.url"></el-input>
                     </el-form-item>
                     <el-form-item label="推广周期：" prop="timePeriod">
                         <el-date-picker
@@ -86,12 +86,13 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
+                            :default-time="['00:00:00', '23:59:59']"
                             :picker-options="pickerOptions0">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
                         <el-button @click="goback()">返回</el-button>
-                        <el-button type="primary" @click="save(focusForm)">保存</el-button>
+                        <el-button type="primary" @click="save(popupForm)">保存</el-button>
                     </el-form-item>
                 </el-form>
 
@@ -119,12 +120,14 @@
                 toItemId: null,
                 appName: null,
                 advertisePic:'',
-                pupupType:'1',
-                closeType:'1',
+                pstyle:'2',
+                qstyle:'1',
                 timeRound:[],
-                focusForm: {
-                    type: '1',
+                popupForm: {
                 },
+                centerTxt:'确定',
+                leftTxt:'取消',
+                rightTxt:'确定',
                 radio:'1',
                 // appNames:[],
                 imgData: {
@@ -140,150 +143,45 @@
                     title: [
                         {required: true, message: '请输入弹窗名称', trigger: 'blur'},
                     ],
+                    times:[
+                        {required: true, message: '请输入弹出次数', trigger: 'blur'},
+                    ],
                     picAddr: [
                         {required: true, message: '请选择弹窗背景图', trigger: 'blur'}
                     ],
                     url: [
                         {required: true, message: '请输入推广地址', trigger: 'blur'}
                     ],
-                }
+                },
+                popupList:[]
             }
         },
         created() {
             // console.log(this.$route.query.id);
             if (this.$route.query.id != undefined) {
-                this.$ajax.get(BaseUrl + 'banner/' + this.$route.query.id, {
-                    headers: {
-                        'token': sessionStorage.getItem('token'),
-                        'device': this.$route.query.type
+                this.popupList=JSON.parse(sessionStorage.getItem('popupList'))
+                this.popupList.forEach(item=>{
+                    if(item.id==this.$route.query.id){
+                        this.popupForm=item
                     }
-                }).then(response => {
-                    // console.log(response)
-                    if (response.data.flag == 200) {
-                        this.focusForm = response.data.data;
-                        this.uploadIconUrl = response.data.data.picAddr;
-                        if (response.data.data.text != undefined) {
-                            this.content = response.data.data.text;
-                        }
-                        if (response.data.data.toItemId != undefined) {
-                            this.url = response.data.data.toItemId
-                        }
-                        if (response.data.data.toItem != undefined) {
-                            this.toItemId = response.data.data.toItem.appId;
-                            this.appName = response.data.data.toItem.appName;
-                        }
-                        this.timePeriod = [moment.utc(this.focusForm.startTime).local(), moment.utc(this.focusForm.endTime).local()]
-                    } else if (response.data.flag == 201) {
-                        this.$alert(response.data.msg + '，请重新登录', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$router.push('/')
-                            }
-                        });
-                    }
-                })
+                });
+                if(this.popupForm.pstyle==2){
+                    this.pstyle='2';
+                    this.leftTxt=this.popupForm.btntxt.split(';')[0];
+                    this.rightTxt=this.popupForm.btntxt.split(';')[1]
+                }else{
+                    this.pstyle='1';
+                    this.centerTxt=this.popupForm.btntxt
+                }
+                this.qstyle=this.popupForm.qstyle.toString();
+                this.timeRound=[moment.utc(this.popupForm.stime).local().format('YYYY-MM-DD'),moment.utc(this.popupForm.etime).local().format('YYYY-MM-DD')];
+                if(this.popupForm.image!==undefined) {
+                    this.uploadIconUrl = this.popupForm.image
+                }
             }
         },
         methods: {
-            // loadAll() {
-            //     this.$ajax.get(BaseUrl+'apply/all/0/0/1').then(response => {
-            //        console.log(response)
-            //         if(response.data.flag==200){
-            //             this.getData()
-            //             // var that=this;
-            //             // this.adminList.forEach(function(item,index){
-            //             //     if(item.id==that.deleteId){
-            //             //         that.adminList.splice(index,1);
-            //             //         that.txcount=that.txcount-1
-            //             //     }
-            //             // })
-            //         }else{
-            //             this.$alert(response.data.msg, '提示', {
-            //                 confirmButtonText: '确定',
-            //             });
-            //         }
-            //     })
-            //     return ;
-            // },
-            querySearch(queryString, cb) {
-                // var appNames = this.appNames;
-
-                this.$ajax.get(BaseUrl + 'apply/sign/' + queryString, {
-                    headers: {
-                        'token': sessionStorage.getItem('token'),
-                        'device': this.$route.query.type
-                    }
-                }).then(response => {
-                    // console.log(response)
-                    if (response.data.flag == 200) {
-                        // this.appNames=response.data.data
-                        const currentArray = response.data.data;
-                        const appNameArray = [];
-                        currentArray.forEach((item) => {
-                            const appNameObj = {value: item.appName, fileId: item.fileId};
-                            appNameArray.push(appNameObj);
-                        })
-                        cb(appNameArray)
-                    } else if (response.data.flag == 201) {
-                        this.$alert(response.data.msg + '，请重新登录', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$router.push('/')
-                            }
-                        });
-                    } else {
-                        this.$alert(response.data.msg, '提示', {
-                            confirmButtonText: '确定',
-                        });
-                    }
-                })
-                clearTimeout(this.timeout);
-                this.timeout = setTimeout(() => {
-                    // cb(results);
-                }, 3000 * Math.random());
-            },
-            // createStateFilter(queryString) {
-            //     return (state) => {
-            //         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-            //     };
-            // },
-            handleSelect(item) {
-                // console.log('>>>>>>>item', item.fileId);
-                this.toItemId = item.fileId;
-                // console.log(item)
-                this.appName = item.value;
-            },
             add_img(event) {
-                if(this.uploadIconUrl!==null&&event.target.files[0]!==undefined){
-                    this.$ajax({
-                        method: "POST",
-                        url: BaseUrl + 'common/cleanImage',
-                        params: {objectName:this.uploadIconUrl},
-                        headers: {'token': sessionStorage.getItem('token')}
-                    }).then(response => {
-                        // console.log(response);
-                        if (response.data.flag == 500) {
-                            this.$alert(response.data.msg, '提示', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$message({
-                                        type: 'info',
-                                        message: `${ response.data.msg + ',请重试'}`
-                                    });
-                                }
-                            });
-                        } else if (response.data.flag == 200) {
-                            this.uploadIconUrl=''
-                        } else if (response.data.flag == 201) {
-                            this.$alert(response.data.msg + '，请重新登录', '提示', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$router.push('/')
-                                }
-                            });
-                        }
-                    });
-                }
                 let uploadPolicy = null;
                 this.$ajax
                     .get(BaseUrl + "alioss/getpolicy", {
@@ -348,31 +246,66 @@
                         });
                     });
             },
+            deletePic(){
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl + 'common/cleanImage',
+                        params: {objectName:this.uploadIconUrl},
+                        headers: {'token': sessionStorage.getItem('token')}
+                    }).then(response => {
+                        // console.log(response);
+                        if (response.data.flag == 500) {
+                            this.$alert(response.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `${ response.data.msg + ',请重试'}`
+                                    });
+                                }
+                            });
+                        } else if (response.data.flag == 200) {
+                            this.uploadIconUrl=''
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        }
+                    });
+            },
             //返回
             goback(){
                 this.$router.push({path:'/popupDeploy'})
             },
-            save(focusForm) {
-                // console.log( this.timePeriod)
-                this.$refs.focusForm.validate(async (valid) => {
+            save(popupForm) {
+                this.$refs.popupForm.validate(async (valid) => {
                     if (valid) {
-                        focusForm.startTime = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
-                        focusForm.endTime = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
-                        if (this.content != null && focusForm.type == 1) {
-                            focusForm.text = this.content;
+                        if(this.popupForm.times>1){
+                        this.popupForm.times=Number(this.popupForm.times)
+                        }else{
+                            this.$alert('弹窗次数应大于0 ', '提示', {
+                                confirmButtonText: '确定',
+                            });
+                            return false
                         }
-                        if (this.toItemId != null) {
-                            focusForm.toItemId = this.toItemId;
-                        } else if (this.url != null && focusForm.type == 3) {
-                            focusForm.toItemId = this.url
-                        } else {
-                            focusForm.toItemId = null
+                        this.popupForm.image=this.uploadIconUrl;
+                        this.popupForm.stime=moment(this.timeRound[0]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        this.popupForm.etime=moment(this.timeRound[1]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        if(this.pstyle=='2'){
+                            this.popupForm.btntxt=this.leftTxt+';'+this.rightTxt
+                        }else{
+                            this.popupForm.btntxt=this.centerTxt
                         }
+                        this.popupForm.pstyle=Number(this.pstyle)
+                        this.popupForm.qstyle=Number(this.qstyle)
                         if (this.$route.query.id == '' || this.$route.query.id == undefined) {
                             this.$ajax({
                                 method: "POST",
-                                url: BaseUrl + 'banner/add',
-                                data: focusForm,
+                                url: BaseUrl + 'popup/new',
+                                data:  this.popupForm,
                                 headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                             }).then(response => {
                                 if (response.data.flag == 500) {
@@ -389,11 +322,7 @@
                                     this.$alert(response.data.msg, '提示', {
                                         confirmButtonText: '确定',
                                         callback: action => {
-                                            if (this.$route.query.type == 'android') {
-                                                this.$router.push({path: '/focusImg'})
-                                            } else if (this.$route.query.type == 'ios') {
-                                                this.$router.push({path: '/iosFocusImg'})
-                                            }
+                                            this.$router.push({path: '/popupDeploy'})
                                         }
                                     });
                                 } else if (response.data.flag == 201) {
@@ -408,8 +337,8 @@
                         } else {
                             this.$ajax({
                                 method: "POST",
-                                url: BaseUrl + 'banner/update',
-                                data: focusForm,
+                                url: BaseUrl + 'popup//modify',
+                                data: this.popupForm,
                                 headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                             }).then(response => {
                                 if (response.data.flag == 500) {
@@ -426,11 +355,7 @@
                                     this.$alert(response.data.msg, '提示', {
                                         confirmButtonText: '确定',
                                         callback: action => {
-                                            if (this.$route.query.type == 'android') {
-                                                this.$router.push({path: '/focusImg'})
-                                            } else if (this.$route.query.type == 'ios') {
-                                                this.$router.push({path: '/iosFocusImg'})
-                                            }
+                                            this.$router.push({path: '/popupDeploy'})
                                         }
                                     });
                                 } else if (response.data.flag == 201) {
@@ -455,23 +380,6 @@
                         });
                     }
                 })
-                //    console.log(this.content)
-                //    if(this.timePeriod!=null){
-                //      focusForm.startTime=this.GMTToStr(this.timePeriod[0]);
-                //      focusForm.endDate=this.GMTToStr(this.timePeriod[1]);
-                //    }
-                //    if(this.content!=null){
-                //    focusForm.text=this.content;
-                //    }else{
-                //        focusForm.text=null
-                //    }
-                //    if(this.toItemId!=null){
-                //        focusForm.toItemId=this.toItemId;
-                //    }else{
-                //        focusForm.toItemId=null
-                //    }
-                //
-                // console.log(focusForm)
             }
 
         },
