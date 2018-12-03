@@ -263,8 +263,10 @@
                 this.focusForm.item='image--1411105531-569206847739414689dd0e86ed7210f7.png'
                 this.$refs.focusForm.validate(async (valid) => {
                     if (valid && this.url != null && this.timePeriod != null && this.timePeriod[0] >= new Date()) {
-                        focusForm.startDate = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
-                        focusForm.endDate = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        // focusForm.startDate = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        focusForm.startDate=154339650
+                        // focusForm.endDate = moment(this.timePeriod[1]).utc().format('YYYY-MM-DD HH:mm:ss');
+                        focusForm.endDate=154539650
                         if (this.url != null) {
                             focusForm.linkText = this.url
                         }
@@ -272,7 +274,7 @@
                             this.$ajax({
                                 method: "POST",
                                 url: BaseUrl + 'startUpShow/add',
-                                data: focusForm,
+                                params: focusForm,
                                 headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                             }).then(response => {
                                 if (response.data.flag == 500) {
@@ -359,10 +361,10 @@
                     }
                 })
                    console.log(this.content)
-                   if(this.timePeriod!=null){
-                     focusForm.startDate=this.GMTToStr(this.timePeriod[0]);
-                     focusForm.endDate=this.GMTToStr(this.timePeriod[1]);
-                   }
+                //    if(this.timePeriod!=null){
+                //      focusForm.startDate=this.GMTToStr(this.timePeriod[0]);
+                //      focusForm.endDate=this.GMTToStr(this.timePeriod[1]);
+                //    }
                 //    if(this.content!=null){
                 //    focusForm.text=this.content;
                 //    }else{
