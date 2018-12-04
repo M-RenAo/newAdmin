@@ -212,7 +212,7 @@
                     <el-button type="primary" @click="saveUpdateDown()">保存</el-button>
                 </div>
             </el-form>
-            <el-dialog :visible.sync="dialogTableVisible" min-width="600px" :close-on-click-modal=false>
+            <el-dialog :visible.sync="dialogTableVisible" width="700px" :close-on-click-modal=false>
                 <div>
                     <el-select v-model="fileMoudleUnchoice" placeholder="请选择" @change="searchUnchoiceAppByTag">
                         <el-option label="全部" value="-1"></el-option>
@@ -277,6 +277,18 @@
                         prop="touchNum" min-width="50">
                     </el-table-column>
                 </el-table>
+                <div class="Pagination">
+                    <el-pagination
+                        @size-change="handleSizeChangeModule"
+                        @current-change="handleCurrentChangeModule"
+                        :current-page.sync="currentPageModule"
+                        :page-size.sync="nowPageSizeModule"
+                        :page-sizes="[5, 10, 20, 40]"
+                        :total="txcountModule"
+                        layout="total, sizes, prev, pager, next, jumper"
+                    >
+                    </el-pagination>
+                </div>
                 <el-button type="primary" @click="saveApp()" style="margin-top: 10px"
                            v-bind:disabled="addAppToMoudle.length==0">保存
                 </el-button>
@@ -334,6 +346,9 @@
                 totalfees: 0,
                 currentPage: 1,
                 nowPageSize: 10,
+                currentPageModule:1,
+                nowPageSizeModule:10,
+                txcountModule:0,
                 form: {},
                 dialogFormVisible: false,
                 dialogTableVisible: false,
@@ -728,6 +743,8 @@
             },
             addApptohere() {
                 this.dialogTableVisible = true;
+                this.currentPageModule=1;
+                this.nowPageSizeModule=10
                 this.getApp()
             },
             searchUnchoiceAppByTag() {
@@ -850,12 +867,21 @@
                     .catch(_ => {
                     });
             },
+            handleSizeChangeModule(pageSize){
+                this.nowPageSizeModule = pageSize;
+                this.currentPageModule = 1;
+                this.getApp();
+            },
+            handleCurrentChangeModule(pageValue){
+                this.currentPageModule = pageValue;
+                this.getApp()
+            },
             getApp() {
                 this.$ajax
                     .get(`${BaseUrl}apply/all`, {
                         params: {
-                            pageCode: 0,
-                            pageSize: 0,
+                            pageCode: this.currentPageModule,
+                            pageSize: this.nowPageSizeModule,
                             state: 1,
                             fileState: 1,
                             posId: this.$route.query.code,
@@ -878,6 +904,7 @@
                                     item.appState = "未上架";
                                 }
                             });
+                            this.txcountModule=response.data.data.fileNum
                             this.unChoiceAppList.forEach(item => {
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                             });

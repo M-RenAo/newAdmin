@@ -83,12 +83,12 @@
                     <!--</div>-->
                     <el-submenu index="'5c'">
                         <template slot="title"><i class="el-icon-setting"></i>通用中心</template>
-                        <!-- <el-submenu index="5-1">
+                        <el-submenu index="5-1">
                             <span slot="title">焦点图管理</span>
                             <el-menu-item index="focusImg">android焦点图</el-menu-item>
                             <el-menu-item index="iosFocusImg">ios焦点图</el-menu-item>
-                        </el-submenu> -->
-                        <el-menu-item index="deploy">运营部署</el-menu-item>
+                        </el-submenu>
+                        <!--<el-menu-item index="deploy">运营部署</el-menu-item>-->
                         <el-menu-item index="pushMessage">公告管理</el-menu-item>
                         <el-menu-item index="trumpet">小号</el-menu-item>
                         <!--<el-menu-item index="newList">快讯列表</el-menu-item>-->
@@ -96,7 +96,7 @@
                         <el-menu-item index="messageManagement">快讯管理</el-menu-item>
                         <el-menu-item index="dappList">dapp部署</el-menu-item>
                         <el-menu-item index="guessing">竞猜管理</el-menu-item>
-                        <el-menu-item index="sensitiveWords">敏感词</el-menu-item>
+                        <!--<el-menu-item index="sensitiveWords">敏感词</el-menu-item>-->
                     </el-submenu>
                     <el-submenu index="'6c'">
                         <template slot="title"><i class="el-icon-star-on"></i>用户信息</template>

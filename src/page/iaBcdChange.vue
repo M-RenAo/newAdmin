@@ -111,10 +111,10 @@
                     min-width="90"
                 >
                     <template scope="scope">
-                        <el-button class="littleButton" style="margin-left:0;" v-clipboard:copy="scope.row.address"
+                        <el-button type="text" style="margin-left:0;" v-clipboard:copy="scope.row.address"
                                    v-clipboard:success="onCopy" v-clipboard:error="onError">复制地址
                         </el-button>
-                        <el-button class="littleButton" style="margin-left:0;" @click="ensureCoin(scope.row.id)">确认
+                        <el-button type="text" style="margin-left:0;" @click="ensureCoin(scope.row.id)">确认
                         </el-button>
                     </template>
                 </el-table-column>
@@ -360,7 +360,7 @@
                     }
                     this.$ajax({
                         method: "POST",
-                        url: BaseUrl + 'imwallet/withdrawOk',
+                        url: BaseUrl + 'bcdWallet/withdrawOk',
                         data: this.cellPhones,
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {

@@ -171,7 +171,6 @@
                 dialogVisibleDelete:false,
                 // innerVisible:false,
                 form: {remarks: ''},
-                formLabelWidth: 150,
                 num: 0,
                 queryData:{},
                 delId:'',

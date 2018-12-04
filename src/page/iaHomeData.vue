@@ -139,7 +139,7 @@
                 sevenDate: [[], [], [], [], [], [], []],
                 endDate1: moment().add('days', 1).format('YYYY-MM-DD'),
                 startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
-                endDate2: moment().add('days', 1).format('YYYY-MM-DD'),
+                endDate2: moment().format('YYYY-MM-DD'),
                 data1: [],
                 data2: [],
                 dataName: ['总兑换量', '打开应用奖励', '新注册奖励', '邀请好友奖励', '下载奖励', '猜猜使用', '见证使用'],
@@ -195,7 +195,7 @@
                     url: BaseUrl + 'imwallet/getIaDataList',
                     data: {
                         btime: moment(this.dataTime[0]).format('YYYY-MM-DD'),
-                        etime: moment(this.dataTime[1]).format('YYYY-MM-DD'),
+                        etime: moment(this.dataTime[1]).add('days',1).format('YYYY-MM-DD'),
                         page: this.currentPage,
                         size: this.nowPageSize
                     },
@@ -219,10 +219,13 @@
                 });
             },
             handleSizeChange(size) {
-                // console.log(size)
+                this.nowPageSize=size;
+                this.currentPage=1
+               this.getData()
             },
             handleCurrentChange(page) {
-                // console.log(page)
+                this.currentPage=page
+               this.getData()
             },
             serchData(dataTime) {
                 if (dataTime == null) {
@@ -258,15 +261,15 @@
                     method: "POST",
                     url: BaseUrl + 'imwallet/getIaDataMapList ',
                     data: {
-                        btime: moment(this.dataTime[0]).format('YYYY-MM-DD'),
-                        etime: moment(this.dataTime[1]).format('YYYY-MM-DD')
+                        btime:  this.startDate2,
+                        etime: this.endDate2
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     // console.log(response)
                     if (response.data.flag == 200) {
-                        this.sevenDay = response.data.data.data[0];
-                        this.sevenDate = response.data.data.data[1];
+                        this.sevenDay = response.data.data.data[0].reverse();
+                        this.sevenDate = [response.data.data.data[1][0].reverse(),response.data.data.data[1][1].reverse(),response.data.data.data[1][2].reverse(),response.data.data.data[1][3].reverse()];
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -279,7 +282,7 @@
             },
             handleClick() {
                 if (this.activeName == 2) {
-                    this.startDate2 = moment().subtract('days', 31).format('YYYY-MM-DD')
+                    this.startDate2 = moment().subtract('days', 30).format('YYYY-MM-DD')
                 } else {
                     this.startDate2 = moment().subtract('days', 7).format('YYYY-MM-DD')
                 }

@@ -179,6 +179,18 @@
                     prop="fileTag" min-width="50">
                 </el-table-column>
             </el-table>
+            <div class="Pagination">
+                <el-pagination
+                    @size-change="handleSizeChangeTag"
+                    @current-change="handleCurrentChangeTag"
+                    :current-page.sync="currentPageTag"
+                    :page-size.sync="nowPageSizeTag"
+                    :page-sizes="[5, 10, 20, 40]"
+                    :total="txcountTag"
+                    layout="total, sizes, prev, pager, next, jumper"
+                >
+                </el-pagination>
+            </div>
             <el-button type="primary" @click="saveApp()" style="margin-top: 10px" v-bind:disabled="appId.length==0">保存
             </el-button>
         </el-dialog>
@@ -239,6 +251,9 @@
                 currentPage: 1,
                 nowPageSize: 10,
                 txcount: 0,
+                currentPageTag:1,
+                nowPageSizeTag:10,
+                txcountTag:0,
                 TagForm: {},
                 rankAndApp: {},
                 searchInfo: null,
@@ -549,6 +564,8 @@
             },
             addApptohere() {
                 this.dialogTableVisible = true;
+                this.currentPageTag=1;
+                this.nowPageSizeTag=10
                 this.getApp()
             },
             searchUnchoiceApp(text) {
@@ -636,12 +653,21 @@
                     }
                 });
             },
+            handleSizeChangeTag(pageSize){
+                this.nowPageSizeTag = pageSize;
+                this.currentPageTag = 1;
+                this.getApp();
+            },
+            handleCurrentChangeTag(pageValue){
+                this.currentPageTag = pageValue;
+                this.getApp()
+            },
             getApp() {
                 this.$ajax
                     .get(`${BaseUrl}apply/all`, {
                         params: {
-                            pageCode: 0,
-                            pageSize: 0,
+                            pageCode: this.currentPageTag,
+                            pageSize: this.nowPageSizeTag,
                             state: 1,
                             fileState: 2,
                             tagId: 0,
@@ -656,6 +682,7 @@
                             var that = this
                             // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.unChoiceAppList = response.data.data.appList
+                            this.txcountTag=response.data.data.fileNum;
                             this.unChoiceAppList.forEach(item => {
                                 if (item.fileState == 1) {
                                     item.appState = "已上架";

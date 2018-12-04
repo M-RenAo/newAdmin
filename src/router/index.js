@@ -84,7 +84,7 @@ const updataStartup =resolve => require(['@/page/updataStartup'], resolve);
 const popupDeploy = resolve => require(['@/page/popupDeploy'], resolve);
 const addPopup = resolve => require(['@/page/addPopup'], resolve);
 const channelManagement = resolve => require(['@/page/channelManagement'], resolve);
-
+const digDeploy= resolve => require(['@/page/digDeploy'], resolve);
 
 const routes = [
     {
@@ -101,7 +101,7 @@ const routes = [
         }, {
             path: '/iaHomeData',
             component: iaHomeData,
-            meta: ['数据概览', '首页'],
+            meta: ['数据概览', 'IA数据'],
         }, {
             path: '/dig',
             component: dig,
@@ -436,6 +436,11 @@ const routes = [
                 name:'channelManagement',
                 component: channelManagement,
                 meta: ['通用中心', '渠道分销'],
+            },{
+                path: '/digDeploy',
+                name:'digDeploy',
+                component: digDeploy,
+                meta: ['通用中心', '挖矿部署'],
             }
         ]
     }

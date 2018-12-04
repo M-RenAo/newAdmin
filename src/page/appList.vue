@@ -82,17 +82,17 @@
                     label="最新上传时间"
                     prop="fileDate" min-width="50">
                 </el-table-column>
-                <el-table-column
-                    v-if="activeName==1"
-                    label="评论数/评分"
-                    min-width="50">
-                    <template scope="scope">
-                        <router-link
-                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName}}">
-                            {{scope.row.comment}}
-                        </router-link>
-                    </template>
-                </el-table-column>
+                <!--<el-table-column-->
+                    <!--v-if="activeName==1"-->
+                    <!--label="评论数/评分"-->
+                    <!--min-width="50">-->
+                    <!--<template scope="scope">-->
+                        <!--<router-link-->
+                            <!--:to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName}}">-->
+                            <!--{{scope.row.comment}}-->
+                        <!--</router-link>-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
                 <el-table-column
                     label="下载"
                     v-if="activeName==0"

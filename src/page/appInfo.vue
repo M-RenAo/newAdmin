@@ -1,10 +1,10 @@
 <template>
     <div>
-        <el-tabs v-model="activeName" style="margin:0px 20px;">
-            <el-tab-pane label="基本信息" name="first">
+        <!--<el-tabs v-model="activeName" style="margin:0px 20px;">-->
+            <!--<el-tab-pane label="基本信息" name="first">-->
                 <div v-if="activeName=='first'">
                     <el-row style="margin-top: 20px;">
-                        <el-col :span="14" :offset="4">
+                        <el-col :span="20" style="margin-left:30px">
                             <el-form :model="appForm" ref="appForm" label-width="110px" class="form food_form">
                                 <div>
                                     <div style="display: flex;margin-bottom: 20px;">
@@ -87,10 +87,10 @@
                     </el-row>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="安装、打开详情" name="second">
-                <data-info v-if="activeName=='second'"></data-info>
-            </el-tab-pane>
-        </el-tabs>
+            <!--<el-tab-pane label="安装、打开详情" name="second">-->
+                <!--<data-info v-if="activeName=='second'"></data-info>-->
+            <!--</el-tab-pane>-->
+        <!--</el-tabs>-->
         <div class="imgMask" v-if="showBigImg" @click.stop="showBigImg=!showBigImg">
             <i class="prev el-icon-arrow-left" @click.stop="prev"></i>
             <div class="showImg">

@@ -212,6 +212,18 @@
                     prop="touchNum" min-width="50">
                 </el-table-column>
             </el-table>
+            <div class="Pagination">
+                <el-pagination
+                    @size-change="handleSizeChangeRank"
+                    @current-change="handleCurrentChangeRank"
+                    :current-page.sync="currentPageRank"
+                    :page-size.sync="nowPageSizeRank"
+                    :page-sizes="[5, 10, 20, 40]"
+                    :total="txcountRank"
+                    layout="total, sizes, prev, pager, next, jumper"
+                >
+                </el-pagination>
+            </div>
             <el-button type="primary" @click="saveApp()" style="margin-top: 10px" v-bind:disabled="appId.length==0">保存
             </el-button>
         </el-dialog>
@@ -277,6 +289,9 @@
                 currentPage: 1,
                 nowPageSize: 10,
                 txcount: 0,
+                nowPageSizeRank : 10,
+                currentPageRank : 1,
+                txcountRank:0,
                 rankAndApp: {},
                 searchInfo: null,
                 multipleSelection: null,
@@ -595,6 +610,8 @@
             },
             addApptohere() {
                 this.dialogTableVisible = true;
+                this.nowPageSizeRank = 10;
+                this.currentPageRank = 1;
                 this.getApp()
             },
             searchUnchoiceAppByTag() {
@@ -657,12 +674,21 @@
                     });
                 }
             },
+            handleSizeChangeRank(pageSize){
+                this.nowPageSizeRank = pageSize;
+                this.currentPageRank = 1;
+                this.getApp();
+            },
+            handleCurrentChangeRank(pageValue){
+                this.currentPageRank = pageValue;
+                this.getApp()
+            },
             getApp() {
                 this.$ajax
                     .get(`${BaseUrl}apply/all`, {
                         params: {
-                            pageCode: 0,
-                            pageSize: 0,
+                            pageCode:  this.currentPageRank,
+                            pageSize: this.nowPageSizeRank,
                             state: 1,
                             fileState: 1,
                             tagId: this.fileTagUnchoice == -1 ? null : this.fileTagUnchoice,
@@ -683,6 +709,7 @@
                             //         return item2.fileId !== item1.fileId
                             //     })
                             // })
+                            this.txcountRank=response.data.data.fileNum;
                             this.unChoiceAppList.forEach(item => {
                                 if (item.fileState == 1) {
                                     item.appState = "已上架";

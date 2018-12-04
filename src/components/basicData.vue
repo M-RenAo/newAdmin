@@ -27,11 +27,11 @@
                     </div>
                     <p>经邀请实名用户：{{beInviteAndAuthNum}}名</p>
                 </div>
-                <!--<div class="card-data">-->
-                <!--<p style="font-size: 16px;">今日活跃用户</p>-->
-                <!--<div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{newSignNum}}</div>-->
-                <!--&lt;!&ndash;<p>经邀请注册用户{{inviteSign}}</p>&ndash;&gt;-->
-                <!--</div>-->
+                <div class="card-data">
+                <p style="font-size: 16px;">今日活跃用户</p>
+                <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{activeNums}}</div>
+                <!--<p>经邀请注册用户{{inviteSign}}</p>-->
+                </div>
             </div>
             <div style="margin-bottom: 30px;">
                 <span style="font-size: 14px;">时间：</span>
@@ -60,10 +60,10 @@
                     label="登录用户"
                     prop="loginNum">
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="活跃用户"-->
-                <!--prop="userSum">-->
-                <!--</el-table-column>-->
+                <el-table-column
+                label="活跃用户"
+               >
+                </el-table-column>
                 <el-table-column
                     label="新增注册用户"
                     prop="regiNum">
@@ -72,18 +72,18 @@
                     label="实名用户"
                     prop="authNum">
                 </el-table-column>
-                <!--<el-table-column-->
-                    <!--label="邀请好友用户"-->
-                    <!--prop="authNum">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="经邀请注册用户"-->
-                    <!--prop="authNum">-->
-                <!--</el-table-column>-->
                 <el-table-column
-                label="总用户"
-                prop="userSum">
+                    label="邀请好友用户"
+                    >
                 </el-table-column>
+                <el-table-column
+                    label="经邀请注册用户"
+                  >
+                </el-table-column>
+                <!--<el-table-column-->
+                <!--label="总用户"-->
+                <!--prop="userSum">-->
+                <!--</el-table-column>-->
                 <!--<el-table-column-->
                 <!--label="注册用户"-->
                 <!--prop="regiNum">-->
@@ -130,22 +130,23 @@
                 cumulativeUsers: 10000,
                 realNameUsers: 2000,
                 // inviteSign:20,
+                activeNums:10000,
                 authNum: '',
                 loginNum: '',
                 regiNum: '',
                 beInviteAndRegiNum: '',
                 beInviteAndAuthNum: '',
                 // radio:'1',
-                dataTime: [moment().subtract('days', 31).format('YYYY-MM-DD'), moment().subtract('days', 1).format('YYYY-MM-DD')],
+                dataTime: [moment().subtract('days', 30).format('YYYY-MM-DD'), moment().subtract('days', 1).format('YYYY-MM-DD')],
                 chartTime: null,
                 tableData: [],
                 max: '',
                 startDate1: moment().subtract('days', 6).format('YYYY-MM-DD'),
                 sevenDay: [],
                 sevenDate: [[], [], [], []],
-                endDate1: moment().add('days', 1).format('YYYY-MM-DD'),
+                endDate1: moment().format('YYYY-MM-DD'),
                 startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
-                endDate2: moment().add('days', 1).format('YYYY-MM-DD'),
+                endDate2: moment().format('YYYY-MM-DD'),
                 dataName: ['新增注册用户', '实名认证用户', '总用户', '登录用户']
                 // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
@@ -238,7 +239,7 @@
                         params: {
                             cycle: 'day',
                             startDate: moment(this.dataTime[0]).format('YYYY-MM-DD'),
-                            endDate: moment(this.dataTime[1]).format('YYYY-MM-DD')
+                            endDate: moment(this.dataTime[1]).add('days',1).format('YYYY-MM-DD')
                         }, headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
                     // console.log(response);

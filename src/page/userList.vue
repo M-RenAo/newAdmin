@@ -13,14 +13,14 @@
                             <el-input v-model="num" placeholder="请输入内容" style="width:120px;"
                                       @keyup.enter.native="search(num)"></el-input>
                         </div>
-                        <div style="display: inline-block">
-                            <span style="font-size: 14px;width:80px;">实名状态：</span>
-                            <el-select v-model="realNameState" style="width:100px" @change="realNameStateChange">
-                                <el-option label="全部" value="-1">全部</el-option>
-                                <el-option label="已实名" value="1">已实名</el-option>
-                                <el-option label="未实名" value="0">未实名</el-option>
-                            </el-select>
-                        </div>
+                        <!--<div style="display: inline-block">-->
+                            <!--<span style="font-size: 14px;width:80px;">实名状态：</span>-->
+                            <!--<el-select v-model="realNameState" style="width:100px" @change="realNameStateChange">-->
+                                <!--<el-option label="全部" value="-1">全部</el-option>-->
+                                <!--<el-option label="已实名" value="1">已实名</el-option>-->
+                                <!--<el-option label="未实名" value="0">未实名</el-option>-->
+                            <!--</el-select>-->
+                        <!--</div>-->
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">排序：</span>
                             <el-select v-model="sortRule" placeholder="请选择" style="width:200px;" @change="searchBySort">
