@@ -68,15 +68,12 @@
                     <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
                 </div>
             </el-row>
-            <div>
-                <el-select v-model="bannerType">
-                    <el-option
-                    v-for="item in bannerTypes"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
+            <div style="margin-bottom:10px">
+                <el-radio-group v-model="radio">
+                    <el-radio :label="1">全部</el-radio>
+                    <el-radio :label="2">上架</el-radio>
+                    <el-radio :label="3">下架</el-radio>
+                </el-radio-group>
             </div>
             <el-table
                 :data="tableData"
@@ -88,6 +85,10 @@
                         <router-link :to="{path:'/focusInfo',query:{id:scope.row.id,type:'ios'}}">{{scope.row.title}}
                         </router-link>
                     </template>
+                </el-table-column>
+                <el-table-column
+                    label="状态"
+                    prop="status">
                 </el-table-column>
                 <el-table-column
                     label="类型"
@@ -102,13 +103,17 @@
                     prop="endTime">
                 </el-table-column>
                 <el-table-column
-                    label="状态"
-                    prop="status">
+                    label="展示量"
+                    prop="z">
                 </el-table-column>
-                <el-table-column label="操作" width="200">
+                <el-table-column
+                    label="点击量"
+                    prop="d">
+                </el-table-column>
+                <el-table-column label="操作" width="100">
                     <template scope="scope">
-                        <el-button @click="updateFocus(scope.row.id)">编辑</el-button>
-                        <el-button @click="delFocus(scope.row.id)">删除</el-button>
+                        <el-button type="text" @click="updateFocus(scope.row.id)">编辑</el-button>
+                        <el-button type="text" @click="delFocus(scope.row.id)">删除</el-button>
                     </template>
 
                 </el-table-column>
@@ -160,8 +165,7 @@
                 startDate: '',
                 endDate: '',
                 type: 'ios',
-                bannerType:"全部",
-                bannerTypes:[{value:0,label:"全部"},{value:1,label:"上架"},{value:2,label:"下架"}]
+                radio:1
             }
         },
         mounted() {

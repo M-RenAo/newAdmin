@@ -8,7 +8,7 @@
             </el-tabs>
         </div>
         <div style="margin-top:20px">
-            <div class="right" style="margin-right:50px">
+            <div style="margin:0 0 10px 10px">
                 <el-button type="primary" style="margin-right:10px;margin-bottom:2px;" @click="addStartup">新增</el-button>
             </div>
         </div>
@@ -23,7 +23,16 @@
                     <template>
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" prop="status" min-width="50px"></el-table-column>
+                <el-table-column label="状态" prop="status" min-width="50px">
+                    <template scope="scope">
+                        <div class="staing" v-if="scope.row.status=='推广中'">
+                            {{scope.row.status}}
+                        </div>
+                        <div v-else>
+                            {{scope.row.status}}
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column label="最近推广时间" prop="lastPushTime" width="170px"></el-table-column>
                 <el-table-column label="展示量" prop="showCount" min-width="50px"></el-table-column>
                 <el-table-column label="点击量" prop="touchCount" min-width="50px"></el-table-column>
@@ -31,10 +40,10 @@
                 <!-- <el-table-column label="推广时间" prop="promotion" width="170px"></el-table-column> -->
                 <el-table-column label="开始时间" prop="startPushTime" width="170px"></el-table-column>
                 <el-table-column label="结束时间" prop="endPushTime" width="170px"></el-table-column>
-                <el-table-column label="操作" width="200">
+                <el-table-column label="操作" width="150">
                     <template scope="scope">
-                        <el-button @click="updateStartup(scope.row.id)" type="text">编辑</el-button>
-                        <el-popover
+                        <el-button @click="updateStartup(scope.row)" type="text">编辑</el-button>
+                        <!-- <el-popover
                             placement="top"
                             width="160"
                             trigger="click"
@@ -46,8 +55,8 @@
                                 <el-button size="mini" type="primary" @click="delStartup(scope.row)">删除</el-button>
                             </div>
                             <el-button type="text" slot="reference">更多</el-button>
-                        </el-popover>
-                        <!-- <el-button @click="more(scope.row.id)">更多</el-button> -->
+                        </el-popover> -->
+                        <el-button type="text" @click="delStartup(scope.row.id)">删除</el-button>
                     </template>
 
                 </el-table-column>
@@ -95,27 +104,35 @@
 
                 })
             },
-            updateStartup(id){//编辑
+            updateStartup(row){//编辑
                 this.$router.push({
                     path: 'updataStartup',
                     query: {
-                        dataId: id,
+                        dataId:row.id,
+                        page:this.currentPage,
+                        size:this.nowPageSize,
+                        nums:row.nums,
+                        state:this.activeName
                     }
                 })
             },
-            more(){//更多
-            },
             delStartup(){//删除
-
+                // this.tableData.forEach(item => {
+                //     item.visible = false
+                // })
             },
             frames(){//上下架
-
+                this.tableData.forEach(item => {
+                    item.visible = false
+                })
             },
-            handleCurrentChange(){
-
+            handleCurrentChange(val){
+                this.currentPage=val
+                this.getData()
             },
-            handleSizeChange(){
-
+            handleSizeChange(val){
+                this.nowPageSize=val
+                this.getData()
             },
             getData(){
                 this.$ajax.get(BaseUrl + "startUpShow/info",{
@@ -124,16 +141,17 @@
                 pageSize:this.nowPageSize,
                 state:this.activeName
             },headers: {'token': sessionStorage.getItem('token')}}).then(res => {
+                let nums=-1
                 res.data.data.list.forEach(item=>{
                     if (item.endPushTime != undefined&&item.endPushTime != undefined){
                             
                             if(moment().format('X')*1000>item.startPushTime&&moment().format('X')*1000<item.endPushTime){
-                                item.status="上架"
+                                item.status="推广中"
                                 // console.log(1)
                             }else if(moment().format('X')*1000<item.startPushTime){
-                                item.status="待上架"
+                                item.status="待推广"
                             }else if(moment().format('X')*1000>item.endPushTime){
-                                item.status="下架"
+                                item.status="已推广"
                             }
                         }
                     if (item.startPushTime != undefined) {
@@ -145,7 +163,9 @@
                     if (item.lastPushTime != undefined && item.lastPushTime != 0) {
                         item.lastPushTime = moment.utc(item.lastPushTime).local().format('YYYY-MM-DD HH:mm:ss')
                     }
-                    item.visible=false
+                    // item.visible=false
+                    nums+=1
+                    item.nums=nums;
                     if(item.showCount!=0){
                          item.conversion=item.touchCount/item.showCount+"%"
                          return
@@ -156,7 +176,6 @@
                         item.conversion="0%"
                         return
                     }
-                       
                    
                 })
                 this.tableData=res.data.data.list
@@ -172,5 +191,9 @@
 <style lang="less">
     .content{
         padding:20px;
+        .staing{
+            color:#6cf
+        }
     }
+    
 </style>
