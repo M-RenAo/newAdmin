@@ -1,9 +1,9 @@
 <template>
     <div class="fillcontain">
         <el-tabs v-model="activeName" style="padding: 20px">
-            <el-tab-pane label="基本信息" name="first">
-                <basic-info></basic-info>
-            </el-tab-pane>
+            <!--<el-tab-pane label="基本信息" name="first">-->
+                <!--<basic-info></basic-info>-->
+            <!--</el-tab-pane>-->
             <el-tab-pane label="操作记录" name="second">
                 <do-history v-if="activeName=='second'"></do-history>
             </el-tab-pane>
@@ -28,7 +28,7 @@
     export default {
         data() {
             return {
-                activeName: 'first'
+                activeName: 'second'
             }
         },
         components: {

@@ -121,7 +121,7 @@
                         this.txcount = response.data.data.total;
                         this.tableData.forEach(item => {
                             if (item.operateDate != undefined) {
-                                item.createTime = moment.utc(item.operateTime).local().format('YYYY-MM-DD HH:mm:ss')
+                                item.createTime = moment.utc(item.targetData).local().format('YYYY-MM-DD HH:mm:ss')
                             }
                         })
                     } else if (response.data.flag == 201) {

@@ -77,6 +77,9 @@
                 <el-table-column
                     label="姓名"
                     prop="name">
+                    <template scope="scope">
+                        <router-link :to="{path:'/userInfo',query:{id:scope.row.userId}}">{{scope.row.name}}</router-link>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     label="手机号"
@@ -102,6 +105,10 @@
                     prop="remark">
                 </el-table-column>
                 <el-table-column
+                    label="运营标注"
+                    prop="remark">
+                </el-table-column>
+                <el-table-column
                     label="状态"
                     prop="status">
                 </el-table-column>
@@ -115,6 +122,8 @@
                                    v-clipboard:success="onCopy" v-clipboard:error="onError">复制地址
                         </el-button>
                         <el-button type="text" style="margin-left:0;" @click="ensureCoin(scope.row.id)">确认
+                        </el-button>
+                        <el-button type="text" style="margin-left:0;" @click="remarkChangeItem(scope.row.id)">运营标注
                         </el-button>
                     </template>
                 </el-table-column>
@@ -131,6 +140,18 @@
                 >
                 </el-pagination>
             </div>
+            <el-dialog title="" :visible.sync="dialogFormVisible">
+                <el-form :model="form" ref="form">
+                    <el-form-item label="标注：" :label-width="formLabelWidth" prop="remarksItem">
+                        <el-input v-model="form.remarksItem" auto-complete="off" style="width:80%" type="textarea" row="2"
+                        ></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false;">取 消</el-button>
+                    <el-button type="primary" @click="ensureRemark">确 定</el-button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 
@@ -164,7 +185,7 @@
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
-                formLabelWidth: '120x',
+                formLabelWidth: '120px',
                 trumpetFormWidth: '150px',
                 topForm: {},
                 trumpetForm: {},
@@ -181,6 +202,9 @@
                 timePeriod: '',
                 settledAmount: '',
                 amount: '',
+                dialogFormVisible:false,
+                form:{},
+                remarkId:''
 
 
             };
@@ -435,6 +459,13 @@
                         return false
                     }
                 });
+            },
+            remarkChangeItem(id){
+               this.dialogFormVisible=true;
+               this.remarkId=id
+            },
+            ensureRemark(){
+               this.dialogFormVisible=false
             }
 
         },
