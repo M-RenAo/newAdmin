@@ -250,7 +250,22 @@
 
             },
             delStartup(){//删除
-
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'startUpShow/del',
+                    params: {
+                        id:this.$route.query.dataId
+                    },
+                    headers: {'token': sessionStorage.getItem('token')}}).then(response => {
+                        if(response.data.flag == 200){
+                            this.$message({
+                                showClose: true,
+                                message:`${response.data.msg}`,
+                                type: 'success'
+                            });
+                            this.$router.push({path: 'startupPage'})
+                        }
+                })
             },
             save(focusForm) {
                 console.log( this.timePeriod)
@@ -282,12 +297,18 @@
                                         }
                                     });
                                 } else if (response.data.flag == 200) {
-                                    this.$alert(response.data.msg, '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$router.push({path: 'startupPage'})
-                                        }
+                                    // this.$alert(response.data.msg, '提示', {
+                                    //     confirmButtonText: '确定',
+                                    //     callback: action => {
+                                    //         this.$router.push({path: 'startupPage'})
+                                    //     }
+                                    // });
+                                    this.$message({
+                                        showClose: true,
+                                        message:`${response.data.msg}`,
+                                        type: 'success'
                                     });
+                                    this.$router.push({path: 'startupPage'})
                                 }else if (response.data.flag == 201) {
                                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                                         confirmButtonText: '确定',
@@ -316,12 +337,18 @@
                                         }
                                     });
                                 } else if (response.data.flag == 200) {
-                                    this.$alert(response.data.msg, '提示', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.$router.push({path: 'startupPage'})
-                                        }
+                                    // this.$alert(response.data.msg, '提示', {
+                                    //     confirmButtonText: '确定',
+                                    //     callback: action => {
+                                    //         this.$router.push({path: 'startupPage'})
+                                    //     }
+                                    // });
+                                    this.$message({
+                                        showClose: true,
+                                        message:`${response.data.msg}`,
+                                        type: 'success'
                                     });
+                                    this.$router.push({path: 'startupPage'})
                                 } else if (response.data.flag == 201) {
                                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                                         confirmButtonText: '确定',
