@@ -31,12 +31,6 @@
                         <div v-else>
                             {{scope.row.status}}
                         </div>
-                        <!-- <div class="staing" v-if="scope.row.state!=0">
-                            上架
-                        </div>
-                        <div v-else>
-                            下架
-                        </div> -->
                         
                     </template>
                 </el-table-column>
