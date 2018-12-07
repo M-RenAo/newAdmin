@@ -120,7 +120,7 @@
                         this.tableData = response.data.data.data;
                         this.txcount = response.data.data.total;
                         this.tableData.forEach(item => {
-                            if (item.operateDate != undefined) {
+                            if (item.targetData != undefined) {
                                 item.createTime = moment.utc(item.targetData).local().format('YYYY-MM-DD HH:mm:ss')
                             }
                         })
@@ -136,7 +136,6 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 if (this.startDate == null && this.state == '全部') {
                     var listParams = {
@@ -152,7 +151,6 @@
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.startDate == null && this.state == '全部') {
                     var listParams = {
@@ -161,35 +159,16 @@
                         pageSize: this.nowPageSize || 10,
                     };
                 } else {
-                    // this.searchForm.pageCode = pageValue;
-                    // this.searchForm.pageSize = this.nowPageSize || 10;
                     var listParams = this.searchForm
                 }
 
                 this.getData(listParams);
             },
-            // GMTToStr(time) {
-            //     var date = time;
-            //     var Y = date.getFullYear();
-            //     var M = date.getMonth() + 1;
-            //     M = M < 10 ? '0' + M : M;// 不够两位补充0
-            //     var D = date.getDate();
-            //     D = D < 10 ? '0' + D : D;
-            //     var H = date.getHours();
-            //     H = H < 10 ? '0' + H : H;
-            //     var Mi = date.getMinutes();
-            //     Mi = Mi < 10 ? '0' + Mi : Mi;
-            //     var S = date.getSeconds();
-            //     S = S < 10 ? '0' + S : S;
-            //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
-            //
-            // },
             search(state, startDate) {
                 var searchForm = {}
                 if (state != '全部') {
                     searchForm.type = state
                 }
-                // console.log(startDate)
                 if (startDate != null) {
                     searchForm.startTime = moment(this.startDate[0]).utc().format('YYYY-MM-DD HH:mm:ss');
                     searchForm.endTime = moment(this.startDate[1]).utc().format('YYYY-MM-DD HH:mm:ss')
@@ -198,7 +177,6 @@
                 searchForm.pageCode = 1;
                 searchForm.pageSize = this.nowPageSize || 10;
                 this.searchForm = searchForm
-                // console.log(searchForm)
                 this.getData(this.searchForm)
             },
 

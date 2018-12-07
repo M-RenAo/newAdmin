@@ -64,7 +64,8 @@
                 options: [
                     {label: '超级管理员', value: 'ADMIN'},
                     {label: '普通管理员', value: 'EDITOR'},
-                    {label: '钱包管理者', value: 'ASSIT'}
+                    {label: '钱包管理者', value: 'ASSIT'},
+                    {label: '访客', value: 'VISITOR'}
                 ]
             };
         },

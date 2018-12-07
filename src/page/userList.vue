@@ -195,10 +195,10 @@
                         v-model="startDate"
                         type="datetimerange"
                         align="right"
+                        @change="serchByTime"
                         :default-time="['12:00:00', '08:00:00']">
                     </el-date-picker>
                 </div>
-                <el-button type="primary" @click="serchByTime">搜索</el-button>
             </div>
             <el-table :data="IAData">
                 <el-table-column property="createTime" label="日期"></el-table-column>
@@ -241,10 +241,11 @@
                         v-model="startDate"
                         type="datetimerange"
                         align="right"
+                        @change="serchBCDByTime"
                         :default-time="['12:00:00', '08:00:00']">
                     </el-date-picker>
                 </div>
-                <el-button type="primary" @click="serchBCDByTime">搜索</el-button>
+                <!--<el-button type="primary" @click="serchBCDByTime">搜索</el-button>-->
             </div>
             <el-table :data="IAData">
                 <el-table-column property="createTime" label="日期"></el-table-column>
@@ -629,6 +630,8 @@
             },
             checkBCD(id, name) {
                 this.userNickName = name
+                this.currentPageIA=1;
+                this.nowPageSizeIA=10
                 this.userId = id
                 this.dialogTableBCDVisible = true
                 this.startDate = null;
@@ -689,7 +692,7 @@
                 if (this.startDate !== null) {
                     this.getIADetail({
                         userId: this.userId,
-                        pageCode: this.currentPageIA,
+                        pageCode:1,
                         pageSize: this.nowPageSizeIA,
                         type: 0,
                         startTime: moment(this.startDate[0]).utc().format('YYYY-MM-DD HH:mm:ss'),
@@ -699,7 +702,7 @@
                 } else {
                     this.getIADetail({
                         userId: this.userId,
-                        pageCode: this.currentPageIA,
+                        pageCode: 1,
                         pageSize: this.nowPageSizeIA,
                         type: 0,
                         startTime: '',

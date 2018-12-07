@@ -5,19 +5,32 @@
                 :data="tableData"
                 style="width: 100%">
                 <el-table-column
+                    label="注册时间"
+                    prop="inviteDate">
+                </el-table-column>
+                <el-table-column
                     label="邀请码"
                     prop="inviteCode">
+                </el-table-column>
+                <el-table-column
+                    label="姓名"
+                    >
+                    <template scope="scope">
+                        <div :class="{'up-state-type':scope.row.name===undefined}">
+                           {{scope.row.name!==undefined?scope.row.name:'未实名'}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                    label="昵称"
+                    prop="nick">
                 </el-table-column>
                 <el-table-column
                     label="好友注册手机号"
                     prop="phone">
                 </el-table-column>
                 <el-table-column
-                    label="注册时间"
-                    prop="inviteDate">
-                </el-table-column>
-                <el-table-column
-                    label="邀请好友挖矿收益（IA）"
+                    label="奖励"
                     prop="income">
                 </el-table-column>
             </el-table>
@@ -87,6 +100,7 @@
             handleSizeChange(pageSize) {
                 // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
+                this.currentPage = 1;
                 // if (this.searchForm == '') {
                 //     var listParams = {
                 //         page: 1,
@@ -128,5 +142,8 @@
 
     .table_container {
         padding: 20px;
+    }
+    .up-state-type{
+        color:red;
     }
 </style>

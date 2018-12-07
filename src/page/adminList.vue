@@ -113,7 +113,9 @@
                                 item.adminTypeName = '普通管理员'
                             } else if (item.adminType == 'ADMIN') {
                                 item.adminTypeName = '超级管理员'
-                            } else {
+                            } else if (item.adminType == 'VISITOR'){
+                                item.adminTypeName = '访客'
+                            }else{
                                 item.adminTypeName = '钱包管理者'
                             }
                         })

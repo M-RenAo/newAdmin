@@ -10,8 +10,9 @@
                          background-color="#324057" text-color="#909399" router>
                     <el-submenu index="'1c'">
                         <template slot="title"><i class="el-icon-document"></i>数据概览</template>
-                        <el-menu-item index="manage">首页</el-menu-item>
-                        <el-menu-item index="iaHomeData">IA数据</el-menu-item>
+                        <el-menu-item index="manage" v-if="adminType!='VISITOR'">首页</el-menu-item>
+                        <el-menu-item index="home" v-if="adminType=='VISITOR'">首页</el-menu-item>
+                        <el-menu-item index="iaHomeData" v-if="adminType!='VISITOR'">IA数据</el-menu-item>
                         <!--<el-submenu index="1-1">-->
                         <!--<span slot="title">应用数据</span>-->
                         <!--<el-menu-item index="appHomeData">android数据</el-menu-item>-->
@@ -21,7 +22,7 @@
                         <!--<el-menu-item index="chainWallet">链城钱包</el-menu-item>-->
                         <!--<el-menu-item index="unapplicationList">平台收益</el-menu-item>-->
                     </el-submenu>
-                    <el-submenu index="'2c'">
+                    <el-submenu index="'2c'" v-if="adminType!='VISITOR'">
                         <template slot="title"><i class="el-icon-document"></i>资产管理</template>
                         <el-menu-item index="iaBcdChange">BCD提取</el-menu-item>
                         <el-menu-item index="iaData">总资产账户</el-menu-item>
@@ -98,7 +99,7 @@
                         <el-menu-item index="guessing">竞猜管理</el-menu-item>
                         <!--<el-menu-item index="sensitiveWords">敏感词</el-menu-item>-->
                     </el-submenu>
-                    <el-submenu index="'6c'">
+                    <el-submenu index="'6c'" v-if="adminType!='VISITOR'">
                         <template slot="title"><i class="el-icon-star-on"></i>用户信息</template>
                         <el-menu-item index="userList">用户列表</el-menu-item>
                         <el-menu-item index="realName">实名认证</el-menu-item>
@@ -119,7 +120,7 @@
                         <el-menu-item index="adminList" v-if="adminType=='ADMIN'">管理员列表</el-menu-item>
                         <el-menu-item index="adminSet">修改密码</el-menu-item>
                     </el-submenu>
-                    <el-menu-item index="systemServices">
+                    <el-menu-item index="systemServices" v-if="adminType!='VISITOR'">
                         <i class="el-icon-setting"></i>
                         <span slot="title">系统服务</span>
                     </el-menu-item>
@@ -163,7 +164,7 @@
             headTop
         },
         mounted() {
-
+            // this.permissions=sessionStorage.getItem('adminType')
             if (sessionStorage.getItem('token') == undefined) {
                 this.$router.push('/')
                 return
