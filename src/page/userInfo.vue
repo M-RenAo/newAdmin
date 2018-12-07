@@ -18,7 +18,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {getUserList, getUserCount} from '@/api/getData'
     import basicInfo from '../components/basicInfo'
     import doHistory from '../components/doHistory'
@@ -32,7 +31,7 @@
             }
         },
         components: {
-            headTop, basicInfo, doHistory, wallet, sendInviate
+             basicInfo, doHistory, wallet, sendInviate
         },
         created() {
             // console.log(this.$route.query.id);

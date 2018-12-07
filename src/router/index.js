@@ -85,7 +85,7 @@ const popupDeploy = resolve => require(['@/page/popupDeploy'], resolve);
 const addPopup = resolve => require(['@/page/addPopup'], resolve);
 const channelManagement = resolve => require(['@/page/channelManagement'], resolve);
 const digDeploy= resolve => require(['@/page/digDeploy'], resolve);
-
+const homeout= resolve => require(['@/page/homeout'], resolve);
 const routes = [
     {
         path: '/',
@@ -97,6 +97,10 @@ const routes = [
         children: [{
             path: '/',
             component: home,
+            meta: ['数据概览', '首页'],
+        }, {
+            path: '/home',
+            component: homeout,
             meta: ['数据概览', '首页'],
         }, {
             path: '/iaHomeData',

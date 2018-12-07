@@ -84,7 +84,11 @@
                                 // sessionStorage.setItem('adminId', response.data.data.token);
                                 sessionStorage.setItem('adminType', response.data.data.adminType);
                                 sessionStorage.setItem('userName', response.data.data.adminName)
-                                this.$router.push('manage')
+                                if(response.data.data.adminType!='VISITOR'){
+                                    this.$router.push('manage')
+                                }else{
+                                    this.$router.push('home')
+                                }
                             } else {
                                 this.$message({
                                     type: 'error',

@@ -29,7 +29,7 @@
         props: ['sevenDate', 'sevenDay', 'max', 'dataName'],
         methods: {
             initData() {
-                const colors = ['#5793f3', '#675bba', '#d14a61', '#5fe488', '#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#339ca8', '#cda819', '#32a487'];
+                const colors = ['#5793f3', '#675bba', '#5fe488', '#c12e34', '#e6b600', '#0098d9', '#2b821d', '#005eaa', '#339ca8', '#cda819', '#32a487'];
                 const option = {
                     color: colors,
                     title: {
