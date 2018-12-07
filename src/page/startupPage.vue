@@ -31,6 +31,13 @@
                         <div v-else>
                             {{scope.row.status}}
                         </div>
+                        <!-- <div class="staing" v-if="scope.row.state!=0">
+                            上架
+                        </div>
+                        <div v-else>
+                            下架
+                        </div> -->
+                        
                     </template>
                 </el-table-column>
                 <el-table-column label="最近推广时间" prop="lastPushTime" width="170px"></el-table-column>
@@ -43,20 +50,20 @@
                 <el-table-column label="操作" width="150">
                     <template scope="scope">
                         <el-button @click="updateStartup(scope.row)" type="text">编辑</el-button>
-                        <!-- <el-popover
+                        <el-popover
                             placement="top"
                             width="160"
                             trigger="click"
                             v-model="scope.row.visible">
                             <div>
-                                <el-button type="primary" size="mini" @click="frames(scope.row)">
-                                    {{!scope.row.top?"上架":"下架"}}
+                                <el-button type="primary" size="mini" @click="frames(scope.row.id,scope.row.state)">
+                                    {{scope.row.state?"下架":"上架"}}
                                 </el-button>
-                                <el-button size="mini" type="primary" @click="delStartup(scope.row)">删除</el-button>
+                                <el-button size="mini" type="primary" @click="delStartup(scope.row.id)">删除</el-button>
                             </div>
                             <el-button type="text" slot="reference">更多</el-button>
-                        </el-popover> -->
-                        <el-button type="text" @click="delStartup(scope.row.id)">删除</el-button>
+                        </el-popover>
+                        <!-- <el-button type="text" @click="delStartup(scope.row.id)">删除</el-button> -->
                     </template>
 
                 </el-table-column>
@@ -116,15 +123,51 @@
                     }
                 })
             },
-            delStartup(){//删除
-                // this.tableData.forEach(item => {
-                //     item.visible = false
-                // })
-            },
-            frames(){//上下架
+            delStartup(id){//删除
                 this.tableData.forEach(item => {
                     item.visible = false
                 })
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'startUpShow/del',
+                    params: {
+                        id:id
+                    },
+                    headers: {'token': sessionStorage.getItem('token')}}).then(response => {
+                        console.log(response)
+                        this.getData()
+                })
+            },
+            frames(id,state){//上下架
+                this.tableData.forEach(item => {
+                    item.visible = false
+                })
+                if(state==0){
+                    this.setFrames(id,1)
+                }
+                if(state==1){
+                    this.setFrames(id,0)
+                }
+            },
+            setFrames(id,state){
+                this.$ajax({
+                                method: "POST",
+                                url: BaseUrl + 'startUpShow/update',
+                                params: {
+                                    id:id,
+                                    state:state
+                                },
+                                headers: {'token': sessionStorage.getItem('token')}
+                            }).then(response => {
+                                if (response.data.flag == 200) {
+                                    this.$message({
+                                        showClose: true,
+                                        message:`${response.data.msg}`,
+                                        type: 'success'
+                                    });
+                                    this.getData()
+                                }
+                            });
             },
             handleCurrentChange(val){
                 this.currentPage=val
@@ -163,7 +206,7 @@
                     if (item.lastPushTime != undefined && item.lastPushTime != 0) {
                         item.lastPushTime = moment.utc(item.lastPushTime).local().format('YYYY-MM-DD HH:mm:ss')
                     }
-                    // item.visible=false
+                    item.visible=false
                     nums+=1
                     item.nums=nums;
                     if(item.showCount!=0){
