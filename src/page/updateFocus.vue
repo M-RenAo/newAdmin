@@ -364,9 +364,9 @@
                                         confirmButtonText: '确定',
                                         callback: action => {
                                             if (this.$route.query.type == 'android') {
-                                                this.$router.push({path: '/focusImg'})
+                                                this.$router.go(-1)
                                             } else if (this.$route.query.type == 'ios') {
-                                                this.$router.push({path: '/iosFocusImg'})
+                                                this.$router.go(-1)
                                             }
                                         }
                                     });
@@ -401,9 +401,9 @@
                                         confirmButtonText: '确定',
                                         callback: action => {
                                             if (this.$route.query.type == 'android') {
-                                                this.$router.push({path: '/focusImg'})
+                                                this.$router.go(-1)
                                             } else if (this.$route.query.type == 'ios') {
-                                                this.$router.push({path: '/iosFocusImg'})
+                                                this.$router.go(-1)
                                             }
                                         }
                                     });

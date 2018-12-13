@@ -27,11 +27,11 @@
                     </div>
                     <p>经邀请实名用户：{{beInviteAndAuthNum}}名</p>
                 </div>
-                <div class="card-data">
-                <p style="font-size: 16px;">今日活跃用户</p>
-                <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{activeNums}}</div>
-                <!--<p>经邀请注册用户{{inviteSign}}</p>-->
-                </div>
+                <!--<div class="card-data">-->
+                <!--<p style="font-size: 16px;">今日活跃用户</p>-->
+                <!--<div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{activeNums}}</div>-->
+                <!--&lt;!&ndash;<p>经邀请注册用户{{inviteSign}}</p>&ndash;&gt;-->
+                <!--</div>-->
             </div>
             <div style="margin-bottom: 30px;">
                 <span style="font-size: 14px;">时间：</span>
@@ -60,10 +60,10 @@
                     label="登录用户"
                     prop="loginNum">
                 </el-table-column>
-                <el-table-column
-                label="活跃用户"
-               >
-                </el-table-column>
+                <!--<el-table-column-->
+                <!--label="活跃用户"-->
+               <!--&gt;-->
+                <!--</el-table-column>-->
                 <el-table-column
                     label="新增注册用户"
                     prop="regiNum">
@@ -72,14 +72,14 @@
                     label="实名用户"
                     prop="authNum">
                 </el-table-column>
-                <el-table-column
-                    label="邀请好友用户"
-                    >
-                </el-table-column>
-                <el-table-column
-                    label="经邀请注册用户"
-                  >
-                </el-table-column>
+                <!--<el-table-column-->
+                    <!--label="邀请好友用户"-->
+                    <!--&gt;-->
+                <!--</el-table-column>-->
+                <!--<el-table-column-->
+                    <!--label="经邀请注册用户"-->
+                  <!--&gt;-->
+                <!--</el-table-column>-->
                 <!--<el-table-column-->
                 <!--label="总用户"-->
                 <!--prop="userSum">-->

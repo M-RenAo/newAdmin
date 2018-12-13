@@ -7,7 +7,8 @@
                 <el-col :span="12" style="display: flex;align-items: center;">
                     <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})"
                              style="height: 40px;">
-                        <el-tab-pane label="全部" name="3"></el-tab-pane>
+                        <el-tab-pane label="全部" name="-1"></el-tab-pane>
+                        <el-tab-pane label="待上架" name="3"></el-tab-pane>
                         <el-tab-pane label="上架" name="2"></el-tab-pane>
                         <el-tab-pane label="下架" name="1"></el-tab-pane>
                     </el-tabs>
@@ -42,13 +43,13 @@
                     label="弹窗次数"
                     prop="times" min-width="50">
                 </el-table-column>
-                <el-table-column
-                    label="样式"
-                    min-width="50">
-                    <template scope="scope">
-                        {{scope.row.pstyle==2?'选择弹窗':'单选弹窗'}}
-                    </template>
-                </el-table-column>
+                <!--<el-table-column-->
+                    <!--label="样式"-->
+                    <!--min-width="50">-->
+                    <!--<template scope="scope">-->
+                        <!--{{scope.row.pstyle==2?'选择弹窗':'单选弹窗'}}-->
+                    <!--</template>-->
+                <!--</el-table-column>-->
                 <el-table-column
                     label="日期"
                     min-width="50">
@@ -162,7 +163,7 @@
                 nowPageSize: 10,
                 sort:'',
                 url: "",
-                activeName: '3',
+                activeName: '-1',
                 positionList: "",
                 searchInfo: "",
                 downloadLoading: false,
@@ -178,7 +179,7 @@
             };
         },
         created() {
-            this.queryListData({activeName: 3});
+            this.queryListData({activeName:this.activeName});
         },
         components: {
         },
@@ -187,7 +188,7 @@
               this.$router.push({path:'/addPopup'})
             },
             queryListData({activeName, pageValue, pageSize}) {
-                if(activeName==3){
+                if(activeName==-1){
                     this.queryData={
                     }
                 }else if(activeName==2){
@@ -196,13 +197,18 @@
                         // size:1000000,
                         upperShelf:true
                     }
-                }else{
+                }else if(activeName==1){
                     this.queryData={
                         // page:1,
                         // size:1000000,
                         lowerShelf:true
                     }
+                }else if(activeName==3){
+                    this.queryData= {
+                        waitShelf: true
+                    }
                 }
+
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'popup/query',

@@ -62,48 +62,25 @@
                         </router-link>
                     </template>
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="应用类型"-->
-                <!--prop="fileType" min-width="50">-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="安装包大小"
                     prop="fileSize" min-width="50">
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="应用模块"-->
-                <!--prop="position" min-width="50">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="版本号"-->
-                    <!--prop="fileVersion" min-width="50">-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="最新上传时间"
                     prop="fileDate" min-width="50">
                 </el-table-column>
-                <!--<el-table-column-->
-                    <!--v-if="activeName==1"-->
-                    <!--label="评论数/评分"-->
-                    <!--min-width="50">-->
-                    <!--<template scope="scope">-->
-                        <!--<router-link-->
-                            <!--:to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName}}">-->
-                            <!--{{scope.row.comment}}-->
-                        <!--</router-link>-->
-                    <!--</template>-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="下载"-->
-                    <!--v-if="activeName==0"-->
-                    <!--key="upload"-->
-                    <!--min-width="50"-->
-                <!--&gt;-->
-                    <!--<template scope="scope">-->
-                        <!--<el-button class="littleButton" @click="downloadApp(scope.row.fileDir)">下载-->
-                        <!--</el-button>-->
-                    <!--</template>-->
-                <!--</el-table-column>-->
+                <el-table-column
+                    v-if="activeName==1"
+                    label="评论数/评分"
+                    min-width="50">
+                    <template scope="scope">
+                        <router-link
+                            :to="{path:'/appComment',query:{id:scope.row.fileId,type:'android',appName:scope.row.appName}}">
+                            {{scope.row.comment}}
+                        </router-link>
+                    </template>
+                </el-table-column>
                 <el-table-column
                     v-if="activeName==1"
                     label="上／下架"
@@ -115,14 +92,17 @@
                     <template scope="scope">
                         <!--<el-button @click="edit(scope.row.fileId)"   v-if="activeName==1" key="edit">配置-->
                         <!--</el-button>-->
-                        <el-button class="littleButton" @click="update(scope.row.fileId)" v-if="activeName==1"
+                        <el-button type="text" class="littleButton" @click="update(scope.row.fileId)" v-if="activeName==1"
                                    key="edit">编辑
                         </el-button>
+                        <el-button type="text" @click="operating(scope.row.fileId,scope.row.appName)" v-if="activeName==1"
+                                   key="falseData" class="littleButton">运营数据
+                        </el-button>
                         <!--<el-button  class="littleButton" v-if="activeName==1" key="update" @click="updateMore(scope.row.fileId)">更新</el-button>-->
-                        <el-button class="littleButton" @click="check(scope.row.fileId)" v-if="activeName==0"
+                        <el-button ype="text" class="littleButton" @click="check(scope.row.fileId)" v-if="activeName==0"
                                    key="uncheck">审核
                         </el-button>
-                        <el-button class="littleButton" @click="deletes(scope.row.fileId)"
+                        <el-button ype="text" class="littleButton" @click="deletes(scope.row.fileId)"
                                    v-if="activeName==0||scope.row.fileState==0">删除
                         </el-button>
                     </template>
@@ -150,6 +130,23 @@
                     <el-button @click="dialogVisible = false">取 消</el-button>
                     <el-button type="primary" @click="ensureDelete">确 定</el-button>
                </span>
+            </el-dialog>
+            <el-dialog title="" :visible.sync="dialogFormVisibleopate" width="500px">
+                <el-form :model="operateForm">
+                    <el-form-item label="应用名称" label-width="110px" prop="sort">
+                       {{operateName}}
+                    </el-form-item>
+                    <el-form-item label="下载次数" label-width="110px">
+                        <el-input v-model="operateForm.download" auto-complete="off" style="width:200px" type="number" min="0"></el-input>
+                    </el-form-item>
+                    <el-form-item label="点击次数" label-width="110px">
+                        <el-input v-model="operateForm.touch" auto-complete="off" style="width:200px" type="number" min="0"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisibleopate = false;">取 消</el-button>
+                    <el-button type="primary" @click="ensureOprate">确 定</el-button>
+                </div>
             </el-dialog>
         </div>
     </div>
@@ -188,7 +185,11 @@
                 delId: '',
                 flag: '2',
                 fileTagUnchoice: '0',
-                tagList: []
+                tagList: [],
+                dialogFormVisibleopate:false,
+                operateForm:{},
+                operateName:'',
+                id:''
             };
         },
         created() {
@@ -319,33 +320,9 @@
             uploadapp() {
                 this.$router.push({path: "/addIos", query: {type: 'ios'}});
             },
-            // updateMore(id){
-            //     this.$router.push({path: "/willUpdateApps", query: {id:id,type:'ios'}});
-            // },
             downloadApp(fileDir) {
-                // console.log(fileDir);
                 window.open(fileDir, "_self")
-                // this.$ajax
-                //     .get(BaseUrl + "alioss/signatureurl／" + id + "/apply",{headers: {'token': sessionStorage.getItem('token'),'device':'ios'}})
-                //     .then(response => {
-                //         console.log(response);
-                //         if(response.data.flag==200) {
-                //             this.url = response.data.data;
-                //             window.open(this.url, "_self");
-                //         }else if(response.data.flag==201) {
-                //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-                //                 confirmButtonText: '确定',
-                //                 callback: action => {
-                //                     this.$router.push('/')
-                //                 }
-                //             });
-                //         }
-                //     });
             },
-            // edit(id){
-            //     // this.$router.push({name: "", params: {id:id}})
-            //     this.$router.push({path:'/editApp',query:{id:id}})
-            // },
             check(id) {
                 this.$router.push({
                     path: "/checkApp",
@@ -427,16 +404,6 @@
                                     item.appState = "未上架";
                                 }
                             });
-                            // this.info.forEach(item => {
-                            //     var positionLists = JSON.parse(
-                            //         sessionStorage.getItem("positionList")
-                            //     );
-                            //     positionLists.forEach(nitem => {
-                            //         if (item.fileDisplayPosition == nitem.code) {
-                            //             item.position = nitem.title;
-                            //         }
-                            //     });
-                            // });
                             this.downloadLoading = true
                             import('@/vendor/Export2Excel').then(excel => {
                                 const tHeader = ['应用图标', '应用名', '应用类型', '安装包大小', '版本号', '最新上传时间']
@@ -471,6 +438,49 @@
                         return v[j]
                     }
                 }))
+            },
+            //运营标注
+            operating(id,name){
+                this.id=id;
+                this.operateForm={}
+                this.operateName=name
+                this.dialogFormVisibleopate=true
+            },
+            ensureOprate(){
+                this.operateForm.id=this.id
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'apply/update/incr',
+                    data:this.operateForm,
+                    headers: {'token': sessionStorage.getItem('token'),device:'ios'}
+                }).then(response => {
+                    if (response.data.flag == 200) {
+                        this.dialogFormVisibleopate=false
+                        this.$message({
+                            type: 'success',
+                            message: '修改成功!',
+                            callback: action => {
+                            }
+                        });
+                        this.queryListData({
+                            activeName: this.activeName,
+                            pageValue: this.currentPage,
+                            pageSize: this.nowPageSize
+                        });
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: '修改失败!',
+                        });
+                    }
+                });
             }
         }
     };
@@ -538,7 +548,6 @@
     /*white-space: nowrap !important;*/
     /*}*/
     .littleButton {
-        padding: 5px 10px !important;
         margin-left: 0 !important;
     }
 

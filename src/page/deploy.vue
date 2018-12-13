@@ -14,6 +14,13 @@
                 <el-button class="right" @click="goAdministration(2)">管理</el-button>
             </div>
         </div>
+        <div class="moudel">
+            <h2>弹窗部署</h2>
+            <div class="foot">
+                <p class="details"></p>
+                <el-button class="right" @click="goAdministration(3)">管理</el-button>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -24,16 +31,21 @@
                     this.$router.push({
                         name: 'bannerDeploy',
                         query: {
-                            row:'1'
+                            page:1,
+                            size:10,
+                            active:'1'
                         }
                     })
-                }
-                if(num==2){
+                } else if(num==2){
                     this.$router.push({
                         name: 'startupPage',
                         query: {
                             row:'1'
                         }
+                    })
+                }else if(num==3){
+                    this.$router.push({
+                        name: 'popupDeploy',
                     })
                 }
             },

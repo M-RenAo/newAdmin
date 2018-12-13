@@ -624,7 +624,7 @@
                                 this.getData()
                                 this.$ajax({
                                     method: "GET",
-                                    url: BaseUrl + 'apply/auto/sort/' + this.$route.query.code,
+                                    url: BaseUrl + 'position/auto/sort/' + this.$route.query.code,
                                     headers: {
                                         'token': sessionStorage.getItem('token'),
                                         'device': this.$route.query.type
@@ -825,7 +825,7 @@
             ensureUpdate() {
                 this.$ajax({
                     method: "POST",
-                    url: BaseUrl + 'apply/update/sort/pos',
+                    url: BaseUrl + 'position/update/sort',
                     data: {applyId: this.applyId, positionCode: this.$route.query.code, sort: Number(this.form.sort)},
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {

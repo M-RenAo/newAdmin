@@ -13,7 +13,7 @@
                     <el-form-item label="背景图：" >
                         <div style="display: flex;align-items:flex-end;">
                             <div style="width:150px;height:150px;border: 1px #999 dashed;margin-right: 10px"><img
-                                :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+advertisePic"
+                                :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"
                                 v-if="uploadIconUrl!==null&&uploadIconUrl!=''" style="width:100%;height:100%;"/></div>
                             <el-button type="primary" v-if="uploadIconUrl===null" style="position: relative">
                                 <span>上传</span> <input @change='add_img' type="file"
@@ -23,51 +23,51 @@
                             </el-button>
                         </div>
                     </el-form-item>
-                    <el-form-item label="弹窗样式类型：">
-                        <div style="display: flex">
-                            <div class="pupup-type-choice">
-                                <div class="popup-type">
-                                    <div class="popup-type-header-title">
-                                        提示
-                                    </div>
-                                    <div>确定要退出？</div>
-                                    <div class="button-popup-type">
-                                        <el-button>否</el-button>
-                                        <el-button>是</el-button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <el-radio v-model="pstyle" label="2">选择弹窗</el-radio>
-                                </div>
-                                <div>
-                                    左边按钮
-                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pstyle!=2" placeholder="默认文案：取消" v-model="leftTxt"></el-input>
-                                </div>
-                                <div>
-                                    右边按钮
-                                    <el-input style="width:140px;"  v-bind:disabled="pstyle!=2" placeholder="默认文案：确定" v-model="rightTxt"></el-input>
-                                </div>
-                            </div>
-                            <div class="pupup-type-choice">
-                                <div class="popup-type">
-                                    <div class="popup-type-header-title">
-                                        提示
-                                    </div>
-                                    <div>确定要退出？</div>
-                                    <div class="button-popup-type">
-                                        <el-button>是</el-button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <el-radio v-model="pstyle" label="1">单选弹窗</el-radio>
-                                </div>
-                                <div>
-                                    中间按钮
-                                    <el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pstyle!=1" v-model="centerTxt" placeholder="默认文案：确定"></el-input>
-                                </div>
-                            </div>
-                        </div>
-                    </el-form-item>
+                    <!--<el-form-item label="弹窗样式类型：">-->
+                        <!--<div style="display: flex">-->
+                            <!--<div class="pupup-type-choice">-->
+                                <!--<div class="popup-type">-->
+                                    <!--<div class="popup-type-header-title">-->
+                                        <!--提示-->
+                                    <!--</div>-->
+                                    <!--<div>确定要退出？</div>-->
+                                    <!--<div class="button-popup-type">-->
+                                        <!--<el-button>否</el-button>-->
+                                        <!--<el-button>是</el-button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<el-radio v-model="pstyle" label="2">选择弹窗</el-radio>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--左边按钮-->
+                                    <!--<el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pstyle!=2" placeholder="默认文案：取消" v-model="leftTxt"></el-input>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--右边按钮-->
+                                    <!--<el-input style="width:140px;"  v-bind:disabled="pstyle!=2" placeholder="默认文案：确定" v-model="rightTxt"></el-input>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="pupup-type-choice">-->
+                                <!--<div class="popup-type">-->
+                                    <!--<div class="popup-type-header-title">-->
+                                        <!--提示-->
+                                    <!--</div>-->
+                                    <!--<div>确定要退出？</div>-->
+                                    <!--<div class="button-popup-type">-->
+                                        <!--<el-button>是</el-button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--<el-radio v-model="pstyle" label="1">单选弹窗</el-radio>-->
+                                <!--</div>-->
+                                <!--<div>-->
+                                    <!--中间按钮-->
+                                    <!--<el-input style="width:140px;margin-bottom:10px" v-bind:disabled="pstyle!=1" v-model="centerTxt" placeholder="默认文案：确定"></el-input>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</el-form-item>-->
                     <el-form-item label="弹窗退出类型：" >
                         <div>
                             <el-radio v-model="qstyle" label="1">允许关闭</el-radio>
@@ -120,14 +120,14 @@
                 toItemId: null,
                 appName: null,
                 advertisePic:'',
-                pstyle:'2',
+                // pstyle:'2',
                 qstyle:'1',
                 timeRound:[],
                 popupForm: {
                 },
-                centerTxt:'确定',
-                leftTxt:'取消',
-                rightTxt:'确定',
+                // centerTxt:'确定',
+                // leftTxt:'取消',
+                // rightTxt:'确定',
                 radio:'1',
                 // appNames:[],
                 imgData: {
@@ -135,7 +135,7 @@
                 },
                 pickerOptions0: {
                     disabledDate(time) {
-                        return time.getTime() < Date.now();
+                        return time.getTime() < Date.now()-8.64e7;
                     }
                 },
                 typeList: [{code: '1', title: '图文详情'}, {code: '2', title: '推广APP'}, {code: '3', title: '跳转链接'}],
@@ -165,14 +165,14 @@
                         this.popupForm=item
                     }
                 });
-                if(this.popupForm.pstyle==2){
-                    this.pstyle='2';
-                    this.leftTxt=this.popupForm.btntxt.split(';')[0];
-                    this.rightTxt=this.popupForm.btntxt.split(';')[1]
-                }else{
-                    this.pstyle='1';
-                    this.centerTxt=this.popupForm.btntxt
-                }
+                // if(this.popupForm.pstyle==2){
+                //     this.pstyle='2';
+                //     this.leftTxt=this.popupForm.btntxt.split(';')[0];
+                //     this.rightTxt=this.popupForm.btntxt.split(';')[1]
+                // }else{
+                //     this.pstyle='1';
+                //     this.centerTxt=this.popupForm.btntxt
+                // }
                 this.qstyle=this.popupForm.qstyle.toString();
                 this.timeRound=[moment.utc(this.popupForm.stime).local().format('YYYY-MM-DD'),moment.utc(this.popupForm.etime).local().format('YYYY-MM-DD')];
                 if(this.popupForm.image!==undefined) {
@@ -265,7 +265,7 @@
                                 }
                             });
                         } else if (response.data.flag == 200) {
-                            this.uploadIconUrl=''
+                            this.uploadIconUrl=null
                         } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
@@ -283,8 +283,9 @@
             save(popupForm) {
                 this.$refs.popupForm.validate(async (valid) => {
                     if (valid) {
-                        if(this.popupForm.times>1){
-                        this.popupForm.times=Number(this.popupForm.times)
+                        console.log()
+                        if(Number(this.popupForm.times)>=1){
+                            this.popupForm.times=Number(this.popupForm.times)
                         }else{
                             this.$alert('弹窗次数应大于0 ', '提示', {
                                 confirmButtonText: '确定',
@@ -294,12 +295,12 @@
                         this.popupForm.image=this.uploadIconUrl;
                         this.popupForm.stime=moment(this.timeRound[0]).utc().format('YYYY-MM-DD HH:mm:ss');
                         this.popupForm.etime=moment(this.timeRound[1]).utc().format('YYYY-MM-DD HH:mm:ss');
-                        if(this.pstyle=='2'){
-                            this.popupForm.btntxt=this.leftTxt+';'+this.rightTxt
-                        }else{
-                            this.popupForm.btntxt=this.centerTxt
-                        }
-                        this.popupForm.pstyle=Number(this.pstyle)
+                        // if(this.pstyle=='2'){
+                        //     this.popupForm.btntxt=this.leftTxt+';'+this.rightTxt
+                        // }else{
+                        //     this.popupForm.btntxt=this.centerTxt
+                        // }
+                        // this.popupForm.pstyle=Number(this.pstyle)
                         this.popupForm.qstyle=Number(this.qstyle)
                         if (this.$route.query.id == '' || this.$route.query.id == undefined) {
                             this.$ajax({
@@ -337,7 +338,7 @@
                         } else {
                             this.$ajax({
                                 method: "POST",
-                                url: BaseUrl + 'popup//modify',
+                                url: BaseUrl + 'popup/modify',
                                 data: this.popupForm,
                                 headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                             }).then(response => {

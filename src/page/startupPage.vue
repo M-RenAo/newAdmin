@@ -1,10 +1,11 @@
 <template>
-    <div class="content">
+    <div class="table_container">
         <div>
             <el-tabs v-model="activeName" @tab-click="extensionState">
                 <el-tab-pane label="全部" name="0"></el-tab-pane>
-                <el-tab-pane label="推广中" name="1"></el-tab-pane>
-                <el-tab-pane label="未推广" name="2"></el-tab-pane>
+                <el-tab-pane label="待上架" name="2"></el-tab-pane>
+                <el-tab-pane label="上架" name="1"></el-tab-pane>
+                <el-tab-pane label="下架" name="3"></el-tab-pane>
             </el-tabs>
         </div>
         <div style="margin-top:20px">
@@ -23,24 +24,22 @@
                     <template>
                     </template>
                 </el-table-column>
-                <el-table-column label="状态" prop="status" min-width="50px">
+                <el-table-column label="状态"  min-width="50px">
                     <template scope="scope">
-                        <div class="staing" v-if="scope.row.status=='推广中'">
-                            {{scope.row.status}}
-                        </div>
-                        <div v-else>
-                            {{scope.row.status}}
-                        </div>
-                        
+                        <span :class="{staing:scope.row.status=='上架'}">{{scope.row.status}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="最近推广时间" prop="lastPushTime" width="170px"></el-table-column>
+                <el-table-column label="最近推广时间" prop="lastPushTimeDay" width="170px"></el-table-column>
                 <el-table-column label="展示量" prop="showCount" min-width="50px"></el-table-column>
                 <el-table-column label="点击量" prop="touchCount" min-width="50px"></el-table-column>
                 <el-table-column label="点击转化率" prop="conversion" min-width="50px"></el-table-column>
-                <!-- <el-table-column label="推广时间" prop="promotion" width="170px"></el-table-column> -->
-                <el-table-column label="开始时间" prop="startPushTime" width="170px"></el-table-column>
-                <el-table-column label="结束时间" prop="endPushTime" width="170px"></el-table-column>
+                 <el-table-column label="推广时间"  width="170px">
+                     <template scope="scope">
+                         <span v-if="scope.row.startPushTime!=0">{{scope.row.startPushTime}}至{{scope.row.endPushTime}}</span>
+                     </template>
+                 </el-table-column>
+                <!--<el-table-column label="开始时间" prop="startPushTime" width="170px"></el-table-column>-->
+                <!--<el-table-column label="结束时间" prop="endPushTime" width="170px"></el-table-column>-->
                 <el-table-column label="操作" width="150">
                     <template scope="scope">
                         <el-button @click="updateStartup(scope.row)" type="text">编辑</el-button>
@@ -50,8 +49,8 @@
                             trigger="click"
                             v-model="scope.row.visible">
                             <div>
-                                <el-button type="primary" size="mini" @click="frames(scope.row.id,scope.row.state)">
-                                    {{scope.row.state?"下架":"上架"}}
+                                <el-button type="primary" size="mini" @click="frames(scope.row.id,scope.row)" v-if="scope.row.status=='上架'||scope.row.status=='待上架'">
+                                   下架
                                 </el-button>
                                 <el-button size="mini" type="primary" @click="delStartup(scope.row.id)">删除</el-button>
                             </div>
@@ -132,36 +131,45 @@
                         this.getData()
                 })
             },
-            frames(id,state){//上下架
+            frames(id,row){//上下架
                 this.tableData.forEach(item => {
                     item.visible = false
                 })
-                if(state==0){
-                    this.setFrames(id,1)
-                }
-                if(state==1){
-                    this.setFrames(id,0)
-                }
+                 this.setFrames(id)
             },
-            setFrames(id,state){
+            setFrames(id){
                 this.$ajax({
-                                method: "POST",
-                                url: BaseUrl + 'startUpShow/update',
-                                params: {
-                                    id:id,
-                                    state:state
-                                },
-                                headers: {'token': sessionStorage.getItem('token')}
-                            }).then(response => {
-                                if (response.data.flag == 200) {
-                                    this.$message({
-                                        showClose: true,
-                                        message:`${response.data.msg}`,
-                                        type: 'success'
-                                    });
-                                    this.getData()
-                                }
-                            });
+                    method: "POST",
+                    url: BaseUrl + 'startUpShow/down',
+                    params: {id:id},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `下架失败`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.$message({
+                            showClose: true,
+                            message:`下架成功`,
+                            type: 'success'
+                        });
+                        this.getData()
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
             },
             handleCurrentChange(val){
                 this.currentPage=val
@@ -180,25 +188,31 @@
             },headers: {'token': sessionStorage.getItem('token')}}).then(res => {
                 let nums=-1
                 res.data.data.list.forEach(item=>{
-                    if (item.endPushTime != undefined&&item.endPushTime != undefined){
-                            
-                            if(moment().format('X')*1000>item.startPushTime&&moment().format('X')*1000<item.endPushTime){
-                                item.status="推广中"
+                    if (item.startPushTime != 0&&item.endPushTime != 0){
+
+                            if(moment().format('X')*1000>=item.startPushTime&&moment().format('X')*1000<=item.endPushTime){
+                                item.status="上架"
                                 // console.log(1)
                             }else if(moment().format('X')*1000<item.startPushTime){
-                                item.status="待推广"
+                                item.status="待上架"
                             }else if(moment().format('X')*1000>item.endPushTime){
-                                item.status="已推广"
+                                item.status="下架"
                             }
-                        }
-                    if (item.startPushTime != undefined) {
-                        item.startPushTime = moment.utc(item.startPushTime).local().format('YYYY-MM-DD HH:mm:ss')
+                    }else　if(item.endPushTime == 0&&item.endPushTime == 0){
+                        item.status="下架"
+                    }
+                    if (item.startPushTime != 0) {
+                        item.startPushTime = moment.utc(item.startPushTime).local().format('YYYY-MM-DD')
                     }
                     if (item.endPushTime != undefined && item.endPushTime != 0) {
-                        item.endPushTime = moment.utc(item.endPushTime).local().format('YYYY-MM-DD HH:mm:ss')
+                        item.endPushTime = moment.utc(item.endPushTime).local().format('YYYY-MM-DD')
                     }
                     if (item.lastPushTime != undefined && item.lastPushTime != 0) {
-                        item.lastPushTime = moment.utc(item.lastPushTime).local().format('YYYY-MM-DD HH:mm:ss')
+                        if(((new Date().getTime()-item.lastPushTime)/(1000 * 60 * 60 * 24))<=30){
+                            item.lastPushTimeDay=Math.ceil((new Date().getTime()-item.lastPushTime)/(1000 * 60 * 60 * 24))+'天前'
+                        }else{
+                        item.lastPushTimeDay = moment.utc(item.lastPushTime).local().format('YYYY-MM-DD')
+                        }
                     }
                     item.visible=false
                     nums+=1
@@ -213,7 +227,7 @@
                         item.conversion="0%"
                         return
                     }
-                   
+
                 })
                 this.tableData=res.data.data.list
                 this.txcount=res.data.data.num
@@ -226,11 +240,11 @@
     }
 </script>
 <style lang="less">
-    .content{
+    .table_container{
         padding:20px;
         .staing{
             color:#6cf
         }
     }
-    
+
 </style>
