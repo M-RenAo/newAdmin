@@ -86,6 +86,8 @@ const addPopup = resolve => require(['@/page/addPopup'], resolve);
 const channelManagement = resolve => require(['@/page/channelManagement'], resolve);
 const digDeploy= resolve => require(['@/page/digDeploy'], resolve);
 const homeout= resolve => require(['@/page/homeout'], resolve);
+const dappcheck=resolve => require(['@/page/dappcheck'], resolve);
+const iaCardData=resolve => require(['@/page/cardpackageData'], resolve);
 const routes = [
     {
         path: '/',
@@ -445,6 +447,16 @@ const routes = [
                 name:'digDeploy',
                 component: digDeploy,
                 meta: ['通用中心', '挖矿部署'],
+            },{
+                path: '/dappcheck',
+                name:'dappcheck',
+                component: dappcheck,
+                meta: ['通用中心', 'dapp审核'],
+            },{
+                path: '/iaCardData',
+                name:'iaCardData',
+                component: iaCardData,
+                meta: ['数据概览', '卡包数据'],
             }
         ]
     }

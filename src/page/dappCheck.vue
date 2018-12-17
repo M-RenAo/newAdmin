@@ -4,9 +4,9 @@
             <div style="display:flex;margin-bottom: 30px;">
                 <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})" style="height: 40px;">
                     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                    <el-tab-pane label="审核通过" name="1"></el-tab-pane>
-                    <el-tab-pane label="审核不通过" name="2"></el-tab-pane>
-                    <el-tab-pane label="待定" name="3"></el-tab-pane>
+                    <el-tab-pane label="已通过" name="1"></el-tab-pane>
+                    <el-tab-pane label="未通过" name="2"></el-tab-pane>
+                    <!--<el-tab-pane label="待定" name="3"></el-tab-pane>-->
                     <el-tab-pane label="未审核" name="0"></el-tab-pane>
                 </el-tabs>
             </div>
@@ -15,33 +15,21 @@
                 class="test-class"
                 style="width: 100%">
                 <el-table-column
-                    label="应用名称"
+                    label="dapp名称"
                     prop="appName" min-width="100">
                 </el-table-column>
                 <el-table-column
-                    label="公司名称"
+                    label="邮箱"
                     prop="companyName" min-width="150">
                 </el-table-column>
                 <el-table-column
-                    label="安卓安装包地址"
+                    label="dapp地址"
                     min-width="80">
                     <template scope="scope">
-                        <el-button type="text" style=" padding:5px 10px!important;margin-left: 0!important;"
+                        <el-button style=" padding:5px 10px!important;margin-left: 0!important;" type="text"
                                    v-clipboard:copy="scope.row.androidUrl" v-clipboard:success="onCopy"
                                    v-clipboard:error="onError"
                                    v-if="scope.row.androidUrl!=undefined&&scope.row.androidUrl!=''">复制
-                        </el-button>
-                        <span v-else>未上传</span>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    label="ios安装包地址"
-                    min-width="80">
-                    <template scope="scope">
-                        <el-button  type="text" class="littleButton" style=" padding:5px 10px!important;margin-left: 0!important;"
-                                   v-clipboard:copy="scope.row.iosUrl" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError" v-if="scope.row.iosUrl!=undefined&&scope.row.iosUrl!=''">
-                            复制
                         </el-button>
                         <span v-else>未上传</span>
                     </template>
@@ -61,7 +49,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                    label="简介"
+                    label="dapp描述"
                     min-width="150"
                     prop="appSummary"
                 >
@@ -74,14 +62,11 @@
                 </el-table-column>
                 <el-table-column label="操作" min-width="100">
                     <template scope="scope">
-                        <el-button style=" padding:5px 10px!important;margin-left: 0!important;"  type="text"
+                        <el-button style=" padding:5px 10px!important;margin-left: 0!important;" type="text"
                                    @click="check(scope.row.id)">查看
                         </el-button>
-                        <!--<el-button>删除-->
-                        <!--</el-button>-->
                     </template>
                 </el-table-column>
-
             </el-table>
             <div class="Pagination">
                 <el-pagination
@@ -95,30 +80,26 @@
                 >
                 </el-pagination>
             </div>
-            <el-dialog title="应用详情" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
+            <el-dialog title="" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
                 <el-form :model="appForm">
-                    <el-form-item label="项目名称：" :label-width="formLabelWidth">
+                    <el-form-item label="logo：" :label-width="formLabelWidth">
+                        <template scope="scope">
+                            <div>
+                                <img src="../assets/img/we.jpg" style="width:100px;height: 100px;border-radius: 50px">
+                                <el-button type="primary">下载</el-button>
+                            </div>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="dapp名称：" :label-width="formLabelWidth">
                         {{appForm.projectName}}
                     </el-form-item>
-                    <el-form-item label="App名称：" :label-width="formLabelWidth">
-                        {{appForm.appName}}
+                    <el-form-item label="dapp网址：" :label-width="formLabelWidth">
+                        <span style="margin-right: 100px">{{appForm.appName}}</span>
+                        <el-button type="text"   v-clipboard:copy="appForm.appName" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制</el-button>
                     </el-form-item>
-                    <el-form-item label="初始版本上线时间：" :label-width="formLabelWidth">
-                        {{appForm.startDate}}
-                    </el-form-item>
-                    <el-form-item label="安卓安装包：" :label-width="formLabelWidth">
-                        {{appForm.androidUrl}}
-                        <el-button v-if="appForm.androidUrl!='未上传'" style="margin-left: 20px"  type="text"
-                                   v-clipboard:copy="appForm.androidUrl" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制
-                        </el-button>
-                    </el-form-item>
-                    <el-form-item label="ios安装包：" :label-width="formLabelWidth">
-                        {{appForm.iosUrl}}
-                        <el-button v-if="appForm.iosUrl!='未上传'" style="margin-left: 20px"  type="text"
-                                   v-clipboard:copy="appForm.iosUrl" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制
-                        </el-button>
+                    <el-form-item label="dapp简介：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.appSummary}}
                     </el-form-item>
                     <el-form-item label="公司名称：" :label-width="formLabelWidth">
                         {{appForm.companyName}}
@@ -131,15 +112,38 @@
                     </el-form-item>
                     <el-form-item label="联系人电话：" :label-width="formLabelWidth" prop="name">
                         {{appForm.contactPhone}}
+                        <el-button type="text"   v-clipboard:copy="appForm.contactPhone" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制</el-button>
                     </el-form-item>
-                    <el-form-item label="APP简介：" :label-width="formLabelWidth" prop="name">
-                        {{appForm.appSummary}}
+                    <el-form-item label="邮箱：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
+                        <el-button type="text"   v-clipboard:copy="appForm.contactPhone" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制</el-button>
                     </el-form-item>
-                    <el-form-item label="当前版本更新内容：" :label-width="formLabelWidth" prop="name">
-                        {{appForm.appMessage}}
+                    <el-form-item label="游戏支持的链：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
                     </el-form-item>
-                    <el-form-item label="公司或团队介绍：" :label-width="formLabelWidth" prop="name">
-                        {{appForm.companyMessage}}
+                    <el-form-item label="智能合约链上地址：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
+                        <el-button type="text"   v-clipboard:copy="appForm.contactPhone" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制</el-button>
+                    </el-form-item>
+                    <div style="font-weight:bold">社交网络</div>
+                    <el-form-item label="QQ(邀请链接)：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
+                        <el-button type="text"   v-clipboard:copy="appForm.contactPhone" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制</el-button>
+                    </el-form-item>
+                    <el-form-item label="微博：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
+                        <el-button type="text"   v-clipboard:copy="appForm.contactPhone" v-clipboard:success="onCopy"
+                                   v-clipboard:error="onError">复制</el-button>
+                    </el-form-item>
+                    <el-form-item label="推特：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
+                    </el-form-item>
+                    <el-form-item label="Discord：" :label-width="formLabelWidth" prop="name">
+                        {{appForm.contactPhone}}
                     </el-form-item>
                     <el-form-item label="审核结果：" :label-width="formLabelWidth" prop="name">
                         <el-select v-model="state" placeholder="请选择">

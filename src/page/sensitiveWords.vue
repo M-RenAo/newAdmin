@@ -18,7 +18,7 @@
         <div style="margin-top:20px">
             <el-button @click="refresh" plain>刷新</el-button>
             <el-button @click="dialogVisible = true;sensitive=''" type="primary">新增</el-button>
-            <el-button @click="delsensits" type="primary">删除多个</el-button>
+            <el-button @click="delsensits" type="primary">批量删除</el-button>
         </div>
         <div style="margin-top:20px">
             <div>按开头字母搜索</div>
@@ -91,8 +91,8 @@
                 otherKey:undefined,
                 badwordEq:undefined,
                 badword:undefined,
-                query:0,
-                querys:[{value:0,label:"全部"},{value:1,label:"模糊匹配关键字"},{value:2,label:"精确匹配关键字"}],
+                query:1,
+                querys:[{value:1,label:"模糊匹配关键字"},{value:2,label:"精确匹配关键字"}],
             }
         },
         created () {
@@ -100,10 +100,10 @@
             this.getData()
         },
         mounted () {
-            // console.log(this.$refs.zm.childNodes)       
+            // console.log(this.$refs.zm.childNodes)
             // this.$refs.zm.childNodes.forEach(time=>{
             //     time.classList.add('active')
-            // })   
+            // })
             this.$refs.zm.firstChild.classList.add('active')
         },
         methods:{
@@ -138,7 +138,7 @@
                 this.arr=arrs.filter((val,index,array)=>{//去重
                     return array.indexOf(val)===index
                 })
-                console.log(this.arr)
+                // console.log(this.arr)
             },
             refresh(){//刷新
                 this.searchInfo=""
@@ -175,18 +175,35 @@
                     }
                 }).then(res => {
                     if(res.data.flag==200){
-                        this.getData()
-                        this.classNameUpdate()
-                    }else{
+                        this.$alert(res.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ res.data.msg}`
+                                });
+                                this.getData()
+                                this.classNameUpdate()
+                            }
+                        });
+
+                    }else if(res.data.flag==500){
                         this.$message.error(`${res.data.msg}`);
+                    }else if(res.data.flag==201){
+                        this.$alert(res.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
                     }
-                    
+
                 })
             },
             letterSearch(e,letter){//字母搜索
                 this.$refs.zm.childNodes.forEach(time=>{
                     time.classList.remove('active')
-                }) 
+                })
                 e.target.classList.add('active')
                 if(letter=='全部'){
                     this.keyEq=undefined
@@ -219,7 +236,7 @@
                     }else{
                         this.$message.error(`${res.data.msg}`);
                     }
-                    
+
                 })
             },
             delsensits(){//删除多个
@@ -239,11 +256,11 @@
                     // console.log(res)
                     if(res.data.flag==200){
                         this.getData()
-                        
+
                     }else{
                         this.$message.error(`${res.data.msg}`);
                     }
-                    
+
                 })
                 }
             },
@@ -255,7 +272,7 @@
                     }
                 }
                 // this.multipleSelection=val
-                console.log(this.multipleSelection)
+                // console.log(this.multipleSelection)
             },
             handleCurrentChange(val){
                 this.currentPage=val
@@ -292,16 +309,16 @@
             classNameUpdate(){//
                 this.$refs.zm.childNodes.forEach(time=>{
                     time.classList.remove('active')
-                }) 
+                })
                 this.$refs.zm.firstChild.classList.add('active')
             }
         },
         watch:{
             currentPage(){
-                console.log(1)
+                // console.log(1)
             }
         }
-       
+
     }
 </script>
 <style lang="less" scoped>
@@ -309,7 +326,7 @@
         padding: 20px;
         .zimu{
             font-size: 15px;
-            font-weight: 100px;
+            font-weight:100;
             float: left;
             padding:10px;
             cursor: pointer;

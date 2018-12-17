@@ -18,6 +18,14 @@
                 </el-col>
 
             </el-row>
+            <el-tabs v-model="tabsNameTag" style="height: 40px;" @tab-click="tabsClicksTag">
+                <el-tab-pane label="EOS" name="柚子"></el-tab-pane>
+                <el-tab-pane label="以太坊" name="以太坊"></el-tab-pane>
+                <el-tab-pane label="波场" name="波场"></el-tab-pane>
+                <el-tab-pane label="星云链" name="星云链"></el-tab-pane>
+                <el-tab-pane label="小蚁" name="小蚁"></el-tab-pane>
+                <el-tab-pane label="其他" name="其他"></el-tab-pane>
+            </el-tabs>
             <el-table
                 :data="info"
                 style="width: 100%">
@@ -117,7 +125,7 @@
                         <h2 style="text-align:center;margin-left:20px">{{checkName}}</h2>
                     </div>
                     <div style="width:300px;margin:0 auto;padding:20px 0px">
-                        通过审核的Dapp会发布在客户端，按日活从高到低排序
+                        通过审核的dapp会发布在客户端，按日活从高到低排序
                     </div>
                     <div style="width:300px;margin:0 auto;padding:20px 0px">
                         <el-radio-group v-model="radio">
@@ -182,7 +190,8 @@
                 dappName: '',
                 checkId: '',
                 checkIcon: '',
-                checkName: ''
+                checkName: '',
+                tabsNameTag:'柚子'
 
             };
         },
@@ -211,6 +220,10 @@
                 this.currentPage = 1;
                 this.getData()
             },
+            tabsClicksTag(){
+                this.currentPage = 1;
+                this.getData()
+            },
             getData() {
                 this.$ajax({
                     method: "GET",
@@ -219,7 +232,8 @@
                         pageNum: this.currentPage,
                         pageSize: this.nowPageSize,
                         reviewed: this.tabsName == -1 ? null : this.tabsName,
-                        key: this.searchInfo == '' ? null : this.searchInfo
+                        key: this.searchInfo == '' ? null : this.searchInfo,
+                        tag:this.tabsNameTag
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
@@ -245,7 +259,8 @@
                     url: BaseUrl + 'dapp/count',
                     params: {
                         key: this.searchInfo == '' ? null : this.searchInfo,
-                        reviewed: this.tabsName == -1 ? null : this.tabsName
+                        reviewed: this.tabsName == -1 ? null : this.tabsName,
+                        tag:this.tabsNameTag
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
@@ -280,7 +295,7 @@
                 }).then(response => {
                     if (response.data.flag == 200) {
                         this.dialogTableVisible = false
-                        this.$alert(response.data.msg, '提示', {
+                        this.$alert( this.radio==true?'DAPP上架成功':'DAPP下架成功', '提示', {
                             confirmButtonText: '确定',
                             callback: action => {
                                 this.$message({

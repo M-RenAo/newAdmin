@@ -19,8 +19,7 @@
                         <!--<el-menu-item index="iosHomeData">ios数据</el-menu-item>-->
                         <!--</el-submenu>-->
                         <el-menu-item index="activityData">活动数据</el-menu-item>
-                        <!--<el-menu-item index="chainWallet">链城钱包</el-menu-item>-->
-                        <!--<el-menu-item index="unapplicationList">平台收益</el-menu-item>-->
+                        <!--<el-menu-item index="iaCardData">卡包数据</el-menu-item>-->
                     </el-submenu>
                     <el-submenu index="'2c'" v-if="adminType!='VISITOR'">
                         <template slot="title"><i class="el-icon-document"></i>资产管理</template>
