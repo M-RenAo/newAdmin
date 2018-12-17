@@ -162,10 +162,10 @@
                         {{operateName}}
                     </el-form-item>
                     <el-form-item label="下载次数" label-width="110px" >
-                        <el-input v-model="operateForm.download" auto-complete="off" style="width:200px" type="num" num="0"></el-input>
+                        <el-input v-model="operateForm.download" auto-complete="off" style="width:200px" type="number" min="0"></el-input>
                     </el-form-item>
                     <el-form-item label="点击次数" label-width="110px">
-                        <el-input v-model="operateForm.touch" auto-complete="off" style="width:200px" type="num" num="0"></el-input>
+                        <el-input v-model="operateForm.touch" auto-complete="off" style="width:200px" type="number" min="0"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -212,7 +212,7 @@
                 fileTagUnchoice: '',
                 tagList: [],
                 dialogFormVisibleopate:false,
-                 operateForm:{},
+                operateForm:{download:'',touch:''},
                 id:'',
                 operateName:''
             };
@@ -531,45 +531,53 @@
             //运营标注
             operating(id,name){
                 this.id=id;
-                this.operateForm={}
+                this.operateForm={download:'',touch:''}
                 this.operateName=name;
                 this.dialogFormVisibleopate=true;
             },
             ensureOprate(){
-                this.operateForm.id=this.id
-                this.$ajax({
-                    method: "POST",
-                    url: BaseUrl + 'apply/update/incr',
-                    data:this.operateForm,
-                    headers: {'token': sessionStorage.getItem('token'),device:'android'}
-                }).then(response => {
-                    if (response.data.flag == 200) {
-                        this.dialogFormVisibleopate=false
-                        this.$message({
-                            type: 'success',
-                            message: '修改成功!',
-                            callback: action => {
-                            }
-                        });
-                        this.queryListData({
-                            activeName: this.activeName,
-                            pageValue: this.currentPage,
-                            pageSize: this.nowPageSize
-                        });
-                    } else if (response.data.flag == 201) {
-                        this.$alert(response.data.msg + '，请重新登录', '提示', {
-                            confirmButtonText: '确定',
-                            callback: action => {
-                                this.$router.push('/')
-                            }
-                        });
-                    } else {
-                        this.$message({
-                            type: 'error',
-                            message: '修改失败!',
-                        });
-                    }
-                });
+                if(Number(this.operateForm.download)<0||Number(this.operateForm.touch)<0){
+                    this.$alert('下载次数和点击次数必须大于0', '提示', {
+                        confirmButtonText: '确定',
+                    });
+                }else if(this.operateForm.download!=''||this.operateForm.touch!=''){
+                    this.operateForm.id = this.id
+                    this.$ajax({
+                        method: "POST",
+                        url: BaseUrl + 'apply/update/incr',
+                        data: this.operateForm,
+                        headers: {'token': sessionStorage.getItem('token'), device: 'android'}
+                    }).then(response => {
+                        if (response.data.flag == 200) {
+                            this.dialogFormVisibleopate = false
+                            this.$message({
+                                type: 'success',
+                                message: '修改成功!',
+                                callback: action => {
+                                }
+                            });
+                            this.queryListData({
+                                activeName: this.activeName,
+                                pageValue: this.currentPage,
+                                pageSize: this.nowPageSize
+                            });
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '修改失败!',
+                            });
+                        }
+                    });
+                }else{
+                    this.dialogFormVisibleopate=false
+                }
             }
         }
     };

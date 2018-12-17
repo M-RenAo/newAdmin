@@ -127,8 +127,8 @@
         data() {
             return {
                 activeName: '1',
-                cumulativeUsers: 10000,
-                realNameUsers: 2000,
+                cumulativeUsers: '',
+                realNameUsers: '',
                 // inviteSign:20,
                 activeNums:10000,
                 authNum: '',

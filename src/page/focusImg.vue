@@ -112,11 +112,11 @@
                 </el-table-column>
                 <el-table-column
                     label="展示量"
-                    prop="z">
+                    prop="showCount">
                 </el-table-column>
                 <el-table-column
                     label="点击量"
-                    prop="d">
+                    prop="touchCount">
                 </el-table-column>
                 <el-table-column label="操作" width="100">
                     <template scope="scope">

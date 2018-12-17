@@ -77,9 +77,9 @@
                 <el-table-column
                     label="姓名"
                     prop="name">
-                    <template scope="scope">
-                        <router-link :to="{path:'/userInfo',query:{id:scope.row.userId}}">{{scope.row.name}}</router-link>
-                    </template>
+                    <!--<template scope="scope">-->
+                        <!--<router-link :to="{path:'/userInfo',query:{id:scope.row.userId}}">{{scope.row.name}}</router-link>-->
+                    <!--</template>-->
                 </el-table-column>
                 <el-table-column
                     label="手机号"
@@ -123,8 +123,8 @@
                         </el-button>
                         <el-button type="text" style="margin-left:0;" @click="ensureCoin(scope.row.id)">确认
                         </el-button>
-                        <el-button type="text" style="margin-left:0;" @click="remarkChangeItem(scope.row.id)">运营标注
-                        </el-button>
+                        <!--<el-button type="text" style="margin-left:0;" @click="remarkChangeItem(scope.row.id)">运营标注-->
+                        <!--</el-button>-->
                     </template>
                 </el-table-column>
             </el-table>

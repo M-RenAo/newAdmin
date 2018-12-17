@@ -46,6 +46,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="start_pics_type">
+                                <div class="start_pics_type1">
+                                    <img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+startPicTypeThree"
+                                         style="width:140px;height:200px;"
+                                         v-if="startPicTypeThree!==''&&startPicTypeThree!==undefined">
+                                </div>
+                                <div class="start_pic_button">
+                                    <div>上传尺寸为：2340 * 1080</div>
+                                    <div style="position: relative">
+                                        <el-button type="primary" v-if="startPicTypeThree===undefined||startPicTypeThree===''"
+                                                   class="btnone"><span>上传</span> <input @change='mapping3' type="file"
+                                                                                         style="opacity: 0;width: 70px;height: 40px;z-index:222;position: absolute; top: 0px; left: 0px;"
+                                                                                         class="upload"></el-button>
+                                        <el-button type="primary" v-if="startPicTypeThree!==undefined&&startPicTypeThree!==''"
+                                                   @click="deleteImg3" class="btnone">删除
+                                        </el-button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </el-form-item>
                     <!-- <el-form-item label="类型：">
@@ -119,11 +138,10 @@
                 focusForm: {
                     name:'',
                     linkText:"",
-                    startDate:"",
-                    endDate:""
                 },
                 startPicTypeOne:'',
                 startPicTypeTwo:'',
+                startPicTypeThree:'',
                 // appNames:[],
                 imgData: {
                     accept: "image/gif, image/jpeg, image/png, image/jpg,image/webp"
@@ -155,6 +173,7 @@
                     this.focusForm.name=res.data.data.list[this.$route.query.nums].name//广告商名称
                     this.startPicTypeOne=JSON.parse(res.data.data.list[this.$route.query.nums].item)[0].img//启动图
                     this.startPicTypeTwo=JSON.parse(res.data.data.list[this.$route.query.nums].item)[1].img
+                    this.startPicTypeThree=JSON.parse(res.data.data.list[this.$route.query.nums].item)[2].img
                     this.focusForm.linkText=res.data.data.list[this.$route.query.nums].linkText//链接地址
                     this.url=this.focusForm.linkText
                     this.focusForm.id=this.$route.query.id
@@ -302,6 +321,70 @@
                         });
                     });
             },
+            mapping3(event) {//图片上传
+                let uploadPolicy = null;
+                this.$ajax
+                    .get(BaseUrl + "alioss/getpolicy", {
+                        params: {
+                            fileName: event.target.files[0].name,
+                            type: "image",
+                            callBackType: "app_image",
+                        }, headers: {'token': sessionStorage.getItem('token')}
+                    })
+                    .then(response => {
+                        if (response.data.flag == 200) {
+                            uploadPolicy = response.data.data;
+                            this.UploadUrl = response.data.data.host;
+                        } else if (response.data.flag == 201) {
+                            this.$alert(response.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        } else {
+                            alert("权限获取失败！");
+                            return;
+                        }
+                        // const deleteArr = ["fileName", "type", "host"];
+                        // deleteArr.forEach(item => {
+                        //     // 删除掉不需要传的参数
+                        //     delete uploadPolicy[item];
+                        // });
+
+                        let img1 = event.target.files[0];
+                        let type = img1.type; //文件的类型，判断是否是图片
+                        let size = img1.size; //文件的大小，判断图片的大小
+                        if (this.imgData.accept.indexOf(type) == -1) {
+                            alert("请选择我们支持的图片格式！");
+                            return false;
+                        }
+                        const form = new FormData();
+
+                        let paramsObj = {};
+                        // for (let key in uploadPolicy) {
+                        //   // 需要传的参数 遍历添加到form
+                        //  form.append(key, uploadPolicy[key]);
+                        // }
+                        form.append("key", uploadPolicy["key"]);
+                        form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
+                        form.append("expire", uploadPolicy["expire"]);
+                        form.append("policy", uploadPolicy["policy"]);
+                        form.append("Signature", uploadPolicy["Signature"]);
+                        form.append("callback", uploadPolicy["callback"]);
+                        form.append("file", img1);
+                        form.append('x:user', sessionStorage.getItem('userName'));
+                        form.append('x:filename', uploadPolicy['fileName']);
+                        form.append('x:type', uploadPolicy['type'])
+                        this.$ajax({
+                            method: "POST",
+                            url: this.UploadUrl,
+                            data: form,
+                        }).then(response => {
+                            this.startPicTypeThree = response.data.data;
+                        });
+                    });
+            },
             // changeType() {
             //     this.content = null;
             //     this.toItemId = null;
@@ -337,7 +420,7 @@
                         if (this.url != null) {
                             focusForm.linkText = this.url
                         }
-                        focusForm.item=JSON.stringify([{img:this.startPicTypeOne,width:'1920',height:'1080'},{img:this.startPicTypeTwo,width:'2688',height:'1242'}])
+                        focusForm.item=JSON.stringify([{img:this.startPicTypeOne,width:'1920',height:'1080'},{img:this.startPicTypeTwo,width:'2688',height:'1242'},{img:this.startPicTypeThree,width:'2340',height:'1080'}])
                         if (this.$route.query.dataId == '' || this.$route.query.dataId == undefined) {
                             this.$ajax({
                                 method: "POST",
@@ -482,6 +565,39 @@
                         });
                     } else if (response.data.flag == 200) {
                         this.startPicTypeTwo=''
+                        console.log(this.focusForm)
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    }
+                });
+
+            },
+            deleteImg3(){//删除图片
+
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'common/cleanImage',
+                    params: {objectName:this.startPicTypeThree},
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(response => {
+                    // console.log(response);
+                    if (response.data.flag == 500) {
+                        this.$alert(response.data.msg, '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$message({
+                                    type: 'info',
+                                    message: `${ response.data.msg + ',请重试'}`
+                                });
+                            }
+                        });
+                    } else if (response.data.flag == 200) {
+                        this.startPicTypeThree=''
                         console.log(this.focusForm)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {

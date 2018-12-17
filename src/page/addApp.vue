@@ -291,7 +291,6 @@
 
             },
             nextpart(appForm) {
-                alert();
                 this.$refs.appForm.validate(async (valid) => {
                     if (valid && this.uploadIconUrl != '' && this.appimageUrlArray.length != 0) {
                         this.$ajax({
