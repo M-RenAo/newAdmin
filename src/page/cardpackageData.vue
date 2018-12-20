@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-tabs class="table_container" v-model="activeName">
-            <el-tab-pane label="双倍ia卡" name="1">
+            <el-tab-pane label="双倍IA卡" name="1">
                 <ia-dobule-card v-if="activeName==1"></ia-dobule-card>
             </el-tab-pane>
             <el-tab-pane label="猜猜保本卡" name="2">

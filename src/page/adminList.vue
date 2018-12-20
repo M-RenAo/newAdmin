@@ -4,14 +4,6 @@
             <div style="display:flex;margin-bottom: 30px;">
                 <el-button type="primary" @click="addadmin()">添加管理员</el-button>
                 <div style="width:300px;margin-left:80%">
-                    <!--<el-input-->
-                    <!--placeholder="请输入完成的用户名或id"-->
-                    <!--&gt;-->
-                    <!--<i slot="suffix" style="width:5px;height:5px" class="el-input__icon el-icon-search"></i>-->
-                    <!--</el-input>-->
-                    <!--<el-input placeholder="请输入完成的用户名或id" v-model="input5" class="input-with-select">-->
-                    <!--<el-button slot="append" icon="el-icon-delete"><i class="el-icon-search"></i></el-button>-->
-                    <!--</el-input>-->
                 </div>
             </div>
             <el-table
@@ -94,20 +86,15 @@
         methods: {
             hh() {
                 let el = this.$refs.aaa;
-                // console.log(el)
             },
             getData() {
                 this.$ajax.get(BaseUrl + 'all' + '/' + this.currentPage + '/' + this.nowPageSize, {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.adminList = response.data.data.admin.filter((item) => {
                             return item.adminName != sessionStorage.getItem('userName')
                         });
                         ;
                         this.txcount = response.data.data.adminNum;
-                        // this.adminList.forEach(item=>{
-                        //
-                        // })
                         this.adminList.forEach(item => {
                             if (item.adminType == 'EDITOR') {
                                 item.adminTypeName = '普通管理员'
@@ -135,20 +122,9 @@
                 this.getData()
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.getData();
             },
-            // handleCurrentChange(pageValue) {
-            //     console.log(">>>>>>pageValue", pageValue);
-            //     this.currentPage = pageValue;
-            //     const listParams = {
-            //         activeName: this.activeName,
-            //         pageValue: pageValue,
-            //         pageSize: this.nowPageSize || 10
-            //     };
-            //     this.queryListData(listParams);
-            // },
             addadmin() {
                 this.$router.push({path: '/addAdmin'})
             },
@@ -161,13 +137,6 @@
                     this.dialogVisible = false;
                     if (response.data.flag == 200) {
                         this.getData()
-                        // var that=this;
-                        // this.adminList.forEach(function(item,index){
-                        //     if(item.id==that.deleteId){
-                        //         that.adminList.splice(index,1);
-                        //         that.txcount=that.txcount-1
-                        //     }
-                        // })
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',

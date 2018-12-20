@@ -66,15 +66,6 @@
                     <el-button type="primary" @click="confirmdel()">确定</el-button>
                 </div>
             </el-dialog>
-            <!--<div class="Pagination">-->
-            <!--<el-pagination-->
-            <!--@current-change="handleCurrentChange"-->
-            <!--:current-page="currentPage"-->
-            <!--:page-size="20"-->
-            <!--layout="total, prev, pager, next"-->
-            <!--:total="count">-->
-            <!--</el-pagination>-->
-            <!--</div>-->
         </div>
     </div>
 </template>
@@ -119,7 +110,6 @@
                     .get(`${BaseUrl}push/all/2`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         if (response.data.flag == 200) {
-                            // console.log(response);
                             this.tableData = response.data.data;
                             this.tableData.forEach(item => {
                                 if (item.state == '0') {
@@ -146,7 +136,6 @@
                     .get(`${BaseUrl}push/all/${value}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         if (response.data.flag == 200) {
-                            // console.log(response);
                             this.tableData = response.data.data;
                             this.tableData.forEach(item => {
                                 if (item.state == '0') {
@@ -179,7 +168,6 @@
                 this.$ajax
                     .get(`${BaseUrl}push/del/${this.id}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        // console.log(response);
                         if (response.data.flag == 200) {
                             this.delVisible = false;
                             this.$alert(response.data.msg, '提示', {

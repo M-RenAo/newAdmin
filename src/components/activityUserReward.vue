@@ -245,7 +245,6 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", this.searchForm);
                 this.nowPageSize = pageSize;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -260,7 +259,6 @@
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -287,23 +285,8 @@
                 searchForm.size = this.nowPageSize
                 this.getData(searchForm)
             },
-            // toggleSelection(rows) {
-            //     if (rows) {
-            //         rows.forEach(row => {
-            //             this.$refs.multipleTable.toggleRowSelection(row);
-            //         });
-            //     } else {
-            //         this.$refs.multipleTable.clearSelection();
-            //     }
-            // },
             handleSelectionChange(val) {
                 const data = JSON.parse(JSON.stringify(val));
-                // console.log('>>>>>>data',data)
-                // data.filter((item)=>{
-                //     // item的条件
-                //      return item.flag=='未发放'
-                // })
-
                 this.multipleSelection = data.filter((item) => {
                     // item的条件
                     return item.flag == '未发放'
@@ -312,7 +295,6 @@
                     item.flag = 0;
                     item.gtime = moment(item.gtime).utc().format('YYYY-MM-DD HH:mm:ss')
                 })
-                // console.log(this.multipleSelection)
             },
             setStatus() {
                 if (this.multipleSelection.length != 0) {
@@ -426,7 +408,6 @@
 
                         })
                         let para = {
-                            //withList: JSON.stringify(this.da)
                             withList: arr
                         }
                         _this.$message({
@@ -439,7 +420,6 @@
                             data: arr,
                             headers: {'token': sessionStorage.getItem('token')}
                         }).then(response => {
-                            // console.log(response);
                             if (response.data.flag == 200) {
                                 _this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
@@ -472,9 +452,6 @@
                         }, function (err) {
                             _this.$alert('上传有误,请重试', '提示', {
                                 confirmButtonText: '确定',
-                                // callback: action => {
-                                //
-                                // }
                             });
                         })
 

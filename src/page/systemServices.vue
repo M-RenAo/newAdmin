@@ -31,25 +31,8 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
-    // let moment=require('moment')
-
-    // Vue.filter('MoneyFormat', function(money) {
-    //     if (money && money != null) {
-    //         money = String(money);
-    //         var left = money.split('.')[0], right = money.split('.')[1];
-    //         right = right ? '.' + right:'';
-    //         var temp = left.split('').reverse().join('').match(/(\d{1,3})/g);
-    //         return (Number(money) < 0 ? '-' : '') + temp.join(',').split('').reverse().join('') + right;
-    //     } else if (money === 0) { // 注意===在这里的使用，如果传入的money为0,if中会将其判定为boolean类型，故而要另外做===判断
-    //         return '0';
-    //     } else {
-    //         return '';
-    //     }
-    // })
 
     export default {
         data() {
@@ -59,11 +42,7 @@
                 state: ''
             };
         },
-        components: {
-            headTop
-        },
         created() {
-            console.log(new Date().getTime() - 1555555)
             this.getData()
         },
         computed: {},
@@ -74,7 +53,6 @@
                 } else if (value == false) {
                     this.state = 1
                 }
-                console.log(value)
                 this.$ajax({
                     method: "POST",
                     url: BaseUrlApp + 'upgrade/serviceOperation',
@@ -122,7 +100,6 @@
                         } else {
                             this.value2 = true
                         }
-                        // console.log(this.iaData.details)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -131,7 +108,6 @@
                             }
                         });
                     }
-                    // this.ctime=moment.utc(response.data.data.ctime).local().format('YYYY-MM-DD HH:mm:ss')
                 });
             }
 

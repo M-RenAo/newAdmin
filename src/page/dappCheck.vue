@@ -236,8 +236,6 @@
                 this.$ajax
                     .get(`${BaseUrl}appdemo/all/${activeName}/${pageValue || 1}/${pageSize || 10}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             this.info = response.data.data.list;
                             this.txcount = response.data.data.num;
@@ -271,7 +269,6 @@
                     });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 const listParams = {
                     activeName: this.activeName,
@@ -281,7 +278,6 @@
                 this.queryListData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 const listParams = {
                     activeName: this.activeName,
@@ -296,17 +292,10 @@
                 this.$ajax
                     .get(`${BaseUrl}appdemo/info/${id}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             this.appForm = response.data.data;
                             this.appForm.androidUrl = this.appForm.androidUrl || '未上传'
                             this.appForm.iosUrl = this.appForm.iosUrl || '未上传'
-                            // if(this.appForm.flag==1){
-                            //     this.checkText='已通过审核'
-                            // }else{
-                            //     this.checkText='通过审核'
-                            // }
                             this.state = this.appForm.flag.toString()
                             if (this.appForm.remarks != undefined) {
                                 this.remarks = this.appForm.remarks
@@ -334,7 +323,6 @@
                         'token': sessionStorage.getItem('token'),
                     }
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

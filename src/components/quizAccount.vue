@@ -12,22 +12,6 @@
                 </el-col>
             </el-row>
         </el-card>
-        <!--<el-form :model="appForm" ref="appForm" label-width="110px" style="margin-top: 20px;margin-left: 20px;">-->
-        <!--<div>-->
-        <!--<div style="display: flex;margin-bottom: 20px;">-->
-        <!--<h4>小号使用IA：</h4>-->
-        <!--</div>-->
-        <!--<el-form-item label="竞猜总投入：" prop="name">-->
-        <!--{{appForm.fileVersion}}-->
-        <!--</el-form-item>-->
-        <!--<el-form-item label="总输赢：" prop="name">-->
-        <!--{{appForm.fileDate}}-->
-        <!--</el-form-item>-->
-        <!--&lt;!&ndash;<el-form-item label="历史版本：" prop="name">&ndash;&gt;-->
-        <!--&lt;!&ndash;</el-form-item>&ndash;&gt;-->
-
-        <!--</div>-->
-        <!--</el-form>-->
         <div style="display: flex;margin: 20px 0px;margin-left: 20px;">
             <h4>流水记录：</h4>
         </div>
@@ -191,38 +175,11 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-// if (this.searchForm == '') {
-//     var listParams = {
-//         page: 1,
-//         size: pageSize,
-//         order:"startDate desc"
-//     };
-// } else {
-//     this.searchForm.page = 1;
-//     this.searchForm.size = pageSize
-//     this.searchForm.order="startDate desc"
-//     var listParams = this.searchForm
-// }
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-// if (this.searchForm == '') {
-//     var listParams = {
-//         page: pageValue,
-//         size: this.nowPageSize || 10,
-//         order:"startDate desc"
-//     };
-// } else {
-//     this.searchForm.page = pageValue;
-//     this.searchForm.size = this.nowPageSize || 10;
-//     this.searchForm.order="startDate desc"
-//     var listParams = this.searchForm
-// }
-//
                 this.getData();
             },
 
@@ -240,8 +197,6 @@
                 } else {
                     searchForm.state = this.state
                 }
-                // searchForm.page = 1;
-                // searchForm.size = this.nowPageSize || 10;
                 this.getData(searchForm)
             },
             modifyGuess() {
@@ -286,7 +241,6 @@
                         params: {type: 'app_guess', newPassword: newPass, oldPassword: this.oldPass},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response)
                         if (response.data.msg == '旧密码错误') {
                             this.$alert('旧密码错误', {
                                 confirmButtonText: '确定',

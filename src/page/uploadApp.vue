@@ -26,8 +26,6 @@
                 <el-step title="正在配置"></el-step>
                 <el-step title="配置成功"></el-step>
             </el-steps>
-
-            <!-- <el-button style="margin-top: 12px;" @click="next">下一步</el-button> -->
         </div>
     </div>
 </template>
@@ -62,11 +60,6 @@
         computed: {},
         methods: {
             add_app(event) {
-                // if(this.$refs.upload.uploadFiles.length!=1){
-                //     alert('只能上传一个文件');
-                // }else{
-                //     this.$refs.upload.submit();
-                // }
                 var that = this;
                 this.file = event.target.files[0];
                 this.$ajax
@@ -93,12 +86,6 @@
                             return;
                         }
                         this.fileName = event.target.files[0].name;
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete this.uploadPolicy[item];
-                        // // });
-                        // console.log(this.file);
                     });
             },
             submitUpload() {
@@ -107,7 +94,6 @@
                     const form = new FormData();
                     let img1 = that.file;
                     let type = img1.type; //文件的类型，判断是否是图片
-                    console.log(type)
                     let size = img1.size; //文件的大小，判断图片的大小
                     form.append("key", that.uploadPolicy["key"]);
                     form.append("OSSAccessKeyId", that.uploadPolicy["OSSAccessKeyId"]);
@@ -147,10 +133,6 @@
                             reject(error);
                         } else if (response.data.flag == 200) {
                             that.progressStepsActive = 2;
-                            //   this.$alert(response.data.msg, "提示", {
-                            //     confirmButtonText: "确定",
-                            //     callback: this.$router.push({ path: "/applicationList" })
-                            //   });
                             resolve(response.data.flag)
                         } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
@@ -187,11 +169,6 @@
                             });
                             reject(error);
                         } else if (response.data.flag == 200) {
-                            //   this.$alert(response.data.msg, "提示", {
-                            //     confirmButtonText: "确定",
-                            //     callback: this.$router.push({ path: "/applicationList" })
-                            //   });
-
                             resolve(response.data.flag)
                         } else if (response.data.flag == 201) {
                             that.$alert(response.data.msg + '，请重新登录', '提示', {
@@ -204,7 +181,6 @@
                     });
                 })
                 Promise.all([promise, promise2]).then((result) => {
-                    console.log(result)
                     this.progressStepsActive = 3;
                     var that = this
                     this.$ajax.get(BaseUrl + 'apply/auto/' + this.$route.query.id, {
@@ -238,8 +214,7 @@
                             });
                         }
                     })
-                }).catch((error) => {
-                    console.log(error)  // 打开的是 'failed'
+                }).catch((error) => {// 打开的是 'failed'
                 })
             }
         }

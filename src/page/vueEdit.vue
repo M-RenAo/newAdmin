@@ -36,10 +36,8 @@
         },
         methods: {
             onEditorReady(editor) {
-                console.log('editor ready!', editor)
             },
             submit() {
-                console.log(this.content);
                 this.$message.success('提交成功！');
             }
         },

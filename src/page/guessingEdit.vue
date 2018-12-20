@@ -324,14 +324,12 @@
                 }
             },
             deleteImg(){
-                // console.log(this.editdata.image)
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'common/cleanImage',
                     params: {objectName:this.editdata.image},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -366,11 +364,8 @@
                             this.chuangijan();
 
                         } else if (this.$route.query.dataId == undefined) {
-                            // this.chuangijan();
                             this.setData()
                         }
-                        // this.setData()
-                        // console.log(this.switchs)
                     } else {
                         if (this.editdata.image == '' && valid) {
                             this.$alert('请上传推广图', {
@@ -408,8 +403,6 @@
                         return false;
                     }
                 });
-                // console.log(this.editdata)
-                // this.setData()
             },
             setData() {//设置数据
 

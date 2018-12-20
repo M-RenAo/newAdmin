@@ -16,9 +16,6 @@
                         </el-select>
                     </div>
                 </el-col>
-                <!--<div style="display:flex;justify-content: flex-end">-->
-                <!--<el-button type="primary" style="height:40px;" @click="search">搜索</el-button>-->
-                <!--</div>-->
             </el-row>
             <el-table
                 :data="tableData"
@@ -94,7 +91,6 @@
         methods: {
             getData() {
                 this.$ajax.get(BaseUrl + 'agreement/all/one/' + this.value + '/' + this.currentPage + '/' + this.nowPageSize, {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.list;
                         this.txcount = response.data.data.num;

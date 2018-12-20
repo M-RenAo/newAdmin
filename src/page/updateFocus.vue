@@ -106,7 +106,6 @@
             }
         },
         created() {
-            // console.log(this.$route.query.id);
             if (this.$route.query.id != undefined) {
                 this.$ajax.get(BaseUrl + 'banner/' + this.$route.query.id, {
                     headers: {
@@ -114,7 +113,6 @@
                         'device': this.$route.query.type
                     }
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.focusForm = response.data.data;
                         this.uploadIconUrl = response.data.data.picAddr;
@@ -141,38 +139,14 @@
             }
         },
         methods: {
-            // loadAll() {
-            //     this.$ajax.get(BaseUrl+'apply/all/0/0/1').then(response => {
-            //        console.log(response)
-            //         if(response.data.flag==200){
-            //             this.getData()
-            //             // var that=this;
-            //             // this.adminList.forEach(function(item,index){
-            //             //     if(item.id==that.deleteId){
-            //             //         that.adminList.splice(index,1);
-            //             //         that.txcount=that.txcount-1
-            //             //     }
-            //             // })
-            //         }else{
-            //             this.$alert(response.data.msg, '提示', {
-            //                 confirmButtonText: '确定',
-            //             });
-            //         }
-            //     })
-            //     return ;
-            // },
             querySearch(queryString, cb) {
-                // var appNames = this.appNames;
-
                 this.$ajax.get(BaseUrl + 'apply/sign/' + queryString, {
                     headers: {
                         'token': sessionStorage.getItem('token'),
                         'device': this.$route.query.type
                     }
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
-                        // this.appNames=response.data.data
                         const currentArray = response.data.data;
                         const appNameArray = [];
                         currentArray.forEach((item) => {
@@ -195,18 +169,10 @@
                 })
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
-                    // cb(results);
                 }, 3000 * Math.random());
             },
-            // createStateFilter(queryString) {
-            //     return (state) => {
-            //         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-            //     };
-            // },
             handleSelect(item) {
-                // console.log('>>>>>>>item', item.fileId);
                 this.toItemId = item.fileId;
-                // console.log(item)
                 this.appName = item.value;
             },
             add_img(event) {
@@ -217,7 +183,6 @@
                         params: {objectName:this.uploadIconUrl},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -264,16 +229,10 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         let size = img1.size; //文件的大小，判断图片的大小
-                        // console.log(size)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -281,10 +240,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -310,24 +265,7 @@
                 this.toItemId = null;
                 this.appName = null;
             },
-            // GMTToStr(time) {
-            //     var date = time;
-            //     var Y = date.getFullYear();
-            //     var M = date.getMonth() + 1;
-            //     M = M < 10 ? '0' + M : M;// 不够两位补充0
-            //     var D = date.getDate();
-            //     D = D < 10 ? '0' + D : D;
-            //     var H = date.getHours();
-            //     H = H < 10 ? '0' + H : H;
-            //     var Mi = date.getMinutes();
-            //     Mi = Mi < 10 ? '0' + Mi : Mi;
-            //     var S = date.getSeconds();
-            //     S = S < 10 ? '0' + S : S;
-            //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
-            //
-            // },
             save(focusForm) {
-                // console.log( this.timePeriod)
                 this.$refs.focusForm.validate(async (valid) => {
                     if (valid && (this.content != null || this.toItemId != null || this.url != null) && this.timePeriod != null && this.timePeriod[0] >= new Date()) {
                         focusForm.startTime = moment(this.timePeriod[0]).utc().format('YYYY-MM-DD HH:mm:ss');
@@ -463,23 +401,6 @@
                         return false;
                     }
                 })
-                //    console.log(this.content)
-                //    if(this.timePeriod!=null){
-                //      focusForm.startTime=this.GMTToStr(this.timePeriod[0]);
-                //      focusForm.endDate=this.GMTToStr(this.timePeriod[1]);
-                //    }
-                //    if(this.content!=null){
-                //    focusForm.text=this.content;
-                //    }else{
-                //        focusForm.text=null
-                //    }
-                //    if(this.toItemId!=null){
-                //        focusForm.toItemId=this.toItemId;
-                //    }else{
-                //        focusForm.toItemId=null
-                //    }
-                //
-                // console.log(focusForm)
             }
 
         },

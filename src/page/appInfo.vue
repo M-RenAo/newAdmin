@@ -86,7 +86,7 @@
                         </el-col>
                     </el-row>
                 </div>
-            </el-tab-pane>
+            <!--</el-tab-pane>-->
             <!--<el-tab-pane label="安装、打开详情" name="second">-->
                 <!--<data-info v-if="activeName=='second'"></data-info>-->
             <!--</el-tab-pane>-->
@@ -102,7 +102,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import appBasicInfo from '../page/appBasicInfo'
     import dataInfo from '../page/dataInfo'
     import {userCount, orderCount, getUserCount, getOrderCount, adminDayCount, adminCount} from '@/api/getData'
@@ -191,7 +190,6 @@
                         this.value.forEach(item => {
                             this.positionList.forEach(nitem => {
                                 if (item == nitem.code) {
-                                    console.log(item)
                                     this.positonText.push(nitem.title);
                                 }
                             })
@@ -205,7 +203,6 @@
                             this.tagText = '未定义'
                         }
                         this.positonTexts = this.positonText.join(' / ')
-                        // console.log( this.showList)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',

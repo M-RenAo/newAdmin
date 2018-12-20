@@ -214,14 +214,6 @@
         },
         created() {
             const form = {page: this.currentPage, size: this.nowPageSize};
-            // this.$ajax({
-            //     method: "POST",
-            //     url:  BaseUrl+'imwallet/getallassetaccount',
-            //     headers: {'token': sessionStorage.getItem('token')}
-            // }).then(response=>{
-            //     this.iaData=response.data.data
-            //
-            // });
             this.getData(form)
         },
         computed: {},
@@ -277,39 +269,21 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                // if (this.searchForm == '') {
                 var listParams = {
                     page: 1,
                     size: pageSize,
                 };
-                // } else {
-                //     this.searchForm.page = 1;
-                //     this.searchForm.size = pageSize
-                //     var listParams = this.searchForm
-                // }
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                // if (this.searchForm == '') {
                 var listParams = {
                     page: pageValue,
                     size: this.nowPageSize || 10,
                 };
-                // } else {
-                //     this.searchForm.page = pageValue;
-                //     this.searchForm.size = this.nowPageSize || 10;
-                //     var listParams = this.searchForm
-                // }
-
                 this.getData(listParams);
             },
-            // trumpet(id) {
-            //     this.trumpetFormVisible = true
-            // },
             GMTToStr(time) {
                 var date = time;
                 var Y = date.getFullYear();
@@ -327,45 +301,14 @@
 
             },
             search(searchForm) {
-                // if (this.startDate != '') {
-                //     searchForm.st1 = this.GMTToStr(this.startDate[0]);
-                //     searchForm.st2 = this.GMTToStr(this.startDate[1])
-                // }
-                // if (this.endDate != '') {
-                //     searchForm.et1 = this.GMTToStr(this.endDate[0]);
-                //     searchForm.et2 = this.GMTToStr(this.endDate[1])
-                // }
-                // if (this.state == 4) {
-                //     searchForm.state = null
-                // } else {
-                //     searchForm.state = this.state
-                // }
-                // searchForm.page = 1;
-                // searchForm.size = this.nowPageSize || 10;
-                // searchForm.order="startDate desc"
-                // this.getData(searchForm)
             },
-            // toggleSelection(rows) {
-            //     if (rows) {
-            //         rows.forEach(row => {
-            //             this.$refs.multipleTable.toggleRowSelection(row);
-            //         });
-            //     } else {
-            //         this.$refs.multipleTable.clearSelection();
-            //     }
-            // },
             handleSelectionChange(val) {
                 this.multipleSelection = val.filter((item) => {
                     // item的条件
                     return item.settled == 0
                 });
-                // console.log( this.multipleSelection)
             },
             setStatus() {
-                // if(this.cellPhones.length==this.multipleSelection.length){
-                //
-                // }
-                // console.log(this.multipleSelection)
                 if (this.multipleSelection.length == 0 || this.multipleSelection == '') {
                     this.$alert('请勾选条目', '提示', {
                         confirmButtonText: '确定',

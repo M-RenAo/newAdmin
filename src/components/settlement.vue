@@ -148,36 +148,11 @@
                 })
             },
             handleSizeChange(pageSize) {
-                // console.log(this.searchForm)
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                // if (this.searchForm.phone == undefined&&this.searchForm.anwser==undefined) {
-                //     var listParams = {
-                //         page: 1,
-                //         size: pageSize,
-                //         order:"date desc"
-                //     };
-                // } else {
-                //     this.searchForm.index = 1;
-                //     this.searchForm.size = pageSize
-                //     var listParams = this.searchForm
-                // }
                 this.getData({page: 1, size: this.nowPageSize, from: '2341a6e2c53d4ed182bd35bee0ddce84'});
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                // if (this.searchForm.phone == undefined&&this.searchForm.anwser==undefined) {
-                //     var listParams = {
-                //         page: pageValue,
-                //         size: this.nowPageSize || 10,
-                //         order:"date desc"
-                //     };
-                // } else {
-                //     this.searchForm.index = pageValue;
-                //     this.searchForm.size = this.nowPageSize || 10;
-                //     var listParams = this.searchForm
-                // }
                 this.getData({
                     page: this.currentPage,
                     size: this.nowPageSize,

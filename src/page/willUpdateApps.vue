@@ -60,11 +60,6 @@
         computed: {},
         methods: {
             add_app(event) {
-                // if(this.$refs.upload.uploadFiles.length!=1){
-                //     alert('只能上传一个文件');
-                // }else{
-                //     this.$refs.upload.submit();
-                // }
                 this.file = event.target.files[0];
                 this.$ajax
                     .get(BaseUrl + "alioss/getpolicy", {
@@ -91,12 +86,6 @@
                             return;
                         }
                         this.fileName = event.target.files[0].name;
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete this.uploadPolicy[item];
-                        // // });
-                        // console.log(this.file);
                     });
             },
             submitUpload() {
@@ -144,10 +133,6 @@
                             reject(error);
                         } else if (response.data.flag == 200) {
                             that.progressStepsActive = 2;
-                            //   this.$alert(response.data.msg, "提示", {
-                            //     confirmButtonText: "确定",
-                            //     callback: this.$router.push({ path: "/applicationList" })
-                            //   });
                             resolve(response.data.flag)
                         } else if (response.data.flag == 201) {
                             that.$alert(response.data.msg + '，请重新登录', '提示', {
@@ -184,10 +169,6 @@
                             });
                             reject(error);
                         } else if (response.data.flag == 200) {
-                            //   this.$alert(response.data.msg, "提示", {
-                            //     confirmButtonText: "确定",
-                            //     callback: this.$router.push({ path: "/applicationList" })
-                            //   });
                             resolve(response.data.flag)
                         } else if (response.data.flag == 201) {
                             that.$alert(response.data.msg + '，请重新登录', '提示', {
@@ -200,7 +181,6 @@
                     });
                 })
                 Promise.all([promise, promise2]).then((result) => {
-                    // console.log(result)
                     this.progressStepsActive = 3;
                     var that = this
                     this.$ajax.get(BaseUrl + 'apply/auto/update/' + this.$route.query.id, {
@@ -251,7 +231,6 @@
                         }
                     })
                 }).catch((error) => {
-                    // console.log(error)  // 打开的是 'failed'
                 })
             }
         }

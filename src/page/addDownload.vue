@@ -328,7 +328,6 @@
 
             });
             this.rankTitle.title = this.$route.query.title;
-            // console.log(this.$route.query.rule)
             if (this.$route.query.rule === undefined) {
                 this.sortRule = 'add'
             } else {
@@ -359,7 +358,6 @@
                             item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
                         });
                         this.info.forEach((item, index) => {
-                            // console.log(index)
                             item.index = index + 1 + (this.currentPage - 1) * this.nowPageSize
                         });
                         if (this.$route.query.type == 'android') {
@@ -379,36 +377,7 @@
                             }
                         });
                     }
-                    // this.value=this.appForm.fileDisplayPosition.split(',')
                 })
-                // this.$ajax.get(BaseUrl+'apptag/all',{headers: {'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                //     if(response.data.flag==200) {
-                //         this.tagList = response.data.data;
-                //
-                //         this.typeList = [
-                //             {
-                //                 "code": "1",
-                //                 "id": "1",
-                //                 "title": "上架"
-                //             },
-                //             {
-                //                 "code": "0",
-                //                 "id": "0",
-                //                 "title": "下架"
-                //             }
-                //         ]
-                //     }else if(response.data.flag==201) {
-                //         this.$alert(response.data.msg + '，请重新登录', '提示', {
-                //             confirmButtonText: '确定',
-                //             callback: action => {
-                //                 this.$router.push('/')
-                //             }
-                //         });
-                //     }
-                //
-                // })
-
-
             },
             updateAppSort(appName, fileId, sort, row) {
                 this.dialogFormVisible = true;
@@ -426,7 +395,6 @@
                         data: this.rankAndApp,
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -494,7 +462,6 @@
                     data: this.appId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -641,7 +608,6 @@
                         data: this.rankTitle,
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -698,17 +664,9 @@
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             var that = this
-                            // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.unChoiceAppList = response.data.data.appList
-                            //     .filter(function(item1) {
-                            //     return that.info.every(function(item2) {
-                            //         return item2.fileId !== item1.fileId
-                            //     })
-                            // })
                             this.txcountRank=response.data.data.fileNum;
                             this.unChoiceAppList.forEach(item => {
                                 if (item.fileState == 1) {

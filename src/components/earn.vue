@@ -135,13 +135,6 @@
                 }
 
             });
-            // this.$ajax({
-            //     method: "POST",
-            //     url: 'http://10.82.40.141:36788/admin/imwallet/rewardusertotalamount',
-            //     headers: {'token': sessionStorage.getItem('token')}
-            // }).then(response=>{
-            //     this.rewordMoney=response.data.data
-            // });
             const form = {pageCode: this.currentPage, pageSize: this.nowPageSize}
             this.getData(form)
         },
@@ -168,52 +161,23 @@
                             }
                         });
                     }
-                    // this.tableData.forEach(item => {
-                    //     item.results = JSON.parse(item.result).A + JSON.parse(item.result).B;
-                    //     if (item.state == 1) {
-                    //         item.status = '进行中'
-                    //     } else if (item.state == 0) {
-                    //         item.status = '已结束'
-                    //     } else if (item.state == 2) {
-                    //         item.status = '待开奖'
-                    //     } else {
-                    //         item.status = '未开始'
-                    //     }
-                    // });
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                // if (this.searchForm == '') {
                 var listParams = {
                     papageCodege: 1,
                     pageSize: pageSize,
 
                 };
-                // } else {
-                //     this.searchForm.page = 1;
-                //     this.searchForm.size = pageSize
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                // if (this.searchForm == '') {
                 var listParams = {
                     pageCode: pageValue,
                     pageSize: this.nowPageSize || 10,
                 };
-                // } else {
-                //     this.searchForm.page = pageValue;
-                //     this.searchForm.size = this.nowPageSize || 10;
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
-                //
                 this.getData(listParams);
             },
             modifyPlatfrom() {
@@ -258,7 +222,6 @@
                         params: {type: 'income', newPassword: newPass, oldPassword: this.oldPass},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response)
                         if (response.data.msg == '旧密码错误') {
                             this.$alert('旧密码错误', {
                                 confirmButtonText: '确定',

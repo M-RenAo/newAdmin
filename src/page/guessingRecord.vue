@@ -384,7 +384,6 @@
                             type: 'error'
                         });
                     }
-                    // console.log(res)
                 })
             },
             handleSizeChange(pageSize) {
@@ -475,7 +474,6 @@
                     })
                     this.tableData = res.data.data.data
                     this.guesscount = res.data.data.count
-                    // console.log(this.tableData)
                 })
             },
             getGuessdata() {

@@ -220,9 +220,7 @@
             }
         },
         mounted() {
-            // this.currentPage=Number(this.$route.query.page)
             this.nowPageSize=Number(this.$route.query.size)
-            // console.log(this.$route.path)
             this.getData()
         },
         computed: {},
@@ -237,7 +235,6 @@
                         'device': this.type
                     }
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.list;
                         this.txcount = response.data.data.num;
@@ -261,10 +258,8 @@
                         })
                         this.tableData.forEach(item => {
                             if (item.startTime != '1970-01-01 08:00:00'&&item.endTime != '1970-01-01 08:00:00'){
-
                                 if(new Date().getTime()>=moment(item.startTimes).format('X')*1000&&new Date().getTime()<=moment(item.endTimes).format('X')*1000){
                                     item.status="上架"
-                                    // console.log(1)
                                 }else if(new Date().getTime()<moment(item.startTimes).format('X')*1000){
                                     item.status="待上架"
                                 }else if(new Date().getTime()>moment(item.endTimes).format('X')*1000){
@@ -275,7 +270,6 @@
                             }
                         })
                         this.currentPage=Number(this.$route.query.page)
-                        console.log(this.tableData)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -291,20 +285,7 @@
                 })
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                // if (this.searchForm == '') {
-                //     var listParams = {
-                //         page: 1,
-                //         size: pageSize,
-                //         order:"startDate desc"
-                //     };
-                // } else {
-                //     this.searchForm.page = 1;
-                //     this.searchForm.size = pageSize
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
                 this.$router.push({
                     name: 'bannerDeploy',
                     query: {
@@ -316,21 +297,7 @@
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                // if (this.searchForm == '') {
-                //     var listParams = {
-                //         page: pageValue,
-                //         size: this.nowPageSize || 10,
-                //         order:"startDate desc"
-                //     };
-                // } else {
-                //     this.searchForm.page = pageValue;
-                //     this.searchForm.size = this.nowPageSize || 10;
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
-                //
                 this.$router.push({
                     name: 'bannerDeploy',
                     query: {

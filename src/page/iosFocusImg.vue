@@ -156,7 +156,6 @@
             }
         },
         mounted() {
-            // console.log(this.$route.path)
             this.nowPageSize=Number(this.$route.query.size)
             this.getData()
         },
@@ -172,7 +171,6 @@
                         'device': this.type
                     }
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.list;
                         this.txcount = response.data.data.num;
@@ -199,7 +197,6 @@
 
                                 if(new Date().getTime()>=moment(item.startTimes).format('X')*1000&&new Date().getTime()<=moment(item.endTimes).format('X')*1000){
                                     item.status="上架"
-                                    // console.log(1)
                                 }else if(new Date().getTime()<moment(item.startTimes).format('X')*1000){
                                     item.status="待上架"
                                 }else if(new Date().getTime()>moment(item.endTimes).format('X')*1000){
@@ -225,20 +222,7 @@
                 })
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-                // if (this.searchForm == '') {
-                //     var listParams = {
-                //         page: 1,
-                //         size: pageSize,
-                //         order:"startDate desc"
-                //     };
-                // } else {
-                //     this.searchForm.page = 1;
-                //     this.searchForm.size = pageSize
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
                 this.$router.push({
                     name: 'bannerDeploy',
                     query: {
@@ -250,21 +234,7 @@
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                // if (this.searchForm == '') {
-                //     var listParams = {
-                //         page: pageValue,
-                //         size: this.nowPageSize || 10,
-                //         order:"startDate desc"
-                //     };
-                // } else {
-                //     this.searchForm.page = pageValue;
-                //     this.searchForm.size = this.nowPageSize || 10;
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
-                //
                 this.$router.push({
                     name: 'bannerDeploy',
                     query: {

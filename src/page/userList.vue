@@ -4,10 +4,6 @@
             <el-row type="flex" style="margin-bottom: 20px;">
                 <el-col :span="18" style="display:flex;height: auto;word-break:break-all;flex:1">
                     <div style="display:inline-block">
-                        <!--<div style="display: inline-block">-->
-                        <!--<span style="font-size: 14px;width:80px;">昵称：</span>-->
-                        <!--<el-input v-model="searchForm.nickName" placeholder="请输入内容" style="width:150px;"></el-input>-->
-                        <!--</div>-->
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">手机号：</span>
                             <el-input v-model="num" placeholder="请输入内容" style="width:120px;"
@@ -36,23 +32,6 @@
                                 <el-option label="倒序" value="1">倒序</el-option>
                             </el-select>
                         </div>
-                        <!--<div style="display: inline-block">-->
-                        <!--<span style="font-size: 14px;width:80px;">姓名：</span>-->
-                        <!--<el-input v-model="searchForm.name" placeholder="请输入内容" style="width:150px;"></el-input>-->
-                        <!--</div>-->
-                        <!--<div style="display: inline-block">-->
-                        <!--<span style="font-size: 14px;width:80px;">ImAPP钱包余额：</span>-->
-                        <!--<el-input v-model="searchForm.minWalletBalance" style="width:50px;"></el-input>-<el-input v-model="searchForm.maxWalletBalance"  style="width:50px;"></el-input>-->
-                        <!--</div>-->
-                        <!--<div style="display: inline-block">-->
-                        <!--<span style="font-size: 14px;width:80px;">最近登录时间：</span>-->
-                        <!--<el-date-picker-->
-                        <!--v-model="startDate"-->
-                        <!--type="datetimerange"-->
-                        <!--align="right"-->
-                        <!--:default-time="['12:00:00', '08:00:00']">-->
-                        <!--</el-date-picker>-->
-                        <!--</div>-->
                     </div>
                 </el-col>
                 <div style="float:right">
@@ -269,54 +248,6 @@
                 </el-pagination>
             </div>
         </el-dialog>
-        <!--<el-dialog title="邀请明细" :visible.sync="dialogTableInviteVisible" width="1000px">-->
-        <!--<div style="margin-bottom: 10px">用户：{{userNickName}}</div>-->
-        <!--&lt;!&ndash;<div style="display:inline-block">&ndash;&gt;-->
-        <!--&lt;!&ndash;<div style="display: inline-block">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span style="font-size: 14px;width:80px;">类型：</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<el-select v-model="state" placeholder="请选择" @change="changeBCDType">&ndash;&gt;-->
-        <!--&lt;!&ndash;<el-option&ndash;&gt;-->
-        <!--&lt;!&ndash;v-for="item in options"&ndash;&gt;-->
-        <!--&lt;!&ndash;:key="item.label"&ndash;&gt;-->
-        <!--&lt;!&ndash;:label="item.label"&ndash;&gt;-->
-        <!--&lt;!&ndash;:value="item.label">&ndash;&gt;-->
-        <!--&lt;!&ndash;</el-option>&ndash;&gt;-->
-        <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<div style="display: inline-block">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span style="font-size: 14px;width:80px;">时间：</span>&ndash;&gt;-->
-        <!--&lt;!&ndash;<el-date-picker&ndash;&gt;-->
-        <!--&lt;!&ndash;style="width:200px"&ndash;&gt;-->
-        <!--&lt;!&ndash;v-model="startDate"&ndash;&gt;-->
-        <!--&lt;!&ndash;type="datetimerange"&ndash;&gt;-->
-        <!--&lt;!&ndash;align="right"&ndash;&gt;-->
-        <!--&lt;!&ndash;:default-time="['12:00:00', '08:00:00']">&ndash;&gt;-->
-        <!--&lt;!&ndash;</el-date-picker>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--&lt;!&ndash;<el-button type="primary" @click="serchBCDByTime">搜索</el-button>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--<el-table :data="tableData">-->
-        <!--<el-table-column property="createTime" label="日期"></el-table-column>-->
-        <!--<el-table-column property="amount" label="手机号"></el-table-column>-->
-        <!--<el-table-column property="amount" label="昵称"></el-table-column>-->
-        <!--<el-table-column property="amount" label="姓名"></el-table-column>-->
-        <!--<el-table-column property="type" label="实名状态"></el-table-column>-->
-        <!--<el-table-column property="remark" label="奖励"></el-table-column>-->
-        <!--&lt;!&ndash;<el-table-column property="address" label="当前累积"></el-table-column>&ndash;&gt;-->
-        <!--</el-table>-->
-        <!--<div class="Pagination">-->
-        <!--<el-pagination-->
-        <!--@size-change="handleBCDSizeChange"-->
-        <!--@current-change="handleBCDCurrentChange"-->
-        <!--:current-page="currentPageIA"-->
-        <!--:page-size="nowPageSizeIA"-->
-        <!--:page-sizes="[5, 10, 20, 40]"-->
-        <!--:total="txcountIA"-->
-        <!--layout="total, sizes, prev, pager, next, jumper"-->
-        <!--&gt;-->
-        <!--</el-pagination>-->
-        <!--</div>-->
-        <!--</el-dialog>-->
     </div>
 </template>
 
@@ -365,9 +296,6 @@
                 ],
                 userstate:"",
                 useroptions:[{value:1,label:'身份重复认证异常'},{value:2,label:'打开挖矿异常'}],
-                // options2:[
-                //     {label:'全部',value:'0'},{label:'IA兑换',value:'1'}, {label:'平台奖励',value:'2'},{label:'提取',value:'2'},
-                // ],
                 IAData: [],
                 userId: null,
             }
@@ -376,8 +304,6 @@
             headTop,
         },
         created() {
-            // console.log(typeof(this.currentPage))
-            // const form =
             this.getData()
         },
         methods: {
@@ -396,7 +322,6 @@
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.list;
                         this.txcount = response.data.data.num;
-                        console.log(this.tableData)
                         this.tableData.forEach(item => {
                             if (item.loginTime != undefined) {
                                 item.loginTime = moment.utc(item.loginTime).local().format('YYYY-MM-DD HH:mm:ss')
@@ -435,7 +360,6 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val
-                console.log(this.multipleSelection)
                 this.shieldID = [];
                 for (let i = 0; i < this.multipleSelection.length; i++) {
                     this.shieldID.push(this.multipleSelection[i].userPhone)
@@ -461,7 +385,6 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     this.dialogVisible = false
-                    console.log(response)
                     if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -553,7 +476,6 @@
                 }
             },
             serchByTime() {
-                // console.log(this.startDate)
                 if (this.startDate !== null) {
                     this.getIADetail({
                         userId: this.userId,
@@ -583,7 +505,6 @@
                     data: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.IAData = response.data.data.billList;
                         this.balance = response.data.data.balance
@@ -605,7 +526,6 @@
                 });
             },
             changeIAType() {
-                // console.log(this.startDate)
                 if (this.startDate === null) {
                     this.getIADetail({
                         userId: this.userId,
@@ -688,7 +608,6 @@
                 }
             },
             serchBCDByTime() {
-                // console.log(this.startDate)
                 if (this.startDate !== null) {
                     this.getIADetail({
                         userId: this.userId,
@@ -712,7 +631,6 @@
                 }
             },
             changeBCDType() {
-                // console.log(this.startDate)
                 if (this.startDate === null) {
                     this.getIADetail({
                         userId: this.userId,
@@ -735,39 +653,10 @@
                     })
                 }
             },
-            // checkInvite(id,name){
-            //     this.userNickName=name
-            //     this.userId=id
-            //     this.dialogTableBCDVisible=true
-            //     this.startDate=null;
-            //     this.state='全部'
-            //     this.dialogTableInviteVisible=true
-            //     this.getInviteDetail()
-            // },
-            // getInviteDetail(){
-            //     this.$ajax.get(BaseUrl+'inviterecord/all/'+this.userId+'/'+this.currentPageIA+'/'+this.nowPageSizeIA,{headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-            //         // console.log(response)
-            //         if(response.data.flag==200){
-            //             this.tableData=response.data.data.list;
-            //             this.txcount=response.data.data.num;
-            //             this.tableData.forEach(item=>{
-            //                 item.inviteDate=moment(item.inviteDate).format('YYYY-MM-DD HH:mm:ss')
-            //             })
-            //         }else if(response.data.flag==201) {
-            //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$router.push('/')
-            //                 }
-            //             });
-            //         }
-            //     })
-            // },
             search(searchForm) {
                 this.getData()
             },
             userInfo(ID) {
-                // console.log(ID)
                 this.$router.push({path: '/userInfo', query: {id: ID}})
             }
         },

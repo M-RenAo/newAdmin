@@ -111,22 +111,6 @@
                 }
 
             });
-            // this.$ajax({
-            //     method: "POST",
-            //     url:  BaseUrl+'imwallet/getallassetaccount',
-            //     headers: {'token': sessionStorage.getItem('token')}
-            // }).then(response=>{
-            //     this.platformData=response.data.data.incomeBalance;
-            //     sessionStorage.setItem('platformData', this.platformData)
-            //
-            // });
-            // this.$ajax({
-            //     method: "POST",
-            //     url: 'http://10.82.40.141:36788/admin/imwallet/rewardusertotalamount',
-            //     headers: {'token': sessionStorage.getItem('token')}
-            // }).then(response=>{
-            //     this.rewordMoney=response.data.data
-            // });
             const form = {pageCode: this.currentPage, pageSize: this.nowPageSize}
             this.getData(form)
         },
@@ -156,62 +140,14 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.getData({pageCode: 1, pageSize: this.nowPageSize});
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 this.getData({pageCode: this.currentPage, pageSize: this.nowPageSize});
             },
-            // trumpet(id) {
-            //     this.trumpetFormVisible = true
-            // },
-            // GMTToStr(time) {
-            //     var date = time;
-            //     var Y = date.getFullYear();
-            //     var M = date.getMonth() + 1;
-            //     M = M < 10 ? '0' + M : M;// 不够两位补充0
-            //     var D = date.getDate();
-            //     D = D < 10 ? '0' + D : D;
-            //     var H = date.getHours();
-            //     H = H < 10 ? '0' + H : H;
-            //     var Mi = date.getMinutes();
-            //     Mi = Mi < 10 ? '0' + Mi : Mi;
-            //     var S = date.getSeconds();
-            //     S = S < 10 ? '0' + S : S;
-            //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
-            //
-            // },
-            // search(searchForm) {
-            //     if (this.startDate != '') {
-            //         searchForm.st1 = this.GMTToStr(this.startDate[0]);
-            //         searchForm.st2 = this.GMTToStr(this.startDate[1])
-            //     }
-            //     if (this.endDate != '') {
-            //         searchForm.et1 = this.GMTToStr(this.endDate[0]);
-            //         searchForm.et2 = this.GMTToStr(this.endDate[1])
-            //     }
-            //     if (this.state == 4) {
-            //         searchForm.state = null
-            //     } else {
-            //         searchForm.state = this.state
-            //     }
-            //     searchForm.page = 1;
-            //     searchForm.size = this.nowPageSize || 10;
-            //     searchForm.order="startDate desc"
-            //     this.getData(searchForm)
-            // },
-            // toggleSelection(rows) {
-            //     if (rows) {
-            //         rows.forEach(row => {
-            //             this.$refs.multipleTable.toggleRowSelection(row);
-            //         });
-            //     } else {
-            //         this.$refs.multipleTable.clearSelection();
-            //     }
-            // },
+
             bcdEarn(money) {
                 this.passWord = '';
                 if (money == '' || money == undefined) {
@@ -230,7 +166,6 @@
                 }
             },
             ensurePut(password) {
-                // console.log(typeof(this.money))
                 if (password == '' || password == undefined) {
                     this.$alert('请填写密码', '提示', {
                         confirmButtonText: '确定',

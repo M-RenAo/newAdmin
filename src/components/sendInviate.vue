@@ -80,7 +80,6 @@
         methods: {
             getData() {
                 this.$ajax.get(BaseUrl + 'inviterecord/all/' + this.$route.query.id + '/' + this.currentPage + '/' + this.nowPageSize, {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.list;
                         this.txcount = response.data.data.num;
@@ -98,39 +97,12 @@
                 })
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.currentPage = 1;
-                // if (this.searchForm == '') {
-                //     var listParams = {
-                //         page: 1,
-                //         size: pageSize,
-                //         order:"startDate desc"
-                //     };
-                // } else {
-                //     this.searchForm.page = 1;
-                //     this.searchForm.size = pageSize
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-                // if (this.searchForm == '') {
-                //     var listParams = {
-                //         page: pageValue,
-                //         size: this.nowPageSize || 10,
-                //         order:"startDate desc"
-                //     };
-                // } else {
-                //     this.searchForm.page = pageValue;
-                //     this.searchForm.size = this.nowPageSize || 10;
-                //     this.searchForm.order="startDate desc"
-                //     var listParams = this.searchForm
-                // }
-                //
                 this.getData();
             },
         },

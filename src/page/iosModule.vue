@@ -16,13 +16,8 @@
                 >
                     <template scope="scope">
                         <span>{{scope.row.title}}</span>
-                        <!--<img v-if="scope.row.titleStyle=='image'" style="width:30px;height:30px" :src="'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.title">-->
                     </template>
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="展示风格"-->
-                <!--prop="show">-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="列表样式"
                     prop="show">
@@ -59,39 +54,8 @@
             </el-table>
             <el-dialog title="" :visible.sync="dialogFormVisible">
                 <el-form :model="form" ref="form" :rules="rule">
-                    <!--<el-form-item label="标题类型" :label-width="formLabelWidth" prop="titleStyle">-->
-                    <!--<el-select v-model="form.titleStyle" placeholder="请选择标题类型">-->
-                    <!--<el-option label="图标" value="image">图标</el-option>-->
-                    <!--<el-option label="文字" value="text">文字</el-option>-->
-                    <!--</el-select>-->
-                    <!--&lt;!&ndash;</el-form-item>&ndash;&gt; v-if="form.titleStyle=='text'"-->
-                    <!--<el-form-item label="标题说明" :label-width="formLabelWidth" prop="title" v-if="form.titleStyle=='image'">-->
-                    <!--<el-input v-model="form.title" auto-complete="off" style="width:80%"></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="分类图标" :label-width="formLabelWidth" prop="titleText" v-if="form.titleStyle=='image'" class="icon-trumpet-el">-->
-                    <!--<input class="upload" @change='add_img' type="file"-->
-                    <!--style="opacity: 0;width: 148px;height: 148px;z-index:222;vertical-align: top;position: absolute">-->
-                    <!--<div class="icon-plus-container"-->
-                    <!--style="display: flex;justify-content: center;align-items: center;">-->
-                    <!--<i class="el-icon-plus"></i>-->
-                    <!--</div>-->
-                    <!--<div class="img-wrap" v-if="uploadIconUrl!=''">-->
-                    <!--<img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"-->
-                    <!--class="border-radius" style="width: 146px;height: 146px;"/>-->
-                    <!--</div>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="展示风格" :label-width="formLabelWidth" prop="showStyle">-->
-                    <!--<el-select v-model="form.showStyle" placeholder="请选择展示风格">-->
-                    <!--<el-option label="横向" key="0" value="0"></el-option>-->
-                    <!--<el-option label="竖向" key="1" value="1"></el-option>-->
-                    <!--</el-select>-->
-                    <!--</el-form-item>-->
                     <el-form-item label="列表类型" :label-width="formLabelWidth" prop="itemType">
                         <el-select v-model="form.itemType" placeholder="请选择列表类型">
-                            <!--<el-option label="applist" value="appList">applist</el-option>-->
-                            <!--<el-option label="appList/Download-Ranking" value="appList/Download-Ranking">-->
-                            <!--appList/Download-Ranking-->
-                            <!--</el-option>-->
                             <el-option label="固定" value="item-app:fixationList">固定</el-option>
                             <el-option label="竖向" value="item-app:verticalList">竖向</el-option>
                             <el-option label="滑动" value="item-app:horizontalList">滑动</el-option>
@@ -338,12 +302,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
-
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         let size = img1.size; //文件的大小，判断图片的大小
@@ -354,10 +312,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -374,7 +328,6 @@
                             data: form,
                         }).then(response => {
                             this.advertisePic = response.data.data;
-                            // this.form.icon = response.data.data;
                         });
                     });
             },
@@ -393,7 +346,6 @@
                     data: this.updataNewsForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -429,7 +381,6 @@
                     params: {objectName:this.advertisePic},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -477,7 +428,6 @@
                             data: formData,
                             headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                         }).then(response => {
-                            // console.log(response);
                             if (response.data.flag == 500) {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
@@ -527,7 +477,6 @@
                             }
                         });
                     }
-                    // else {
 
                 })
 
@@ -537,13 +486,7 @@
                 this.dialogFormVisibleMoudleSort = true;
                 this.positionList.forEach(item => {
                     if (item.id == id) {
-                        // this.sortMoudleForm.titleStyle=item.titleStyle;
                         this.sortMoudleForm.title = item.title;
-                        // if(item.titleText!=undefined){
-                        //     this.sortMoudleForm.titleText=item.titleText
-                        //     // this.uploadIconUrl=this.sortMoudleForm.titleText
-                        // }
-                        // this.sortMoudleForm.showStyle=item.showStyle;
                         this.sortMoudleForm.state = item.state;
                         this.sortMoudleForm.itemType = item.itemType;
                         this.sortMoudleForm.id = id;
@@ -561,7 +504,6 @@
                     data: this.sortMoudleForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -594,23 +536,6 @@
             deletePosition(id) {
                 this.dialogVisible = true;
                 this.deleteId = id;
-                // this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
-
-                //     cancelButtonText: '取消',
-                //     type: 'warning'
-                // }).then(() => {
-                //     this.$message({
-                //         type: 'success',
-                //         message: '删除成功!',
-                //         callback:this.getTagData()
-                //     });
-                // }).catch(() => {
-                //     this.$message({
-                //         type: 'info',
-                //         message: '已取消删除'
-                //     });
-                // });
-
             },
             handleClose(done) {
                 this.$confirm('确认关闭？')
@@ -719,10 +644,6 @@
         word-break: break-all;
         white-space: nowrap !important;
     }
-
-    /*.el-button{*/
-    /*border: 0;*/
-    /*}*/
     .border-radius {
         border-radius: 6px;
         height: auto;

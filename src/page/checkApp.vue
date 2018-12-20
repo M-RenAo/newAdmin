@@ -16,8 +16,6 @@
                         <el-form-item label="上传时间：" prop="name">
                             {{appForm.fileDate}}
                         </el-form-item>
-                        <!--<el-form-item label="历史版本：" prop="name">-->
-                        <!--</el-form-item>-->
 
                     </div>
                     <div>
@@ -36,12 +34,6 @@
                         <el-form-item label="应用描述：" prop="name">
                             {{appForm.fileMessage}}
                         </el-form-item>
-                        <!--<el-form-item label="下载地址：" prop="name">-->
-                        <!--{{appForm.fileDir}}-->
-                        <!--</el-form-item>-->
-                        <!--<el-form-item label="包名：" prop="name">-->
-                        <!--{{appForm.packageName}}-->
-                        <!--</el-form-item>-->
                         <el-form-item label="应用图标：" prop="name">
                             <div style="width:100px;height:100px;"><img
                                 :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+appForm.fileIcon"
@@ -56,9 +48,6 @@
                                 </div>
                             </div>
                         </el-form-item>
-                        <!--<el-form-item label="历史版本：" prop="name">-->
-                        <!--</el-form-item>-->
-
                     </div>
                     <div>
                         <div style="display: flex;margin-bottom: 20px;">
@@ -70,8 +59,6 @@
                         <el-form-item label="电话号码：" prop="name">
 
                         </el-form-item>
-                        <!--<el-form-item label="历史版本：" prop="name">-->
-                        <!--</el-form-item>-->
 
                     </div>
                     <div>
@@ -122,7 +109,6 @@
     import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
 
     let moment = require('moment')
     export default {
@@ -155,7 +141,6 @@
                         this.appForm = response.data.data
                         this.showList = this.appForm.fileShow.split(',');
                         this.appForm.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
-                        // console.log( this.showList)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -183,7 +168,6 @@
                         'device': this.$route.query.type
                     }
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

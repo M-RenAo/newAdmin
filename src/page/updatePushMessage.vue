@@ -89,15 +89,6 @@
 
             }
         },
-        // mounted(){
-        //     var imgHandler = async function(state) {
-        //         if (state) {
-        //             var fileInput =document.querySelector('#uniqueId') //隐藏的file元素
-        //             fileInput.click() //触发事件
-        //         }
-        //     }
-        //     this.$refs.newEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
-        // },
         created() {
             if (this.$route.query.id != undefined && this.$route.query.id != '') {
                 this.readonly = true;
@@ -105,8 +96,6 @@
                     .get(`${BaseUrl}push/mess/${this.$route.query.id}`, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
                         if (response.data.flag == 200) {
-
-                            // console.log(response);
                             this.appForm = response.data.data;
                             this.pushDate = moment.utc(this.appForm.pushDate).local().format('YYYY-MM-DD HH:mm:ss')
                             this.uploadIconUrl = response.data.data.cover
@@ -130,7 +119,6 @@
                         params: {objectName:this.uploadIconUrl},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -177,11 +165,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -193,10 +176,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -217,83 +196,6 @@
                         });
                     });
             },
-            // add_imgs(event) {
-            //     let uploadPolicy = null;
-            //     this.$ajax
-            //         .get(BaseUrl + "alioss/getpolicy", {
-            //             params: {
-            //                 fileName: event.target.files[0].name,
-            //                 type: "image",
-            //                 callBackType:"app_image"
-            //             }
-            //         })
-            //         .then(response => {
-            //             if (response.data) {
-            //                 uploadPolicy = response.data.data;
-            //                 this.UploadUrl = response.data.data.host;
-            //             } else {
-            //                 alert("权限获取失败！");
-            //                 return;
-            //             }
-            //             // const deleteArr = ["fileName", "type", "host"];
-            //             // deleteArr.forEach(item => {
-            //             //     // 删除掉不需要传的参数
-            //             //     delete uploadPolicy[item];
-            //             // });
-            //
-            //             let img1 = event.target.files[0];
-            //             let type = img1.type; //文件的类型，判断是否是图片
-            //             let size = img1.size; //文件的大小，判断图片的大小
-            //             if (this.imgData.accept.indexOf(type) == -1) {
-            //                 alert("请选择我们支持的图片格式！");
-            //                 return false;
-            //             }
-            //             const form = new FormData();
-            //
-            //             let paramsObj = {};
-            //             // for (let key in uploadPolicy) {
-            //             //   // 需要传的参数 遍历添加到form
-            //             //  form.append(key, uploadPolicy[key]);
-            //             // }
-            //             form.append("key", uploadPolicy["key"]);
-            //             form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
-            //             form.append("expire", uploadPolicy["expire"]);
-            //             form.append("policy", uploadPolicy["policy"]);
-            //             form.append("Signature", uploadPolicy["Signature"]);
-            //             form.append('Content-Disposition', uploadPolicy['Content-Disposition']);
-            //             form.append("callback", uploadPolicy["callback"]);
-            //             form.append("file", img1);
-            //             form.append('x:user', sessionStorage.getItem('userName'));
-            //             form.append('x:filename', uploadPolicy['fileName']);
-            //             form.append('x:type', uploadPolicy['type'])
-            //             this.$ajax({
-            //                 method: "POST",
-            //                 url: this.UploadUrl,
-            //                 data: form
-            //             }).then(response => {
-            //                 // this.uploadIconUrl = response.data.data;
-            //                 // this.appForm.icon = response.data.data;
-            //                 this.addImgRange = this.$refs.newEditor.quill.getSelection()
-            //                 this.$refs.newEditor.quill.insertEmbed(this.addImgRange != null ? this.addImgRange.index : 0, 'image', 'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+response.data.data, Quill.sources.USER)
-            //             });
-            //         });
-            // },
-            // GMTToStr(time){
-            //     var date = time;
-            //     var Y = date.getFullYear();
-            //     var M = date.getMonth() + 1;
-            //     M = M < 10 ? '0' + M : M;// 不够两位补充0
-            //     var D = date.getDate();
-            //     D = D < 10 ? '0' + D : D;
-            //     var H = date.getHours();
-            //     H = H < 10 ? '0' + H : H;
-            //     var Mi = date.getMinutes();
-            //     Mi = Mi < 10 ? '0' + Mi : Mi;
-            //     var S = date.getSeconds();
-            //     S = S < 10 ? '0' + S : S;
-            //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
-            //
-            // },
             save(appForm) {
                 this.$refs.appForm.validate(async (valid) => {
                     if (valid && this.pushDate != '') {
@@ -379,7 +281,6 @@
                     }
                 })
 
-                // console.log(appForm)
             }
 
         },
@@ -387,18 +288,6 @@
             headTop, quillEditor
         },
         computed: {
-            // timeDefaultShow:function(val){
-
-            //         dt= date.toLocaleTimeString();
-            //     if (m < 10) {
-            //         m = '0' + m;
-            //     }
-            //     if (d < 10) {
-            //         d = '0' + d;
-            //     }
-            //     var t = Y+'-'+m+'-'+d+' '+dt
-            //     return t;
-            // },
 
         }
 

@@ -205,7 +205,6 @@
                     params:{id:this.lowerId},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

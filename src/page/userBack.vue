@@ -112,25 +112,6 @@
         data() {
             return {
                 info: [],
-                // tableData:[
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //     {time:'afsgagydgysgeggey',nickName:'小红',pic:'',amount:1000,detail:'提取',aboutUsers:'老李'},
-                //
-                //
-                // ],
-                // info: [
-                //     {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                //     {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                //     {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                //     {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                //     {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'},
-                //     {userId:'afsgagydgysgeggey',nickName:'小红',pic:'',phone:13112010101,detail:'邀请人数超过100个',amount:1000,realState:'已实名',resultCheck:'黑名单'}
-                // ],
                 txcount: 0,
                 currentPage: 1,
                 nowPageSize: 10,
@@ -256,13 +237,11 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.currentPage = 1
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 this.getData();
             },
@@ -279,16 +258,6 @@
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
                         if (response.data.flag == 200) {
-                            // this.$alert(response.data.msg, '提示', {
-                            //     confirmButtonText: '确定',
-                            //     callback: action => {
-                            //         this.$message({
-                            //             type: 'info',
-                            //             message: `${ response.data.msg}`
-                            //         });
-                            //         // this.getData()
-                            //     }
-                            // });
                         } else if (response.data.flag == 201) {
                             this.$alert(response.data.msg + '，请重新登录', '提示', {
                                 confirmButtonText: '确定',
@@ -373,7 +342,6 @@
                 this.dialogFormVisible = true
             },
             saveBlackState() {
-                // console.log(this.form)
             }
         }
     };

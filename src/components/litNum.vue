@@ -127,14 +127,6 @@
             };
         },
         created() {
-            // this.$ajax({
-            //     method: "POST",
-            //     url: BaseUrl + 'imwallet/agenttotalbalance',
-            //     headers: {'token': sessionStorage.getItem('token')}
-            // }).then(response => {
-            //     this.quizAmount = response.data.data;
-            //
-            // });
             const form = {page: this.currentPage, size: this.nowPageSize}
             this.getData(form)
         },
@@ -159,51 +151,22 @@
                             }
                         });
                     }
-                    // this.tableData.forEach(item => {
-                    //     item.results = JSON.parse(item.result).A + JSON.parse(item.result).B;
-                    //     if (item.state == 1) {
-                    //         item.status = '进行中'
-                    //     } else if (item.state == 0) {
-                    //         item.status = '已结束'
-                    //     } else if (item.state == 2) {
-                    //         item.status = '待开奖'
-                    //     } else {
-                    //         item.status = '未开始'
-                    //     }
-                    // });
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
-// if (this.searchForm == '') {
                 var listParams = {
                     page: 1,
                     size: pageSize,
                 };
-// } else {
-//     this.searchForm.page = 1;
-//     this.searchForm.size = pageSize
-//     this.searchForm.order="startDate desc"
-//     var listParams = this.searchForm
-// }
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
-// if (this.searchForm == '') {
                 var listParams = {
                     page: pageValue,
                     size: this.nowPageSize || 10,
                 };
-// } else {
-//     this.searchForm.page = pageValue;
-//     this.searchForm.size = this.nowPageSize || 10;
-//     this.searchForm.order="startDate desc"
-//     var listParams = this.searchForm
-// }
-//
                 this.getData(listParams);
             },
 
@@ -267,7 +230,6 @@
                         params: {type: 'app_guess', newPassword: newPass, oldPassword: this.oldPass},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response)
                         if (response.data.msg == '旧密码错误') {
                             this.$alert('旧密码错误', {
                                 confirmButtonText: '确定',

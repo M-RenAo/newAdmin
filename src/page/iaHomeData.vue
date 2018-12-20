@@ -21,12 +21,6 @@
                     @change="test()"
                 >
                 </el-date-picker>
-                <!--<el-radio v-model="radio" label="1">按天展示</el-radio>-->
-                <!--<el-radio v-model="radio" label="2">按月展示</el-radio>-->
-                <!--<div style="float:right" :span="6">-->
-                <!--<el-button type="primary" @click="serchData(dataTime)">搜索</el-button>-->
-                <!--<el-button type="primary">导出</el-button>-->
-                <!--</div>-->
             </div>
             <el-table
                 :data="tableData"
@@ -87,25 +81,12 @@
             </div>
         </div>
         <div style="margin:0px 20px;">
-            <!--<span style="font-size: 14px;">时间：</span>-->
-            <!--<el-date-picker-->
-            <!--v-model="chartTime"-->
-            <!--type="daterange"-->
-            <!--range-separator="-"-->
-            <!--&gt;-->
-            <!--</el-date-picker>-->
-            <!--<div style="float:right" :span="6">-->
-            <!--<el-button type="primary" @click="serchChart(chartTime)">搜索</el-button>-->
-            <!--</div>-->
             <el-tabs class="table_container" v-model="activeName" @tab-click="handleClick" style="width:140px">
                 <el-tab-pane label="近七日" name="1"></el-tab-pane>
                 <el-tab-pane label="近30日" name="2"></el-tab-pane>
             </el-tabs>
             <tendency :sevenDate='sevenDate' :sevenDay='sevenDay' :max="max" :dataName='dataName'></tendency>
         </div>
-        <!--<li v-for="item in focusList" @click="test(item)">-->
-        <!--{{item.a}}-->
-        <!--</li>-->
     </div>
 
 </template>
@@ -113,8 +94,6 @@
 <script>
     import tendency from '../components/tendency'
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
-    import dtime from 'time-formater'
     import circleChart from '../components/circleChart'
 
     let moment = require('moment');
@@ -143,19 +122,12 @@
                 data1: [],
                 data2: [],
                 dataName: ['总兑换量', '打开应用奖励', '新注册奖励', '邀请好友奖励', '下载奖励', '猜猜使用', '见证使用'],
-                // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
         components: {
             tendency, circleChart
         },
         created() {
-            // this.initData();
-            // for (let i = 6; i > -1; i--) {
-            //     const date = dtime(new Date().getTime() - 86400000*i).format('YYYY-MM-DD')
-            //     this.sevenDay.push(date)
-            // }
-            // this.getSevenData();
             this.getCircleData()
             this.getData()
             this.getDatas()
@@ -168,14 +140,12 @@
                     url: BaseUrl + 'imwallet/getIaData',
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.data1 = response.data.data.data1;
                         this.data2 = response.data.data.data2;
                         this.data2.forEach(item => {
                             this.digTotal += item.value
                         })
-                        // this.data1[2].value=this.data1[3].value
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -201,7 +171,6 @@
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.data;
                         this.txcount = response.data.data.count;
@@ -266,10 +235,9 @@
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.sevenDay = response.data.data.data[0].reverse();
-                        this.sevenDate = [response.data.data.data[1][0].reverse(),response.data.data.data[1][1].reverse(),response.data.data.data[1][2].reverse(),response.data.data.data[1][3].reverse()];
+                        this.sevenDate = [response.data.data.data[1][0].reverse(),response.data.data.data[1][1].reverse(),response.data.data.data[1][2].reverse(),response.data.data.data[1][3].reverse(),response.data.data.data[1][4].reverse(),response.data.data.data[1][5].reverse(),response.data.data.data[1][6].reverse(),response.data.data.data[1][7].reverse()];
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -288,36 +256,6 @@
                 }
                 this.getDatas()
             },
-            // serchChart(chartTime){
-            //     if(chartTime==null){
-            //             this.$alert('请选择搜索日期', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$message({
-            //                         type: 'info',
-            //                         message: `请重试！`
-            //                     });
-            //                 }
-            //             });
-            //             return false;
-            //     }
-            //     else if((moment(chartTime[1])-moment(chartTime[0]))/(24*60*60*1000)>30){
-            //         this.$alert('不能超过30天', {
-            //             confirmButtonText: '确定',
-            //             callback: action => {
-            //                 this.$message({
-            //                     type: 'info',
-            //                     message: `请重试！`
-            //                 });
-            //             }
-            //         });
-            //         return false;
-            //     }else if(chartTime!=null){
-            //       this.startDate2=moment(chartTime[0]).format('YYYY-MM-DD')
-            //        this.endDate2=moment(chartTime[1]).format('YYYY-MM-DD');
-            //       this.getDatas();
-            //     }
-            // }
         },
 
     };
@@ -333,24 +271,16 @@
     .card-data {
         padding: 5px 10px;
         color: #fff;
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: center;*/
         width: 200px;
         height: 100px;
-        /*border:1px solid #999;*/
         margin-right: 15px;
         background: #85ce61;
     }
 
     .card-data:last-child {
         padding: 5px 10px;
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: center;*/
         width: 200px;
         height: 100px;
-        /*border:1px solid #999;*/
         margin-right: 0px;
 
     }

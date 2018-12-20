@@ -178,7 +178,6 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 if (this.searchForm.name == undefined) {
                     var listParams = {
@@ -190,11 +189,9 @@
                     this.searchForm.size = pageSize
                     var listParams = this.searchForm
                 }
-                // console.log(listParams)
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.searchForm.name == undefined) {
                     var listParams = {
@@ -221,7 +218,6 @@
                         params: {objectName:this.uploadIconUrl},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -268,11 +264,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -284,10 +275,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -313,7 +300,6 @@
                 this.form = id
             },
             search(searchForm) {
-                // console.log(searchForm.name)
                 searchForm.page = 1;
                 searchForm.size = this.nowPageSize || 10;
                 this.getData(searchForm)
@@ -329,7 +315,6 @@
                     });
             },
             add() {
-                // console.log(this.form);
                 if (this.form.name == undefined) {
                     this.$alert('请填写昵称', '提示', {
                         confirmButtonText: '确定',
@@ -341,7 +326,6 @@
                         }
                     });
                 } else {
-                    // console.log(this.form.id)
                     if (this.form.id == undefined) {
                         this.$ajax({
                             method: "POST",

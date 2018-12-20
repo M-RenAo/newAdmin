@@ -89,7 +89,6 @@
             };
         },
         created() {
-            // console.log(moment().format('X'))
             this.getData()
         },
         methods: {
@@ -127,7 +126,6 @@
                         id:id
                     },
                     headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-                        console.log(response)
                         this.getData()
                 })
             },
@@ -189,10 +187,8 @@
                 let nums=-1
                 res.data.data.list.forEach(item=>{
                     if (item.startPushTime != 0&&item.endPushTime != 0){
-
                             if(moment().format('X')*1000>=item.startPushTime&&moment().format('X')*1000<=item.endPushTime){
                                 item.status="上架"
-                                // console.log(1)
                             }else if(moment().format('X')*1000<item.startPushTime){
                                 item.status="待上架"
                             }else if(moment().format('X')*1000>item.endPushTime){
@@ -231,7 +227,7 @@
                 })
                 this.tableData=res.data.data.list
                 this.txcount=res.data.data.num
-                        console.log(this.tableData)
+
             })
             }
         },

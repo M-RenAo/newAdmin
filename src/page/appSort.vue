@@ -1,54 +1,11 @@
 <template>
     <div class="fillcontain">
         <div class="table_container">
-            <!--<div style="display:flex;justify-content:flex-end;margin-bottom: 30px;">-->
-            <!--&lt;!&ndash;<el-select v-model="value" placeholder="请选择">&ndash;&gt;-->
-            <!--&lt;!&ndash;<el-option&ndash;&gt;-->
-            <!--&lt;!&ndash;v-for="item in tagList"&ndash;&gt;-->
-            <!--&lt;!&ndash;:key="item.code"&ndash;&gt;-->
-            <!--&lt;!&ndash;:label="item.title"&ndash;&gt;-->
-            <!--&lt;!&ndash;:value="item.code">&ndash;&gt;-->
-            <!--&lt;!&ndash;</el-option>&ndash;&gt;-->
-            <!--&lt;!&ndash;</el-select>&ndash;&gt;-->
-            <!--&lt;!&ndash;<el-button @click="automaticSort" type="primary" style="margin-right:20px">自动整理</el-button>&ndash;&gt;-->
-            <!--<div style="">-->
-            <!--<el-input placeholder="请输入应用名" v-model="appName" class="input-with-select">-->
-            <!--<el-button slot="append" icon="el-icon-search" @click="searchAppSort(appName)"></el-button>-->
-            <!--</el-input>-->
-            <!--</div>-->
-            <!--</div>-->
             <el-form :model="moduleForm" ref="moduleForm" label-width="110px" class="form food_form">
                 <div v-if="moduleForm.itemType!='item-promote:advertise'">
-                    <!--<el-form-item label="标题类型" :label-width="formLabelWidth" prop="titleStyle">-->
-                    <!--<el-select v-model="moduleForm.titleStyle" placeholder="请选择标题类型"  style="width:200px">-->
-                    <!--<el-option label="图标" value="image">图标</el-option>-->
-                    <!--<el-option label="文字" value="text">文字</el-option>-->
-                    <!--</el-select>-->
-                    <!--&lt;!&ndash;</el-form-item>&ndash;&gt;v-if="moduleForm.titleStyle=='text'"-->
                     <el-form-item label="模块标题" :label-width="formLabelWidth" prop="title">
                         <el-input v-model="moduleForm.title" auto-complete="off" style="width:200px"></el-input>
                     </el-form-item>
-                    <!--<el-form-item label="标题说明" :label-width="formLabelWidth" prop="title" v-if="moduleForm.titleStyle=='image'">-->
-                    <!--<el-input v-model="moduleForm.title" auto-complete="off" style="width:200px"></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="分类图标" :label-width="formLabelWidth" prop="titleText" v-if="moduleForm.titleStyle=='image'" class="icon-trumpet-el">-->
-                    <!--<input class="upload" @change='add_img' type="file"-->
-                    <!--style="opacity: 0;width: 148px;height: 148px;z-index:222;vertical-align: top;position: absolute">-->
-                    <!--<div class="icon-plus-container"-->
-                    <!--style="display: flex;justify-content: center;align-items: center;">-->
-                    <!--<i class="el-icon-plus"></i>-->
-                    <!--</div>-->
-                    <!--<div class="img-wrap" v-if="uploadIconUrl!=''">-->
-                    <!--<img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"-->
-                    <!--class="border-radius" style="width: 146px;height: 146px;"/>-->
-                    <!--</div>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="展示风格" :label-width="formLabelWidth" prop="showStyle">-->
-                    <!--<el-select v-model="moduleForm.showStyle" placeholder="请选择展示风格"  style="width:200px">-->
-                    <!--<el-option label="横向" key="0" value="0"></el-option>-->
-                    <!--<el-option label="竖向" key="1" value="1"></el-option>-->
-                    <!--</el-select>-->
-                    <!--</el-form-item>-->
                     <el-form-item label="列表类型" :label-width="formLabelWidth" prop="itemType">
                         <el-select v-model="moduleForm.itemType" placeholder="请选择列表类型" style="width:200px">
                             <el-option label="固定" value="item-app:fixationList">固定</el-option>
@@ -56,9 +13,6 @@
                             <el-option label="滑动" value="item-app:horizontalList">滑动</el-option>
                         </el-select>
                     </el-form-item>
-                    <!--<el-form-item label="排序" :label-width="formLabelWidth" prop="sort">-->
-                    <!--<el-input v-model="form.sort" auto-complete="off" style="width:80%"></el-input>-->
-                    <!--</el-form-item>-->
                     <el-form-item label="首页显示APP个数" :label-width="formLabelWidth" prop="itemNum">
                         <el-input v-model="moduleForm.itemNum" auto-complete="off" style="width:200px"></el-input>
                     </el-form-item>
@@ -316,18 +270,6 @@
                 <el-button type="primary" @click="ensureDelete()">确 定</el-button>
             </span>
             </el-dialog>
-            <!--<div class="Pagination">-->
-            <!--<el-pagination-->
-            <!--@size-change="handleSizeChange"-->
-            <!--@current-change="handleCurrentChange"-->
-            <!--:current-page="currentPage"-->
-            <!--:page-size="nowPageSize"-->
-            <!--:page-sizes="[5, 10, 20, 40]"-->
-            <!--:total="txcount"-->
-            <!--layout="total, sizes, prev, pager, next, jumper"-->
-            <!--&gt;-->
-            <!--</el-pagination>-->
-            <!--</div>-->
         </div>
     </div>
 </template>
@@ -407,29 +349,9 @@
             }).then(response => {
                 if (response.data.flag == 200) {
                     this.positionList = response.data.data;
-                    // this.positionList.forEach(item => {
-                    //     if (item.showStyle == 0) {
-                    //         item.show='横向'
-                    //     }else{
-                    //         item.show='竖向'
-                    //     }
-                    // });
-                    // this.positionList.forEach(item => {
-                    //     if (item.state == 0) {
-                    //         item.status = '关闭'
-                    //     } else {
-                    //         item.status = '开放'
-                    //     }
-                    // });
                     this.positionList.forEach(item => {
                         if (item.id == this.$route.query.id) {
-                            // this.moduleForm.titleStyle=item.titleStyle;
                             this.moduleForm.title = item.title;
-                            // if(item.titleText!=undefined){
-                            //     this.moduleForm.titleText=item.titleText
-                            //     this.uploadIconUrl=this.moduleForm.titleText
-                            // }
-                            // this.moduleForm.showStyle=item.showStyle;
                             this.moduleForm.state = item.state;
                             this.moduleForm.itemType = item.itemType;
                             this.moduleForm.id = this.$route.query.id;
@@ -456,11 +378,6 @@
         },
         methods: {
             getData() {
-                // this.$ajax.get(BaseUrl+'apply/pos/'+this.currentPage+'/'+this.nowPageSize+'/'+this.$route.query.code,{headers:{'token': sessionStorage.getItem('token'),'device':this.$route.query.type}}).then(response => {
-                //     console.log(response);
-                //     this.info=response.data.data.appList;
-                //     this.txcount=response.data.data.fileNum
-                // })
                 this.$ajax.get(BaseUrl + 'position/mess', {
                     params: {
                         pageCode: this.currentPage,
@@ -504,7 +421,6 @@
                             });
                         }
                     }
-                    // this.value=this.appForm.fileDisplayPosition.split(',')
                 })
 
             },
@@ -513,7 +429,6 @@
                 this.getData()
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.getData();
             },
@@ -560,11 +475,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -576,10 +486,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -596,7 +502,6 @@
                             data: form,
                         }).then(response => {
                             this.advertisePic = response.data.data;
-                            // this.form.icon = response.data.data;
                         });
                     });
             },
@@ -630,7 +535,6 @@
                                         'device': this.$route.query.type
                                     }
                                 }).then(response => {
-                                    // console.log(response);
                                     if (response.data.flag == 500) {
                                         this.$alert(response.data.msg, '提示', {
                                             confirmButtonText: '确定',
@@ -677,9 +581,6 @@
             searchApp(name) {
                 this.getData()
             },
-            // searchAppSort(name){
-            //
-            // },
 
             update(id, sort) {
                 this.dialogFormVisible = true;
@@ -697,7 +598,6 @@
                         data: this.moduleForm,
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -760,7 +660,6 @@
                     data: this.addAppToMoudle,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -799,7 +698,6 @@
                     params: {objectName:this.advertisePic},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -829,7 +727,6 @@
                     data: {applyId: this.applyId, positionCode: this.$route.query.code, sort: Number(this.form.sort)},
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -891,11 +788,8 @@
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             var that = this
-                            // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.unChoiceAppList = response.data.data.appList
                             this.unChoiceAppList.forEach(item => {
                                 if (item.fileState == 1) {

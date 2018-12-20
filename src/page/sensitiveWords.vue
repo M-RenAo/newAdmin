@@ -96,14 +96,9 @@
             }
         },
         created () {
-            // this.$refs.zm.childNodes.classList.add('active')
             this.getData()
         },
         mounted () {
-            // console.log(this.$refs.zm.childNodes)
-            // this.$refs.zm.childNodes.forEach(time=>{
-            //     time.classList.add('active')
-            // })
             this.$refs.zm.firstChild.classList.add('active')
         },
         methods:{
@@ -138,7 +133,6 @@
                 this.arr=arrs.filter((val,index,array)=>{//去重
                     return array.indexOf(val)===index
                 })
-                // console.log(this.arr)
             },
             refresh(){//刷新
                 this.searchInfo=""
@@ -253,7 +247,6 @@
                         'token': sessionStorage.getItem('token')
                     }
                 }).then(res => {
-                    // console.log(res)
                     if(res.data.flag==200){
                         this.getData()
 
@@ -271,8 +264,6 @@
                         this.multipleSelection.push(val[i].badword)
                     }
                 }
-                // this.multipleSelection=val
-                // console.log(this.multipleSelection)
             },
             handleCurrentChange(val){
                 this.currentPage=val
@@ -300,8 +291,6 @@
                         'token': sessionStorage.getItem('token')
                     }
                 }).then(res => {
-                    // console.log(this.enabled)
-                    // console.log(res)
                     this.tableData=res.data.data.data
                     this.usercount=res.data.data.count
                 })
@@ -315,7 +304,6 @@
         },
         watch:{
             currentPage(){
-                // console.log(1)
             }
         }
 

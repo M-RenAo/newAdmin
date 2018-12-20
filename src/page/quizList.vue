@@ -21,17 +21,6 @@
                         </el-select>
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">开始时间：</span>
-                            <!--<el-date-picker-->
-                            <!--v-model="searchForm.startDate"-->
-                            <!--type="datetime"-->
-                            <!--&gt;-->
-                            <!--</el-date-picker>-->
-                            <!--—-->
-                            <!--<el-date-picker-->
-                            <!--v-model="searchForm.endDate"-->
-                            <!--type="datetime"-->
-                            <!--&gt;-->
-                            <!--</el-date-picker>-->
                             <el-date-picker
                                 v-model="startDate"
                                 type="datetimerange"
@@ -41,17 +30,6 @@
                         </div>
                         <div style="display: inline-block">
                             <span style="font-size: 14px;width:80px;">结束时间：</span>
-                            <!--<el-date-picker-->
-                            <!--v-model="searchForm.startDate"-->
-                            <!--type="datetime"-->
-                            <!--&gt;-->
-                            <!--</el-date-picker>-->
-                            <!--—-->
-                            <!--<el-date-picker-->
-                            <!--v-model="searchForm.endDate"-->
-                            <!--type="datetime"-->
-                            <!--&gt;-->
-                            <!--</el-date-picker>-->
                             <el-date-picker
                                 v-model="endDate"
                                 type="datetimerange"
@@ -65,7 +43,6 @@
                     <el-button type="primary" style="margin-right:10px;margin-bottom:2px;"
                                @click="search(searchForm)">搜索
                     </el-button>
-                    <!--<el-button type="primary" style="margin-left:0">导出</el-button>-->
                 </div>
             </el-row>
             <el-table
@@ -311,7 +288,6 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -328,7 +304,6 @@
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.searchForm == '') {
                     var listParams = {
@@ -358,10 +333,8 @@
                 this.compareStartDate = new Date(startDate);
                 this.compareEndDate = new Date(endDate);
                 this.timePeriod = [this.compareStartDate, this.compareEndDate];
-                // console.log(id)
             },
             topEnsure() {
-                // console.log(this.timePeriod);
                 if (this.timePeriod[0] < this.compareStartDate) {
                     this.$alert('开始时间不能小于竞猜开始时间', '提示', {
                         confirmButtonText: '确定',
@@ -406,7 +379,6 @@
                     data: this.placeTopForm,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 500) {
                         this.ensureTopVisible = false;
                         this.$alert(response.data.msg, '提示', {
@@ -462,7 +434,6 @@
 
             },
             search(searchForm) {
-                console.log(this.startDate)
                 if (this.startDate != '') {
                     searchForm.st1 = moment(this.GMTToStr(this.startDate[0])).utc().format('YYYY-MM-DD HH:mm:ss');
                     searchForm.st2 = moment(this.GMTToStr(this.startDate[1])).utc().format('YYYY-MM-DD HH:mm:ss');
@@ -549,7 +520,6 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     if (response.data.flag == 200) {
-                        // this.trumpetFormVisible=false
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
                             callback: action => {

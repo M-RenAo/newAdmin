@@ -81,9 +81,6 @@
                         }
                     ]
                 }
-                // // option 是做测试用的，可以去掉直接通过prop传值修改
-                // option = Object.assign(option, this.Object)
-                // console.log(option)
 
                 this.charts.setOption(option)
             },

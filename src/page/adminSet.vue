@@ -16,13 +16,6 @@
 
             </el-col>
         </el-row>
-        <!--<div class="imgMask" v-if="showBigImg" @click.stop="showBigImg=!showBigImg">-->
-        <!--<i class="prev el-icon-arrow-left" @click.stop="prev"></i>-->
-        <!--<div class="showImg">-->
-        <!--<img class="bigImg" :src="'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+appimageUrlArray[num]">-->
-        <!--</div>-->
-        <!--<i class="next el-icon-arrow-right" @click.stop="next"></i>-->
-        <!--</div>-->
     </div>
 
 </template>
@@ -57,7 +50,6 @@
                             'token': sessionStorage.getItem('token')
                         }
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 200) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',

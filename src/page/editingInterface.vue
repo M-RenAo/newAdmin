@@ -135,11 +135,8 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(res => {
                         this.editdata = res.data.data;
-                        // console.log(this.editdata)
                         this.switch = true;
                         this.editdata.expire = Math.round(new Date(new Date().setHours(0, 0, 0, 0)) / 1000) + 86400
-
-                        // this.editdata.hot=true;
                         this.editdata.hot ? this.radio = "1" : this.radio = "0"
                     }
                 )
@@ -174,11 +171,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -190,10 +182,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -215,14 +203,12 @@
                     });
             },
             deleteImg(){
-                // console.log(this.editdata.image)
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'common/cleanImage',
                     params: {objectName:this.editdata.image},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -276,8 +262,6 @@
                         'token': sessionStorage.getItem('token')
                     }
                 }).then(res => {
-
-                    // this.$router.push({path:"/messageManagement"})
                     this.$router.push({
                         name: 'messageManagement',
                         params: {
@@ -311,13 +295,10 @@
                 this.$refs.editdata.validate(async (valid) => {
 
                     if (valid) {
-                        // console.log(this.editdata)
                         if (this.switch) {
                             this.editEdit()
-                            // console.log(1)
                         } else {
                             this.createEdit()
-                            // console.log(2)
                         }
                     } else {
                         this.$alert('请填写完整', {

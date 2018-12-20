@@ -195,17 +195,10 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
-                        // console.log(type)
                         let size = img1.size; //文件的大小，判断图片的大小
-                        // console.log(img1)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -213,10 +206,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -262,12 +251,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
-
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         let size = img1.size; //文件的大小，判断图片的大小
@@ -294,9 +277,7 @@
                         }).then(response => {
                             this.imageUrl = response.data.data;
                             this.appimageUrlArray.push(response.data.data);
-
                             this.appForm.fileShow = this.appimageUrlArray.join(',');
-                            // console.log('>>>>>>>', this.appForm.showPict)
                         });
                     });
             },
@@ -386,7 +367,6 @@
             removeImage(index) {
                 this.appimageUrlArray.splice(index, 1);
                 this.appForm.showPict = this.appimageUrlArray.join(',')
-                // console.log(this.appimageUrlArray)
             }
         },
 

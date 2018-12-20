@@ -19,7 +19,7 @@
                         <!--<el-menu-item index="iosHomeData">ios数据</el-menu-item>-->
                         <!--</el-submenu>-->
                         <el-menu-item index="activityData">活动数据</el-menu-item>
-                        <!--<el-menu-item index="iaCardData">卡包数据</el-menu-item>-->
+                        <el-menu-item index="iaCardData">卡包数据</el-menu-item>
                     </el-submenu>
                     <el-submenu index="'2c'" v-if="adminType!='VISITOR'">
                         <template slot="title"><i class="el-icon-document"></i>资产管理</template>
@@ -57,6 +57,7 @@
                         <!--<el-menu-item index="downloadList">排行榜</el-menu-item>-->
                         <!--<el-menu-item index="appSort">应用排序</el-menu-item>-->
                         <el-menu-item index="checkList">应用审核</el-menu-item>
+                        <el-menu-item index="dappcheck">dapp审核</el-menu-item>
                     </el-submenu>
                     <el-submenu index="'4c'">
                         <template slot="title"><i class="el-icon-document"></i>自选管理</template>
@@ -148,14 +149,6 @@
         },
         computed: {
             defaultActive: function () {
-                // console.log()
-                // if(this.$route.path!='/applicationList'&&this.$route.path!='/updateApp'){
-                //     sessionStorage.removeItem('flag');
-                //      sessionStorage.removeItem('fileTagUnchoice');
-                // }else if(this.$route.path!='/iosList'){
-                //     sessionStorage.removeItem('flagios');
-                //     sessionStorage.removeItem('fileTagios');
-                // }
                 return this.$route.path.replace('/', '');
             }
         },
@@ -163,7 +156,6 @@
             headTop
         },
         mounted() {
-            // this.permissions=sessionStorage.getItem('adminType')
             if (sessionStorage.getItem('token') == undefined) {
                 this.$router.push('/')
                 return

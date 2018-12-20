@@ -156,14 +156,6 @@
                 this.urlTagIcon = null
             },
             update(code, id) {
-                // this.dialogFormVisible=true;
-                // this.tagList.forEach(item => {
-                //     if (item.id == id) {
-                //         this.form.title=item.title;
-                //         this.form.id=id;
-                //         this.form.code=item.code;
-                //     }
-                // });
                 this.$router.push({path: '/updateTag', query: {code: code, id: id, type: 'ios'}})
             },
             add_img(event) {
@@ -191,17 +183,9 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
-                        console.log(event.target.files)
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
-                        // console.log(type)
                         let size = img1.size; //文件的大小，判断图片的大小
-                        // console.log(img1)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -209,10 +193,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -240,7 +220,6 @@
                     params: {objectName:this.urlTagIcon},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -278,7 +257,6 @@
                             data: this.form,
                             headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                         }).then(response => {
-                            // console.log(response);
                             if (response.data.flag == 500) {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
@@ -318,56 +296,7 @@
                         });
                         return false;
                     }
-                    //
-                    // } else {
-                    //     if(valid){
-                    //     this.$ajax({
-                    //         method: "POST",
-                    //         url: BaseUrl + 'apptag/update',
-                    //         data: this.form,
-                    //         headers: {'token': sessionStorage.getItem('token'),'device':'ios'}
-                    //     }).then(response => {
-                    //         console.log(response);
-                    //         if(response.data.flag==500){
-                    //             this.$alert(response.data.msg, '提示', {
-                    //                 confirmButtonText: '确定',
-                    //                 callback: action => {
-                    //                     this.$message({
-                    //                         type: 'info',
-                    //                         message: `error: ${ response.data.msg +',请重试'}`
-                    //                     });
-                    //                 }
-                    //             });
-                    //         }else if(response.data.flag==200){
-                    //             this.dialogFormVisible=false;
-                    //             this.$alert(response.data.msg, '提示', {
-                    //                 confirmButtonText: '确定',
-                    //                 callback:action=>{
-                    //                     this.getTagData()
-                    //                 }
-                    //             });
-                    //         }else if(response.data.flag==201) {
-                    //             this.$alert(response.data.msg + '，请重新登录', '提示', {
-                    //                 confirmButtonText: '确定',
-                    //                 callback: action => {
-                    //                     this.$router.push('/')
-                    //                 }
-                    //             });
-                    //         }
-                    //     });
-                    //     }else{
-                    //         this.$alert('请填写完整', {
-                    //             confirmButtonText: '确定',
-                    //             callback: action => {
-                    //                 this.$message({
-                    //                     type: 'info',
-                    //                     message: `请重试！`
-                    //                 });
-                    //             }
-                    //         });
-                    //         return false;
-                    //     }
-                    // }
+
                 })
             },
             deleteTag(id) {
@@ -384,14 +313,12 @@
             },
             ensureDelete() {
                 this.dialogVisible = false;
-                // console.log(this.deleteId);
                 this.$ajax.get(BaseUrl + 'apptag/delete/' + this.deleteId, {
                     headers: {
                         'token': sessionStorage.getItem('token'),
                         'device': 'ios'
                     }
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.$message({
                             type: 'success',
@@ -479,7 +406,4 @@
         white-space: nowrap !important;
     }
 
-    /*.el-button{*/
-    /*border: 0;*/
-    /*}*/
 </style>

@@ -78,7 +78,6 @@
                 activeName: '1',
                 cumulativeUsers: '',
                 realNameUsers: '',
-                // inviteSign:20,
                 activeNums:10000,
                 authNum: '',
                 loginNum: '',
@@ -97,102 +96,29 @@
                 startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2: moment().format('YYYY-MM-DD'),
                 dataName: ['新增注册用户', '新增实名用户', '活跃用户','登录用户', '启动次数','新增激活量']
-                // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
         components: {
             tendency
         },
         created() {
-            // this.$ajax.get(BaseUrl + 'data/sum',
-            //     {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-            //     // console.log(response);
-            //     if (response.data.flag == 200) {
-            //         this.cumulativeUsers = response.data.data.userSum;
-            //         this.realNameUsers = response.data.data.authSum;
-            //     } else if (response.data.flag == 201) {
-            //         this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //             confirmButtonText: '确定',
-            //             callback: action => {
-            //                 this.$router.push('/')
-            //             }
-            //         });
-            //     }
-            // })
             this.getData()
             this.getDatas()
-            // this.getNewData()
         },
         computed: {},
         methods: {
-            // async initData(){
-            //     const today = dtime().format('YYYY-MM-DD')
-            //     Promise.all([userCount(today), orderCount(today), adminDayCount(today), getUserCount(), getOrderCount(), adminCount()])
-            //         .then(res => {
-            //             this.userCount = res[0].count;
-            //             this.orderCount = res[1].count;
-            //             this.adminCount = res[2].count;
-            //             this.allUserCount = res[3].count;
-            //             this.allOrderCount = res[4].count;
-            //             this.allAdminCount = res[5].count;
-            //         }).catch(err => {
-            //         console.log(err)
-            //     })
-            // },
-            // test:function(item){
-            //  console.log(item)
-            //     window.location.href=item.url
-            // },
             test() {
                 this.getData()
                 this.getDatas()
             },
-            // getNewData() {
-            //     if (this && !this._isDestroyed) {
-            //         this.$ajax.get(BaseUrl + 'data/active',
-            //             {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-            //             // console.log(response);
-            //             if (response.data.flag == 200) {
-            //                 // console.log(response)
-            //                 this.authNum = response.data.data.authNum;
-            //                 this.loginNum = response.data.data.loginNum;
-            //                 this.regiNum = response.data.data.regiNum;
-            //                 this.beInviteAndAuthNum = response.data.data.toRegiAndAuthNum;
-            //                 this.beInviteAndRegiNum = response.data.data.beInviteAndRegiNum
-            //                 let _this = this
-            //                 if (_this && !_this._isDestroyed) {
-            //                     setTimeout(() => {
-            //                         _this.getNewData()
-            //                     }, 60000)
-            //                 }
-            //             } else if (response.data.flag == 201) {
-            //                 this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //                     confirmButtonText: '确定',
-            //                     callback: action => {
-            //                         this.$router.push('/')
-            //                     }
-            //                 });
-            //             }
-            //             // this.tableData.forEach(item=>{
-            //             //     if(item.title=='总计'){
-            //             //     // item.title=moment.utc(item.title).local().format('YYYY-MM-DD')
-            //             //         this.tableData
-            //             //     }
-            //             // })
-            //
-            //         })
-            //     }
-            // },
             getData() {
                 this.$ajax.get(BaseUrl + '/data/statistical',
                     {
                         params: {
-                            // cycle: 'day',
                             startDate: moment(this.dataTime[0]).format('YYYY-MM-DD'),
                             endDate: moment(this.dataTime[1]).add('days',1).format('YYYY-MM-DD')
                         }, headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data;
                         this.tableData.forEach(item=>{
@@ -254,7 +180,6 @@
                         this.sevenDay = response.data.data[0];
                         this.sevenDate = response.data.data[1];
                         this.max = Math.max(...this.sevenDate[0], ...this.sevenDate[1], ...this.sevenDate[2], ...this.sevenDate[3]);
-                        // console.log(this.max)
                     } else if(response.data.flag == 201){
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -263,7 +188,6 @@
                             }
                         });
                     }
-                    // this.tableData=response.data.data
                 })
             },
             handleClick() {
@@ -274,36 +198,6 @@
                 }
                 this.getDatas()
             },
-            // serchChart(chartTime){
-            //     if(chartTime==null){
-            //             this.$alert('请选择搜索日期', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$message({
-            //                         type: 'info',
-            //                         message: `请重试！`
-            //                     });
-            //                 }
-            //             });
-            //             return false;
-            //     }
-            //     else if((moment(chartTime[1])-moment(chartTime[0]))/(24*60*60*1000)>30){
-            //         this.$alert('不能超过30天', {
-            //             confirmButtonText: '确定',
-            //             callback: action => {
-            //                 this.$message({
-            //                     type: 'info',
-            //                     message: `请重试！`
-            //                 });
-            //             }
-            //         });
-            //         return false;
-            //     }else if(chartTime!=null){
-            //       this.startDate2=moment(chartTime[0]).format('YYYY-MM-DD')
-            //        this.endDate2=moment(chartTime[1]).format('YYYY-MM-DD');
-            //       this.getDatas();
-            //     }
-            // }
         },
 
     };

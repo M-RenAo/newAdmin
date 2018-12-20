@@ -142,14 +142,10 @@
             handleSizeChange(pageSize) {
 
                 this.nowPageSize = pageSize;
-                // this.setData()
-                // this.getData()
                 this.getData()
             },
             handleCurrentChange(pageValue) {
                 this.currentPage = pageValue;
-                // this.setData()
-                // this.getData()
                 this.getData()
             },
             getData() {
@@ -166,8 +162,6 @@
 
                             })
                         }
-
-                        // console.log(res)
                     }
                 )
             },
@@ -176,24 +170,12 @@
                 this.dialogVisible = true;
             },
             async changeType() {//显示或隐藏
-                // if (!this.row.state) {
-                //     await this.$ajax.get(BaseUrl + "newsFlash/hideComment/" + this.row.id, {
-                //         headers: {'token': sessionStorage.getItem('token')}
-                //     }).then(res => {
-                //     })
-                // } else {
-                //     await this.$ajax.get(BaseUrl + "newsFlash/displayComment/" + this.row.id, {
-                //         headers: {'token': sessionStorage.getItem('token')}
-                //     }).then(res => {
-                //     })
-                // }
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'applyComment/lable',
                     params: {id:this.row.id,state:this.row.state==1?0:1},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -223,13 +205,6 @@
                 });
 
             },
-            // setData() {
-            //     this.data = {
-            //         key: this.searchInfo,
-            //         pageNum: this.currentPage,
-            //         pageSize: this.nowPageSize
-            //     }
-            // }
         }
     };
 </script>

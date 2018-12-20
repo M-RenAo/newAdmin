@@ -2,8 +2,6 @@
     <div class="fillcontain">
         <div class="table_container">
             <el-row style="display:flex;margin-bottom: 30px;">
-                <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
-                <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
                     <el-tabs v-model="activeName" @tab-click="queryListData({activeName:activeName})"
                              style="height: 40px;">
@@ -24,10 +22,6 @@
             <el-table
                 :data="info"
                 style="width: 100%" id="appList">
-                <!--<el-table-column-->
-                <!--label="应用图标"-->
-                <!--prop="fileIcon">-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="姓名"
                     prop="name" min-width="50">
@@ -36,16 +30,6 @@
                     label="身份证号"
                     prop="cardId" min-width="50">
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="证件照"-->
-                <!--min-width="50">-->
-                <!--<template scope="scope">-->
-                <!--<div v-for="(item,index) in scope.row.authPicUrl" style="display: inline-block;margin-left: 5px;">-->
-                <!--<img  :src="item" style="width:30px;height:30px;" @click="bigImg(index,scope.row)">-->
-                <!--</div>-->
-
-                <!--</template>-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="申请时间"
                     prop="auditDate" min-width="50">
@@ -54,21 +38,6 @@
                     label="状态"
                     prop="auditState" min-width="50">
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="原因"-->
-                <!--prop="remarks" min-width="50"  v-if="activeName==0||activeName==3">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                <!--label="操作"-->
-                <!--v-if="activeName==2||activeName==3"-->
-                <!--key="upload"-->
-                <!--min-width="30"-->
-                <!--&gt;-->
-                <!--<template scope="scope">-->
-                <!--<el-button  class="littleButton" @click="check(scope.row.id,scope.row.userId)"  v-if="scope.row.auditState=='未审核'" >审核-->
-                <!--</el-button>-->
-                <!--</template>-->
-                <!--</el-table-column>-->
             </el-table>
             <div class="Pagination">
                 <el-pagination
@@ -82,76 +51,7 @@
                 >
                 </el-pagination>
             </div>
-            <!--<el-button type="text" @click="outerVisible = true">点击打开外层 Dialog</el-button>-->
-            <!--<el-dialog title="提示" :visible.sync="outerVisible" :before-close="handleClose">-->
-            <!--<el-form :model="form" label-width="110px">-->
-            <!--<el-form-item label="审核：" prop="name" :rules="{required: true, message: '必选', trigger: 'blur'}">-->
-            <!--<el-select v-model="form.state" placeholder="请选择">-->
-            <!--<el-option-->
-            <!--label="审核通过"-->
-            <!--value="1">-->
-            <!--</el-option>-->
-            <!--<el-option-->
-            <!--label="审核不通过"-->
-            <!--value="0">-->
-            <!--</el-option>-->
-            <!--</el-select>-->
-            <!--</el-form-item>-->
-            <!--<el-form-item label="原因：" prop="name"  :rules="{required: true, message: '原因必填', trigger: 'blur'}" v-if="form.state==='0'">-->
-            <!--<el-input-->
-            <!--type="textarea"-->
-            <!--:rows="2"-->
-            <!--placeholder="请输入内容"-->
-            <!--v-model="form.remarks" style="width:80%">-->
-            <!--</el-input>-->
-            <!--</el-form-item>-->
-            <!--</el-form>-->
-            <!--<div slot="footer" class="dialog-footer button-check">-->
-            <!--<el-button @click="outerVisible = false;form={remarks:''}">取消</el-button>-->
-            <!--<el-button type="primary" @click="ensureCheck(form)">提交</el-button>-->
-            <!--</div>-->
-            <!--</el-dialog>-->
-            <!--<el-dialog title="提示" :visible.sync="checkVisible" center :before-close="handleCloses">-->
-            <!--<span>确定执行此操作？</span>-->
-            <!--<div slot="footer" class="dialog-footer button-check">-->
-            <!--<el-button type="primary" @click="checkVisible = false">取消</el-button>-->
-            <!--<el-button type="primary" @click="confirmCheck()">确定</el-button>-->
-            <!--</div>-->
-            <!--</el-dialog>-->
-
-            <!--<el-dialog title="提示" :visible.sync="outerVisible" >-->
-            <!--<span>审核是否通过</span>-->
-            <!--<div slot="footer" class="dialog-footer button-check">-->
-            <!--<el-button type="primary" @click="ensureCheck()">审核通过</el-button>-->
-            <!--<el-button type="primary" @click="innerVisible = true;">审核不通过</el-button>-->
-            <!--</div>-->
-            <!--</el-dialog>-->
-            <!--<el-dialog title="提示" :visible.sync="checkVisible" center>-->
-            <!--<span>确定执行此操作？</span>-->
-            <!--<div slot="footer" class="dialog-footer button-check">-->
-            <!--<el-button type="primary" @click="checkVisible = false">取消</el-button>-->
-            <!--<el-button type="primary" @click="confirmCheck()">确定</el-button>-->
-            <!--</div>-->
-            <!--</el-dialog>-->
-            <!--<el-dialog title="原因" :visible.sync="innerVisible" center>-->
-            <!--<el-form :model="form" :rules="{remarks:[{required: true, message: '请输入原因', trigger: 'blur'}]}">-->
-            <!--<el-form-item label="原因：" prop="remarks">-->
-            <!--<el-input type="textarea" v-model="form.remarks"style="width:80%" ></el-input>-->
-            <!--</el-form-item>-->
-            <!--</el-form>-->
-            <!--<div slot="footer" class="dialog-footer button-check">-->
-            <!--<el-button type="primary" @click="innerVisible = false">取消</el-button>-->
-            <!--<el-button type="primary" @click="innerVisible = false">确定</el-button>-->
-            <!--</div>-->
-            <!--</el-dialog>-->
         </div>
-        <!--<div class="imgMask" v-if="showBigImg" @click.stop="showBigImg=!showBigImg">-->
-        <!--<i class="prev el-icon-arrow-left" @click.stop="prev"></i>-->
-        <!--<div class="showImg">-->
-        <!--<img class="bigImg" :src="rows.authPicUrl[num]">-->
-        <!--</div>-->
-        <!--<i class="next el-icon-arrow-right" @click.stop="next"></i>-->
-        <!--</div>-->
     </div>
 </template>
 
@@ -233,7 +133,6 @@
                         } else {
                             this.info = []
                         }
-                        // this.showlist=this.info[0].authPic.split(',')
                     });
                 this.searchInfo = "";
             },
@@ -243,7 +142,6 @@
                 this.$ajax
                     .get(BaseUrl + "auth/search/" + this.searchInfo, {headers: {'token': sessionStorage.getItem('token')}})
                     .then(response => {
-                        // console.log(response);
                         if (response.data.flag == 200) {
                             this.info = response.data.data;
                             this.txcount = response.data.data.length;
@@ -271,7 +169,6 @@
                     });
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 const listParams = {
                     activeName: this.activeName,
@@ -281,7 +178,6 @@
                 this.queryListData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 const listParams = {
                     activeName: this.activeName,
@@ -321,7 +217,6 @@
                     data: this.form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

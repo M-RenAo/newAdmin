@@ -67,31 +67,6 @@
                             </div>
                         </div>
                     </el-form-item>
-                    <!-- <el-form-item label="类型：">
-                        <el-select v-model="focusForm.type" placeholder="请选择" @change="changeType">
-                            <el-option
-                                v-for="nitem in typeList"
-                                :key="nitem.code"
-                                :label="nitem.title"
-                                :value="nitem.code">
-                            </el-option>
-                        </el-select>
-                    </el-form-item> -->
-                    <!-- <el-form-item label="应用名称：" prop="toItemId" v-if="focusForm.type == 2">
-                        <el-autocomplete
-                            class="inline-input"
-                            v-model="appName"
-                            :fetch-suggestions="querySearch"
-                            placeholder="请输入内容"
-                            :trigger-on-focus="false"
-                            @select="handleSelect"
-                        ></el-autocomplete>
-                    </el-form-item> -->
-                    <!-- <el-form-item label="图文详情：" prop="content" v-if="focusForm.type!=2&&focusForm.type!=3">
-                        <quill-editor ref="newEditor" v-model="content" :config="editorOption"></quill-editor>
-                        <input class="upload" @change='add_imgs' type="file"
-                        style="display: none;" id="uniqueId">
-                    </el-form-item> -->
                     <el-form-item label="链接地址：" prop="url">
                         <el-input v-model="url"></el-input>
                     </el-form-item>
@@ -119,9 +94,7 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import {quillEditor} from 'vue-quill-editor'
 
     let moment = require('moment')
     export default {
@@ -162,7 +135,6 @@
             }
         },
         created() {
-            // console.log(this.$route.query.dataId);
             if (this.$route.query.dataId != undefined) {
                 this.$ajax.get(BaseUrl + "startUpShow/info",{
                     params:{
@@ -177,9 +149,6 @@
                     this.focusForm.linkText=res.data.data.list[this.$route.query.nums].linkText//链接地址
                     this.url=this.focusForm.linkText
                     this.focusForm.id=this.$route.query.id
-                    // this.focusForm.startDate=res.data.data.list[this.$route.query.nums].startPushTime//开始时间
-                    // this.focusForm.startDate=res.data.data.list[this.$route.query.nums].startPushTime//开始时间
-                    // this.focusForm=res.data.data.list[this.$route.query.nums]
                     let stime=res.data.data.list[this.$route.query.nums].startPushTime
                     let etime=res.data.data.list[this.$route.query.nums].endPushTime
                     if(stime==0&&etime==0){
@@ -218,12 +187,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
-
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         let size = img1.size; //文件的大小，判断图片的大小
@@ -234,10 +197,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -282,11 +241,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -298,10 +252,7 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
+
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -346,11 +297,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -362,10 +308,7 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
+
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -385,11 +328,6 @@
                         });
                     });
             },
-            // changeType() {
-            //     this.content = null;
-            //     this.toItemId = null;
-            //     this.appName = null;
-            // },
             goStartup(){//前往启动页
                 this.$router.push({path: 'startupPage'})
 
@@ -439,12 +377,6 @@
                                         }
                                     });
                                 } else if (response.data.flag == 200) {
-                                    // this.$alert(response.data.msg, '提示', {
-                                    //     confirmButtonText: '确定',
-                                    //     callback: action => {
-                                    //         this.$router.push({path: 'startupPage'})
-                                    //     }
-                                    // });
                                     this.$message({
                                         showClose: true,
                                         message:`${response.data.msg}`,
@@ -519,7 +451,6 @@
                     params: {objectName:this.startPicTypeOne},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -532,7 +463,6 @@
                         });
                     } else if (response.data.flag == 200) {
                         this.startPicTypeOne=''
-                        console.log(this.focusForm)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -552,7 +482,6 @@
                     params: {objectName:this.startPicTypeTwo},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -565,7 +494,6 @@
                         });
                     } else if (response.data.flag == 200) {
                         this.startPicTypeTwo=''
-                        console.log(this.focusForm)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -585,7 +513,6 @@
                     params: {objectName:this.startPicTypeThree},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -598,7 +525,6 @@
                         });
                     } else if (response.data.flag == 200) {
                         this.startPicTypeThree=''
-                        console.log(this.focusForm)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',

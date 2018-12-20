@@ -227,7 +227,6 @@
         },
         methods: {
             queryListData({activeName, pageValue, pageSize}) {
-                // console.log(pageValue+'>>>>>>>'+ pageSize)
                 this.$ajax
                     .get(`${BaseUrl}apply/all`, {
                         params: {
@@ -240,8 +239,6 @@
                         }, headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                     })
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             this.info = response.data.data.appList;
                             this.txcount = response.data.data.fileNum;
@@ -269,7 +266,6 @@
                             });
                         }
                     });
-                // this.searchInfo = "";
             },
             searchUnchoiceAppByTag() {
                 const params = {
@@ -277,7 +273,6 @@
                     pageValue: 1,
                     pageSize: this.nowPageSize
                 }
-                // sessionStorage.setItem('fileTagios',this.fileTagUnchoice)
                 this.queryListData(params)
             },
             searchApp() {
@@ -294,11 +289,9 @@
                     pageValue: 1,
                     pageSize: this.nowPageSize
                 }
-                // sessionStorage.setItem('flagios',this.flag)
                 this.queryListData(params)
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 const listParams = {
                     activeName: this.activeName,
@@ -308,7 +301,6 @@
                 this.queryListData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 const listParams = {
                     activeName: this.activeName,
@@ -409,7 +401,6 @@
                                 const tHeader = ['应用图标', '应用名', '应用类型', '安装包大小', '版本号', '最新上传时间']
                                 const filterVal = ['fileIcon', 'appName', 'fileType', 'fileSize', 'fileVersion', 'fileDate']
                                 const list = this.info
-                                // console.log(this.info)
                                 const data = this.formatJson(filterVal, list)
                                 excel.export_json_to_excel({
                                     header: tHeader,
@@ -548,18 +539,8 @@
         height: 120px;
         display: block;
     }
-
-    /*.cell {*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    /*word-break: break-all;*/
-    /*white-space: nowrap !important;*/
-    /*}*/
     .littleButton {
         margin-left: 0 !important;
     }
 
-    /*.el-button{*/
-    /*border: 0;*/
-    /*}*/
 </style>

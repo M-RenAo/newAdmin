@@ -160,17 +160,6 @@
             },
             handleCurrentChange(pageValue) {
                 this.currentPage = pageValue;
-                // var that = this
-                // var thats = that
-                // that.$ajax.get('http://20.184.13.116/v2/block/' + hash + '/tx',
-                //     {params: {
-                //             verbose:2,
-                //             page:pageValue,
-                //         }}).then(response => {
-                //     thats.info = response.data.data.list
-                //     thats.txcount = response.data.data.tx_count;
-                //     console.log(response)
-                // })
                 this.getData()
             },
             downloadSort(id, title, sort) {
@@ -189,7 +178,6 @@
                     data: this.deleAppId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -243,7 +231,6 @@
                         data: this.sortItemForm,
                         headers: {'token': sessionStorage.getItem('token'), 'device': 'ios'}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -273,38 +260,12 @@
                     });
                 }
             },
-            // handleSizeChange(val) {
-            //     console.log(`每页 ${val} 条`);
-            // },
-            // handleCurrentChange(val) {
-            //     this.currentPage = val;
-            //     this.offset = (val - 1) * this.limit;
-            //     this.getResturants()
-            // },
-            // handleEdit(index, row) {
-            //     this.selectTable = row;
-            //     this.address.address = row.address;
-            //     this.dialogFormVisible = true;
-            //     this.selectedCategory = row.category.split('/');
-            //     if (!this.categoryOptions.length) {
-            //         this.getCategory();
-            //     }
-            // },
             updateDownload(id, title, rule, sort) {
                 this.$router.push({
                     path: '/addDownload',
                     query: {id: id, title: title, rule: rule, sort: sort, type: 'ios'}
                 })
             },
-            // downloadApp(id){
-            //     console.log(id)
-            //     this.$ajax.get(BaseUrl+'alioss/signatureurl/'+'/'+id+'/apply').then(response => {
-            //         console.log(response)
-            //         this.url=response.data.data
-            //         window.open(this.url)
-            //     })
-            //
-            // },
 
 
         },

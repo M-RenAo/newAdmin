@@ -122,11 +122,9 @@
                 this.$ajax({
                     method: "POST",
                     url: BaseUrl + 'mining/getrulelist',
-                    // data: form
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     if (response.data.flag == 200) {
-                        // console.log(response)
                         this.tableData = response.data.data;
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
@@ -136,56 +134,8 @@
                             }
                         });
                     }
-                    // this.txcount = response.data.data.count
-                    // this.tableData.forEach(item => {
-                    //     item.results = JSON.parse(item.result).A + JSON.parse(item.result).B;
-                    //     if (item.state == 1) {
-                    //         item.status = '进行中'
-                    //     } else if (item.state == 0) {
-                    //         item.status = '已结束'
-                    //     } else if (item.state == 2) {
-                    //         item.status = '待开奖'
-                    //     } else {
-                    //         item.status = '未开始'
-                    //     }
-                    // });
                 });
             },
-            // handleSizeChange(pageSize) {
-            //     console.log(">>>>>>pageSize", pageSize);
-            //     // this.nowPageSize = pageSize;
-            //     // if (this.searchForm == '') {
-            //     //     var listParams = {
-            //     //         page: 1,
-            //     //         size: pageSize,
-            //     //         order:"startDate desc"
-            //     //     };
-            //     // } else {
-            //     //     this.searchForm.page = 1;
-            //     //     this.searchForm.size = pageSize
-            //     //     this.searchForm.order="startDate desc"
-            //     //     var listParams = this.searchForm
-            //     // }
-            //     // this.getData(listParams);
-            // },
-            // handleCurrentChange(pageValue) {
-            //     console.log(">>>>>>pageValue", pageValue);
-            //     // this.currentPage = pageValue;
-            //     // if (this.searchForm == '') {
-            //     //     var listParams = {
-            //     //         page: pageValue,
-            //     //         size: this.nowPageSize || 10,
-            //     //         order:"startDate desc"
-            //     //     };
-            //     // } else {
-            //     //     this.searchForm.page = pageValue;
-            //     //     this.searchForm.size = this.nowPageSize || 10;
-            //     //     this.searchForm.order="startDate desc"
-            //     //     var listParams = this.searchForm
-            //     // }
-            //     //
-            //     // this.getData(listParams);
-            // },
             trumpet(id) {
                 this.trumpetFormVisible = true
             },
@@ -207,16 +157,7 @@
             },
             add() {
                 this.$router.push({path: '/addDigRule'})
-            },
-            // toggleSelection(rows) {
-            //     if (rows) {
-            //         rows.forEach(row => {
-            //             this.$refs.multipleTable.toggleRowSelection(row);
-            //         });
-            //     } else {
-            //         this.$refs.multipleTable.clearSelection();
-            //     }
-            // },
+            }
 
         },
 

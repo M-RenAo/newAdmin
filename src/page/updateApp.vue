@@ -236,14 +236,10 @@
                     if (response.data.flag == 200) {
                         this.appForm = response.data.data
                         this.uploadIconUrl = response.data.data.fileIcon;
-                        // this.appForm.isOffical='0';
-                        // this.offical=[{title:'是',code:'1'},{title:'否',code:'0'}]
                         if (this.appForm.fileShow != '') {
                             this.showList = this.appForm.fileShow.split(',')
                         }
-                        // if(this.appForm.fileState=)
                         this.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
-                        // console.log(this.appForm.fileDisplayPosition)
                         if (this.appForm.fileDisplayPosition != undefined) {
                             this.value = eval(this.appForm.fileDisplayPosition)
                         }
@@ -255,7 +251,6 @@
                             }
                         });
                     }
-                    // this.value=this.appForm.fileDisplayPosition.split(',')
                 })
                 this.$ajax.get(BaseUrl + 'apptag/all', {
                     headers: {
@@ -301,7 +296,6 @@
                             data: appForm,
                             headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                         }).then(response => {
-                            // console.log(response);
                             if (response.data.flag == 500) {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
@@ -316,7 +310,6 @@
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
                                     callback: action => {
-                                        // this.$router.back(-1)
                                         if (this.$route.query.type == 'android') {
                                             this.$router.push({
                                                 path: '/applicationList',
@@ -389,12 +382,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
-
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         let size = img1.size; //文件的大小，判断图片的大小
@@ -405,10 +392,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -455,11 +438,6 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
@@ -489,13 +467,11 @@
                             this.showList.push(response.data.data);
 
                             this.appForm.fileShow = this.showList.join(',');
-                            // console.log('>>>>>>>', this.appForm.showPict)
                         });
                     });
             },
             removeImage(index) {
                 this.showList.splice(index, 1)
-                console.log(this.showList);
                 this.appForm.fileShow = this.showList.join(',');
             },
             bigImg(index) {

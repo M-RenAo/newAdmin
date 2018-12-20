@@ -9,8 +9,6 @@
                     <el-form-item label="App名称：" prop="name">
                         {{appForm.appName}}
                     </el-form-item>
-                    <!--<el-form-item label="历史版本：" prop="name">-->
-                    <!--</el-form-item>-->
                     <el-form-item label="初始版本上线时间：" prop="name">
                         {{appForm.startDate}}
                     </el-form-item>
@@ -57,7 +55,6 @@
     import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
 
     let moment = require('moment')
     export default {
@@ -90,7 +87,6 @@
                         this.appForm = response.data.data
                         this.showList = this.appForm.fileShow.split(',');
                         this.appForm.fileDate = moment.utc(this.appForm.fileDate).local().format('YYYY-MM-DD HH:mm:ss')
-                        // console.log( this.showList)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -119,7 +115,6 @@
                         'device': this.$route.query.type
                     }
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -175,6 +170,5 @@
         color: #8c939d;
         text-align: center;
         font-size: 18px;
-        /*transform:translate(10px,-50%);*/
     }
 </style>

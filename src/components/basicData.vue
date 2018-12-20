@@ -18,7 +18,6 @@
                     <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">
                         {{loginNum}}
                     </div>
-                    <!--<p>经邀请注册用户{{inviteSign}}</p>-->
                 </div>
                 <div class="card-data">
                     <p style="font-size: 16px;">今日实名用户</p>
@@ -42,12 +41,6 @@
                     @change="test()"
                 >
                 </el-date-picker>
-                <!--<el-radio v-model="radio" label="1">按天展示</el-radio>-->
-                <!--<el-radio v-model="radio" label="2">按月展示</el-radio>-->
-                <!--<div style="float:right" :span="6">-->
-                <!--<el-button type="primary" @click="serchData(dataTime)">搜索</el-button>-->
-                <!--<el-button type="primary">导出</el-button>-->
-                <!--</div>-->
             </div>
             <el-table
                 :data="tableData"
@@ -93,25 +86,13 @@
 
         </div>
         <div style="margin:0px 20px;">
-            <!--<span style="font-size: 14px;">时间：</span>-->
-            <!--<el-date-picker-->
-            <!--v-model="chartTime"-->
-            <!--type="daterange"-->
-            <!--range-separator="-"-->
-            <!--&gt;-->
-            <!--</el-date-picker>-->
-            <!--<div style="float:right" :span="6">-->
-            <!--<el-button type="primary" @click="serchChart(chartTime)">搜索</el-button>-->
-            <!--</div>-->
+
             <el-tabs class="table_container" v-model="activeName" @tab-click="handleClick" style="width:140px">
                 <el-tab-pane label="近七日" name="1"></el-tab-pane>
                 <el-tab-pane label="近30日" name="2"></el-tab-pane>
             </el-tabs>
             <tendency :sevenDate='sevenDate' :sevenDay='sevenDay' :max="max" :dataName='dataName'></tendency>
         </div>
-        <!--<li v-for="item in focusList" @click="test(item)">-->
-        <!--{{item.a}}-->
-        <!--</li>-->
     </div>
 
 </template>
@@ -119,8 +100,6 @@
 <script>
     import tendency from '../components/tendency'
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
-    import dtime from 'time-formater'
 
     let moment = require('moment');
     export default {
@@ -148,7 +127,6 @@
                 startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2: moment().format('YYYY-MM-DD'),
                 dataName: ['新增注册用户', '实名认证用户', '总用户', '登录用户']
-                // focusList:[{a:'hhhhh',url:'baidu.com'},{a:'hhhhh',url:'https://imapp.com'},{a:'hhhhh',url:'https://test.imapp.io'}]
             };
         },
         components: {
@@ -157,7 +135,6 @@
         created() {
             this.$ajax.get(BaseUrl + 'data/sum',
                 {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-                // console.log(response);
                 if (response.data.flag == 200) {
                     this.cumulativeUsers = response.data.data.userSum;
                     this.realNameUsers = response.data.data.authSum;
@@ -176,24 +153,6 @@
         },
         computed: {},
         methods: {
-            // async initData(){
-            //     const today = dtime().format('YYYY-MM-DD')
-            //     Promise.all([userCount(today), orderCount(today), adminDayCount(today), getUserCount(), getOrderCount(), adminCount()])
-            //         .then(res => {
-            //             this.userCount = res[0].count;
-            //             this.orderCount = res[1].count;
-            //             this.adminCount = res[2].count;
-            //             this.allUserCount = res[3].count;
-            //             this.allOrderCount = res[4].count;
-            //             this.allAdminCount = res[5].count;
-            //         }).catch(err => {
-            //         console.log(err)
-            //     })
-            // },
-            // test:function(item){
-            //  console.log(item)
-            //     window.location.href=item.url
-            // },
             test() {
                 this.getData()
             },
@@ -201,9 +160,7 @@
                 if (this && !this._isDestroyed) {
                     this.$ajax.get(BaseUrl + 'data/active',
                         {headers: {'token': sessionStorage.getItem('token')}}).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 200) {
-                            // console.log(response)
                             this.authNum = response.data.data.authNum;
                             this.loginNum = response.data.data.loginNum;
                             this.regiNum = response.data.data.regiNum;
@@ -223,12 +180,6 @@
                                 }
                             });
                         }
-                        // this.tableData.forEach(item=>{
-                        //     if(item.title=='总计'){
-                        //     // item.title=moment.utc(item.title).local().format('YYYY-MM-DD')
-                        //         this.tableData
-                        //     }
-                        // })
 
                     })
                 }
@@ -242,7 +193,6 @@
                             endDate: moment(this.dataTime[1]).add('days',1).format('YYYY-MM-DD')
                         }, headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data;
                     } else if (response.data.flag == 201) {
@@ -299,7 +249,6 @@
                         this.sevenDay = response.data.data[0];
                         this.sevenDate = response.data.data[1];
                         this.max = Math.max(...this.sevenDate[0], ...this.sevenDate[1], ...this.sevenDate[2], ...this.sevenDate[3]);
-                        // console.log(this.max)
                     } else {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -308,7 +257,6 @@
                             }
                         });
                     }
-                    // this.tableData=response.data.data
                 })
             },
             handleClick() {
@@ -319,36 +267,6 @@
                 }
                 this.getDatas()
             },
-            // serchChart(chartTime){
-            //     if(chartTime==null){
-            //             this.$alert('请选择搜索日期', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$message({
-            //                         type: 'info',
-            //                         message: `请重试！`
-            //                     });
-            //                 }
-            //             });
-            //             return false;
-            //     }
-            //     else if((moment(chartTime[1])-moment(chartTime[0]))/(24*60*60*1000)>30){
-            //         this.$alert('不能超过30天', {
-            //             confirmButtonText: '确定',
-            //             callback: action => {
-            //                 this.$message({
-            //                     type: 'info',
-            //                     message: `请重试！`
-            //                 });
-            //             }
-            //         });
-            //         return false;
-            //     }else if(chartTime!=null){
-            //       this.startDate2=moment(chartTime[0]).format('YYYY-MM-DD')
-            //        this.endDate2=moment(chartTime[1]).format('YYYY-MM-DD');
-            //       this.getDatas();
-            //     }
-            // }
         },
 
     };
@@ -364,24 +282,16 @@
     .card-data {
         padding: 5px 10px;
         color: #fff;
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: center;*/
         width: 200px;
         height: 100px;
-        /*border:1px solid #999;*/
         margin-right: 15px;
         background: #85ce61;
     }
 
     .card-data:last-child {
         padding: 5px 10px;
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: center;*/
         width: 200px;
         height: 100px;
-        /*border:1px solid #999;*/
         margin-right: 0px;
 
     }

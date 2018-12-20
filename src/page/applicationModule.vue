@@ -16,13 +16,8 @@
                 >
                     <template scope="scope">
                         <span>{{scope.row.title}}</span>
-                        <!--<img v-if="scope.row.titleStyle=='image'" style="width:30px;height:30px" :src="'https://hug-image.oss-cn-hangzhou.aliyuncs.com/'+scope.row.title">-->
                     </template>
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="展示风格"-->
-                <!--prop="show">-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="列表样式"
                     prop="show">
@@ -35,14 +30,6 @@
                     label="应用数量"
                     prop="itemNumOfAll">
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="创建时间"-->
-                <!--prop="type">-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                <!--label="更新时间"-->
-                <!--prop="type">-->
-                <!--</el-table-column>-->
                 <el-table-column
                     label="状态"
                     prop="status">
@@ -59,13 +46,6 @@
             </el-table>
             <el-dialog title="" :visible.sync="dialogFormVisible">
                 <el-form :model="form" ref="form" :rules="rule">
-                    <!--<el-form-item label="标题类型" :label-width="formLabelWidth" prop="titleStyle">-->
-                    <!--<el-select v-model="form.titleStyle" placeholder="请选择标题类型">-->
-                    <!--<el-option label="图标" value="image">图标</el-option>-->
-                    <!--<el-option label="文字" value="text">文字</el-option>-->
-                    <!--</el-select>-->
-                    <!--</el-form-item>-->
-                    <!--v-if="form.titleStyle=='text'"-->
                     <el-form-item label="列表类型" :label-width="formLabelWidth" prop="itemType">
                         <el-select v-model="form.itemType" placeholder="请选择列表类型">
                             <el-option label="平铺" value="item-app:fixationList">固定</el-option>
@@ -79,27 +59,6 @@
                                   v-if="form.itemType!='item-promote:advertise'">
                         <el-input v-model="form.title" auto-complete="off" style="width:80%"></el-input>
                     </el-form-item>
-                    <!--<el-form-item label="标题说明" :label-width="formLabelWidth" prop="title" v-if="form.titleStyle=='image'">-->
-                    <!--<el-input v-model="form.title" auto-complete="off" style="width:80%"></el-input>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="分类图标" :label-width="formLabelWidth" prop="titleText" v-if="form.titleStyle=='image'" class="icon-trumpet-el">-->
-                    <!--<input class="upload" @change='add_img' type="file"-->
-                    <!--style="opacity: 0;width: 148px;height: 148px;z-index:222;vertical-align: top;position: absolute">-->
-                    <!--<div class="icon-plus-container"-->
-                    <!--style="display: flex;justify-content: center;align-items: center;">-->
-                    <!--<i class="el-icon-plus"></i>-->
-                    <!--</div>-->
-                    <!--<div class="img-wrap" v-if="uploadIconUrl!=''">-->
-                    <!--<img :src="'https://imapp-image.oss-cn-hangzhou.aliyuncs.com/'+uploadIconUrl"-->
-                    <!--class="border-radius" style="width: 146px;height: 146px;"/>-->
-                    <!--</div>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="展示风格" :label-width="formLabelWidth" prop="showStyle">-->
-                    <!--<el-select v-model="form.showStyle" placeholder="请选择展示风格">-->
-                    <!--<el-option label="横向" key="0" value="0"></el-option>-->
-                    <!--<el-option label="竖向" key="1" value="1"></el-option>-->
-                    <!--</el-select>-->
-                    <!--</el-form-item>-->
                     <el-form-item label="地址" :label-width="formLabelWidth" prop="address"
                                   v-if="form.itemType=='item-promote:advertise'">
                         <el-input v-model="address" auto-complete="off" style="width:80%"></el-input>
@@ -216,26 +175,15 @@
                 sortMoudleForm: {},
                 updataNewsForm: {},
                 rule: {
-                    // titleStyle: [
-                    //     {required: true, message: '请选择标题类型', trigger: 'blur'},
-                    // ],
                     title: [
                         {required: true, message: '请输入模块名称', trigger: 'blur'},
                     ],
-                    // showStyle: [
-                    //     {required: true, message: '请选择展示风格', trigger: 'blur'}
-                    // ],
                     state: [
                         {required: true, message: '请选择状态', trigger: 'blur'}
                     ],
                     itemType: [
                         {required: true, message: '请选择列表类型', trigger: 'blur'}
                     ],
-                    // sort:[
-                    //     {type:'number',required: true,message: '请输入数字', trigger: 'blur', transform(value) {
-                    //             return Number(value);
-                    //         }}
-                    // ],
                     itemNum: [
                         {
                             type: 'number', required: true, message: '请输入数字', trigger: 'blur', transform(value) {
@@ -347,10 +295,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -367,7 +311,6 @@
                             data: form,
                         }).then(response => {
                             this.advertisePic = response.data.data;
-                            // this.form.advertisePic = response.data.data;
                         });
                     });
             },
@@ -386,7 +329,6 @@
                     data: this.updataNewsForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device': 'android'}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -422,7 +364,6 @@
                     params: {objectName:this.advertisePic},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -470,7 +411,6 @@
                             data: formData,
                             headers: {'token': sessionStorage.getItem('token'), 'device': 'android'}
                         }).then(response => {
-                            // console.log(response);
                             if (response.data.flag == 500) {
                                 this.$alert(response.data.msg, '提示', {
                                     confirmButtonText: '确定',
@@ -520,7 +460,6 @@
                             }
                         });
                     }
-                    // else {
 
                 })
 
@@ -530,13 +469,7 @@
                 this.dialogFormVisibleMoudleSort = true;
                 this.positionList.forEach(item => {
                     if (item.id == id) {
-                        // this.sortMoudleForm.titleStyle=item.titleStyle;
                         this.sortMoudleForm.title = item.title;
-                        // if(item.titleText!=undefined){
-                        //     this.sortMoudleForm.titleText=item.titleText
-                        //     // this.uploadIconUrl=this.sortMoudleForm.titleText
-                        // }
-                        // this.sortMoudleForm.showStyle=item.showStyle;
                         this.sortMoudleForm.state = item.state;
                         this.sortMoudleForm.itemType = item.itemType;
                         this.sortMoudleForm.id = id;
@@ -554,7 +487,6 @@
                     data: this.sortMoudleForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device': 'android'}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -587,23 +519,6 @@
             deletePosition(id) {
                 this.dialogVisible = true;
                 this.deleteId = id;
-                // this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
-
-                //     cancelButtonText: '取消',
-                //     type: 'warning'
-                // }).then(() => {
-                //     this.$message({
-                //         type: 'success',
-                //         message: '删除成功!',
-                //         callback:this.getTagData()
-                //     });
-                // }).catch(() => {
-                //     this.$message({
-                //         type: 'info',
-                //         message: '已取消删除'
-                //     });
-                // });
-
             },
             handleClose(done) {
                 this.$confirm('确认关闭？')

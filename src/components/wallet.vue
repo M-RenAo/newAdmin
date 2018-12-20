@@ -201,7 +201,6 @@
                     data: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.billList;
                         this.balance = response.data.data.balance

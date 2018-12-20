@@ -2,8 +2,6 @@
     <div class="fillcontain">
         <div class="table_container">
             <el-row style="display:flex;margin-bottom: 30px;">
-                <!--<el-col :span="12"><el-button type="primary" @click="uploadapp()">上传应用</el-button>-->
-                <!--<el-button style='' type="primary" icon="document" @click="handleDownload" :loading="downloadLoading"> 导出excel</el-button></el-col>-->
                 <el-col :span="12" style="display: flex;align-items: center;">
                     <el-tabs v-model="activeName" style="height: 40px;" @tab-click="changeState()">
                         <el-tab-pane label="全部" name="3"></el-tab-pane>
@@ -198,41 +196,6 @@
             };
         },
         created() {
-            // this.$ajax({
-            //     method: "POST",
-            //     url: BaseUrl + 'blacklist/scan',
-            //     data: {type: 1},
-            //     headers: {'token': sessionStorage.getItem('token')}
-            // }).then(response => {
-            //     if (response.data.flag == 200) {
-            //         this.$ajax({
-            //             method: "POST",
-            //             url: BaseUrl + 'blacklist/scan',
-            //             data: {type: 2},
-            //             headers: {'token': sessionStorage.getItem('token')}
-            //         }).then(res => {
-            //             console.log(res)
-            //             if (res.data.flag == 200) {
-            //                 this.getData()
-            //             } else if (res.data.flag == 201) {
-            //                 this.$alert(res.data.msg + '，请重新登录', '提示', {
-            //                     confirmButtonText: '确定',
-            //                     callback: action => {
-            //                         this.$router.push('/')
-            //                     }
-            //                 });
-            //             }
-            //         });
-
-            //     } else if (response.data.flag == 201) {
-            //         this.$alert(response.data.msg + '，请重新登录', '提示', {
-            //             confirmButtonText: '确定',
-            //             callback: action => {
-            //                 this.$router.push('/')
-            //             }
-            //         });
-            //     }
-            // });
             this.getData();
         },
         components: {
@@ -282,7 +245,6 @@
                     if (response.data.flag == 200) {
                         this.info = response.data.data.data;
                         this.txcount = response.data.data.count;
-                        // console.log(this.info)
                         this.info.forEach(item => {
                             if (item.dstate == '1') {
                                 item.checkResult = '待定'
@@ -313,18 +275,11 @@
                 this.getData()
             },
             handleSizeChange(pageSize) {
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 this.currentPage = 1;
-                // const listParams = {
-                //     activeName: this.activeName,
-                //     pageValue: 1,
-                //     pageSize: pageSize
-                // };
                 this.getData();
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 this.getData();
             },
@@ -405,7 +360,6 @@
                     },
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(res=> {
-                    // console.log(res.data.data.billList)
                     this.tableData=res.data.data.billList
                     this.txcountDetail=res.data.data.total
                 })
@@ -419,17 +373,10 @@
                 this.getbilllist();
             },
             update(row) {
-                // this.form = {remark: ''};
-                // this.form.id = id;
-                // this.form.phone = phone;
-                // this.form.state = state;
-                // console.log(row)
                 this.form=row
-                // this.form.dstate=''
                 this.dialogFormVisible = true
             },
             bian(){
-                // console.log(this.form.dstate)
             },
             saveBlackState() {
                 this.$ajax({
@@ -439,8 +386,6 @@
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
                     this.dialogFormVisible = false
-                    // console.log(response)
-                    // console.log(this.form)
                     if (response.data.flag == 200) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -532,20 +477,11 @@
         display: block;
     }
 
-    /*.cell {*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    /*word-break: break-all;*/
-    /*white-space: nowrap !important;*/
-    /*}*/
     .littleButton {
         padding: 5px 10px !important;
         margin-left: 0 !important;
     }
 
-    /*.el-button{*/
-    /*border: 0;*/
-    /*}*/
 
 
 </style>

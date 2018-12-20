@@ -192,7 +192,6 @@
     import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
 
     let moment = require("moment");
     export default {
@@ -239,8 +238,6 @@
                 headers: {'token': sessionStorage.getItem('token')}
             }).then(response => {
                 if (response.data.flag == 200) {
-
-
                     this.quizInfo = response.data.data.guess;
                     this.option = JSON.parse(response.data.data.guess.option);
                     this.quizInfo.startDate = moment.utc(this.quizInfo.startDate).local().format('YYYY-MM-DD HH:mm:ss');
@@ -248,7 +245,6 @@
                     for (var key in this.option) {
                         if (this.quizInfo.answer == key) {
                             this.anwser = this.option[key];
-                            // console.log(this.option[key])
                         }
                     }
                     ;
@@ -397,8 +393,6 @@
                 });
             },
             handleSizeChange(pageSize) {
-                // console.log(this.searchForm)
-                // console.log(">>>>>>pageSize", pageSize);
                 this.nowPageSize = pageSize;
                 if (this.searchForm.phone == undefined && this.searchForm.anwser == undefined) {
                     var listParams = {
@@ -415,7 +409,6 @@
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 if (this.searchForm.phone == undefined && this.searchForm.anwser == undefined) {
                     var listParams = {
@@ -432,7 +425,6 @@
                 this.getData(listParams);
             },
             search(phone, state) {
-                // console.log(state)
                 if (phone != '') {
                     this.searchForm.phone = phone;
                 } else {

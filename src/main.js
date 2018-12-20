@@ -28,23 +28,13 @@ Vue.prototype.encryptByPublicKey = function (data) {
     return rsa.encrypt(data);
 }
 
-// var parse=require('apkreader')
-// parse.parse('Listen.apk', function (err, info) {
-//     if(err){
-//         return console.error(err);
-//     }
-//
-//     console.log(info);
-// });
 
 Vue.prototype.$ajax = axios;
-// Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(VueQuillEditor);
 Vue.use(VueClipboard);
 Vue.use(FileSaver);
 Vue.use(XLSX)
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 new Vue({
     el: '#app',
     router,
@@ -54,8 +44,6 @@ new Vue({
 })
 
 router.beforeEach((to, from, next) => {
-    // console.log(to);
-    // console.log(from);
     if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
         if (sessionStorage.getItem('token')) { //判断本地是否存在access_token
             next();

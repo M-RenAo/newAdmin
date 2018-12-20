@@ -34,7 +34,6 @@
              basicInfo, doHistory, wallet, sendInviate
         },
         created() {
-            // console.log(this.$route.query.id);
         },
         methods: {},
     }

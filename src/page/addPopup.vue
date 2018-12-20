@@ -157,7 +157,6 @@
             }
         },
         created() {
-            // console.log(this.$route.query.id);
             if (this.$route.query.id != undefined) {
                 this.popupList=JSON.parse(sessionStorage.getItem('popupList'))
                 this.popupList.forEach(item=>{
@@ -165,14 +164,6 @@
                         this.popupForm=item
                     }
                 });
-                // if(this.popupForm.pstyle==2){
-                //     this.pstyle='2';
-                //     this.leftTxt=this.popupForm.btntxt.split(';')[0];
-                //     this.rightTxt=this.popupForm.btntxt.split(';')[1]
-                // }else{
-                //     this.pstyle='1';
-                //     this.centerTxt=this.popupForm.btntxt
-                // }
                 this.qstyle=this.popupForm.qstyle.toString();
                 this.timeRound=[moment.utc(this.popupForm.stime).local().format('YYYY-MM-DD'),moment.utc(this.popupForm.etime).local().format('YYYY-MM-DD')];
                 if(this.popupForm.image!==undefined) {
@@ -206,16 +197,10 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
 
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
                         let size = img1.size; //文件的大小，判断图片的大小
-                        // console.log(size)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -223,10 +208,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -253,7 +234,6 @@
                         params: {objectName:this.uploadIconUrl},
                         headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -283,7 +263,6 @@
             save(popupForm) {
                 this.$refs.popupForm.validate(async (valid) => {
                     if (valid) {
-                        console.log()
                         if(Number(this.popupForm.times)>=1){
                             this.popupForm.times=Number(this.popupForm.times)
                         }else{
@@ -295,12 +274,6 @@
                         this.popupForm.image=this.uploadIconUrl;
                         this.popupForm.stime=moment(this.timeRound[0]).utc().format('YYYY-MM-DD HH:mm:ss');
                         this.popupForm.etime=moment(this.timeRound[1]).utc().format('YYYY-MM-DD HH:mm:ss');
-                        // if(this.pstyle=='2'){
-                        //     this.popupForm.btntxt=this.leftTxt+';'+this.rightTxt
-                        // }else{
-                        //     this.popupForm.btntxt=this.centerTxt
-                        // }
-                        // this.popupForm.pstyle=Number(this.pstyle)
                         this.popupForm.qstyle=Number(this.qstyle)
                         if (this.$route.query.id == '' || this.$route.query.id == undefined) {
                             this.$ajax({

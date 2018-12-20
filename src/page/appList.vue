@@ -178,7 +178,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
@@ -189,9 +188,6 @@
         searchplace,
         deleteResturant
     } from "@/api/getData";
-    import FileSaver from 'file-saver'
-    import XLSX from 'xlsx'
-
     let moment = require('moment')
     export default {
         data() {
@@ -218,7 +214,6 @@
             };
         },
         created() {
-            // console.log(this.$route.path)
             this.flag = this.$route.query.flag || '2';
             this.fileTagUnchoice = this.$route.query.tagcode || '-1'
             if (this.$route.query.active == 0) {
@@ -247,17 +242,6 @@
                 pageValue: this.$route.query.page || 1,
                 pageSize: this.$route.query.size || 10
             });
-            // this.$ajax.get(BaseUrl + "position/all").then(response => {
-            //   this.positionList = response.data.data;
-            //   sessionStorage.setItem("positionList", JSON.stringify(this.positionList));
-            // });
-        },
-        // mounted(){
-        //   this.currentPage=this.$route.query.page;
-        //   this.nowPageSize=this.$route.query.size
-        // },
-        components: {
-            headTop
         },
         methods: {
             queryListData({activeName, pageValue, pageSize}) {
@@ -273,8 +257,6 @@
                         }, headers: {'token': sessionStorage.getItem('token'), 'device': 'android'}
                     })
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             this.info = response.data.data.appList;
                             this.txcount = response.data.data.fileNum;
@@ -289,21 +271,6 @@
                                 item.fileDate = moment.utc(item.fileDate).local().format('YYYY-MM-DD HH:mm:ss');
 
                             });
-                            // this.info.forEach(item => {
-                            //   var positionLists = JSON.parse(
-                            //     sessionStorage.getItem("positionList")
-                            //   );
-                            //   positionLists.forEach(nitem => {
-                            //     if (item.fileDisplayPosition == nitem.code) {
-                            //       item.position = nitem.title;
-                            //     }
-                            //   });
-                            // });
-                            //       if(this.$route.query.page==undefined){
-                            //           this.currentPage=1
-                            //       }else{
-                            //           this.currentPage=Number(this.$route.query.page)
-                            //       }
                             this.currentPage = Number(pageValue);
                             this.nowPageSize = Number(pageSize)
                             this.info.forEach(item => {
@@ -318,7 +285,6 @@
                             });
                         }
                     });
-                // this.searchInfo = "";
             },
             searchByFlag() {
                 const params = {
@@ -379,7 +345,6 @@
                 });
             },
             downloadApp(id) {
-                console.log(id);
                 this.$ajax
                     .get(BaseUrl + "alioss/signatureurl／" + id + "/apply", {
                         headers: {
@@ -388,7 +353,6 @@
                         }
                     })
                     .then(response => {
-                        // console.log(response);
                         if (response.data.flag == 200) {
                             this.url = response.data.data;
                             window.open(this.url, "_self");
@@ -483,22 +447,11 @@
                                     item.appState = "未上架";
                                 }
                             });
-                            // this.info.forEach(item => {
-                            //     var positionLists = JSON.parse(
-                            //         sessionStorage.getItem("positionList")
-                            //     );
-                            //     positionLists.forEach(nitem => {
-                            //         if (item.fileDisplayPosition == nitem.code) {
-                            //             item.position = nitem.title;
-                            //         }
-                            //     });
-                            // });
                             this.downloadLoading = true
                             import('@/vendor/Export2Excel').then(excel => {
                                 const tHeader = ['应用图标', '应用名', '应用类型', '安装包大小', '版本号', '最新上传时间']
                                 const filterVal = ['fileIcon', 'appName', 'fileType', 'fileSize', 'fileVersion', 'fileDate']
                                 const list = this.info
-                                // console.log(this.info)
                                 const data = this.formatJson(filterVal, list)
                                 excel.export_json_to_excel({
                                     header: tHeader,
@@ -637,18 +590,7 @@
         height: 120px;
         display: block;
     }
-
-    /*.cell {*/
-    /*overflow: hidden;*/
-    /*text-overflow: ellipsis;*/
-    /*word-break: break-all;*/
-    /*white-space: nowrap !important;*/
-    /*}*/
     .littleButton {
         margin-left: 0 !important;
     }
-
-    /*.el-button{*/
-    /*border: 0;*/
-    /*}*/
 </style>

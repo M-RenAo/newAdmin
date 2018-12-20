@@ -1,15 +1,26 @@
 <template>
     <div class="fillcontain">
         <div class="table_container">
-            <div style="padding-bottom:10px">
-                获取文章自动发布
-                <el-switch
-                    v-model="switchType"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                    @change="switchChang"
-                >
-                </el-switch>
+            <div style="padding-bottom:10px;display: flex;align-items: center">
+                <div>
+                    获取文章自动发布
+                    <el-switch
+                        v-model="switchType"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        @change="switchChang"
+                    >
+                    </el-switch>
+                </div>
+                <div style="display: flex;align-items: center;margin-left: 20px">
+                    <div style="margin-right: 10px">筛选来源</div>
+                    <el-checkbox-group v-model="checkedSource">
+                        <el-checkbox v-for="choice in sources" :label="choice.label" :key="choice.value">
+                            {{choice.label}}
+                        </el-checkbox>
+                    </el-checkbox-group>
+                    <el-button style="margin-left: 20px" type="primary" @click=" takeEffect">生效</el-button>
+                </div>
             </div>
             <el-button type="primary" @click="goEdit" style="margin-bottom: 10px">创建快讯</el-button>
             <el-row style="display:flex;margin-bottom: 30px;">
@@ -162,9 +173,7 @@
                 currentPage: null,
                 nowPageSize: null,
                 tabsName: "-1",//tabs
-                dialogTableVisible: false,
                 dialogFormVisible: false,
-                txcount: 0,
                 searchInfo: "",//快讯关键字搜索
                 row: "",//当前行数据
                 usercount: 0,
@@ -172,6 +181,8 @@
                 dataparams: {},
                 numparams: {},
                 enabled: "",
+                sources: [{label: '金色财经', value: 1}, {label: '币世界', value: 2}, {label: '币快报', value: 3}],
+                checkedSource: []
 
             };
         },
@@ -187,17 +198,16 @@
                 headers: {'token': sessionStorage.getItem('token')}
             }).then(res => {
                     this.switchType = res.data.data
-                    //  console.log(res)
+
                 }
             );
+            this.getSource()
         },
         components: {
             headTop
         },
         methods: {
             searchCheck() {//快讯搜索
-                // this.paramss();
-                // this.paramsss();
                 this.getmess()
                 this.getData()
             },
@@ -210,11 +220,78 @@
                 this.currentPage = pageValue;
                 this.getmess();
             },
+            takeEffect() {//生效筛选
+                this.$ajax.get(BaseUrl + "newsFlash/setNewsSource", {
+                    params: {source: this.checkedSource.join(';')}, headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                        if (res.data.flag == 200) {
+                            this.$alert(res.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `${ res.data.msg}`
+                                    });
+                                    this.getSource()
+                                }
+                            });
+                        } else if (res.data.flag == 201) {
+                            this.$alert(res.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        } else {
+                            this.$alert(res.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `error: ${res.data.msg + ',请重试'}`
+                                    });
+                                }
+                            });
+                            return false
+                        }
 
+                    }
+                );
+
+            },
+            //获取来源
+            getSource() {
+                this.$ajax.get(BaseUrl + "newsFlash/getNewsSource", {
+                    headers: {'token': sessionStorage.getItem('token')}
+                }).then(res => {
+                        if (res.data.flag == 200) {
+                            if(res.data.data!=''&&res.data.data!=undefined){
+                            this.checkedSource = res.data.data.split(';')
+                            }
+                        } else if (res.data.flag == 201) {
+                            this.$alert(res.data.msg + '，请重新登录', '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$router.push('/')
+                                }
+                            });
+                        } else {
+                            this.$alert(res.data.msg, '提示', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `error: ${res.data.msg + ',请重试'}`
+                                    });
+                                }
+                            });
+                            return false
+                        }
+                    }
+                );
+
+            },
             goEdit(row) {//前往编辑界面
-                // this.$router.push({path:"/editingInterface",query:{
-                //     id:row.id
-                // }})
                 this.$router.push({
                     path: 'EditingInterface',
                     query: {
@@ -256,7 +333,6 @@
                         this.tableData = res.data.data
                         this.currentPage = this.dataparams.pageNum
                         this.nowPageSize = this.dataparams.pageSize
-                        // console.log(this.tableData)
                     }
                 );
 
@@ -361,8 +437,6 @@
                         'token': sessionStorage.getItem('token')
                     }
                 }).then(res => {
-                    // console.log(this.enabled)
-                    // console.log(res)
                 })
             }
         }

@@ -52,9 +52,7 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import {quillEditor} from 'vue-quill-editor'
 
     let moment = require("moment");
     export default {
@@ -117,15 +115,6 @@
 
             }
         },
-        // mounted(){
-        //     var imgHandler = async function(state) {
-        //         if (state) {
-        //             var fileInput =document.querySelector('#uniqueId') //隐藏的file元素
-        //             fileInput.click() //触发事件
-        //         }
-        //     }
-        //     this.$refs.newEditor.quill.getModule("toolbar").addHandler("image", imgHandler)
-        // },
         created() {
             if (this.$route.query.id != undefined) {
                 this.$ajax({
@@ -154,7 +143,6 @@
                         ;
                         this.guessObj = JSON.parse(response.data.data.guess.option)
                         for (var key in this.guessObj) {
-                            // console.log(this.guessObj[key]);//jack,25,male
                             this.guess.push(this.guessObj[key])
                         }
                     } else if (response.data.flag == 201) {
@@ -173,26 +161,9 @@
             for (var key in this.guess) {
                 this.guessObj[this.guessLabel[key]] = this.guess[key];
             }
-            // console.log('>>>>>>guessObj',guessObj);
             //这个guessObj拼到参数里
         },
         methods: {
-            // GMTToStr(time) {
-            //     var date = time;
-            //     var Y = date.getFullYear();
-            //     var M = date.getMonth() + 1;
-            //     M = M < 10 ? '0' + M : M;// 不够两位补充0
-            //     var D = date.getDate();
-            //     D = D < 10 ? '0' + D : D;
-            //     var H = date.getHours();
-            //     H = H < 10 ? '0' + H : H;
-            //     var Mi = date.getMinutes();
-            //     Mi = Mi < 10 ? '0' + Mi : Mi;
-            //     var S = date.getSeconds();
-            //     S = S < 10 ? '0' + S : S;
-            //     return Y + '-' + M + '-' + D + ' ' + H + ':' + Mi + ':' + S;
-            //
-            // },
             addQuizChoice() {// 点击增加选项
                 if (this.currentOpinionNum > 7) {
                     this.$alert('不能超过8条竞猜选项', {

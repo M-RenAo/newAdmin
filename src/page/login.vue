@@ -19,8 +19,6 @@
                         </el-button>
                     </el-form-item>
                 </el-form>
-                <!--<p class="tip">温馨提示：</p>-->
-                <!--<p class="tip">注册过的用户可凭账号密码登录</p>-->
             </section>
         </transition>
     </div>
@@ -28,7 +26,6 @@
 
 <script>
     import {login, getAdminInfo} from '@/api/getData'
-    import {mapActions, mapState} from 'vuex'
 
     export default {
         data() {
@@ -54,17 +51,14 @@
             this.showLogin = true;
         },
         computed: {
-            // ...mapState(['adminInfo']),
         },
         methods: {
 
-            // ...mapActions(['getAdminData']),
             async submitForm(loginForm) {
                 this.$refs.loginForm.validate(async (valid) => {
                     if (valid) {
                         var form = new FormData();
                         form.append('adminName', loginForm.adminName);
-                        // form.append('adminPass', this.encryptByPublicKey(loginForm.adminPass))
                         form.append('adminPass', loginForm.adminPass)
                         this.dis = true;
                         var that = this;
@@ -74,14 +68,12 @@
                             url: BaseUrl + 'login',
                             data: form,
                         }).then((response) => {
-                            // console.log(response)
                             if (response.data.flag == 200) {
                                 this.$message({
                                     type: 'success',
                                     message: '登录成功'
                                 });
                                 sessionStorage.setItem('token', response.data.data.token);
-                                // sessionStorage.setItem('adminId', response.data.data.token);
                                 sessionStorage.setItem('adminType', response.data.data.adminType);
                                 sessionStorage.setItem('userName', response.data.data.adminName)
                                 if(response.data.data.adminType!='VISITOR'){
@@ -114,17 +106,6 @@
                 })
             },
         },
-        // watch: {
-        //    // adminInfo: function (newValue){
-        //    // 	if (newValue.id) {
-        //    // 		this.$message({
-        //    //            type: 'success',
-        //    //            message: '检测到您之前登录过，将自动登录'
-        //    //        });
-        //    // 		this.$router.push('manage')
-        //    // 	}
-        //    // }
-        // }
     }
 </script>
 

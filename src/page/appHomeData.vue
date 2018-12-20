@@ -247,24 +247,6 @@
         },
         computed: {},
         methods: {
-            // async initData(){
-            //     const today = dtime().format('YYYY-MM-DD')
-            //     Promise.all([userCount(today), orderCount(today), adminDayCount(today), getUserCount(), getOrderCount(), adminCount()])
-            //         .then(res => {
-            //             this.userCount = res[0].count;
-            //             this.orderCount = res[1].count;
-            //             this.adminCount = res[2].count;
-            //             this.allUserCount = res[3].count;
-            //             this.allOrderCount = res[4].count;
-            //             this.allAdminCount = res[5].count;
-            //         }).catch(err => {
-            //         console.log(err)
-            //     })
-            // },
-            // test:function(item){
-            //  console.log(item)
-            //     window.location.href=item.url
-            // },
             test() {
                 this.getData()
             },
@@ -280,7 +262,6 @@
                             endDate: moment(this.dataTime[1]).format('YYYY-MM-DD')
                         }, headers: {'token': sessionStorage.getItem('token')}
                     }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data;
                     } else if (response.data.flag == 201) {
@@ -291,11 +272,6 @@
                             }
                         });
                     }
-                    // this.tableData.forEach(item=>{
-                    //     if(item.title!='总计'){
-                    //     item.title=moment.utc(item.title).local().format('YYYY-MM-DD')
-                    //     }
-                    // })
                 })
             },
             serchData(dataTime) {
@@ -337,7 +313,6 @@
                         this.sevenDay = response.data.data[0];
                         this.sevenDate = response.data.data[1];
                         this.max = Math.max(...this.sevenDate[0], ...this.sevenDate[1], ...this.sevenDate[2], ...this.sevenDate[3]);
-                        // console.log(this.max)
                     } else {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -346,7 +321,6 @@
                             }
                         });
                     }
-                    // this.tableData=response.data.data
                 })
             },
             handleClick() {
@@ -369,36 +343,6 @@
             },
             searchApp() {
             }
-            // serchChart(chartTime){
-            //     if(chartTime==null){
-            //             this.$alert('请选择搜索日期', {
-            //                 confirmButtonText: '确定',
-            //                 callback: action => {
-            //                     this.$message({
-            //                         type: 'info',
-            //                         message: `请重试！`
-            //                     });
-            //                 }
-            //             });
-            //             return false;
-            //     }
-            //     else if((moment(chartTime[1])-moment(chartTime[0]))/(24*60*60*1000)>30){
-            //         this.$alert('不能超过30天', {
-            //             confirmButtonText: '确定',
-            //             callback: action => {
-            //                 this.$message({
-            //                     type: 'info',
-            //                     message: `请重试！`
-            //                 });
-            //             }
-            //         });
-            //         return false;
-            //     }else if(chartTime!=null){
-            //       this.startDate2=moment(chartTime[0]).format('YYYY-MM-DD')
-            //        this.endDate2=moment(chartTime[1]).format('YYYY-MM-DD');
-            //       this.getDatas();
-            //     }
-            // }
         },
 
     };

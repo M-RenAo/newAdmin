@@ -173,7 +173,6 @@
             }).then(response => {
                 if (response.data.flag == 200) {
                     this.iaData = JSON.parse(response.data.data.data);
-                    // console.log(this.iaData)
                     this.ctime = moment.utc(response.data.data.ctime).local().format('YYYY-MM-DD HH:mm:ss')
                 } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
@@ -199,7 +198,6 @@
                 this.oldPass = '';
                 this.newPass = ''
             },
-            // http://10.82.40.141:36788/admin/
             getData(form) {
                 this.$ajax({
                     method: "POST",
@@ -229,12 +227,10 @@
                     pageCode: 1,
                     pageSize: pageSize,
                     appId: '2341a6e2c53d4ed182bd35bee0ddce84'
-                    // order:"date desc"
                 };
                 this.getData(listParams);
             },
             handleCurrentChange(pageValue) {
-                // console.log(">>>>>>pageValue", pageValue);
                 this.currentPage = pageValue;
                 var listParams = {
                     pageCode: pageValue,
@@ -339,7 +335,6 @@
                 }
             },
             checkPass(passWord) {
-                console.log(typeof(Number(this.money)))
                 if (passWord == '' || passWord == undefined) {
                     this.$alert('请填写密码', {
                         confirmButtonText: '确定',

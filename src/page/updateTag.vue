@@ -278,7 +278,6 @@
                     this.TagForm = item
                 }
             })
-            // console.log(this.TagForm);
             if (this.TagForm.icon !== undefined && this.TagForm.icon !== 'tag_default.jpg') {
                 this.urlTagIcon = this.TagForm.icon
             }
@@ -298,11 +297,8 @@
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             var that = this
-                            // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.appList = response.data.data.appList
                             this.txcount = response.data.data.fileNum
                             this.appList.forEach(item => {
@@ -313,7 +309,6 @@
                                 }
                             });
                             this.appList.forEach((item, index) => {
-                                // console.log(index)
                                 item.index = index + 1 + (this.currentPage - 1) * this.nowPageSize
                             });
                             this.appList.forEach(item => {
@@ -364,17 +359,9 @@
                             alert("权限获取失败！");
                             return;
                         }
-                        // const deleteArr = ["fileName", "type", "host"];
-                        // deleteArr.forEach(item => {
-                        //     // 删除掉不需要传的参数
-                        //     delete uploadPolicy[item];
-                        // });
-                        // console.log(event.target.files)
                         let img1 = event.target.files[0];
                         let type = img1.type; //文件的类型，判断是否是图片
-                        // console.log(type)
                         let size = img1.size; //文件的大小，判断图片的大小
-                        // console.log(img1)
                         if (this.imgData.accept.indexOf(type) == -1) {
                             alert("请选择我们支持的图片格式！");
                             return false;
@@ -382,10 +369,6 @@
                         const form = new FormData();
 
                         let paramsObj = {};
-                        // for (let key in uploadPolicy) {
-                        //   // 需要传的参数 遍历添加到form
-                        //  form.append(key, uploadPolicy[key]);
-                        // }
                         form.append("key", uploadPolicy["key"]);
                         form.append("OSSAccessKeyId", uploadPolicy["OSSAccessKeyId"]);
                         form.append("expire", uploadPolicy["expire"]);
@@ -423,7 +406,6 @@
                         data: this.rankAndApp,
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     }).then(response => {
-                        // console.log(response);
                         if (response.data.flag == 500) {
                             this.$alert(response.data.msg, '提示', {
                                 confirmButtonText: '确定',
@@ -487,7 +469,6 @@
                     data: this.appId,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -579,7 +560,6 @@
                     params: {objectName:this.urlTagIcon},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -609,7 +589,6 @@
                 });
             },
             saveUpdateDown() {
-                // console.log(this.urlTagIcon)
                 if (this.urlTagIcon === null) {
                     this.TagForm.icon = 'tag_default.jpg'
                 } else {
@@ -621,7 +600,6 @@
                     data: this.TagForm,
                     headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -676,11 +654,8 @@
                         headers: {'token': sessionStorage.getItem('token'), 'device': this.$route.query.type}
                     })
                     .then(response => {
-                        // console.log(pageSize)
-                        // console.log(pageValue)
                         if (response.data.flag == 200) {
                             var that = this
-                            // this.unChoiceAppList = Array.from(new Set([...response.data.data.appList,...this.info]))
                             that.unChoiceAppList = response.data.data.appList
                             this.txcountTag=response.data.data.fileNum;
                             this.unChoiceAppList.forEach(item => {

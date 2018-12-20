@@ -143,14 +143,12 @@
                         this.value.forEach(item => {
                             position.forEach(nitem => {
                                 if (item == nitem.code) {
-                                    // console.log(item)
                                     this.positonText.push(nitem.title);
                                 }
                             })
                         })
                         this.fileTagText =
                             this.positonTexts = this.positonText.join(' / ')
-                        // console.log( this.showList)
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',

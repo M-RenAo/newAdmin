@@ -120,7 +120,6 @@
     import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
 
     export default {
         data() {
@@ -144,7 +143,6 @@
                 if (response.data.flag == 200) {
                     this.lottery = response.data.data.guess;
                     this.option = JSON.parse(response.data.data.guess.option)
-                    console.log(response.data.option)
                 } else if (response.data.flag == 201) {
                     this.$alert(response.data.msg + '，请重新登录', '提示', {
                         confirmButtonText: '确定',

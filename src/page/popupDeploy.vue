@@ -215,7 +215,6 @@
                     data:this.queryData,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -245,24 +244,6 @@
                     }
                 });
             },
-            // handleSizeChange(pageSize) {
-            //     this.nowPageSize = pageSize;
-            //     const listParams = {
-            //         activeName: this.activeName,
-            //         pageValue: 1,
-            //         pageSize: pageSize
-            //     };
-            //     this.queryListData(listParams);
-            // },
-            // handleCurrentChange(pageValue) {
-            //     this.currentPage = pageValue;
-            //     const listParams = {
-            //         activeName: this.activeName,
-            //         pageValue: pageValue,
-            //         pageSize: this.nowPageSize || 10
-            //     };
-            //     this.queryListData(listParams);
-            // },
             //编辑弹窗
             goEdit(id){
                 this.$router.push({path:'/updatePopup',query:{id:id}})
@@ -279,7 +260,6 @@
                     params:{id:this.lowerId},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',
@@ -327,7 +307,6 @@
                     params:{id:this.delId},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response);
                     if (response.data.flag == 500) {
                         this.$alert(response.data.msg, '提示', {
                             confirmButtonText: '确定',

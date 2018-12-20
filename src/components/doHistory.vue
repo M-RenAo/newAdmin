@@ -1,38 +1,6 @@
 <template>
     <div class="fillcontain">
         <div class="table_container">
-            <!--<el-row type="flex" style="margin-bottom: 20px;">-->
-            <!--<el-col :span="18" style="display:flex;height: auto;word-break:break-all;flex:1">-->
-            <!--<div style="display:inline-block">-->
-            <!--<div style="display: inline-block">-->
-            <!--<span style="font-size: 14px;width:80px;">时间：</span>-->
-            <!--<el-date-picker-->
-            <!--v-model="startDate"-->
-            <!--type="datetimerange"-->
-            <!--align="right"-->
-            <!--:default-time="['12:00:00', '08:00:00']">-->
-            <!--</el-date-picker>-->
-            <!--</div>-->
-            <!--<div style="display: inline-block">-->
-            <!--<span style="font-size: 14px;width:80px;">类型：</span>-->
-            <!--<el-select v-model="state" placeholder="请选择">-->
-            <!--<el-option-->
-            <!--v-for="item in options"-->
-            <!--:key="item.label"-->
-            <!--:label="item.label"-->
-            <!--:value="item.label">-->
-            <!--</el-option>-->
-            <!--</el-select>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</el-col>-->
-            <!--<div style="float:right">-->
-            <!--<el-button type="primary" style="margin-right:10px;margin-bottom:2px;"-->
-            <!--@click="search(state,startDate)">搜索-->
-            <!--</el-button>-->
-            <!--&lt;!&ndash;<el-button type="primary" style="margin-left:0">导出</el-button>&ndash;&gt;-->
-            <!--</div>-->
-            <!--</el-row>-->
             <el-table
                 :data="tableData"
                 style="width: 100%">
@@ -115,7 +83,6 @@
                     params: form,
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                    // console.log(response)
                     if (response.data.flag == 200) {
                         this.tableData = response.data.data.data;
                         this.txcount = response.data.data.total;
@@ -144,8 +111,6 @@
                         pageSize: pageSize,
                     };
                 } else {
-                    // this.searchForm.pageCode = 1;
-                    // this.searchForm.pageSize = pageSize
                     var listParams = this.searchForm
                 }
                 this.getData(listParams);
@@ -191,8 +156,5 @@
         padding: 20px;
     }
 
-    /*.cell{*/
-    /*white-space: normal !important;*/
-    /*}*/
 
 </style>
