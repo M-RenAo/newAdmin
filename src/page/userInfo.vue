@@ -18,7 +18,6 @@
 </template>
 
 <script>
-    import {getUserList, getUserCount} from '@/api/getData'
     import basicInfo from '../components/basicInfo'
     import doHistory from '../components/doHistory'
     import wallet from '../components/wallet'

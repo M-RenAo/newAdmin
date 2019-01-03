@@ -52,9 +52,6 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
-    import {getCategory, addCategory, addFood} from "@/api/getData";
-    import {baseUrl, baseImgPath} from "@/config/env";
 
     let moment = require('moment')
     export default {
@@ -67,9 +64,6 @@
                 showList: [],
                 appForm: {},
             };
-        },
-        components: {
-            headTop
         },
         created() {
             this.getData()

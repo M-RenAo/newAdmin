@@ -160,15 +160,11 @@
                     </el-pagination>
                 </div>
             </el-dialog>
-            <!--<div @click="test($event)">2</div>-->
         </div>
     </div>
 </template>
 
 <script>
-    import headTop from "../components/headTop";
-    import {baseUrl, baseImgPath} from "@/config/env";
-
     let moment = require('moment')
     export default {
         data() {
@@ -199,9 +195,6 @@
             this.getData()
         },
         mounted() {
-        },
-        components: {
-            headTop
         },
         methods: {
             onCopy() {

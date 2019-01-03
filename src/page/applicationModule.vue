@@ -143,7 +143,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
 
     export default {
@@ -196,9 +195,6 @@
         },
         created() {
             this.getTagData()
-        },
-        components: {
-            headTop
         },
         methods: {
             getTagData() {

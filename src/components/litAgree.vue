@@ -60,9 +60,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
-    import {baseUrl, baseImgPath} from '@/config/env'
-
     let moment = require('moment')
     export default {
         data() {

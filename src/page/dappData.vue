@@ -1,38 +1,45 @@
 <template>
     <div>
         <div class="table_container">
-            <div style="display: flex;font-size: 16px;margin-bottom: 20px">
-                <div>累计注册用户：{{cumulativeUsers}}</div>
-                <div style="margin-left:90px">累计实名用户：{{realNameUsers}}</div>
-            </div>
             <div style="display: flex;font-size: 14px;margin-bottom: 20px">
                 <div class="card-data">
-                    <p style="font-size: 16px;">今日新增注册用户</p>
+                    <p style="font-size: 16px;">今日dapp总日活</p>
                     <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">
                         {{regiNum}}
                     </div>
-                    <p>经邀请注册用户：{{beInviteAndRegiNum}}名</p>
                 </div>
                 <div class="card-data">
-                    <p style="font-size: 16px;">今日登陆用户</p>
+                    <p style="font-size: 16px;">今日交易总额</p>
                     <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">
                         {{loginNum}}
                     </div>
                 </div>
                 <div class="card-data">
-                    <p style="font-size: 16px;">今日实名用户</p>
+                    <p style="font-size: 16px;">今日交易笔数总额</p>
                     <div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">
                         {{authNum}}
                     </div>
-                    <p>经邀请实名用户：{{beInviteAndAuthNum}}名</p>
                 </div>
-                <!--<div class="card-data">-->
-                <!--<p style="font-size: 16px;">今日活跃用户</p>-->
-                <!--<div style="height: 50px;display: flex;align-items: center;font-size: 16px;color: #E6A23C">{{activeNums}}</div>-->
-                <!--&lt;!&ndash;<p>经邀请注册用户{{inviteSign}}</p>&ndash;&gt;-->
-                <!--</div>-->
             </div>
-            <div style="margin-bottom: 30px;">
+            <div>
+                <span style="font-size: 14px;color:#606266;">dapp分类：</span>
+                <el-select v-model="tagname" placeholder="请选择" @change="searchDappByTag">
+                    <el-option label="全部" value="-1"></el-option>
+                    <el-option
+                        v-for="item in tagList"
+                        :key="item.code"
+                        :label="item.title"
+                        :value="item.code">
+                    </el-option>
+                    <el-option label="未定义" value="0"></el-option>
+                </el-select>
+                <el-input placeholder="关键字" class="input-with-select" v-model="searchInfo"
+                          style="width:200px;margin-left:10px" @keyup.enter.native="searchDapp(searchInfo)">
+                    <el-button slot="append" @click="searchDapp(searchInfo)"><i class="el-icon-search"></i></el-button>
+                </el-input>
+            </div>
+
+            <div style="margin-bottom: 30px;margin-top: 20px">
                 <span style="font-size: 14px;">时间：</span>
                 <el-date-picker
                     v-model="dataTime"
@@ -46,45 +53,84 @@
                 :data="tableData"
                 style="width: 100%">
                 <el-table-column
-                    label="日期"
+                    label="dapp名称"
                     prop="title">
                 </el-table-column>
                 <el-table-column
-                    label="登录用户"
+                    label="分类"
                     prop="loginNum">
                 </el-table-column>
-                <!--<el-table-column-->
-                <!--label="活跃用户"-->
-               <!--&gt;-->
-                <!--</el-table-column>-->
                 <el-table-column
-                    label="新增注册用户"
+                label="日活"
+                >
+                </el-table-column>
+                <el-table-column
+                    label="24h交易额"
                     prop="regiNum">
                 </el-table-column>
                 <el-table-column
-                    label="实名用户"
+                    label="24h交易笔数"
                     prop="authNum">
                 </el-table-column>
-                <!--<el-table-column-->
-                    <!--label="邀请好友用户"-->
-                    <!--&gt;-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                    <!--label="经邀请注册用户"-->
-                  <!--&gt;-->
-                <!--</el-table-column>-->
+                <el-table-column
+                label="七天交易额"
+                >
+                </el-table-column>
+                <el-table-column
+                label="七天交易笔数"
+                >
+                </el-table-column>
                 <!--<el-table-column-->
                 <!--label="总用户"-->
                 <!--prop="userSum">-->
                 <!--</el-table-column>-->
-                <!--<el-table-column-->
-                <!--label="注册用户"-->
-                <!--prop="regiNum">-->
-                <!--</el-table-column>-->
+                <el-table-column
+                label="操作"
+               >
+                    <template scope="scope">
+                        <el-button type="text" @click="detailCheck(scope.row.title)">
+                            明细
+                        </el-button>
+                    </template>
+                </el-table-column>
 
             </el-table>
-
+            <div class="Pagination">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-size="nowPageSize"
+                    :page-sizes="[5,10,20,30,40]"
+                    :total="txcount"
+                    layout="total, sizes, prev, pager, next, jumper"
+                >
+                </el-pagination>
+            </div>
         </div>
+        <el-dialog :title="'dapp名称：'+name" :visible.sync="dialogTableVisible" width="1000px">
+            <el-table :data="historyData">
+                <el-table-column property="createTime" label="申请时间"></el-table-column>
+                <el-table-column property="amount" label="地址"></el-table-column>
+                <el-table-column property="type" label="提取金额"></el-table-column>
+                <el-table-column property="remark" label="提取备注"></el-table-column>
+                <el-table-column property="remark" label="审核备注"></el-table-column>
+                <el-table-column property="address" label="打币状态"></el-table-column>
+                <el-table-column property="address" label="状态"></el-table-column>
+            </el-table>
+            <div class="Pagination">
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-size="nowPageSize"
+                    :page-sizes="[5, 10, 20, 40]"
+                    :total="txcount"
+                    layout="total, sizes, prev, pager, next, jumper"
+                >
+                </el-pagination>
+            </div>
+        </el-dialog>
         <div style="margin:0px 20px;">
 
             <el-tabs class="table_container" v-model="activeName" @tab-click="handleClick" style="width:140px">
@@ -124,7 +170,17 @@
                 endDate1: moment().format('YYYY-MM-DD'),
                 startDate2: moment().subtract('days', 7).format('YYYY-MM-DD'),
                 endDate2: moment().format('YYYY-MM-DD'),
-                dataName: ['新增注册用户', '实名认证用户', '总用户', '登录用户']
+                dataName: ['日活', '24h交易额', '24h交易笔数', '7天交易额','7天交易笔数'],
+                tagname:'',
+                tagList:[],
+                searchInfo:'',
+                dialogTableVisible:false,
+                currentPage:1,
+                nowPageSize:30,
+                txcount:0,
+                name:'',
+                historyData:[]
+
             };
         },
         components: {
@@ -208,34 +264,46 @@
                     })
                 })
             },
-            serchData(dataTime) {
-                if (dataTime == null) {
-                    this.$alert('请选择搜索日期', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            this.$message({
-                                type: 'info',
-                                message: `请重试！`
-                            });
-                        }
-                    });
-                    return false;
-                } else if ((moment(dataTime[1]) - moment(dataTime[0])) / (24 * 60 * 60 * 1000) > 30) {
-                    this.$alert('不能超过30天', {
-                        confirmButtonText: '确定',
-                        callback: action => {
-                            this.$message({
-                                type: 'info',
-                                message: `请重试！`
-                            });
-                        }
-                    });
-                    return false;
-                } else if (dataTime != null) {
-                    this.startDate1 = moment(dataTime[0]).format('YYYY-MM-DD')
-                    this.endDate1 = moment(dataTime[1]).format('YYYY-MM-DD')
-                    this.getData()
-                }
+            // serchData(dataTime) {
+            //     if (dataTime == null) {
+            //         this.$alert('请选择搜索日期', {
+            //             confirmButtonText: '确定',
+            //             callback: action => {
+            //                 this.$message({
+            //                     type: 'info',
+            //                     message: `请重试！`
+            //                 });
+            //             }
+            //         });
+            //         return false;
+            //     } else if ((moment(dataTime[1]) - moment(dataTime[0])) / (24 * 60 * 60 * 1000) > 30) {
+            //         this.$alert('不能超过30天', {
+            //             confirmButtonText: '确定',
+            //             callback: action => {
+            //                 this.$message({
+            //                     type: 'info',
+            //                     message: `请重试！`
+            //                 });
+            //             }
+            //         });
+            //         return false;
+            //     } else if (dataTime != null) {
+            //         this.startDate1 = moment(dataTime[0]).format('YYYY-MM-DD')
+            //         this.endDate1 = moment(dataTime[1]).format('YYYY-MM-DD')
+            //         this.getData()
+            //     }
+            // },
+            searchDappByTag(){
+
+            },
+            searchDapp(){
+
+            },
+            handleSizeChange(){
+
+            },
+            handleCurrentChange(){
+
             },
             getDatas() {
                 this.$ajax.get(BaseUrl + 'data/show',
@@ -265,6 +333,10 @@
                 }
                 this.getDatas()
             },
+            detailCheck(name){
+                this.name=name
+                this.dialogTableVisible=true
+            }
         },
 
     };

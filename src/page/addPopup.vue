@@ -103,9 +103,7 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import {quillEditor} from 'vue-quill-editor'
 
     let moment = require('moment')
     export default {

@@ -154,9 +154,7 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-
     export default {
         data() {
             return {
@@ -219,9 +217,6 @@
         },
         created() {
             this.getTagData()
-        },
-        components: {
-            headTop
         },
         methods: {
             getTagData() {

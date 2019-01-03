@@ -1,9 +1,6 @@
 <template>
     <div>
         <div class="table_container">
-            <!--<el-card class="box-card">-->
-            <!--<span style="font-weight: 700;letter-spacing: 1px;">兑换成BCD消耗：{{iaData.bcdExchange}} IA</span>-->
-            <!--</el-card>-->
             <el-row type="flex" style="margin-bottom: 30px;margin-top: 20px">
                 <el-col :span="19" style="display:flex;height: auto;word-break:break-all;flex:1;padding-left:5px;">
                     <div style="display:inline-block">
@@ -133,7 +130,7 @@
             </div>
             <div style="margin-top: 10px">
                 <div style="color:#999;font-size:12px;">注释：请导入以下类型的excel表格</div>
-                <img src="../assets/img/we.jpg" style="width:400px;height: auto"/>
+                <img src="../assets/img/test.jpg" style="width:400px;height: auto"/>
             </div>
 
         </div>
@@ -142,9 +139,6 @@
 </template>
 
 <script>
-    import {baseUrl, baseImgPath} from "@/config/env";
-    import headTop from '../components/headTop'
-
     let moment = require('moment')
     export default {
         data() {
@@ -186,9 +180,6 @@
                 timePeriod: null
 
             };
-        },
-        components: {
-            headTop
         },
         created() {
             const form = {page: this.currentPage, size: this.nowPageSize};
@@ -395,7 +386,7 @@
                                 obj.currency = v.币种
                             }
                             obj.amount = Number(v.数量)
-                            if (v.时间 != '') {
+                            if (v.时间 != undefined) {
                                 obj.gtime = moment(v.时间).utc().format('YYYY-MM-DD HH:mm:ss')
                             } else {
                                 obj.gtime = moment().utc().format('YYYY-MM-DD HH:mm:ss')

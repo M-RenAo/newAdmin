@@ -105,6 +105,17 @@
                         <el-menu-item index="realName">实名认证</el-menu-item>
                         <el-menu-item index="userBack">用户反馈</el-menu-item>
                     </el-submenu>
+                    <el-submenu index="'7c'" v-if="adminType!='VISITOR'">
+                        <template slot="title"><i class="el-icon-star-on"></i>EOS钱包管理</template>
+                        <el-menu-item index="extractEos">eos提取审核</el-menu-item>
+                        <el-menu-item index="abnormalMonitoring">异常监控</el-menu-item>
+                        <el-menu-item index="dappData">dapp数据</el-menu-item>
+                        <el-menu-item index="prepaidRecords">充值记录</el-menu-item>
+                        <el-menu-item index="resourceManagement">资源管理</el-menu-item>
+                        <el-menu-item index="dappBetting">dapp投注</el-menu-item>
+                        <el-menu-item index="eosAccount">账户管理</el-menu-item>
+                        <el-menu-item index="tokensManage">代币管理</el-menu-item>
+                    </el-submenu>
                     <!--<el-submenu index="5">-->
                     <!--<template slot="title"><i class="el-icon-edit"></i>编辑</template>-->
                     <!--&lt;!&ndash; <el-menu-item index="uploadImg">上传图片</el-menu-item> &ndash;&gt;-->
@@ -115,7 +126,7 @@
                     <!--<el-menu-item index="adminSet">管理员设置</el-menu-item>-->
                     <!--&lt;!&ndash; <el-menu-item index="sendMessage">发送通知</el-menu-item> &ndash;&gt;-->
                     <!--</el-submenu>-->
-                    <el-submenu index="'7c'">
+                    <el-submenu index="'8c'">
                         <template slot="title"><i class="el-icon-setting"></i>账号管理</template>
                         <el-menu-item index="adminList" v-if="adminType=='ADMIN'">管理员列表</el-menu-item>
                         <el-menu-item index="adminSet">修改密码</el-menu-item>

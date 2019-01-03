@@ -1,38 +1,28 @@
 <template>
-    <div>
-        <el-tabs class="table_container" v-model="activeName">
-            <!--<el-tab-pane label="基本数据" name="first">-->
-            <basic-data></basic-data>
-            <!--</el-tab-pane>-->
-            <!--<el-tab-pane label="页面数据" name="second"><page-data></page-data></el-tab-pane>-->
-            <!--<el-tab-pane label="使用时长" name="third"><use-hours></use-hours></el-tab-pane>-->
-
-        </el-tabs>
-
-    </div>
+    <el-tabs class="table_container" v-model="activeName">
+        <el-tab-pane label="提取审核" name="1">
+            <extract-check-list></extract-check-list>
+        </el-tab-pane>
+        <el-tab-pane label="自动审核" name="2">
+            <auto-check></auto-check>
+        </el-tab-pane>
+    </el-tabs>
 </template>
 
-<script>
-    import basicData from '../components/basicData'
-    import {userCount, orderCount, getUserCount, getOrderCount, adminDayCount, adminCount} from '@/api/getData'
 
+<script>
+    import extractCheckList from './extractCheckList'
+    import autoCheck from './autoCheck'
     export default {
         data() {
             return {
-                activeName: 'first',
-                userCount: null,
-                orderCount: null,
-                adminCount: null,
-                allUserCount: null,
-                allOrderCount: null,
-                allAdminCount: null,
+                activeName: '1',
 
             }
         },
         components: {
-            basicData,
-            // pageData,
-            // useHours
+            extractCheckList,autoCheck
+
         },
         mounted() {
 

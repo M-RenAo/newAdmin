@@ -139,9 +139,6 @@
         created() {
             this.getData();
         },
-        // components: {
-        //     headTop
-        // },
         methods: {
             getData() {
                 this.$ajax({

@@ -61,7 +61,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {adminList, adminCount} from '@/api/getData'
 
     export default {
@@ -75,9 +74,6 @@
                 dialogVisible: false,
                 deleteId: '',
             }
-        },
-        components: {
-            headTop,
         },
         created() {
             this.getData()

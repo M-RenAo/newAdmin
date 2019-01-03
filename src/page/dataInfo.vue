@@ -77,8 +77,6 @@
 </template>
 
 <script>
-    import {baseUrl, baseImgPath} from "@/config/env";
-
     export default {
         data() {
             return {

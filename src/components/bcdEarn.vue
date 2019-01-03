@@ -65,9 +65,6 @@
 </template>
 
 <script>
-    import {baseUrl, baseImgPath} from "@/config/env";
-    import headTop from '../components/headTop'
-
     let moment = require('moment')
     export default {
         data() {
@@ -88,9 +85,6 @@
                 detail: '',
                 bcdEarnMoney: ''
             };
-        },
-        components: {
-            headTop
         },
         created() {
             this.$ajax({

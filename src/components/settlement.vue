@@ -74,9 +74,6 @@
 </template>
 
 <script>
-    import {getCategory, addCategory, addFood} from "@/api/getData";
-    import {baseUrl, baseImgPath} from "@/config/env";
-
     let moment = require('moment')
     export default {
         data() {

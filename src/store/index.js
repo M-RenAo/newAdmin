@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 const state = {
 	adminInfo: {
-		avatar: 'default.jpg'
+		avatar: 'default.jpg',
+        test:'test.jpg'
 	},
 }
 
@@ -26,7 +27,6 @@ const actions = {
 				throw new Error(res)
 			}
 		}catch(err){
-			console.log('您尚未登陆或者session失效')
 		}
 	}
 }

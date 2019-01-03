@@ -40,7 +40,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
 
     export default {
@@ -64,9 +63,6 @@
             this.getData()
         },
         computed: {},
-        components: {
-            headTop
-        },
         methods: {
             getData() {
             },

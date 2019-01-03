@@ -53,40 +53,6 @@
                 </el-col>
 
             </el-row>
-            <!--<div style="padding: 0 20px;display: flex;height:80px;align-items: center;">-->
-            <!--<div style="display: flex;align-items: center;">-->
-            <!--<span>头像：</span><img src="1111111" style="height:20px; width:20px;display: inline-block;margin-left:10px;">-->
-            <!--</div>-->
-            <!--<div style="display: flex;align-items: center;width:300px;">-->
-            <!--<span>昵称：</span><span>小猪</span>-->
-            <!--</div>-->
-            <!--<div style="display: flex;align-items: center;width:250px;">-->
-            <!--<span>手机号：</span><span style="display: inline-block;margin-left:10px;">123141261826</span>-->
-            <!--</div>-->
-            <!--<div style="display: flex;align-items: center;width:200px;">-->
-            <!--<span>人脸识别：</span><span style="display: inline-block;margin-left:10px;">已验证</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div style="padding: 0 20px;display: flex;height:80px;align-items: center;">-->
-            <!--<div style="display: flex;align-items: center;width:200px;">-->
-            <!--<span>姓名：</span><span style="display: inline-block;margin-left:10px;">哒哒哒</span>-->
-            <!--</div>-->
-            <!--<div style="display: flex;align-items: center;width:300px;">-->
-            <!--<span>身份证号：</span><span>130681199508281028</span>-->
-            <!--</div>-->
-            <!--<div style="display: flex;align-items: center;width:200px;">-->
-            <!--<span>人脸识别：</span><span style="display: inline-block;margin-left:10px;">已验证</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div style="padding: 0 20px;display: flex;height:80px;align-items: center;">-->
-            <!--<div style="display: flex;align-items: center;width:500px;">-->
-            <!--<span>最近登录时间：</span><span style="display: inline-block;margin-left:10px;">2018-08-01 12:10</span>-->
-            <!--</div>-->
-            <!--<div style="display: flex;align-items: center;">-->
-            <!--<span>第一次登录时间：</span><span style="display: inline-block;margin-left:10px;">2018-08-01 12:10</span>-->
-            <!--</div>-->
-            <!--</div>-->
-
         </div>
     </div>
 

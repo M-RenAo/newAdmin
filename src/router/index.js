@@ -88,6 +88,14 @@ const digDeploy= resolve => require(['@/page/digDeploy'], resolve);
 const homeout= resolve => require(['@/page/homeout'], resolve);
 const dappcheck=resolve => require(['@/page/dappcheck'], resolve);
 const iaCardData=resolve => require(['@/page/cardpackageData'], resolve);
+const extractEos=resolve => require(['@/page/extractEos'], resolve);
+const abnormalMonitoring=resolve => require(['@/page/abnormalMonitoring'], resolve);
+const dappData =resolve => require(['@/page/dappData'], resolve);
+const prepaidRecords=resolve => require(['@/page/prepaidRecords'], resolve);
+const resourceManagement=resolve => require(['@/page/resourceManagement'], resolve);
+const dappBetting=resolve => require(['@/page/dappBetting'], resolve);
+const eosAccount=resolve => require(['@/page/eosAccount'], resolve);
+const tokensManage=resolve=> require(['@/page/tokensManage'], resolve);
 const routes = [
     {
         path: '/',
@@ -323,16 +331,7 @@ const routes = [
             component: blackList,
             meta: ['通用中心', '黑白名单'],
         },
-            // ,{
-            //     path: '/newList',
-            //     component: newList,
-            //     meta: ['通用中心', '快讯列表'],
-            // },
-            //     {
-            //     path: '/system',
-            //     component: system,
-            //     meta: ['通用中心', '系统升级'],
-            // },{
+            // {
             //     path: '/addSys',
             //     component: addSys,
             //     meta: ['通用中心', '新增系统升级'],
@@ -341,7 +340,8 @@ const routes = [
                 path: '/systemServices',
                 component: systemServices,
                 meta: ['系统服务'],
-            }, {
+            },
+            {
                 path: '/comment',
                 component: comment,
                 meta: ['通用中心', '快讯部署'],
@@ -457,6 +457,46 @@ const routes = [
                 name:'iaCardData',
                 component: iaCardData,
                 meta: ['数据概览', '卡包数据'],
+            },{
+                path: '/extractEos',
+                name:'extractEos',
+                component: extractEos,
+                meta: ['EOS钱包管理', 'eos提取审核'],
+            },{
+                path: '/abnormalMonitoring',
+                name:'abnormalMonitoring',
+                component: abnormalMonitoring,
+                meta: ['EOS钱包管理', '异常监控'],
+            },{
+                path: '/dappData',
+                name:'dappData',
+                component: dappData,
+                meta: ['EOS钱包管理', 'dapp数据'],
+            },{
+                path: '/prepaidRecords',
+                name:'prepaidRecords',
+                component: prepaidRecords,
+                meta: ['EOS钱包管理', '充值记录'],
+            },{
+                path: '/resourceManagement',
+                name:'resourceManagement',
+                component: resourceManagement,
+                meta: ['EOS钱包管理', '资源管理'],
+            },{
+                path: '/dappBetting',
+                name:'dappBetting',
+                component: dappBetting,
+                meta: ['EOS钱包管理', 'dapp投注'],
+            },{
+                path: '/eosAccount',
+                name:'eosAccount',
+                component: eosAccount,
+                meta: ['EOS钱包管理', '账户管理'],
+            },{
+                path: '/tokensManage',
+                name:'tokensManage',
+                component: tokensManage,
+                meta: ['EOS钱包管理', '代币管理'],
             }
         ]
     }

@@ -35,10 +35,8 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
 
     let moment = require('moment');
     export default {
@@ -46,9 +44,6 @@
             return {
                 focusInfo: {},
             };
-        },
-        components: {
-            headTop
         },
         created() {
             this.$ajax.get(BaseUrl + 'banner/' + this.$route.query.id,

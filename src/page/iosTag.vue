@@ -82,7 +82,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
 
     let moment = require('moment')
@@ -121,9 +120,6 @@
         },
         created() {
             this.getTagData()
-        },
-        components: {
-            headTop
         },
         methods: {
             getTagData() {

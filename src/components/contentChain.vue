@@ -57,9 +57,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
-    import {baseUrl, baseImgPath} from '@/config/env'
-
     let moment = require('moment')
     export default {
         data() {
@@ -85,9 +82,6 @@
             this.getData()
         },
         computed: {},
-        components: {
-            headTop
-        },
         methods: {
             getData() {
                 this.$ajax.get(BaseUrl + 'agreement/all/one/' + this.value + '/' + this.currentPage + '/' + this.nowPageSize, {headers: {'token': sessionStorage.getItem('token')}}).then(response => {

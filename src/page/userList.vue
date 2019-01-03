@@ -252,9 +252,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
-    import {getUserList, getUserCount} from '@/api/getData'
-
     let moment = require('moment')
     export default {
         data() {
@@ -299,9 +296,6 @@
                 IAData: [],
                 userId: null,
             }
-        },
-        components: {
-            headTop,
         },
         created() {
             this.getData()

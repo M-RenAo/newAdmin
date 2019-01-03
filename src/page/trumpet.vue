@@ -120,7 +120,6 @@
 
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
-    import headTop from '../components/headTop'
 
     export default {
         data() {
@@ -148,14 +147,10 @@
 
             };
         },
-        components: {
-            headTop
-        },
         created() {
             const form = {page: 1, size: 10}
             this.getData(form);
         },
-        computed: {},
         methods: {
             getData(form) {
                 this.$ajax({

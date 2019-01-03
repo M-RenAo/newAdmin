@@ -31,7 +31,6 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
 
     export default {
@@ -46,9 +45,6 @@
                 showProgressSteps: true,
                 filetype: ''
             };
-        },
-        components: {
-            headTop
         },
         created() {
             if (this.$route.query.type == 'android') {

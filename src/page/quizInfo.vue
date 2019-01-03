@@ -189,7 +189,6 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
 
@@ -226,9 +225,6 @@
                 multipleSelection: [],
                 confirm: []
             };
-        },
-        components: {
-            headTop
         },
         created() {
             this.$ajax({

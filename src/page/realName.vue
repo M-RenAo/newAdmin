@@ -56,7 +56,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
@@ -67,8 +66,6 @@
         searchplace,
         deleteResturant
     } from "@/api/getData";
-    import FileSaver from 'file-saver'
-    import XLSX from 'xlsx'
 
     let moment = require('moment')
     export default {
@@ -96,9 +93,6 @@
         },
         created() {
             this.queryListData({activeName: 3});
-        },
-        components: {
-            headTop
         },
         methods: {
             queryListData({activeName, pageValue, pageSize}) {

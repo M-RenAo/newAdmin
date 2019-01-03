@@ -275,7 +275,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {adminList, adminCount} from '@/api/getData'
 
     let moment = require('moment')
@@ -318,9 +317,6 @@
                 },
                 unChoiceAppList: []
             }
-        },
-        components: {
-            headTop,
         },
         created() {
             this.$ajax.get(BaseUrl + "apptag/all", {

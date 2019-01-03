@@ -178,7 +178,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
     import {
         cityGuess,
@@ -211,9 +210,6 @@
         },
         created() {
             this.queryListData({activeName: this.activeName, pageValue: this.currentPage, pageSize: this.nowPageSize})
-        },
-        components: {
-            headTop,
         },
         methods: {
             onCopy() {

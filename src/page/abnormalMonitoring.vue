@@ -1,12 +1,12 @@
-<!--DApp审核页面-->
+<!---->
 <template>
     <div class="fillcontain">
         <div class="table_container">
             <div style="display:flex;margin-bottom: 30px;">
                 <el-tabs v-model="activeName" @tab-click="changeState()" style="height: 40px;">
                     <el-tab-pane label="全部" name="-1"></el-tab-pane>
-                    <el-tab-pane label="已通过" name="1"></el-tab-pane>
-                    <el-tab-pane label="审核不通过" name="2"></el-tab-pane>
+                    <el-tab-pane label="解除异常" name="1"></el-tab-pane>
+                    <el-tab-pane label="异常认定" name="2"></el-tab-pane>
                     <el-tab-pane label="待定" name="3"></el-tab-pane>
                     <el-tab-pane label="未审核" name="0"></el-tab-pane>
                 </el-tabs>
@@ -17,15 +17,11 @@
                 class="test-class"
                 style="width: 100%">
                 <el-table-column
-                    label="dapp名称"
+                    label="用户民"
                     prop="name" min-width="100">
                 </el-table-column>
                 <el-table-column
-                    label="邮箱"
-                    prop="email" min-width="150">
-                </el-table-column>
-                <el-table-column
-                    label="dapp地址"
+                    label="收款地址"
                     min-width="80">
                     <template scope="scope">
                         <el-button style=" padding:5px 10px!important;margin-left: 0!important;" type="text"
@@ -33,28 +29,19 @@
                                    v-clipboard:error="onError"
                                    v-if="scope.row.url!=undefined&&scope.row.url!=''">复制
                         </el-button>
-                        <span v-else>未上传</span>
                     </template>
                 </el-table-column>
                 <el-table-column
-                    label="提交时间"
-                    prop="ctimes" min-width="100">
+                    label="报警时间"
+                    prop="date" min-width="100">
                 </el-table-column>
                 <el-table-column
-                    label="联系人"
-                    prop="contact">
+                    label="提取金额"
+                    prop="amount" min-width="100">
                 </el-table-column>
                 <el-table-column
-                    label="联系电话"
-                    min-width="100"
-                    prop="phone"
-                >
-                </el-table-column>
-                <el-table-column
-                    label="dapp描述"
-                    min-width="150"
-                    prop="description"
-                >
+                    label="异常原因"
+                    prop="remarks">
                 </el-table-column>
                 <el-table-column
                     label="状态"
@@ -64,7 +51,7 @@
                         {{scope.row.reviewed==0?'未审核':(scope.row.reviewed==1?'已通过':(scope.row.reviewed==2?'审核不通过':'待定'))}}
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" min-width="100">
+                <el-table-column label="操作" min-width="120">
                     <template scope="scope">
                         <el-button style=" padding:5px 10px!important;margin-left: 0!important;" type="text"
                                    @click="check(scope.row)">查看
@@ -84,85 +71,20 @@
                 >
                 </el-pagination>
             </div>
-            <!--审核DAPP信息-->
-            <el-dialog title="" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
+            <!--审核eos提取信息-->
+            <el-dialog title="账户审核" :visible.sync="dialogFormVisible" :close-on-click-modal=false>
                 <el-form :model="dappForm">
-                    <el-form-item label="logo：" :label-width="formLabelWidth">
-                        <template scope="scope">
-                            <div>
-                                <img :src="dappForm.icon" style="width:100px;height: 100px;border-radius: 50px">
-                                <el-button type="primary">下载</el-button>
-                            </div>
-                        </template>
+                    <el-form-item label="账户：" :label-width="formLabelWidth">
+                        {{row.name}}
                     </el-form-item>
-                    <el-form-item label="dapp名称：" :label-width="formLabelWidth">
-                        {{dappForm.name}}
-                    </el-form-item>
-                    <el-form-item label="dapp网址：" :label-width="formLabelWidth">
-                        <span style="margin-right: 100px">{{dappForm.url}}</span>
-                        <el-button type="text"   v-clipboard:copy="dappForm.appName" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制</el-button>
-                    </el-form-item>
-                    <el-form-item label="dapp简介：" :label-width="formLabelWidth" prop="name">
-                        {{dappForm.description}}
-                    </el-form-item>
-                    <el-form-item label="联系人姓名：" :label-width="formLabelWidth">
-                        {{dappForm.contact}}
-                    </el-form-item>
-                    <el-form-item label="联系人微信：" :label-width="formLabelWidth" prop="name">
-                        {{dappForm.weixin}}
-                    </el-form-item>
-                    <el-form-item label="联系人电话：" :label-width="formLabelWidth" prop="name">
-                        {{dappForm.phone}}
-                        <el-button type="text"   v-clipboard:copy="dappForm.contactPhone" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制</el-button>
-                    </el-form-item>
-                    <el-form-item label="邮箱：" :label-width="formLabelWidth" prop="name">
-                        {{dappForm.email}}
-                        <el-button type="text"   v-clipboard:copy="dappForm.contactPhone" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制</el-button>
-                    </el-form-item>
-                    <el-form-item label="分类：" :label-width="formLabelWidth" prop="name">
-                        {{dappForm.type}}
-                    </el-form-item>
-                    <el-form-item label="游戏支持的链：" :label-width="formLabelWidth" prop="name">
-                        {{dappForm.supportedChain}}
-                    </el-form-item>
-                    <el-form-item label="智能合约链上地址：" :label-width="formLabelWidth" prop="name" >
-                        <div v-for="item in smartContract">
-                            <span style="margin-right: 20px;display: inline-block"> {{item.name}}</span>
-                            <el-button type="text"   v-clipboard:copy="dappForm.smartContract" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制</el-button>
-                            <span style="margin-left: 20px;display: inline-block">{{item.type}}</span>
-                        </div>
-                    </el-form-item>
-                    <div style="font-weight:bold">社交网络</div>
-                    <div v-for="item in socialNetwork">
-                    <el-form-item :label="item.name+'：'" :label-width="formLabelWidth" >
-                        {{item.value}}
-                        <el-button type="text"   v-if="item.value!=''" v-clipboard:copy="item.value" v-clipboard:success="onCopy"
-                                   v-clipboard:error="onError">复制</el-button>
-                    </el-form-item>
-                    </div>
-                    <!--<el-form-item label="微博：" :label-width="formLabelWidth">-->
-                        <!--{{socialNetwork.微博}}-->
-                        <!--<el-button type="text" v-if="socialNetwork.微博!=''" v-clipboard:copy="socialNetwork.微博" v-clipboard:success="onCopy"-->
-                                   <!--v-clipboard:error="onError">复制</el-button>-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="推特：" :label-width="formLabelWidth">-->
-                        <!--{{socialNetwork.推特}}-->
-                    <!--</el-form-item>-->
-                    <!--<el-form-item label="Discord：" :label-width="formLabelWidth">-->
-                        <!--{{socialNetwork.Discord}}-->
-                    <!--</el-form-item>-->
                     <el-form-item label="审核结果：" :label-width="formLabelWidth">
                         <el-select v-model="state" placeholder="请选择">
                             <el-option
-                                label="通过"
+                                label="认定异常"
                                 value="1">
                             </el-option>
                             <el-option
-                                label="不通过"
+                                label="异常解除"
                                 value="2">
                             </el-option>
                             <el-option
@@ -186,7 +108,6 @@
                     </el-form-item>
                 </el-form>
             </el-dialog>
-
         </div>
     </div>
 </template>
@@ -196,7 +117,9 @@
     export default {
         data() {
             return {
-                dappTable: [],
+                dappTable: [
+                    {date:'2019-01-01 12:00',name:'测试',url:'wyqetyfsggs',amount:2,remarks:'测试测试谁',remark2:'',reviewed:0,state:1}
+                ],
                 txcount: 0,
                 totalfees: 0,
                 activeName: '-1',
@@ -205,12 +128,15 @@
                 url: '',
                 dappForm: {},
                 dialogFormVisible: false,
+                dialogTableVisible:false,
                 formLabelWidth: '150px',
                 checkText: '保存',
                 remarks: '',
                 state: '',
+                row:{},
                 socialNetwork:[],
-                smartContract:[]
+                smartContract:[],
+                historyData:[]
             }
         },
         created() {
@@ -230,8 +156,8 @@
                 });
             },
             changeState(){
-               this.currentPage=1;
-               this.queryListData()
+                this.currentPage=1;
+                this.queryListData()
             },
             // 获取列表数据
             queryListData() {
@@ -241,12 +167,12 @@
                     data:{page:this.currentPage,size:this.nowPageSize,reviewed:this.activeName==-1?null:Number(this.activeName),order:"ctime desc"},
                     headers: {'token': sessionStorage.getItem('token')}
                 }).then(response => {
-                  if (response.data.flag == 200) {
-                       this.dappTable=response.data.data.data
-                      this.txcount=response.data.data.count
-                      this.dappTable.forEach(item=>{
-                          item.ctimes=moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
-                      })
+                    if (response.data.flag == 200) {
+                        // this.dappTable=response.data.data.data
+                        this.txcount=response.data.data.count
+                        this.dappTable.forEach(item=>{
+                            item.ctimes=moment.utc(item.ctime).local().format('YYYY-MM-DD HH:mm:ss')
+                        })
                     } else if (response.data.flag == 201) {
                         this.$alert(response.data.msg + '，请重新登录', '提示', {
                             confirmButtonText: '确定',
@@ -269,16 +195,7 @@
             },
             // 查看信息
             check(row) {
-                this.remarks = ''
-                this.state=''
-                this.socialNetwork=''
-                this.dappForm=row
-                this.socialNetwork=JSON.parse(this.dappForm.socialNetworks);
-                this.smartContract=JSON.parse(this.dappForm.smartContract);
-                this.remarks=this.dappForm.remark
-                if(this.dappForm.reviewed!=0){
-                    this.state=this.dappForm.reviewed.toString()
-                }
+                this.row=row
                 this.dialogFormVisible = true;
 
             },
@@ -319,8 +236,12 @@
                         });
                     }
                 });
+            },
+            //查看流水
+            history(row){
+                this.row=row
+                this.dialogTableVisible=true
             }
-
 
         },
     }

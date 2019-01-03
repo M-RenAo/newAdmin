@@ -183,8 +183,6 @@
 
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
-    import headTop from '../components/headTop'
-
     let moment = require("moment");
 
     export default {
@@ -239,9 +237,6 @@
                 timePeriod: null
 
             };
-        },
-        components: {
-            headTop
         },
         created() {
             const form = {page: this.currentPage, size: this.nowPageSize, order: "pos desc, endDate"}

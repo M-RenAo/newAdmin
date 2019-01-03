@@ -108,17 +108,6 @@
 </template>
 
 <script>
-    import {baseUrl, baseImgPath} from '@/config/env'
-    import {
-        getFoods,
-        getFoodsCount,
-        getMenu,
-        updateFood,
-        deleteFood,
-        getResturantDetail,
-        getMenuById
-    } from '@/api/getData'
-
     let moment = require('moment')
     export default {
         data() {

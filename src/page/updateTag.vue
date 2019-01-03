@@ -221,11 +221,8 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
-
     let moment = require('moment')
     export default {
         data() {
@@ -267,9 +264,6 @@
                 appName: '',
                 urlTagIcon: null
             };
-        },
-        components: {
-            headTop
         },
         created() {
             this.tagList = JSON.parse(sessionStorage.getItem('taglist'))

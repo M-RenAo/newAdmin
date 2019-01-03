@@ -154,7 +154,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
@@ -197,9 +196,6 @@
         },
         created() {
             this.getData();
-        },
-        components: {
-            headTop
         },
         methods: {
             scanning(){

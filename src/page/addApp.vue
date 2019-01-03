@@ -91,7 +91,6 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
     import Vue from "vue";
@@ -142,9 +141,7 @@
                 },
             };
         },
-        components: {
-            headTop
-        },
+
         created() {
         },
         computed: {},

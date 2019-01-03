@@ -86,7 +86,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
     import {
         cityGuess,
@@ -117,7 +116,6 @@
         created() {
             this.getData()
         },
-        components: {},
         methods: {
             getData() {
                 this.$ajax.get(BaseUrl + 'ranking/title', {

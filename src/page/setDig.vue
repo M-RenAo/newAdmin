@@ -70,8 +70,6 @@
 
 <script>
     import {baseUrl, baseImgPath} from "@/config/env";
-    import headTop from '../components/headTop'
-
     export default {
         data() {
             return {
@@ -108,9 +106,6 @@
                 timePeriod: ''
 
             };
-        },
-        components: {
-            headTop
         },
         created() {
             // const form = {page: this.currentPage, size: this.nowPageSize,order:"startDate desc"}

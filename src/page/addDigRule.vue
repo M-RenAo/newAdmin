@@ -54,10 +54,7 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import {quillEditor} from 'vue-quill-editor'
-
     export default {
         data() {
             return {

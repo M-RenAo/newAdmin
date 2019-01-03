@@ -126,7 +126,6 @@
 </template>
 
 <script>
-    import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
 
     let moment = require('moment')
@@ -160,9 +159,6 @@
             this.getData()
         },
         computed: {},
-        components: {
-            headTop
-        },
         methods: {
             getData() {
                 this.$ajax.get(BaseUrl + 'banner/all/' + this.activeName+'/'+this.$route.query.page + '/' + this.nowPageSize, {
@@ -286,10 +282,38 @@
                 });
             },
             setState(id){
+                this.id=id
                 this.dialogVisibleState=true
             },
             ensureSetState(){
-
+                this.$ajax({
+                    method: "POST",
+                    url: BaseUrl + 'banner/down/' + this.id,
+                    headers: {'token': sessionStorage.getItem('token'), 'device': this.type}
+                }).then(response => {
+                    if (response.data.flag == 200) {
+                        this.$message({
+                            type: 'success',
+                            message: '下架成功!',
+                            callback: action => {
+                            }
+                        });
+                        this.dialogVisibleState=false
+                        this.getData({page: this.currentPage, size:this.nowPageSize})
+                    } else if (response.data.flag == 201) {
+                        this.$alert(response.data.msg + '，请重新登录', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                this.$router.push('/')
+                            }
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: '下架失败!',
+                        });
+                    }
+                });
             },
             setSort(id,row){
                 this.sortId=id;

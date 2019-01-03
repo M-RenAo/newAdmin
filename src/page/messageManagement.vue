@@ -157,7 +157,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
 
     let moment = require('moment')
@@ -203,9 +202,6 @@
             );
             this.getSource()
         },
-        components: {
-            headTop
-        },
         methods: {
             searchCheck() {//快讯搜索
                 this.getmess()
@@ -222,7 +218,7 @@
             },
             takeEffect() {//生效筛选
                 this.$ajax.get(BaseUrl + "newsFlash/setNewsSource", {
-                    params: {source: this.checkedSource.join(';')}, headers: {'token': sessionStorage.getItem('token')}
+                    params: {source:this.checkedSource.length?this.checkedSource.join(';'):''}, headers: {'token': sessionStorage.getItem('token')}
                 }).then(res => {
                         if (res.data.flag == 200) {
                             this.$alert(res.data.msg, '提示', {

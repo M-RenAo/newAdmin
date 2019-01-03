@@ -51,7 +51,6 @@
 </template>
 
 <script>
-    import {baseUrl, baseImgPath} from '@/config/env'
     import {
         getFoods,
         getFoodsCount,

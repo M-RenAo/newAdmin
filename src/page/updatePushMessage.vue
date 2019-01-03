@@ -48,7 +48,6 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {quillEditor} from 'vue-quill-editor'
 
@@ -285,7 +284,7 @@
 
         },
         components: {
-            headTop, quillEditor
+             quillEditor
         },
         computed: {
 
@@ -378,7 +377,6 @@
 <!--this.content = html;-->
 <!--},-->
 <!--submit(){-->
-<!--console.log(this.content);-->
 <!--this.$message.success('提交成功！');-->
 <!--}-->
 <!--}-->

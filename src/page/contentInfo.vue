@@ -25,10 +25,8 @@
 </template>
 
 <script>
-    import headTop from "@/components/headTop";
     import {getCategory, addCategory, addFood} from "@/api/getData";
     import {baseUrl, baseImgPath} from "@/config/env";
-    import Vue from "vue";
 
     export default {
         data() {
@@ -36,9 +34,6 @@
                 agreeInfo: {},
                 contentList: [],
             };
-        },
-        components: {
-            headTop
         },
         created() {
             this.contentList = JSON.parse(sessionStorage.getItem('contentList'));

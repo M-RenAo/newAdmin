@@ -153,7 +153,6 @@
 </template>
 
 <script>
-    import headTop from "../components/headTop";
     import {baseUrl, baseImgPath} from "@/config/env";
     import {
         cityGuess,
@@ -221,9 +220,6 @@
                 }
 
             });
-        },
-        components: {
-            headTop
         },
         methods: {
             queryListData({activeName, pageValue, pageSize}) {
